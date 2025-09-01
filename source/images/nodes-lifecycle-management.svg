@@ -1,0 +1,109 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="blue_circle" markerWidth="4" markerHeight="4" 
+     refX="2" refY="2" orient="auto">
+      <circle cx="2" cy="2" r="1" fill="#2B5C8C" stroke="#1A4A6B" stroke-width="1"/>
+    </marker>
+    <marker id="red_circle" markerWidth="4" markerHeight="4" 
+     refX="2" refY="2" orient="auto">
+      <circle cx="2" cy="2" r="1" fill="#E74C3C" stroke="#C0392B" stroke-width="1"/>
+    </marker>
+    <marker id="green_circle" markerWidth="4" markerHeight="4" 
+     refX="2" refY="2" orient="auto">
+      <circle cx="2" cy="2" r="1" fill="#27AE60" stroke="#1E8449" stroke-width="1"/>
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" fill="transparent"/>
+  
+  <!-- Healthy Node A -->
+  <rect x="100" y="80" width="120" height="80" rx="8" fill="#2B5C8C" stroke="#1A3D5C" stroke-width="2" />
+  <text x="160" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Node A</text>
+  <text x="160" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Participant 1</text>
+  <text x="160" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Status: ALIVE</text>
+  
+  <!-- Healthy Node B -->
+  <rect x="340" y="80" width="120" height="80" rx="8" fill="#2B5C8C" stroke="#1A3D5C" stroke-width="2" />
+  <text x="400" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Node B</text>
+  <text x="400" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Participant 2</text>
+  <text x="400" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Status: ALIVE</text>
+  
+  <!-- Failed Node C -->
+  <rect x="580" y="80" width="120" height="80" rx="8" fill="#E74C3C" stroke="#C0392B" stroke-width="2" />
+  <text x="640" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Node C</text>
+  <text x="640" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Participant 3</text>
+  <text x="640" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Status: FAILED</text>
+  
+  <!-- Monitoring arrows between healthy nodes -->
+  <line x1="220" y1="110" x2="340" y2="110" stroke="#27AE60" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#green_circle)"/>
+  <line x1="340" y1="130" x2="220" y2="130" stroke="#27AE60" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#green_circle)"/>
+  
+  <!-- Monitoring arrows to failed node -->
+  <line x1="460" y1="110" x2="580" y2="110" stroke="#E74C3C" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#red_circle)"/>
+  <line x1="220" y1="140" x2="340" y2="140" stroke="#E74C3C" stroke-width="2" stroke-dasharray="5,5" />
+  <line x1="460" y1="140" x2="580" y2="140" stroke="#E74C3C" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#red_circle)"/>
+  
+  <!-- Services managed by nodes -->
+  <rect x="80" y="220" width="80" height="40" rx="4" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2" />
+  <text x="120" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#2B5C8C">Service</text>
+  
+  <rect x="180" y="220" width="80" height="40" rx="4" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2" />
+  <text x="220" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#2B5C8C">Service</text>
+  
+  <rect x="360" y="220" width="80" height="40" rx="4" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2" />
+  <text x="400" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#2B5C8C">Service</text>
+  
+  <!-- Service from failed node -->
+  <rect x="600" y="220" width="80" height="40" rx="4" fill="#FADBD8" stroke="#E74C3C" stroke-width="2" />
+  <text x="640" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#C0392B">Service</text>
+  
+  <!-- Ports for Service 1 -->
+  <rect x="102" y="290" width="35" height="18" rx="2" stroke="#2B5C8C" stroke-width="2" fill="#A5CEE4"/>
+  <text x="119" y="302" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#2B5C8C">Port</text>
+  
+  <!-- Ports for Service 2 -->
+  <rect x="202" y="290" width="35" height="18" rx="2" stroke="#2B5C8C" stroke-width="2" fill="#A5CEE4"/>
+  <text x="219" y="302" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#2B5C8C">Port</text>
+  
+  <!-- Ports for Service 3 -->
+  <rect x="382" y="290" width="35" height="18" rx="2" stroke="#2B5C8C" stroke-width="2" fill="#A5CEE4"/>
+  <text x="399" y="302" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#2B5C8C">Port</text>
+  
+  <!-- Port for failed service -->
+  <rect x="622" y="290" width="35" height="18" rx="2" fill="#FADBD8" stroke="#E74C3C" stroke-width="2"/>
+  <text x="639" y="302" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#C0392B">Port</text>
+  
+  <!-- Management connections from healthy nodes to their services -->
+  <line x1="140" y1="160" x2="120" y2="220" stroke="#2B5C8C" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#blue_circle)"/>
+  <line x1="180" y1="160" x2="220" y2="220" stroke="#2B5C8C" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#blue_circle)"/>
+  <line x1="400" y1="160" x2="400" y2="220" stroke="#2B5C8C" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#blue_circle)"/>
+  
+  <!-- Port-to-Service connections (vertical) -->
+  <line x1="120" y1="260" x2="120" y2="290" stroke="#2B5C8C" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#blue_circle)"/>
+  <line x1="220" y1="260" x2="220" y2="290" stroke="#2B5C8C" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#blue_circle)"/>
+  <line x1="400" y1="260" x2="400" y2="290" stroke="#2B5C8C" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#blue_circle)"/>
+
+  <line x1="640" y1="160" x2="640" y2="220" stroke="#E74C3C" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#red_circle)"/>
+  <line x1="640" y1="260" x2="640" y2="290" stroke="#E74C3C" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#red_circle)"/>
+  
+  <!-- Legend -->
+  <rect x="50" y="380" width="700" height="100" rx="6" fill="transparent" stroke="#D5D8DC" stroke-width="1" />
+  <text x="70" y="400" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2B5C8C">Legend:</text>
+  
+  <!-- Legend items -->
+  <line x1="70" y1="420" x2="100" y2="420" stroke="#27AE60" stroke-width="2" stroke-dasharray="5,5"/>
+  <circle cx="103" cy="420" r="1" fill="#E74C3C" stroke="#C0392B" stroke-width="1"/>
+  <text x="115" y="425" font-family="Arial, sans-serif" font-size="10" fill="#2B5C8C">Peer-to-peer monitoring</text>
+  
+  <line x1="300" y1="420" x2="330" y2="420" stroke="#2B5C8C" stroke-width="2" stroke-dasharray="5,5"/>
+  <circle cx="333" cy="420" r="1" fill="#2B5C8C" stroke="#1A4A6B" stroke-width="1"/>
+  <text x="345" y="425" font-family="Arial, sans-serif" font-size="10" fill="#2B5C8C">Service and Port lifecycle management</text>
+  
+  <rect x="70" y="440" width="15" height="15" rx="2" fill="#2B5C8C"/>
+  <text x="95" y="452" font-family="Arial, sans-serif" font-size="10" fill="#2B5C8C">Alive node</text>
+  
+  <rect x="170" y="440" width="15" height="15" rx="2" fill="#E74C3C" stroke="#C0392B" stroke-width="1"/>
+  <text x="195" y="452" font-family="Arial, sans-serif" font-size="10" fill="#2B5C8C">Failed node</text>
+  
+</svg>

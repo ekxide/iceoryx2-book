@@ -1,0 +1,73 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowhead" markerWidth="6" markerHeight="4" 
+     refX="5" refY="2" orient="auto">
+      <polygon points="0 0, 6 2, 0 4" fill="#2B5C8C" />
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" fill="transparent"/>
+  
+  <!-- Service -->
+  <circle cx="400" cy="250" r="50" fill="#2B5C8C" stroke="#1A3D5C" stroke-width="2" />
+  <text x="400" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">Service</text>
+  <text x="400" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">/calculation</text>
+  
+  <!-- Client Participant 1 (top left) -->
+  <rect x="80" y="120" width="150" height="100" rx="8" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2" />
+  <text x="155" y="145" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2B5C8C">Participant</text>
+  
+  <!-- Client Port 1 (embedded) -->
+  <rect x="100" y="165" width="110" height="35" rx="4" fill="#2B5C8C" stroke="#1A3D5C" stroke-width="2"/>
+  <text x="155" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">Client Port</text>
+  <text x="155" y="193" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Make requests</text>
+  
+  <!-- Client Participant 2 (bottom left) -->
+  <rect x="80" y="280" width="150" height="100" rx="8" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2" />
+  <text x="155" y="305" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2B5C8C">Participant</text>
+  
+  <!-- Client Port 2 (embedded) -->
+  <rect x="100" y="325" width="110" height="35" rx="4" fill="#2B5C8C" stroke="#1A3D5C" stroke-width="2"/>
+  <text x="155" y="340" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">Client Port</text>
+  <text x="155" y="353" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Make requests</text>
+  
+  <!-- Server Participant (right side) -->
+  <rect x="570" y="200" width="150" height="100" rx="8" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2" />
+  <text x="645" y="225" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2B5C8C">Participant</text>
+  
+  <!-- Server Port (embedded) -->
+  <rect x="590" y="245" width="110" height="35" rx="4" fill="#2B5C8C" stroke="#1A3D5C" stroke-width="2"/>
+  <text x="645" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">Server Port</text>
+  <text x="645" y="273" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Respond to requests</text>
+  
+  <!-- Request Arrows from Clients to Service -->
+  <line x1="230" y1="160" x2="350" y2="215" stroke="#2B5C8C" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <line x1="230" y1="320" x2="350" y2="272" stroke="#2B5C8C" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  
+  <!-- Request Arrow (Service to Server) -->
+  <line x1="450" y1="230" x2="565" y2="230" stroke="#2B5C8C" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Response Stream Arrows (Server to Service) - parallel -->
+  <line x1="570" y1="270" x2="450" y2="270" stroke="#2B5C8C" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <line x1="570" y1="280" x2="450" y2="280" stroke="#2B5C8C" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+  <line x1="570" y1="290" x2="450" y2="290" stroke="#2B5C8C" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="3,3"/>
+  
+  <!-- Response Stream Arrows (Service to Client 1) - parallel and separate -->
+  <line x1="360" y1="230" x2="232" y2="180" stroke="#2B5C8C" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <line x1="360" y1="240" x2="232" y2="190" stroke="#2B5C8C" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+  <line x1="360" y1="250" x2="232" y2="200" stroke="#2B5C8C" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="3,3"/>
+  
+  <!-- Response Stream Arrows (Service to Client 2) - parallel and separate -->
+  <line x1="360" y1="280" x2="232" y2="330" stroke="#2B5C8C" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <line x1="360" y1="290" x2="232" y2="340" stroke="#2B5C8C" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+  <line x1="360" y1="300" x2="232" y2="350" stroke="#2B5C8C" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="3,3"/>
+
+  <!-- Request label -->
+  <text x="510" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#2B5C8C">Request</text>
+
+  <!-- Response Stream Label -->
+  <text x="510" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#2B5C8C">Streaming Response</text>
+  
+</svg>

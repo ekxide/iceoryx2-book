@@ -1,0 +1,135 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="bluehead" markerWidth="6" markerHeight="4" 
+     refX="5" refY="2" orient="auto">
+      <polygon points="0 0, 6 2, 0 4" fill="#2B5C8C" />
+    </marker>
+    <marker id="orangehead" markerWidth="6" markerHeight="4" 
+     refX="5" refY="2" orient="auto">
+      <polygon points="0 0, 6 2, 0 4" fill="#E85A4F" />
+    </marker>
+    <marker id="purplehead" markerWidth="6" markerHeight="4" 
+     refX="5" refY="2" orient="auto">
+      <polygon points="0 0, 6 2, 0 4" fill="#8B5A8C" />
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" fill="transparent"/>
+  
+  <!-- External Network Applications -->
+  <rect x="300" y="80" width="60" height="25" rx="5" fill="#8B5A8C" stroke="#6F456F" stroke-width="2" />
+  <text x="330" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="white">DDS App</text>
+  
+  <rect x="370" y="80" width="60" height="25" rx="5" fill="#8B5A8C" stroke="#6F456F" stroke-width="2" />
+  <text x="400" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="white">Legacy</text>
+  <text x="400" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="white">System</text>
+  
+  <rect x="440" y="80" width="70" height="25" rx="5" fill="#8B5A8C" stroke="#6F456F" stroke-width="2" />
+  <text x="475" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="white">...</text>
+  
+  <!-- Host A Container -->
+  <rect x="30" y="200" width="320" height="250" rx="8" fill="none" stroke="#2B5C8C" stroke-width="2" stroke-dasharray="8,4" />
+  <text x="190" y="225" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#2B5C8C">Host A (iceoryx2)</text>
+  
+  <!-- Host B Container -->
+  <rect x="450" y="200" width="320" height="250" rx="8" fill="none" stroke="#2B5C8C" stroke-width="2" stroke-dasharray="8,4" />
+  <text x="610" y="225" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#2B5C8C">Host B (iceoryx2)</text>
+  
+  <!-- Host A Participants -->
+  <rect x="50" y="245" width="70" height="25" rx="5" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2" />
+  <text x="85" y="262" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#2B5C8C">Participant</text>
+  
+  <rect x="130" y="245" width="70" height="25" rx="5" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2" />
+  <text x="165" y="262" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#2B5C8C">Participant</text>
+  
+  <!-- Host A Gateway -->
+  <rect x="210" y="245" width="60" height="25" rx="5" fill="#8B5A8C" stroke="#6F456F" stroke-width="2" />
+  <text x="240" y="262" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">Gateway</text>
+  
+  <!-- Host A Tunnel -->
+  <rect x="260" y="280" width="60" height="25" rx="5" fill="#E85A4F" stroke="#D64C41" stroke-width="2" />
+  <text x="290" y="297" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">Tunnel</text>
+  
+  <!-- Host B Gateway -->
+  <rect x="530" y="245" width="60" height="25" rx="5" fill="#8B5A8C" stroke="#6F456F" stroke-width="2" />
+  <text x="560" y="262" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">Gateway</text>
+  
+  <!-- Host B Tunnel -->
+  <rect x="480" y="280" width="60" height="25" rx="5" fill="#E85A4F" stroke="#D64C41" stroke-width="2" />
+  <text x="510" y="297" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">Tunnel</text>
+  
+  <!-- Host B Participants -->
+  <rect x="600" y="245" width="70" height="25" rx="5" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2" />
+  <text x="635" y="262" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#2B5C8C">Participant</text>
+  
+  <rect x="680" y="245" width="70" height="25" rx="5" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2" />
+  <text x="715" y="262" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#2B5C8C">Participant</text>
+  
+  <!-- Host A Shared Memory -->
+  <rect x="50" y="330" width="270" height="80" rx="8" fill="#2B5C8C" stroke="#1A3D5C" stroke-width="2" />
+  <text x="185" y="365" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">Shared Memory</text>
+  
+  <!-- Host A Memory Blocks -->
+  <rect x="65" y="380" width="20" height="12" rx="2" fill="#A5CEE4"/>
+  <rect x="90" y="380" width="20" height="12" rx="2" fill="#A5CEE4"/>
+  <rect x="115" y="380" width="20" height="12" rx="2" fill="#A5CEE4"/>
+  <rect x="140" y="380" width="20" height="12" rx="2" fill="#A5CEE4"/>
+  <rect x="165" y="380" width="20" height="12" rx="2" fill="#A5CEE4"/>
+  <rect x="190" y="380" width="20" height="12" rx="2" fill="#A5CEE4"/>
+  <rect x="215" y="380" width="20" height="12" rx="2" fill="#A5CEE4"/>
+  <rect x="240" y="380" width="20" height="12" rx="2" fill="#A5CEE4"/>
+  <rect x="265" y="380" width="20" height="12" rx="2" fill="#A5CEE4"/>
+  <rect x="290" y="380" width="20" height="12" rx="2" fill="#A5CEE4"/>
+  
+  <!-- Host B Shared Memory -->
+  <rect x="480" y="330" width="270" height="80" rx="8" fill="#2B5C8C" stroke="#1A3D5C" stroke-width="2" />
+  <text x="615" y="365" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">Shared Memory</text>
+  
+  <!-- Host B Memory Blocks -->
+  <rect x="495" y="380" width="20" height="12" rx="2" fill="#A5CEE4"/>
+  <rect x="520" y="380" width="20" height="12" rx="2" fill="#A5CEE4"/>
+  <rect x="545" y="380" width="20" height="12" rx="2" fill="#A5CEE4"/>
+  <rect x="570" y="380" width="20" height="12" rx="2" fill="#A5CEE4"/>
+  <rect x="595" y="380" width="20" height="12" rx="2" fill="#A5CEE4"/>
+  <rect x="620" y="380" width="20" height="12" rx="2" fill="#A5CEE4"/>
+  <rect x="645" y="380" width="20" height="12" rx="2" fill="#A5CEE4"/>
+  <rect x="670" y="380" width="20" height="12" rx="2" fill="#A5CEE4"/>
+  <rect x="695" y="380" width="20" height="12" rx="2" fill="#A5CEE4"/>
+  <rect x="720" y="380" width="20" height="12" rx="2" fill="#A5CEE4"/>
+  
+  <!-- Vertical arrows from Host A participants to shared memory -->
+  <line x1="85" y1="270" x2="85" y2="330" stroke="#2B5C8C" stroke-width="2" marker-end="url(#bluehead)"/>
+  <line x1="165" y1="270" x2="165" y2="330" stroke="#2B5C8C" stroke-width="2" marker-end="url(#bluehead)"/>
+  <line x1="240" y1="270" x2="240" y2="330" stroke="#2B5C8C" stroke-width="2" marker-end="url(#bluehead)"/>
+  <line x1="290" y1="305" x2="290" y2="330" stroke="#2B5C8C" stroke-width="2" marker-end="url(#bluehead)"/>
+  
+  <!-- Vertical arrows from Host B participants to shared memory -->
+  <line x1="510" y1="305" x2="510" y2="330" stroke="#2B5C8C" stroke-width="2" marker-end="url(#bluehead)"/>
+  <line x1="560" y1="270" x2="560" y2="330" stroke="#2B5C8C" stroke-width="2" marker-end="url(#bluehead)"/>
+  <line x1="635" y1="270" x2="635" y2="330" stroke="#2B5C8C" stroke-width="2" marker-end="url(#bluehead)"/>
+  <line x1="715" y1="270" x2="715" y2="330" stroke="#2B5C8C" stroke-width="2" marker-end="url(#bluehead)"/>
+  
+  <!-- Direct Gateway connections between Host A and Host B -->
+  <line x1="270" y1="255" x2="528" y2="255" stroke="#8B5A8C" stroke-width="3" marker-end="url(#purplehead)"/>
+  <line x1="530" y1="265" x2="272" y2="265" stroke="#8B5A8C" stroke-width="3" marker-end="url(#purplehead)"/>
+
+  <!-- Direct Tunnel connections between Host A and Host B -->
+  <line x1="320" y1="288" x2="478" y2="288" stroke="#E85A4F" stroke-width="3" marker-end="url(#orangehead)"/>
+  <line x1="480" y1="298" x2="322" y2="298" stroke="#E85A4F" stroke-width="3" marker-end="url(#orangehead)"/>
+  
+  <!-- Vertical arrows from external apps to gateway communication -->
+  <!-- DDS App with L-shaped connection -->
+  <line x1="330" y1="105" x2="330" y2="150" stroke="#8B5A8C" stroke-width="2"/>
+  <line x1="330" y1="150" x2="380" y2="150" stroke="#8B5A8C" stroke-width="2"/>
+  <line x1="380" y1="150" x2="380" y2="250" stroke="#8B5A8C" stroke-width="2" marker-end="url(#purplehead)"/>
+
+  <!-- Legacy System connection -->
+  <line x1="400" y1="105" x2="400" y2="250" stroke="#8B5A8C" stroke-width="2" marker-end="url(#purplehead)"/>
+  
+  <!-- Non-iceoryx App with L-shaped connection -->
+  <line x1="475" y1="105" x2="475" y2="150" stroke="#8B5A8C" stroke-width="2"/>
+  <line x1="475" y1="150" x2="420" y2="150" stroke="#8B5A8C" stroke-width="2"/>
+  <line x1="420" y1="150" x2="420" y2="250" stroke="#8B5A8C" stroke-width="2" marker-end="url(#purplehead)"/>
+  
+</svg>

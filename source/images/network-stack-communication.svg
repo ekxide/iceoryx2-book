@@ -1,0 +1,118 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" 
+     refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#2B5C8C" />
+    </marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" fill="transparent"/>
+  
+  <!-- Physical Memory Block -->
+  <rect x="300" y="65" width="200" height="370" rx="8" fill="#D9D9D9" stroke="#2B5C8C" stroke-width="3" filter="url(#shadow)"/>
+  <text x="400" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#2B5C8C">Physical Memory</text>
+  
+  <!-- Publisher Buffer -->
+  <rect x="320" y="87" width="160" height="60" rx="4" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2"/>
+  <text x="400" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2B5C8C">Participant Memory</text>
+  <!-- Original data -->
+  <rect x="330" y="120" width="140" height="10" rx="2" fill="#2B5C8C"/>
+  <text x="400" y="128" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Original Data (100 MB)</text>
+  <!-- Serialized data -->
+  <rect x="330" y="133" width="140" height="10" rx="2" fill="#2B5C8C"/>
+  <text x="400" y="141" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Serialized Data (~100 MB)</text>
+  
+  <!-- Kernel Buffers -->
+  <rect x="320" y="167" width="160" height="40" rx="4" fill="none" stroke="#F59E0B" stroke-width="2"/>
+  <text x="400" y="185" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#92400E">Network Stack</text>
+  <text x="400" y="199" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#92400E">Buffered Data(~100 MB)</text>
+  
+  <!-- Subscriber 1 Buffer -->
+  <rect x="320" y="227" width="160" height="50" rx="4" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2"/>
+  <text x="400" y="243" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2B5C8C">Participant Memory</text>
+  <!-- Received data -->
+  <rect x="330" y="250" width="140" height="10" rx="2" fill="#2B5C8C"/>
+  <text x="400" y="258" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Received Data (~100 MB)</text>
+  <!-- Deserialized data -->
+  <rect x="330" y="263" width="140" height="10" rx="2" fill="#2B5C8C"/>
+  <text x="400" y="271" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Deserialized Data (100 MB)</text>
+  
+  <!-- Subscriber 2 Buffer -->
+  <rect x="320" y="297" width="160" height="50" rx="4" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2"/>
+  <text x="400" y="313" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2B5C8C">Participant Memory</text>
+  <!-- Received data -->
+  <rect x="330" y="320" width="140" height="10" rx="2" fill="#2B5C8C"/>
+  <text x="400" y="328" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Received Data (~100 MB)</text>
+  <!-- Deserialized data -->
+  <rect x="330" y="333" width="140" height="10" rx="2" fill="#2B5C8C"/>
+  <text x="400" y="341" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Deserialized Data (100 MB)</text>
+  
+  <!-- Subscriber 3 Buffer -->
+  <rect x="320" y="367" width="160" height="50" rx="4" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2"/>
+  <text x="400" y="383" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2B5C8C">Participant Memory</text>
+  <!-- Received data -->
+  <rect x="330" y="390" width="140" height="10" rx="2" fill="#2B5C8C"/>
+  <text x="400" y="398" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Received Data (~100 MB)</text>
+  <!-- Deserialized data -->
+  <rect x="330" y="403" width="140" height="10" rx="2" fill="#2B5C8C"/>
+  <text x="400" y="411" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Deserialized Data (100 MB)</text>
+  
+  <!-- Publisher -->
+  <rect x="125" y="105" width="100" height="35" rx="8" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2" filter="url(#shadow)"/>
+  <text x="175" y="127" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2B5C8C">Participant</text>
+  
+  <!-- Subscribers - moved further right with proper spacing -->
+  <rect x="590" y="251" width="100" height="35" rx="8" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2" filter="url(#shadow)"/>
+  <text x="640" y="273" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2B5C8C">Participant</text>
+  
+  <rect x="590" y="321" width="100" height="35" rx="8" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2" filter="url(#shadow)"/>
+  <text x="640" y="343" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2B5C8C">Participant</text>
+  
+  <rect x="590" y="391" width="100" height="35" rx="8" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2" filter="url(#shadow)"/>
+  <text x="640" y="413" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2B5C8C">Participant</text>
+  
+  <!-- Data Flow Arrows -->
+  
+  <!-- Publisher to publisher buffer -->
+  <line x1="225" y1="125" x2="330" y2="125" stroke="#2B5C8C" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="240" y="121" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#2B5C8C">write</text>
+  
+  <!-- Publisher buffer to kernel -->
+  <line x1="400" y1="147" x2="400" y2="165" stroke="#2B5C8C" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="415" y="158" font-family="Arial, sans-serif" font-size="10" fill="#2B5C8C">copy</text>
+  
+  <!-- Kernel buffer branching pattern -->
+  <!-- Horizontal line from kernel buffer to the left -->
+  <line x1="320" y1="185" x2="285" y2="185" stroke="#2B5C8C" stroke-width="2"/>
+  
+  <!-- Vertical line down the left side -->
+  <line x1="285" y1="185" x2="285" y2="395" stroke="#2B5C8C" stroke-width="2"/>
+  
+  <!-- Horizontal arrows into each subscriber buffer's received data -->
+  <line x1="285" y1="255" x2="330" y2="255" stroke="#2B5C8C" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="255" y="251" font-family="Arial, sans-serif" font-size="10" fill="#2B5C8C">copy</text>
+  
+  <line x1="285" y1="325" x2="330" y2="325" stroke="#2B5C8C" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="255" y="321" font-family="Arial, sans-serif" font-size="10" fill="#2B5C8C">copy</text>
+  
+  <line x1="285" y1="395" x2="330" y2="395" stroke="#2B5C8C" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="255" y="391" font-family="Arial, sans-serif" font-size="10" fill="#2B5C8C">copy</text>
+  
+  <!-- Subscribers reading from their buffers - longer arrows with proper spacing -->
+  <line x1="470" y1="268" x2="590" y2="268" stroke="#2B5C8C" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="560" y="264" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#2B5C8C">read</text>
+  
+  <line x1="470" y1="338" x2="590" y2="338" stroke="#2B5C8C" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="560" y="334" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#2B5C8C">read</text>
+  
+  <line x1="470" y1="408" x2="590" y2="408" stroke="#2B5C8C" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="560" y="404" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#2B5C8C">read</text>
+  
+  <!-- Total Memory Label -->
+  <text x="400" y="465" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#2B5C8C">Total Memory: ~900 MB</text>
+  
+</svg>
