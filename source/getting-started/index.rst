@@ -22,3 +22,4 @@ Think of it as putting Larry’s nervous system online—without the medical deg
 
    publish-subscribe
    event
+   event-driven-communication
