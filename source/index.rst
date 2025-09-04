@@ -9,6 +9,7 @@ Welcome to the ``iceoryx2`` book! Brought to you with ♡ by the developers at
    :caption: User Manual
 
    quickstart
+   getting-started/index
    introduction
 
 .. toctree::
