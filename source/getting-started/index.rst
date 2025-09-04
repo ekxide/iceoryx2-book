@@ -21,3 +21,4 @@ Think of it as putting Larry’s nervous system online—without the medical deg
    :maxdepth: 1
 
    publish-subscribe
+   event
