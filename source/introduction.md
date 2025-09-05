@@ -40,7 +40,7 @@ additional language bindings.
 Build an intuition for what shared memory communication entails.
 ```
 
-```{grid-item-card} Browse the API Reference
+```{grid-item-card} View the API Reference Index
 :link: https://eclipse-iceoryx.github.io/iceoryx2/
 :link-type: url
 :shadow: none

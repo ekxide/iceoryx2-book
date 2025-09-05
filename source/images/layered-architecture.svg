@@ -1,58 +1,31 @@
-<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
+  
   <!-- Background -->
-  <rect width="800" height="500" fill="transparent"/>
+  <rect width="600" height="450" fill="transparent"/>
   
   <!-- User API Layer -->
-  <rect x="150" y="60" width="500" height="80" rx="8" fill="#2B5C8C" stroke="#1A3D5C" stroke-width="2"/>
-  <text x="170" y="85" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">iceoryx2</text>
-  
-  <!-- User API Components -->
-  <rect x="270" y="85" width="80" height="30" rx="4" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="1"/>
-  <text x="310" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#2B5C8C">Service</text>
-  
-  <rect x="370" y="85" width="80" height="30" rx="4" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="1"/>
-  <text x="410" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#2B5C8C">Ports</text>
-  
-  <rect x="470" y="85" width="60" height="30" rx="4" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="1"/>
-  <text x="500" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#2B5C8C">...</text>
+  <rect x="100" y="60" width="400" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="120" y="80" font-size="14" font-weight="bold" fill="#374151">iceoryx2</text>
+  <text x="120" y="97" font-size="11" fill="#6b7280">User API • Service • Ports • Execution Control</text>
   
   <!-- Concept Abstraction Layer -->
-  <rect x="150" y="160" width="500" height="80" rx="8" fill="#2B5C8C" stroke="#1A3D5C" stroke-width="2"/>
-  <text x="170" y="185" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">iceoryx2_cal</text>
-  
-  <!-- CAL Components -->
-  <rect x="270" y="185" width="80" height="30" rx="4" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="1"/>
-  <text x="310" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#2B5C8C">Storage</text>
-  
-  <rect x="370" y="185" width="80" height="30" rx="4" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="1"/>
-  <text x="410" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#2B5C8C">Channels</text>
-  
-  <rect x="470" y="185" width="60" height="30" rx="4" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="1"/>
-  <text x="500" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#2B5C8C">...</text>
+  <rect x="100" y="125" width="400" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="120" y="145" font-size="14" font-weight="bold" fill="#374151">iceoryx2_cal</text>
+  <text x="120" y="162" font-size="11" fill="#6b7280">Concepts • Storage • Channels • Events</text>
   
   <!-- Building Blocks Layer -->
-  <rect x="150" y="260" width="500" height="80" rx="8" fill="#2B5C8C" stroke="#1A3D5C" stroke-width="2"/>
-  <text x="170" y="285" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">iceoryx2_bb</text>
-  
-  <!-- BB Components -->
-  <rect x="270" y="285" width="80" height="30" rx="4" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="1"/>
-  <text x="310" y="305" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#2B5C8C">Algorithms</text>
-  
-  <rect x="370" y="285" width="80" height="30" rx="4" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="1"/>
-  <text x="410" y="305" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#2B5C8C">Containers</text>
-  
-  <rect x="470" y="285" width="60" height="30" rx="4" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="1"/>
-  <text x="500" y="305" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#2B5C8C">...</text>
+  <rect x="100" y="190" width="400" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="120" y="210" font-size="14" font-weight="bold" fill="#374151">iceoryx2_bb</text>
+  <text x="120" y="227" font-size="11" fill="#6b7280">Building Blocks • Algorithms • Containers • Utilities</text>
   
   <!-- Platform Abstraction Layer -->
-  <rect x="150" y="360" width="500" height="80" rx="8" fill="#2B5C8C" stroke="#1A3D5C" stroke-width="2"/>
-  <text x="170" y="385" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">iceoryx2_pal</text>
+  <rect x="100" y="255" width="400" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="120" y="275" font-size="14" font-weight="bold" fill="#374151">iceoryx2_pal</text>
+  <text x="120" y="292" font-size="11" fill="#6b7280">Platform Abstraction • POSIX • OS-specific APIs</text>
   
-  <!-- PAL Components -->
-  <rect x="270" y="385" width="80" height="30" rx="4" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="1"/>
-  <text x="310" y="405" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#2B5C8C">POSIX</text>
-  
-  <rect x="370" y="385" width="60" height="30" rx="4" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="1"/>
-  <text x="400" y="405" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#2B5C8C">...</text>
+  <!-- Operating System / Hardware -->
+  <rect x="100" y="320" width="400" height="50" fill="#e5e7eb" stroke="#9ca3af" stroke-width="2"/>
+  <text x="120" y="340" font-size="14" font-weight="bold" fill="#374151">Operating System</text>
+  <text x="120" y="357" font-size="11" fill="#6b7280">Linux • QNX • Windows • Hardware Abstraction</text>
   
 </svg>

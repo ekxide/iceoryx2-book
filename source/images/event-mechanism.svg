@@ -2,7 +2,7 @@
   <defs>
     <marker id="arrowhead" markerWidth="10" markerHeight="7" 
      refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#2B5C8C" />
+      <polygon points="0 0, 10 3.5, 0 7" fill="#6c7b7f" />
     </marker>
   </defs>
   
@@ -10,58 +10,58 @@
   <rect width="800" height="400" fill="transparent"/>
   
   <!-- Event Service -->
-  <rect x="50" y="120" width="700" height="120" rx="8" fill="#2B5C8C" stroke="#1A3D5C" stroke-width="2" />
-  <text x="400" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white">Event Service</text>
+  <rect x="50" y="120" width="700" height="120" fill="#4b5563" stroke="#374151" stroke-width="2" />
+  <text x="400" y="150" text-anchor="middle" font-size="18" font-weight="bold" fill="white">Event Service</text>
   
   <!-- Platform specific mechanisms inside Event Service -->
-  <rect x="133" y="170" width="90" height="30" rx="4" fill="#5D6D7E" stroke="#666" stroke-width="2"/>
-  <text x="178" y="188" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Semaphore</text>
+  <rect x="133" y="170" width="90" height="30" fill="#9ca3af" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="178" y="188" text-anchor="middle" font-size="10" fill="white">Semaphore</text>
   
-  <rect x="238" y="170" width="60" height="30" rx="4" fill="#5D6D7E" stroke="#666" stroke-width="2"/>
-  <text x="268" y="188" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Socket</text>
+  <rect x="238" y="170" width="60" height="30" fill="#9ca3af" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="268" y="188" text-anchor="middle" font-size="10" fill="white">Socket</text>
   
-  <rect x="313" y="170" width="120" height="30" rx="4" fill="#5D6D7E" stroke="#666" stroke-width="2"/>
-  <text x="373" y="188" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Condition Variable</text>
+  <rect x="313" y="170" width="120" height="30" fill="#9ca3af" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="373" y="188" text-anchor="middle" font-size="9" fill="white">Condition Variable</text>
   
-  <rect x="448" y="170" width="70" height="30" rx="4" fill="#5D6D7E" stroke="#666" stroke-width="2"/>
-  <text x="483" y="188" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Interrupt</text>
+  <rect x="448" y="170" width="70" height="30" fill="#9ca3af" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="483" y="188" text-anchor="middle" font-size="10" fill="white">Interrupt</text>
   
-  <rect x="533" y="170" width="80" height="30" rx="4" fill="#5D6D7E" stroke="#666" stroke-width="2"/>
-  <text x="573" y="188" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">CudaEvent</text>
+  <rect x="533" y="170" width="80" height="30" fill="#9ca3af" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="573" y="188" text-anchor="middle" font-size="10" fill="white">CudaEvent</text>
   
-  <rect x="628" y="170" width="40" height="30" rx="4" fill="#5D6D7E" stroke="#666" stroke-width="2"/>
-  <text x="648" y="188" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">...</text>
+  <rect x="628" y="170" width="40" height="30" fill="#9ca3af" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="648" y="188" text-anchor="middle" font-size="10" fill="white">...</text>
   
   <!-- Notifier Participant -->
-  <rect x="80" y="40" width="100" height="40" rx="6" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2" />
-  <text x="130" y="65" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2B5C8C">Notifier</text>
+  <rect x="80" y="40" width="100" height="40" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2" />
+  <text x="130" y="65" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">Notifier</text>
   
-  <!-- Listener Participant 1 (Sleeping) -->
-  <rect x="200" y="300" width="100" height="40" rx="6" fill="#E2E8F0" stroke="#94A3B8" stroke-width="2" />
-  <text x="250" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#64748B">Listener 1</text>
-  <text x="250" y="332" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#64748B">💤 sleeping</text>
+  <!-- Listener Participant 1 -->
+  <rect x="200" y="300" width="100" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2" stroke-dasharray="4,2" />
+  <text x="250" y="320" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">Listener 1</text>
+  <text x="250" y="332" text-anchor="middle" font-size="9" fill="#9ca3af">sleeping</text>
   
-  <!-- Listener Participant 2 (Active) -->
-  <rect x="350" y="300" width="100" height="40" rx="6" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2" />
-  <text x="400" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2B5C8C">Listener 2</text>
-  <text x="400" y="332" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#2B5C8C">⚡ active</text>
+  <!-- Listener Participant 2 -->
+  <rect x="350" y="300" width="100" height="40" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2" />
+  <text x="400" y="320" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">Listener 2</text>
+  <text x="400" y="332" text-anchor="middle" font-size="9" fill="#374151">active</text>
   
-  <!-- Listener Participant 3 (Sleeping) -->
-  <rect x="500" y="300" width="100" height="40" rx="6" fill="#E2E8F0" stroke="#94A3B8" stroke-width="2" />
-  <text x="550" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#64748B">Listener 3</text>
-  <text x="550" y="332" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#64748B">💤 sleeping</text>
+  <!-- Listener Participant 3 -->
+  <rect x="500" y="300" width="100" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2" stroke-dasharray="4,2" />
+  <text x="550" y="320" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">Listener 3</text>
+  <text x="550" y="332" text-anchor="middle" font-size="9" fill="#9ca3af">sleeping</text>
   
   <!-- Event flow arrows -->
-  <line x1="130" y1="80" x2="130" y2="120" stroke="#2B5C8C" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <text x="145" y="105" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#2B5C8C">notify</text>
+  <line x1="130" y1="80" x2="130" y2="120" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="145" y="105" font-size="10" fill="#6c7b7f">notify</text>
   
-  <line x1="250" y1="240" x2="250" y2="300" stroke="#2B5C8C" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <text x="265" y="275" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#2B5C8C">wake up!</text>
+  <line x1="250" y1="240" x2="250" y2="300" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="265" y="275" font-size="10" fill="#6c7b7f">wake up!</text>
   
-  <line x1="400" y1="240" x2="400" y2="300" stroke="#2B5C8C" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <text x="415" y="275" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#2B5C8C">id</text>
+  <line x1="400" y1="240" x2="400" y2="300" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="415" y="275" font-size="10" fill="#6c7b7f">id</text>
   
-  <line x1="550" y1="240" x2="550" y2="300" stroke="#2B5C8C" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <text x="565" y="275" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#2B5C8C">wake up!</text>
+  <line x1="550" y1="240" x2="550" y2="300" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="565" y="275" font-size="10" fill="#6c7b7f">wake up!</text>
   
 </svg>

@@ -2,7 +2,7 @@
   <defs>
     <marker id="arrowhead" markerWidth="8" markerHeight="6" 
      refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#2B5C8C" />
+      <polygon points="0 0, 8 3, 0 6" fill="#6c7b7f" />
     </marker>
   </defs>
   
@@ -10,175 +10,175 @@
   <rect width="800" height="600" fill="transparent"/>
     
   <!-- Client Participant -->
-  <rect x="10" y="230" width="150" height="100" rx="8" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2" />
-  <text x="85" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2B5C8C">Participant</text>
+  <rect x="10" y="230" width="150" height="100" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2" />
+  <text x="85" y="255" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">Participant</text>
   
   <!-- Client Port -->
-  <rect x="30" y="275" width="110" height="35" rx="4" fill="#2B5C8C" stroke="#2B5C8C" stroke-width="2"/>
-  <text x="85" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">Client Port</text>
-  <text x="85" y="303" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Request/Response</text>
+  <rect x="30" y="275" width="110" height="35" fill="#6b7280" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="85" y="290" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Client Port</text>
+  <text x="85" y="303" text-anchor="middle" font-size="9" fill="white">Request/Response</text>
 
   <!-- Server Participant -->
-  <rect x="640" y="230" width="150" height="100" rx="8" fill="#A5CEE4" stroke="#2B5C8C" stroke-width="2" />
-  <text x="715" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2B5C8C">Participant</text>
+  <rect x="640" y="230" width="150" height="100" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2" />
+  <text x="715" y="255" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">Participant</text>
 
   <!-- Server Port -->
-  <rect x="660" y="275" width="110" height="35" rx="4" fill="#2B5C8C" stroke="#2B5C8C" stroke-width="2"/>
-  <text x="715" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">Server Port</text>
-  <text x="715" y="303" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Request/Response</text>
+  <rect x="660" y="275" width="110" height="35" fill="#6b7280" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="715" y="290" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Server Port</text>
+  <text x="715" y="303" text-anchor="middle" font-size="9" fill="white">Request/Response</text>
 
   <!-- Request Shared Memory Region -->
-  <rect x="220" y="20" width="360" height="210" rx="12" fill="#2B5C8C" stroke="#1A3D5C" stroke-width="2" />
-  <text x="400" y="45" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white">Shared Memory Region</text>
+  <rect x="220" y="20" width="360" height="210" fill="#4b5563" stroke="#374151" stroke-width="2" />
+  <text x="400" y="45" text-anchor="middle" font-size="16" font-weight="bold" fill="white">Shared Memory Region</text>
   
   <!-- Request Payload Segment -->
-  <rect x="240" y="60" width="320" height="80" rx="6" fill="none" stroke="white" stroke-width="2" stroke-dasharray="5,3"/>
-  <text x="400" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Payload Segment</text>
+  <rect x="240" y="60" width="320" height="80" fill="none" stroke="white" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="400" y="80" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Payload Segment</text>
   
   <!-- Request payload blocks -->
-  <rect x="260" y="95" width="35" height="18" rx="2" fill="#FFA500" stroke="white" stroke-width="1"/>
-  <rect x="295" y="95" width="35" height="18" fill="#D3D3D3" stroke="white" stroke-width="1"/>
-  <rect x="330" y="95" width="35" height="18" fill="#D3D3D3" stroke="white" stroke-width="1"/>
-  <rect x="365" y="95" width="35" height="18" fill="#D3D3D3" stroke="white" stroke-width="1"/>
-  <rect x="400" y="95" width="35" height="18" fill="#D3D3D3" stroke="white" stroke-width="1"/>
-  <rect x="435" y="95" width="35" height="18" fill="#D3D3D3" stroke="white" stroke-width="1"/>
-  <rect x="470" y="95" width="35" height="18" fill="#D3D3D3" stroke="white" stroke-width="1"/>
-  <rect x="505" y="95" width="35" height="18" rx="2" fill="#D3D3D3" stroke="white" stroke-width="1"/>
+  <rect x="260" y="95" width="35" height="18" fill="#6b7280" stroke="white" stroke-width="1"/>
+  <rect x="295" y="95" width="35" height="18" fill="#d1d5db" stroke="white" stroke-width="1"/>
+  <rect x="330" y="95" width="35" height="18" fill="#d1d5db" stroke="white" stroke-width="1"/>
+  <rect x="365" y="95" width="35" height="18" fill="#d1d5db" stroke="white" stroke-width="1"/>
+  <rect x="400" y="95" width="35" height="18" fill="#d1d5db" stroke="white" stroke-width="1"/>
+  <rect x="435" y="95" width="35" height="18" fill="#d1d5db" stroke="white" stroke-width="1"/>
+  <rect x="470" y="95" width="35" height="18" fill="#d1d5db" stroke="white" stroke-width="1"/>
+  <rect x="505" y="95" width="35" height="18" fill="#d1d5db" stroke="white" stroke-width="1"/>
   
   <!-- Request payload labels -->
-  <text x="260" y="128" font-family="Arial, sans-serif" font-size="9" fill="white">
+  <text x="260" y="128" font-size="9" fill="white">
     <tspan>R</tspan><tspan font-size="7" dy="2">1</tspan>
   </text>
-  <text x="295" y="128" font-family="Arial, sans-serif" font-size="9" fill="white">
+  <text x="295" y="128" font-size="9" fill="white">
     <tspan>R</tspan><tspan font-size="7" dy="2">2</tspan>
   </text>
-  <text x="330" y="128" font-family="Arial, sans-serif" font-size="9" fill="white">
+  <text x="330" y="128" font-size="9" fill="white">
     <tspan>R</tspan><tspan font-size="7" dy="2">3</tspan>
   </text>
-  <text x="365" y="128" font-family="Arial, sans-serif" font-size="9" fill="white">
+  <text x="365" y="128" font-size="9" fill="white">
     <tspan>R</tspan><tspan font-size="7" dy="2">4</tspan>
   </text>
-  <text x="400" y="128" font-family="Arial, sans-serif" font-size="9" fill="white">
+  <text x="400" y="128" font-size="9" fill="white">
     <tspan>R</tspan><tspan font-size="7" dy="2">5</tspan>
   </text>
-  <text x="435" y="128" font-family="Arial, sans-serif" font-size="9" fill="white">
+  <text x="435" y="128" font-size="9" fill="white">
     <tspan>R</tspan><tspan font-size="7" dy="2">6</tspan>
   </text>
-  <text x="470" y="128" font-family="Arial, sans-serif" font-size="9" fill="white">
+  <text x="470" y="128" font-size="9" fill="white">
     <tspan>R</tspan><tspan font-size="7" dy="2">7</tspan>
   </text>
-  <text x="505" y="128" font-family="Arial, sans-serif" font-size="9" fill="white">
+  <text x="505" y="128" font-size="9" fill="white">
     <tspan>R</tspan><tspan font-size="7" dy="2">8</tspan>
   </text>
 
   <!-- Request Offset Channel -->
-  <rect x="240" y="150" width="320" height="50" rx="6" fill="none" stroke="white" stroke-width="2" stroke-dasharray="5,3"/>
-  <text x="400" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Offset Channel</text>
+  <rect x="240" y="150" width="320" height="50" fill="none" stroke="white" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="400" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Offset Channel</text>
   
   <!-- Request offset indicators -->  
-  <rect x="265" y="177" width="20" height="12" rx="2" fill="#FFA500" stroke="white" stroke-width="1"/>
-  <text x="275" y="185" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">
-    <tspan>R</tspan><tspan font-size="6" dy="1">1</tspan>
+  <rect x="265" y="177" width="20" height="12" fill="#6b7280" stroke="white" stroke-width="1"/>
+  <text x="275" y="185" text-anchor="middle" font-size="8" fill="white">
+    <tspan>P</tspan><tspan font-size="6" dy="1">1</tspan>
   </text>
 
   <!-- Response Shared Memory Region -->
-  <rect x="220" y="370" width="360" height="210" rx="12" fill="#2B5C8C" stroke="#1A3D5C" stroke-width="2" />
-  <text x="400" y="395" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white">Shared Memory Region</text>
+  <rect x="220" y="370" width="360" height="210" fill="#4b5563" stroke="#374151" stroke-width="2" />
+  <text x="400" y="395" text-anchor="middle" font-size="16" font-weight="bold" fill="white">Shared Memory Region</text>
   
   <!-- Response Payload Segment -->
-  <rect x="240" y="410" width="320" height="80" rx="6" fill="none" stroke="white" stroke-width="2" stroke-dasharray="5,3"/>
-  <text x="400" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Payload Segment</text>
+  <rect x="240" y="410" width="320" height="80" fill="none" stroke="white" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="400" y="430" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Payload Segment</text>
   
   <!-- Response payload blocks -->
-  <rect x="260" y="445" width="35" height="18" fill="#FFA500" stroke="white" stroke-width="1"/>
-  <rect x="295" y="445" width="35" height="18" fill="#FFA500" stroke="white" stroke-width="1"/>
-  <rect x="330" y="445" width="35" height="18" fill="#4CAF50" stroke="white" stroke-width="1"/>
-  <rect x="365" y="445" width="35" height="18" fill="#4CAF50" stroke="white" stroke-width="1"/>
-  <rect x="400" y="445" width="35" height="18" fill="#4CAF50" stroke="white" stroke-width="1"/>
-  <rect x="435" y="445" width="35" height="18" fill="#D3D3D3" stroke="white" stroke-width="1"/>
-  <rect x="470" y="445" width="35" height="18" fill="#D3D3D3" stroke="white" stroke-width="1"/>
-  <rect x="505" y="445" width="35" height="18" rx="2" fill="#D3D3D3" stroke="white" stroke-width="1"/>
+  <rect x="260" y="445" width="35" height="18" fill="#6b7280" stroke="white" stroke-width="1"/>
+  <rect x="295" y="445" width="35" height="18" fill="#6b7280" stroke="white" stroke-width="1"/>
+  <rect x="330" y="445" width="35" height="18" fill="#374151" stroke="white" stroke-width="1"/>
+  <rect x="365" y="445" width="35" height="18" fill="#374151" stroke="white" stroke-width="1"/>
+  <rect x="400" y="445" width="35" height="18" fill="#374151" stroke="white" stroke-width="1"/>
+  <rect x="435" y="445" width="35" height="18" fill="#d1d5db" stroke="white" stroke-width="1"/>
+  <rect x="470" y="445" width="35" height="18" fill="#d1d5db" stroke="white" stroke-width="1"/>
+  <rect x="505" y="445" width="35" height="18" fill="#d1d5db" stroke="white" stroke-width="1"/>
   
   <!-- Response payload labels -->
-  <text x="260" y="478" font-family="Arial, sans-serif" font-size="9" fill="white">
+  <text x="260" y="478" font-size="9" fill="white">
     <tspan>P</tspan><tspan font-size="7" dy="2">1</tspan>
   </text>
-  <text x="295" y="478" font-family="Arial, sans-serif" font-size="9" fill="white">
+  <text x="295" y="478" font-size="9" fill="white">
     <tspan>P</tspan><tspan font-size="7" dy="2">2</tspan>
   </text>
-  <text x="330" y="478" font-family="Arial, sans-serif" font-size="9" fill="white">
+  <text x="330" y="478" font-size="9" fill="white">
     <tspan>P</tspan><tspan font-size="7" dy="2">3</tspan>
   </text>
-  <text x="365" y="478" font-family="Arial, sans-serif" font-size="9" fill="white">
+  <text x="365" y="478" font-size="9" fill="white">
     <tspan>P</tspan><tspan font-size="7" dy="2">4</tspan>
   </text>
-  <text x="400" y="478" font-family="Arial, sans-serif" font-size="9" fill="white">
+  <text x="400" y="478" font-size="9" fill="white">
     <tspan>P</tspan><tspan font-size="7" dy="2">5</tspan>
   </text>
-  <text x="435" y="478" font-family="Arial, sans-serif" font-size="9" fill="white">
+  <text x="435" y="478" font-size="9" fill="white">
     <tspan>P</tspan><tspan font-size="7" dy="2">6</tspan>
   </text>
-  <text x="470" y="478" font-family="Arial, sans-serif" font-size="9" fill="white">
+  <text x="470" y="478" font-size="9" fill="white">
     <tspan>P</tspan><tspan font-size="7" dy="2">7</tspan>
   </text>
-  <text x="505" y="478" font-family="Arial, sans-serif" font-size="9" fill="white">
+  <text x="505" y="478" font-size="9" fill="white">
     <tspan>P</tspan><tspan font-size="7" dy="2">8</tspan>
   </text>
 
   <!-- Response Offset Channel -->
-  <rect x="240" y="500" width="320" height="50" rx="6" fill="none" stroke="white" stroke-width="2" stroke-dasharray="5,3"/>
-  <text x="400" y="520" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Offset Channel</text>
+  <rect x="240" y="500" width="320" height="50" fill="none" stroke="white" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="400" y="520" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Offset Channel</text>
   
   <!-- Response offset indicators -->  
-  <rect x="265" y="527" width="20" height="12" rx="2" fill="#4CAF50" stroke="white" stroke-width="1"/>
-  <text x="275" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">
+  <rect x="265" y="527" width="20" height="12" fill="#374151" stroke="white" stroke-width="1"/>
+  <text x="275" y="535" text-anchor="middle" font-size="8" fill="white">
     <tspan>P</tspan><tspan font-size="6" dy="1">3</tspan>
   </text>
   
-  <rect x="290" y="527" width="20" height="12" rx="2" fill="#4CAF50" stroke="white" stroke-width="1"/>
-  <text x="300" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">
+  <rect x="290" y="527" width="20" height="12" fill="#374151" stroke="white" stroke-width="1"/>
+  <text x="300" y="535" text-anchor="middle" font-size="8" fill="white">
     <tspan>P</tspan><tspan font-size="6" dy="1">4</tspan>
   </text>
   
-  <rect x="315" y="527" width="20" height="12" rx="2" fill="#4CAF50" stroke="white" stroke-width="1"/>
-  <text x="325" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">
+  <rect x="315" y="527" width="20" height="12" fill="#374151" stroke="white" stroke-width="1"/>
+  <text x="325" y="535" text-anchor="middle" font-size="8" fill="white">
     <tspan>P</tspan><tspan font-size="6" dy="1">5</tspan>
   </text>
   
-  <rect x="340" y="527" width="20" height="12" rx="2" fill="#FFA500" stroke="white" stroke-width="1"/>
-  <text x="350" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">
+  <rect x="340" y="527" width="20" height="12" fill="#6b7280" stroke="white" stroke-width="1"/>
+  <text x="350" y="535" text-anchor="middle" font-size="8" fill="white">
     <tspan>P</tspan><tspan font-size="6" dy="1">1</tspan>
   </text>
   
-  <rect x="365" y="527" width="20" height="12" rx="2" fill="#FFA500" stroke="white" stroke-width="1"/>
-  <text x="375" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">
+  <rect x="365" y="527" width="20" height="12" fill="#6b7280" stroke="white" stroke-width="1"/>
+  <text x="375" y="535" text-anchor="middle" font-size="8" fill="white">
     <tspan>P</tspan><tspan font-size="6" dy="1">2</tspan>
   </text>
 
   <!-- Request flow arrows - L-shaped from client to request memory region -->
-  <line x1="90" y1="230" x2="90" y2="125" stroke="#2B5C8C" stroke-width="3"/>
-  <line x1="90" y1="125" x2="218" y2="125" stroke="#2B5C8C" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <line x1="90" y1="230" x2="90" y2="125" stroke="#6c7b7f" stroke-width="3"/>
+  <line x1="90" y1="125" x2="218" y2="125" stroke="#6c7b7f" stroke-width="3" marker-end="url(#arrowhead)"/>
   
   <!-- Request flow arrows - L-shaped from request memory region to server -->
-  <line x1="580" y1="125" x2="720" y2="125" stroke="#2B5C8C" stroke-width="3"/>
-  <line x1="720" y1="125" x2="720" y2="228" stroke="#2B5C8C" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <line x1="580" y1="125" x2="720" y2="125" stroke="#6c7b7f" stroke-width="3"/>
+  <line x1="720" y1="125" x2="720" y2="228" stroke="#6c7b7f" stroke-width="3" marker-end="url(#arrowhead)"/>
   
   <!-- Response flow arrows - L-shaped from server to response memory region -->
-  <line x1="720" y1="330" x2="720" y2="475" stroke="#2B5C8C" stroke-width="3"/>
-  <line x1="720" y1="475" x2="581" y2="475" stroke="#2B5C8C" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <line x1="720" y1="330" x2="720" y2="475" stroke="#6c7b7f" stroke-width="3"/>
+  <line x1="720" y1="475" x2="581" y2="475" stroke="#6c7b7f" stroke-width="3" marker-end="url(#arrowhead)"/>
 
   <!-- Response flow arrows - L-shaped from response memory region to client -->
-  <line x1="89" y1="475" x2="220" y2="475" stroke="#2B5C8C" stroke-width="3"/>
-  <line x1="90" y1="475" x2="90" y2="332" stroke="#2B5C8C" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <line x1="89" y1="475" x2="220" y2="475" stroke="#6c7b7f" stroke-width="3"/>
+  <line x1="90" y1="475" x2="90" y2="332" stroke="#6c7b7f" stroke-width="3" marker-end="url(#arrowhead)"/>
   
   <!-- Legend -->
-  <rect x="715" y="500" width="18" height="12" rx="1" fill="#4CAF50"/>
-  <text x="740" y="510" font-family="Arial, sans-serif" font-size="12" fill="#2B5C8C">New</text>
+  <rect x="715" y="500" width="18" height="12" fill="#374151"/>
+  <text x="740" y="510" font-size="12" fill="#6c7b7f">New</text>
   
-  <rect x="715" y="515" width="18" height="12" rx="1" fill="#FFA500"/>
-  <text x="740" y="525" font-family="Arial, sans-serif" font-size="12" fill="#2B5C8C">Held</text>
+  <rect x="715" y="515" width="18" height="12" fill="#6b7280"/>
+  <text x="740" y="525" font-size="12" fill="#6c7b7f">Held</text>
   
-  <rect x="715" y="530" width="18" height="12" rx="1" fill="#D3D3D3"/>
-  <text x="740" y="540" font-family="Arial, sans-serif" font-size="12" fill="#2B5C8C">Free</text>
+  <rect x="715" y="530" width="18" height="12" fill="#d1d5db"/>
+  <text x="740" y="540" font-size="12" fill="#6c7b7f">Free</text>
 
 </svg>

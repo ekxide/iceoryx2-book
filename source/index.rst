@@ -13,8 +13,9 @@ the iceoryx2 book
 
 .. toctree::
    :maxdepth: 1
-   :caption: API Documentation
+   :caption: API Reference
 
+   Overview <https://eclipse-iceoryx.github.io/iceoryx2>
    Rust <https://docs.rs/iceoryx2/latest>
    Python <https://eclipse-iceoryx.github.io/iceoryx2/python/latest>
    C++ <https://eclipse-iceoryx.github.io/iceoryx2/cxx/latest>
