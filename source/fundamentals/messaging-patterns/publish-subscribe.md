@@ -20,8 +20,8 @@ to multiple participants. The zero-copy capability enables essentially
 constant latency regardless of payload size.
 
 The pattern is not optimal for cases where data must be kept available to
-participants indefinitely [(blackboard](
-/fundamentals/messaging-patterns/blackboard)) or when two-way communication is
+participants indefinitely [blackboard](
+/fundamentals/messaging-patterns/blackboard) or when two-way communication is
 required ([request-response](
 /fundamentals/messaging-patterns/request-response)).
 

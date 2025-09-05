@@ -41,7 +41,7 @@ system or open existing services created by other participants:
 * When creating a service, a participant defines the terms for
 communication by specifying the messaging pattern and quality-of-service
 properties
-* When operning a service, a participant may specify its own quality-of-service
+* When opening a service, a participant may specify its own quality-of-service
 properties, however they must be compatible in order for communication to occur
 
 This service-centric approach provides several advantages: it decouples

@@ -1,6 +1,6 @@
 # Blackboard
 
-Conceptual documentation for the blackboard pattern is coming soon.  
+Conceptual documentation for the blackboard pattern is not yet complete.  
 For the time-being, take a look at the [API reference](https://docs.rs/iceoryx2/latest)
 for information on how to use it.
 

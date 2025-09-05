@@ -33,7 +33,7 @@ Request-Response over Shared Memory
 ```
 
 The `RequestResponse` messaging pattern is implemented using data structures in
-shared memory. Separate shared memory segements are used for sending requests
+shared memory. Separate shared memory segments are used for sending requests
 and responses. The following structures are involved:
 
 1. **Payload segment**

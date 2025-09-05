@@ -27,7 +27,7 @@ be combined to make up an `iceoryx2` deployment.
 
 Reusable, optimized components that handle common computational
 logic and data management patterns which are independent from the domain of
-`icoeryx2` and shared-memory communication.
+`iceoryx2` and shared-memory communication.
 
 Analogous to a standard library distilled for `iceoryx2` and suitable for
 certification.
