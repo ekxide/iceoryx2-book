@@ -1,5 +1,8 @@
-the iceoryx2 book
+The iceoryx2 Book
 =================
+
+Welcome to the ``iceoryx2`` book! Brought to you with ♡ by the developers at
+`ekxide IO <http://ekxide.io>`_.
 
 .. toctree::
    :maxdepth: 1
@@ -7,8 +10,20 @@ the iceoryx2 book
 
    quickstart
    introduction
+
+.. toctree::
+   :maxdepth: 2
+
    fundamentals/index
+
+.. toctree::
+   :maxdepth: 2
+
    tutorials/index
+
+.. toctree::
+   :maxdepth: 1
+
    glossary
 
 .. toctree::
