@@ -23,13 +23,58 @@ Everything in iceoryx2 starts with a node. A node represents a communication
 point (like a process or thread) and acts as a factory for services. To keep
 things sane when debugging later, we’ll give this node a name:
 
-```rust
+````{tab-set-code}
+```{code-block} c
+#include "iox2/iceoryx2.h"
+
+iox2_node_builder_h node_builder = iox2_node_builder_new(NULL);
+
+const char* node_name_value = "UltraSonicSensor";
+iox2_node_name_h node_name = NULL;
+if (iox2_node_name_new(NULL, node_name_value, strlen(node_name_value), &node_name) != IOX2_OK) {
+    printf("Unable to set node name!\n");
+}
+
+iox2_node_name_ptr node_name_ptr = iox2_cast_node_name_ptr(node_name);
+iox2_node_builder_set_name(&node_builder, node_name_ptr);
+
+iox2_node_h node = NULL;
+if (iox2_node_builder_create(node_builder, NULL, iox2_service_type_e_IPC, &node) != IOX2_OK) {
+    printf("Could not create node!\n");
+    exit(-1);
+}
+
+// do not forget to release the resources later
+iox2_node_name_drop(node_name);
+iox2_node_drop(node);
+```
+
+```{code-block} c++
+#include "iceoryx2.hpp"
+
+auto node = NodeBuilder()
+    .name(NodeName::create("UltraSonicSensor").expect("")
+    .create<ServiceType::Ipc>().expect("");
+```
+
+```{code-block} python
+import iceoryx2 as iox2
+
+node = (
+    iox2.NodeBuilder.new()
+    .name(iox2.NodeName.new("UltraSonicSensor"))
+    .create(iox2.ServiceType.Ipc)
+)
+```
+
+```{code-block} rust
 use iceoryx2::prelude::*;
 
 let node = NodeBuilder::new()
     .name(&"UltraSonicSensor".try_into()?)
     .create::<ipc::Service>()?;
 ```
+````
 
 Now we can create a service called `"distance_to_obstacle"`, using a struct
 `Distance` as the payload type. Payloads must be shared-memory compatible,
@@ -39,52 +84,214 @@ meaning:
 * no internal pointers
 * identical memory representation in every process
 
-```rust
-// every payload must implement ZeroCopySend
-#[derive(ZeroCopySend)]
-#[repr(C)] // ensures identical layout across processes
+````{tab-set-code}
+```{code-block} c
+struct Distance {
+    double distance_in_meters;
+    float some_other_property;
+};
+```
+
+```{code-block} c++
+struct Distance {
+    double distance_in_meters;
+    float some_other_property;
+};
+```
+
+```{code-block} python
+import ctypes
+
+class TransmissionData(ctypes.Structure):
+    _fields_ = [
+        ("distance_in_meters", ctypes.c_double),
+        ("some_other_property", ctypes.c_float),
+    ]
+```
+
+```{code-block} rust
+#[derive(ZeroCopySend)]  // every payload must implement ZeroCopySend
+#[repr(C)]               // ensures identical layout across processes
 pub struct Distance {
     pub distance_in_meters: f64,
     pub some_other_property: f32,
 }
 ```
+````
 
 With the payload defined, we can set up the service:
 
-```rust
+````{tab-set-code}
+```{code-block} c
+const char* service_name_value = "distance_to_obstacle";
+iox2_service_name_h service_name = NULL;
+if (iox2_service_name_new(NULL, service_name_value, strlen(service_name_value), &service_name) != IOX2_OK) {
+    printf("Unable to create service name!\n");
+    exit(-1);
+}
+
+// create service builder
+iox2_service_name_ptr service_name_ptr = iox2_cast_service_name_ptr(service_name);
+iox2_service_builder_h service_builder = iox2_node_service_builder(&node_handle, NULL, service_name_ptr);
+iox2_service_builder_pub_sub_h service_builder_pub_sub = iox2_service_builder_pub_sub(service_builder);
+
+// set pub sub payload type
+const char* payload_type_name = "Distance";
+if (iox2_service_builder_pub_sub_set_payload_type_details(&service_builder_pub_sub,
+                                                          iox2_type_variant_e_FIXED_SIZE,
+                                                          payload_type_name,
+                                                          strlen(payload_type_name),
+                                                          sizeof(struct Distance),
+                                                          alignof(struct Distance))
+    != IOX2_OK) {
+    printf("Unable to set type details\n");
+    exit(-1);
+}
+
+// create service
+iox2_port_factory_pub_sub_h service = NULL;
+if (iox2_service_builder_pub_sub_open_or_create(service_builder_pub_sub, NULL, &service) != IOX2_OK) {
+    printf("Unable to create service!\n");
+    exit(-1);
+}
+
+// do not forget to release the resources later
+iox2_service_name_drop(service_name);
+iox2_port_factory_pub_sub_drop(service);
+```
+
+```{code-block} c++
+auto service = node.service_builder(ServiceName::create("distance_to_obstacle").expect(""))
+                   .publish_subscribe<Distance>()
+                   .open_or_create()
+                   .expect("");
+```
+
+```{code-block} python
+service = (
+    node.service_builder(iox2.ServiceName.new("distance_to_obstacle"))
+    .publish_subscribe(Distance)
+    .open_or_create()
+)
+```
+
+```{code-block} rust
 let service = node
     .service_builder(&"distance_to_obstacle".try_into()?)
     .publish_subscribe::<Distance>()
     .open_or_create()?;
 ```
+````
 
-Services also provide introspection. For example, you can query how many
-subscribers are currently connected:
+Now we create our publisher:
 
-```rust
-service.dynamic_config().number_of_subscribers();
+````{tab-set-code}
+```{code-block} c
+iox2_port_factory_publisher_builder_h publisher_builder =
+    iox2_port_factory_pub_sub_publisher_builder(&service, NULL);
+iox2_publisher_h publisher = NULL;
+if (iox2_port_factory_publisher_builder_create(publisher_builder, NULL, &publisher) != IOX2_OK) {
+    printf("Unable to create publisher!\n");
+    goto drop_service;
+}
+
+// do not forget to release the resources later
+iox2_publisher_drop(publisher);
 ```
 
-For now, though, we just want a publisher:
+```{code-block} c++
+auto publisher = service.publisher_builder().create().expect("");
+```
 
-```rust
+```{code-block} python
+publisher = service.publisher_builder().create()
+```
+
+```{code-block} rust
 let publisher = service.publisher_builder().create()?;
 ```
+````
 
 Larry isn’t exactly Formula 1 material, so publishing every 100 ms is plenty. We
 set up a loop, wait 100 ms, read the sensor, and send the data:
 
-```rust
+````{tab-set-code}
+```{code-block} c
+while (iox2_node_wait(&node_handle, 0, 100) == IOX2_OK) {
+    // acquire sensor reading and send it
+}
+```
+
+```{code-block} c++
+while (node.wait(iox::units::Duration::fromMilliseconds(100)).has_value()) {
+    // acquire sensor reading and send it
+}
+```
+
+```{code-block} python
+try:
+    while True:
+        node.wait(iox2.Duration.from_millis(100))
+        # acquire sensor reading and send it
+
+except iox2.NodeWaitFailure:
+    print("exit")
+```
+
+```{code-block} rust
 while node.wait(Duration::from_millis(100)).is_ok() {
     // acquire sensor reading and send it
 }
 ```
+````
 
 To fully benefit from zero-copy, we don’t allocate or clone data. Instead, we
 loan an uninitialized sample from the publisher’s memory pool, fill it, and then
 send it:
 
-```rust
+````{tab-set-code}
+```{code-block} c
+// loan sample
+iox2_sample_mut_h sample = NULL;
+if (iox2_publisher_loan_slice_uninit(&publisher, NULL, &sample, 1) != IOX2_OK) {
+    printf("Failed to loan sample\n");
+    exit(-1);
+}
+
+// write payload
+struct Distance* payload = NULL;
+iox2_sample_mut_payload_mut(&sample, (void**) &payload, NULL);
+payload->distance_in_meters = get_ultra_sonic_sensor_distance();
+payload->some_other_property = 42.0;
+
+// send sample
+if (iox2_sample_mut_send(sample, NULL) != IOX2_OK) {
+    printf("Failed to send sample\n");
+    exit(-1);
+}
+```
+
+```{code-block} c++
+auto sample = publisher.loan_uninit().expect("");
+
+auto initialized_sample =
+  sample.write_payload(Distance { get_ultra_sonic_sensor_distance(), 42.0 });
+
+send(std::move(initialized_sample)).expect("");
+```
+
+```{code-block} python
+sample = publisher.loan_uninit()
+
+sample = sample.write_payload(
+    d = get_ultra_sonic_sensor_distance()
+    Distance(distance_in_meters=d, some_other_property=42.0)
+)
+
+sample.send()
+```
+
+```{code-block} rust
 let sample = publisher.loan_uninit()?;
 
 let sample = sample.write_payload(Distance {
@@ -94,6 +301,7 @@ let sample = sample.write_payload(Distance {
 
 sample.send()?;
 ```
+````
 
 Whenever we acquire an uninitialized sample, we must write the payload to it and
 convert it into an initialized sample. This ensures we don’t accidentally ship
