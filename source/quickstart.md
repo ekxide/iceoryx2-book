@@ -2,7 +2,11 @@
 
 ## Jump into Code
 
-Itching to get straight into the code? Choose a language and dive in!
+Itching to get straight into coding with `iceoryx2`?
+The tutorial on [Wiring a Robot Brain](/tutorials/wiring-a-robot-brain/index)
+is a great starting point to see the code in action.
+
+Choose a language and get started right away:
 
 ````{grid} 1 1 2 3
 :gutter: 2
@@ -45,7 +49,8 @@ Itching to get straight into the code? Choose a language and dive in!
 
 ## Learn the Fundamentals
 
-Want to understand how everything fits together? Take a look at these articles:
+Interested in the theory behind the code? These articles are a good place to
+start:
 
 ````{grid} 1 1 2 3
 :gutter: 2

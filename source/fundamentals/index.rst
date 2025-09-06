@@ -1,8 +1,8 @@
 Fundamentals
 ============
 
-The fundamentals articles provide the essential theory, vocabulary and mental
-models necessary to effectively build systems using ``iceoryx2``.
+These articles cover the essential theory, vocabulary and mental
+models needed to effectively build systems using ``iceoryx2``.
 
 .. toctree::
    :maxdepth: 1
