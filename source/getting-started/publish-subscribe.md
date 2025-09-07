@@ -97,6 +97,13 @@ struct Distance {
     double distance_in_meters;
     float some_other_property;
 };
+
+inline auto operator<<(std::ostream& stream, const Distance& value) -> std::ostream& {
+    stream << "Distance { distance_in_meters: " << value.distance_in_meters
+    stream << ", some_other_property: " << value.some_other_property << " }";
+    return stream;
+}
+
 ```
 
 ```{code-block} python
@@ -107,11 +114,16 @@ class TransmissionData(ctypes.Structure):
         ("distance_in_meters", ctypes.c_double),
         ("some_other_property", ctypes.c_float),
     ]
+
+    def __str__(self) -> str:
+    return f"Distance {{ distance_in_meters: {self.distance_in_meters}, some_other_property: {self.some_other_property} }}"
+
+
 ```
 
 ```{code-block} rust
-#[derive(ZeroCopySend)]  // every payload must implement ZeroCopySend
-#[repr(C)]               // ensures identical layout across processes
+#[derive(Debug, ZeroCopySend)]  // every payload must implement ZeroCopySend
+#[repr(C)]                      // ensures identical layout across processes
 pub struct Distance {
     pub distance_in_meters: f64,
     pub some_other_property: f32,
@@ -308,14 +320,86 @@ convert it into an initialized sample. This ensures we don’t accidentally ship
 uninitialized garbage across processes. Once the payload is written, the sample
 is safe to send.
 
-[GitHub Publisher-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/publish_subscribe/publisher.rs)
-
 ## Subscriber
 
 The subscriber setup starts the same: create a node, open the
 `"distance_to_obstacle"` service, and specify the payload type.
 
-```rust
+````{tab-set-code}
+```{code-block} c
+#include "iox2/iceoryx2.h"
+
+// create new node
+iox2_node_builder_h node_builder_handle = iox2_node_builder_new(NULL);
+iox2_node_h node_handle = NULL;
+if (iox2_node_builder_create(node_builder_handle, NULL, iox2_service_type_e_IPC, &node_handle) != IOX2_OK) {
+    printf("Could not create node!\n");
+    exit(-1);
+}
+
+// create service name
+const char* service_name_value = "distance_to_obstacle";
+iox2_service_name_h service_name = NULL;
+if (iox2_service_name_new(NULL, service_name_value, strlen(service_name_value), &service_name) != IOX2_OK) {
+    printf("Unable to create service name!\n");
+    exit(-1);
+}
+
+// create service builder
+iox2_service_name_ptr service_name_ptr = iox2_cast_service_name_ptr(service_name);
+iox2_service_builder_h service_builder = iox2_node_service_builder(&node_handle, NULL, service_name_ptr);
+iox2_service_builder_pub_sub_h service_builder_pub_sub = iox2_service_builder_pub_sub(service_builder);
+
+// set pub sub payload type
+const char* payload_type_name = "Distance";
+if (iox2_service_builder_pub_sub_set_payload_type_details(&service_builder_pub_sub,
+                                                          iox2_type_variant_e_FIXED_SIZE,
+                                                          payload_type_name,
+                                                          strlen(payload_type_name),
+                                                          sizeof(struct Distance),
+                                                          alignof(struct Distance))
+    != IOX2_OK) {
+    printf("Unable to set type details\n");
+    exit(-1);
+}
+
+// create service
+iox2_port_factory_pub_sub_h service = NULL;
+if (iox2_service_builder_pub_sub_open_or_create(service_builder_pub_sub, NULL, &service) != IOX2_OK) {
+    printf("Unable to create service!\n");
+    exit(-1);
+}
+
+// do not forget to release the resources later
+iox2_port_factory_pub_sub_drop(service);
+iox2_service_name_drop(service_name);
+iox2_node_drop(node_handle);
+```
+
+```{code-block} c++
+#include "iox2/iceoryx2.hpp"
+
+auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
+
+auto service = node.service_builder(ServiceName::create("distance_to_obstacle").expect(""))
+                   .publish_subscribe<Distance>()
+                   .open_or_create()
+                   .expect("");
+```
+
+```{code-block} python
+import iceoryx2 as iox2
+
+node = iox2.NodeBuilder.new().create(iox2.ServiceType.Ipc)
+
+service = (
+    node.service_builder(iox2.ServiceName.new("distance_to_obstacle"))
+    .publish_subscribe(Distance)
+    .open_or_create()
+)
+```
+
+```{code-block} rust
 use iceoryx2::prelude::*;
 
 let node = NodeBuilder::new().create::<ipc::Service>()?;
@@ -325,25 +409,120 @@ let service = node
     .publish_subscribe::<Distance>()
     .open_or_create()?;
 ```
+````
 
 Now we create the subscriber side:
 
-```rust
+````{tab-set-code}
+```{code-block} c
+iox2_port_factory_subscriber_builder_h subscriber_builder =
+    iox2_port_factory_pub_sub_subscriber_builder(&service, NULL);
+iox2_subscriber_h subscriber = NULL;
+if (iox2_port_factory_subscriber_builder_create(subscriber_builder, NULL, &subscriber) != IOX2_OK) {
+    printf("Unable to create subscriber!\n");
+    exit(-1);
+}
+
+// do not forget to release the resources later
+iox2_subscriber_drop(subscriber);
+```
+
+```{code-block} c++
+auto subscriber = service.subscriber_builder().create().expect("");
+```
+
+```{code-block} python
+subscriber = service.subscriber_builder().create()
+```
+
+```{code-block} rust
 let subscriber = service.subscriber_builder().create()?;
 ```
+````
 
 Since the publisher sends updates every 100 ms, we loop at the same pace and
 check for new data. If we receive something, we print it:
 
-```rust
+````{tab-set-code}
+```{code-block} c
+while (iox2_node_wait(&node_handle, 0, 100) == IOX2_OK) {
+    // receive sample
+    iox2_sample_h sample = NULL;
+    if (iox2_subscriber_receive(&subscriber, NULL, &sample) != IOX2_OK) {
+        printf("Failed to receive sample\n");
+        exit(-1);
+    }
+
+    if (sample != NULL) {
+        struct Distance* payload = NULL;
+        iox2_sample_payload(&sample, (const void**) &payload, NULL);
+
+        printf("received: Distance { .distance_in_meters: %f, .some_other_property: %f }\n",
+               payload->distance_in_meters,
+               payload->some_other_property);
+        iox2_sample_drop(sample);
+    }
+}
+```
+
+```{code-block} c++
+while (node.wait(iox::units::Duration::fromMilliseconds(100)).has_value()) {
+    auto sample = subscriber.receive().expect("");
+    while (sample.has_value()) {
+        std::cout << "received distance: " << sample->payload() << std::endl;
+        sample = subscriber.receive().expect("");
+    }
+}
+```
+
+```{code-block} python
+try:
+    while True:
+        node.wait(iox2.Duration.from_millis(100))
+        while True:
+            sample = subscriber.receive()
+            if sample is not None:
+                data = sample.payload()
+                print("received distance:", data.contents)
+            else:
+                break
+
+except iox2.NodeWaitFailure:
+    print("exit")
+```
+
+```{code-block} rust
 while node.wait(Duration::from_millis(100)).is_ok() {
     while let Some(sample) = subscriber.receive()? {
         println!("received distance {:?}", sample.payload());
     }
 }
 ```
+````
 
 From here, reacting is easy: if the distance falls below a threshold, Larry can
 hit the emergency brake before smashing into a wall.
 
-[GitHub Subscriber-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/publish_subscribe/subscriber.rs)
+## Source Code
+
+````{tab-set}
+```{tab-item} C
+* [GitHub C Publisher-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/publish_subscribe/src/publisher.c)
+* [GitHub C Subscriber-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/publish_subscribe/src/subscriber.c)
+```
+
+```{tab-item} C++
+* [GitHub C++ Publisher-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/publish_subscribe/src/publisher.cpp)
+* [GitHub C++ Subscriber-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/publish_subscribe/src/subscriber.cpp)
+```
+
+```{tab-item} PYTHON
+* [GitHub Python Publisher-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/publish_subscribe/publisher.py)
+* [GitHub Python Subscriber-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/publish_subscribe/subscriber.py)
+```
+
+```{tab-item} RUST
+* [GitHub Rust Publisher-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/publish_subscribe/publisher.rs)
+* [GitHub Rust Subscriber-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/publish_subscribe/subscriber.rs)
+```
+````
