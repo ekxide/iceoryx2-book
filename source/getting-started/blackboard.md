@@ -131,9 +131,14 @@ the update interval now comes from the global configuration:
 
 ```rust
 while node.wait(Duration::from_millis(update_rate_handle.get())).is_ok() {
-    while let Some(sample) = subscriber.receive()? {
-        println!("received distance {:?}", sample.payload());
-    }
+    let sample = publisher.loan_uninit()?;
+
+    let sample = sample.write_payload(Distance {
+        distance_in_meters: get_ultra_sonic_sensor_distance(),
+        some_other_property: 42.0,
+    });
+
+    sample.send()?;
 }
 ```
 
