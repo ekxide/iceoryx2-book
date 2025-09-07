@@ -26,4 +26,3 @@ Think of it as putting Larry’s nervous system online—without the medical deg
    request-response
    blackboard
    iox2-debugging
-   health-monitoring

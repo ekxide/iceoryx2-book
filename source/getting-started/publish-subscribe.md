@@ -24,6 +24,32 @@ point (like a process or thread) and acts as a factory for services. To keep
 things sane when debugging later, we’ll give this node a name:
 
 ````{tab-set-code}
+```{code-block} rust
+use iceoryx2::prelude::*;
+
+let node = NodeBuilder::new()
+    .name(&"UltraSonicSensor".try_into()?)
+    .create::<ipc::Service>()?;
+```
+
+```{code-block} python
+import iceoryx2 as iox2
+
+node = (
+    iox2.NodeBuilder.new()
+    .name(iox2.NodeName.new("UltraSonicSensor"))
+    .create(iox2.ServiceType.Ipc)
+)
+```
+
+```{code-block} c++
+#include "iceoryx2.hpp"
+
+auto node = NodeBuilder()
+    .name(NodeName::create("UltraSonicSensor").expect("")
+    .create<ServiceType::Ipc>().expect("");
+```
+
 ```{code-block} c
 #include "iox2/iceoryx2.h"
 
@@ -48,32 +74,6 @@ if (iox2_node_builder_create(node_builder, NULL, iox2_service_type_e_IPC, &node)
 iox2_node_name_drop(node_name);
 iox2_node_drop(node);
 ```
-
-```{code-block} c++
-#include "iceoryx2.hpp"
-
-auto node = NodeBuilder()
-    .name(NodeName::create("UltraSonicSensor").expect("")
-    .create<ServiceType::Ipc>().expect("");
-```
-
-```{code-block} python
-import iceoryx2 as iox2
-
-node = (
-    iox2.NodeBuilder.new()
-    .name(iox2.NodeName.new("UltraSonicSensor"))
-    .create(iox2.ServiceType.Ipc)
-)
-```
-
-```{code-block} rust
-use iceoryx2::prelude::*;
-
-let node = NodeBuilder::new()
-    .name(&"UltraSonicSensor".try_into()?)
-    .create::<ipc::Service>()?;
-```
 ````
 
 Now we can create a service called `"distance_to_obstacle"`, using a struct
@@ -85,25 +85,13 @@ meaning:
 * identical memory representation in every process
 
 ````{tab-set-code}
-```{code-block} c
-struct Distance {
-    double distance_in_meters;
-    float some_other_property;
-};
-```
-
-```{code-block} c++
-struct Distance {
-    double distance_in_meters;
-    float some_other_property;
-};
-
-inline auto operator<<(std::ostream& stream, const Distance& value) -> std::ostream& {
-    stream << "Distance { distance_in_meters: " << value.distance_in_meters
-    stream << ", some_other_property: " << value.some_other_property << " }";
-    return stream;
+```{code-block} rust
+#[derive(Debug, ZeroCopySend)]  // every payload must implement ZeroCopySend
+#[repr(C)]                      // ensures identical layout across processes
+pub struct Distance {
+    pub distance_in_meters: f64,
+    pub some_other_property: f32,
 }
-
 ```
 
 ```{code-block} python
@@ -121,19 +109,52 @@ class TransmissionData(ctypes.Structure):
 
 ```
 
-```{code-block} rust
-#[derive(Debug, ZeroCopySend)]  // every payload must implement ZeroCopySend
-#[repr(C)]                      // ensures identical layout across processes
-pub struct Distance {
-    pub distance_in_meters: f64,
-    pub some_other_property: f32,
+```{code-block} c++
+struct Distance {
+    double distance_in_meters;
+    float some_other_property;
+};
+
+inline auto operator<<(std::ostream& stream, const Distance& value) -> std::ostream& {
+    stream << "Distance { distance_in_meters: " << value.distance_in_meters
+    stream << ", some_other_property: " << value.some_other_property << " }";
+    return stream;
 }
+```
+
+```{code-block} c
+struct Distance {
+    double distance_in_meters;
+    float some_other_property;
+};
 ```
 ````
 
 With the payload defined, we can set up the service:
 
 ````{tab-set-code}
+```{code-block} rust
+let service = node
+    .service_builder(&"distance_to_obstacle".try_into()?)
+    .publish_subscribe::<Distance>()
+    .open_or_create()?;
+```
+
+```{code-block} python
+service = (
+    node.service_builder(iox2.ServiceName.new("distance_to_obstacle"))
+    .publish_subscribe(Distance)
+    .open_or_create()
+)
+```
+
+```{code-block} c++
+auto service = node.service_builder(ServiceName::create("distance_to_obstacle").expect(""))
+                   .publish_subscribe<Distance>()
+                   .open_or_create()
+                   .expect("");
+```
+
 ```{code-block} c
 const char* service_name_value = "distance_to_obstacle";
 iox2_service_name_h service_name = NULL;
@@ -171,33 +192,23 @@ if (iox2_service_builder_pub_sub_open_or_create(service_builder_pub_sub, NULL, &
 iox2_service_name_drop(service_name);
 iox2_port_factory_pub_sub_drop(service);
 ```
-
-```{code-block} c++
-auto service = node.service_builder(ServiceName::create("distance_to_obstacle").expect(""))
-                   .publish_subscribe<Distance>()
-                   .open_or_create()
-                   .expect("");
-```
-
-```{code-block} python
-service = (
-    node.service_builder(iox2.ServiceName.new("distance_to_obstacle"))
-    .publish_subscribe(Distance)
-    .open_or_create()
-)
-```
-
-```{code-block} rust
-let service = node
-    .service_builder(&"distance_to_obstacle".try_into()?)
-    .publish_subscribe::<Distance>()
-    .open_or_create()?;
-```
 ````
 
 Now we create our publisher:
 
 ````{tab-set-code}
+```{code-block} rust
+let publisher = service.publisher_builder().create()?;
+```
+
+```{code-block} python
+publisher = service.publisher_builder().create()
+```
+
+```{code-block} c++
+auto publisher = service.publisher_builder().create().expect("");
+```
+
 ```{code-block} c
 iox2_port_factory_publisher_builder_h publisher_builder =
     iox2_port_factory_pub_sub_publisher_builder(&service, NULL);
@@ -210,32 +221,14 @@ if (iox2_port_factory_publisher_builder_create(publisher_builder, NULL, &publish
 // do not forget to release the resources later
 iox2_publisher_drop(publisher);
 ```
-
-```{code-block} c++
-auto publisher = service.publisher_builder().create().expect("");
-```
-
-```{code-block} python
-publisher = service.publisher_builder().create()
-```
-
-```{code-block} rust
-let publisher = service.publisher_builder().create()?;
-```
 ````
 
 Larry isn’t exactly Formula 1 material, so publishing every 100 ms is plenty. We
 set up a loop, wait 100 ms, read the sensor, and send the data:
 
 ````{tab-set-code}
-```{code-block} c
-while (iox2_node_wait(&node_handle, 0, 100) == IOX2_OK) {
-    // acquire sensor reading and send it
-}
-```
-
-```{code-block} c++
-while (node.wait(iox::units::Duration::fromMilliseconds(100)).has_value()) {
+```{code-block} rust
+while node.wait(Duration::from_millis(100)).is_ok() {
     // acquire sensor reading and send it
 }
 ```
@@ -250,8 +243,14 @@ except iox2.NodeWaitFailure:
     print("exit")
 ```
 
-```{code-block} rust
-while node.wait(Duration::from_millis(100)).is_ok() {
+```{code-block} c++
+while (node.wait(iox::units::Duration::fromMilliseconds(100)).has_value()) {
+    // acquire sensor reading and send it
+}
+```
+
+```{code-block} c
+while (iox2_node_wait(&node_handle, 0, 100) == IOX2_OK) {
     // acquire sensor reading and send it
 }
 ```
@@ -262,6 +261,37 @@ loan an uninitialized sample from the publisher’s memory pool, fill it, and th
 send it:
 
 ````{tab-set-code}
+```{code-block} rust
+let sample = publisher.loan_uninit()?;
+
+let sample = sample.write_payload(Distance {
+    distance_in_meters: get_ultra_sonic_sensor_distance(),
+    some_other_property: 42.0,
+});
+
+sample.send()?;
+```
+
+```{code-block} python
+sample = publisher.loan_uninit()
+
+sample = sample.write_payload(
+    d = get_ultra_sonic_sensor_distance()
+    Distance(distance_in_meters=d, some_other_property=42.0)
+)
+
+sample.send()
+```
+
+```{code-block} c++
+auto sample = publisher.loan_uninit().expect("");
+
+auto initialized_sample =
+  sample.write_payload(Distance { get_ultra_sonic_sensor_distance(), 42.0 });
+
+send(std::move(initialized_sample)).expect("");
+```
+
 ```{code-block} c
 // loan sample
 iox2_sample_mut_h sample = NULL;
@@ -282,37 +312,6 @@ if (iox2_sample_mut_send(sample, NULL) != IOX2_OK) {
     exit(-1);
 }
 ```
-
-```{code-block} c++
-auto sample = publisher.loan_uninit().expect("");
-
-auto initialized_sample =
-  sample.write_payload(Distance { get_ultra_sonic_sensor_distance(), 42.0 });
-
-send(std::move(initialized_sample)).expect("");
-```
-
-```{code-block} python
-sample = publisher.loan_uninit()
-
-sample = sample.write_payload(
-    d = get_ultra_sonic_sensor_distance()
-    Distance(distance_in_meters=d, some_other_property=42.0)
-)
-
-sample.send()
-```
-
-```{code-block} rust
-let sample = publisher.loan_uninit()?;
-
-let sample = sample.write_payload(Distance {
-    distance_in_meters: get_ultra_sonic_sensor_distance(),
-    some_other_property: 42.0,
-});
-
-sample.send()?;
-```
 ````
 
 Whenever we acquire an uninitialized sample, we must write the payload to it and
@@ -326,6 +325,40 @@ The subscriber setup starts the same: create a node, open the
 `"distance_to_obstacle"` service, and specify the payload type.
 
 ````{tab-set-code}
+```{code-block} rust
+use iceoryx2::prelude::*;
+
+let node = NodeBuilder::new().create::<ipc::Service>()?;
+
+let service = node
+    .service_builder(&"distance_to_obstacle".try_into()?)
+    .publish_subscribe::<Distance>()
+    .open_or_create()?;
+```
+
+```{code-block} python
+import iceoryx2 as iox2
+
+node = iox2.NodeBuilder.new().create(iox2.ServiceType.Ipc)
+
+service = (
+    node.service_builder(iox2.ServiceName.new("distance_to_obstacle"))
+    .publish_subscribe(Distance)
+    .open_or_create()
+)
+```
+
+```{code-block} c++
+#include "iox2/iceoryx2.hpp"
+
+auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
+
+auto service = node.service_builder(ServiceName::create("distance_to_obstacle").expect(""))
+                   .publish_subscribe<Distance>()
+                   .open_or_create()
+                   .expect("");
+```
+
 ```{code-block} c
 #include "iox2/iceoryx2.h"
 
@@ -375,45 +408,23 @@ iox2_port_factory_pub_sub_drop(service);
 iox2_service_name_drop(service_name);
 iox2_node_drop(node_handle);
 ```
-
-```{code-block} c++
-#include "iox2/iceoryx2.hpp"
-
-auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
-
-auto service = node.service_builder(ServiceName::create("distance_to_obstacle").expect(""))
-                   .publish_subscribe<Distance>()
-                   .open_or_create()
-                   .expect("");
-```
-
-```{code-block} python
-import iceoryx2 as iox2
-
-node = iox2.NodeBuilder.new().create(iox2.ServiceType.Ipc)
-
-service = (
-    node.service_builder(iox2.ServiceName.new("distance_to_obstacle"))
-    .publish_subscribe(Distance)
-    .open_or_create()
-)
-```
-
-```{code-block} rust
-use iceoryx2::prelude::*;
-
-let node = NodeBuilder::new().create::<ipc::Service>()?;
-
-let service = node
-    .service_builder(&"distance_to_obstacle".try_into()?)
-    .publish_subscribe::<Distance>()
-    .open_or_create()?;
-```
 ````
 
 Now we create the subscriber side:
 
 ````{tab-set-code}
+```{code-block} rust
+let subscriber = service.subscriber_builder().create()?;
+```
+
+```{code-block} python
+subscriber = service.subscriber_builder().create()
+```
+
+```{code-block} c++
+auto subscriber = service.subscriber_builder().create().expect("");
+```
+
 ```{code-block} c
 iox2_port_factory_subscriber_builder_h subscriber_builder =
     iox2_port_factory_pub_sub_subscriber_builder(&service, NULL);
@@ -426,51 +437,16 @@ if (iox2_port_factory_subscriber_builder_create(subscriber_builder, NULL, &subsc
 // do not forget to release the resources later
 iox2_subscriber_drop(subscriber);
 ```
-
-```{code-block} c++
-auto subscriber = service.subscriber_builder().create().expect("");
-```
-
-```{code-block} python
-subscriber = service.subscriber_builder().create()
-```
-
-```{code-block} rust
-let subscriber = service.subscriber_builder().create()?;
-```
 ````
 
 Since the publisher sends updates every 100 ms, we loop at the same pace and
 check for new data. If we receive something, we print it:
 
 ````{tab-set-code}
-```{code-block} c
-while (iox2_node_wait(&node_handle, 0, 100) == IOX2_OK) {
-    // receive sample
-    iox2_sample_h sample = NULL;
-    if (iox2_subscriber_receive(&subscriber, NULL, &sample) != IOX2_OK) {
-        printf("Failed to receive sample\n");
-        exit(-1);
-    }
-
-    if (sample != NULL) {
-        struct Distance* payload = NULL;
-        iox2_sample_payload(&sample, (const void**) &payload, NULL);
-
-        printf("received: Distance { .distance_in_meters: %f, .some_other_property: %f }\n",
-               payload->distance_in_meters,
-               payload->some_other_property);
-        iox2_sample_drop(sample);
-    }
-}
-```
-
-```{code-block} c++
-while (node.wait(iox::units::Duration::fromMilliseconds(100)).has_value()) {
-    auto sample = subscriber.receive().expect("");
-    while (sample.has_value()) {
-        std::cout << "received distance: " << sample->payload() << std::endl;
-        sample = subscriber.receive().expect("");
+```{code-block} rust
+while node.wait(Duration::from_millis(100)).is_ok() {
+    while let Some(sample) = subscriber.receive()? {
+        println!("received distance {:?}", sample.payload());
     }
 }
 ```
@@ -491,10 +467,33 @@ except iox2.NodeWaitFailure:
     print("exit")
 ```
 
-```{code-block} rust
-while node.wait(Duration::from_millis(100)).is_ok() {
-    while let Some(sample) = subscriber.receive()? {
-        println!("received distance {:?}", sample.payload());
+```{code-block} c++
+while (node.wait(iox::units::Duration::fromMilliseconds(100)).has_value()) {
+    auto sample = subscriber.receive().expect("");
+    while (sample.has_value()) {
+        std::cout << "received distance: " << sample->payload() << std::endl;
+        sample = subscriber.receive().expect("");
+    }
+}
+```
+
+```{code-block} c
+while (iox2_node_wait(&node_handle, 0, 100) == IOX2_OK) {
+    // receive sample
+    iox2_sample_h sample = NULL;
+    if (iox2_subscriber_receive(&subscriber, NULL, &sample) != IOX2_OK) {
+        printf("Failed to receive sample\n");
+        exit(-1);
+    }
+
+    if (sample != NULL) {
+        struct Distance* payload = NULL;
+        iox2_sample_payload(&sample, (const void**) &payload, NULL);
+
+        printf("received: Distance { .distance_in_meters: %f, .some_other_property: %f }\n",
+               payload->distance_in_meters,
+               payload->some_other_property);
+        iox2_sample_drop(sample);
     }
 }
 ```
@@ -506,14 +505,9 @@ hit the emergency brake before smashing into a wall.
 ## Source Code
 
 ````{tab-set}
-```{tab-item} C
-* [GitHub C Publisher-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/publish_subscribe/src/publisher.c)
-* [GitHub C Subscriber-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/publish_subscribe/src/subscriber.c)
-```
-
-```{tab-item} C++
-* [GitHub C++ Publisher-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/publish_subscribe/src/publisher.cpp)
-* [GitHub C++ Subscriber-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/publish_subscribe/src/subscriber.cpp)
+```{tab-item} RUST
+* [GitHub Rust Publisher-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/publish_subscribe/publisher.rs)
+* [GitHub Rust Subscriber-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/publish_subscribe/subscriber.rs)
 ```
 
 ```{tab-item} PYTHON
@@ -521,8 +515,13 @@ hit the emergency brake before smashing into a wall.
 * [GitHub Python Subscriber-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/publish_subscribe/subscriber.py)
 ```
 
-```{tab-item} RUST
-* [GitHub Rust Publisher-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/publish_subscribe/publisher.rs)
-* [GitHub Rust Subscriber-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/publish_subscribe/subscriber.rs)
+```{tab-item} C++
+* [GitHub C++ Publisher-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/publish_subscribe/src/publisher.cpp)
+* [GitHub C++ Subscriber-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/publish_subscribe/src/subscriber.cpp)
+```
+
+```{tab-item} C
+* [GitHub C Publisher-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/publish_subscribe/src/publisher.c)
+* [GitHub C Subscriber-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/publish_subscribe/src/subscriber.c)
 ```
 ````
