@@ -60,6 +60,8 @@ event = (
 ```{code-block} c++
 #include "iox2/iceoryx2.hpp"
 
+using namespace iox2;
+
 auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
 
 auto service = node.service_builder(ServiceName::create("system health events").expect(""))
@@ -236,6 +238,8 @@ let event_service = node
 ```
 
 ```{code-block} python
+import iceoryx2 as iox2
+
 node = iox2.NodeBuilder.new().create(iox2.ServiceType.Ipc)
 
 event = (
@@ -247,6 +251,10 @@ event = (
 ```
 
 ```{code-block} c++
+#include "iox2/iceoryx2.hpp"
+
+using namespace iox2;
+
 auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
 
 auto service = node.service_builder(ServiceName::create("system health events").expect(""))
@@ -256,6 +264,8 @@ auto service = node.service_builder(ServiceName::create("system health events").
 ```
 
 ```{code-block} c
+#include "iox2/iceoryx2.h"
+
 iox2_node_builder_h node_builder_handle = iox2_node_builder_new(NULL);
 iox2_node_h node_handle = NULL;
 if (iox2_node_builder_create(node_builder_handle, NULL, iox2_service_type_e_IPC, &node_handle) != IOX2_OK) {

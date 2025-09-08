@@ -45,6 +45,8 @@ node = (
 ```{code-block} c++
 #include "iceoryx2.hpp"
 
+using namespace iox2;
+
 auto node = NodeBuilder()
     .name(NodeName::create("UltraSonicSensor").expect("")
     .create<ServiceType::Ipc>().expect("");
@@ -350,6 +352,8 @@ service = (
 
 ```{code-block} c++
 #include "iox2/iceoryx2.hpp"
+
+using namespace iox2;
 
 auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
 

@@ -71,7 +71,7 @@ import iceoryx2 as iox2
 
 node = iox2.NodeBuilder.new().create(iox2.ServiceType.Ipc)
 
-service = (
+pubsub_service = (
     node.service_builder(iox2.ServiceName.new("distance_to_obstacle"))
     .publish_subscribe(Distance)
     .subscriber_max_buffer_size(3)
@@ -84,9 +84,11 @@ service = (
 ```{code-block} c++
 #include "iox2/iceoryx2.hpp"
 
+using namespace iox2;
+
 auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
 
-auto service = node.service_builder(ServiceName::create("distance_to_obstacle").expect(""))
+auto pubsub_service = node.service_builder(ServiceName::create("distance_to_obstacle").expect(""))
                    .publish_subscribe<Distance>()
                    .subscriber_max_buffer_size(3)
                    .history_size(3)
@@ -96,6 +98,57 @@ auto service = node.service_builder(ServiceName::create("distance_to_obstacle").
 ```
 
 ```{code-block} c
+#include "iox2/iceoryx2.h"
+
+// create new node
+iox2_node_builder_h node_builder_handle = iox2_node_builder_new(NULL);
+iox2_node_h node_handle = NULL;
+if (iox2_node_builder_create(node_builder_handle, NULL, iox2_service_type_e_IPC, &node_handle) != IOX2_OK) {
+    printf("Could not create node!\n");
+    exit(-1);
+}
+
+// create service name
+const char* service_name_value = "distance_to_obstacle";
+iox2_service_name_h service_name = NULL;
+if (iox2_service_name_new(NULL, service_name_value, strlen(service_name_value), &service_name) != IOX2_OK) {
+    printf("Unable to create service name!\n");
+    exit(-1);
+}
+
+// create service builder
+iox2_service_name_ptr service_name_ptr = iox2_cast_service_name_ptr(service_name);
+iox2_service_builder_h service_builder = iox2_node_service_builder(&node_handle, NULL, service_name_ptr);
+iox2_service_builder_pub_sub_h service_builder_pub_sub = iox2_service_builder_pub_sub(service_builder);
+
+// set pub sub payload type
+const char* payload_type_name = "Distance";
+if (iox2_service_builder_pub_sub_set_payload_type_details(&service_builder_pub_sub,
+                                                          iox2_type_variant_e_FIXED_SIZE,
+                                                          payload_type_name,
+                                                          strlen(payload_type_name),
+                                                          sizeof(struct TransmissionData),
+                                                          alignof(struct TransmissionData))
+    != IOX2_OK) {
+    printf("Unable to set type details\n");
+    exit(-1);
+}
+
+iox2_service_builder_pub_sub_set_subscriber_max_buffer_size(&service_builder_pub_sub, 3);
+iox2_service_builder_pub_sub_set_history_size(&service_builder_pub_sub, 3);
+iox2_service_builder_pub_sub_set_subscriber_max_borrowed_samples(&service_builder_pub_sub, 3);
+
+// create service
+iox2_port_factory_pub_sub_h pubsub_service = NULL;
+if (iox2_service_builder_pub_sub_open_or_create(service_builder_pub_sub, NULL, &pubsub_service) != IOX2_OK) {
+    printf("Unable to create service!\n");
+    exit(-1);
+}
+
+// do not forget to release the resources later
+iox2_port_factory_pub_sub_drop(pubsub_service);
+iox2_service_name_drop(service_name);
+iox2_node_drop(node_handle);
 ```
 ````
 
@@ -114,12 +167,41 @@ let event_service = node
 ```
 
 ```{code-block} python
+ultra_sonic_service_dead = iox2.EventId.new(10)
+event_service = (
+    node
+    .service_builder(iox2.ServiceName.new("distance_to_obstacle"))
+    .event()
+    .notifier_dead_event(ultra_sonic_service_dead)
+    .open_or_create()
+)
 ```
 
 ```{code-block} c++
+auto ultra_sonic_service_dead = EventId::new(10);
+auto event_service = node.service_builder(ServiceName::create("distance_to_obstacle").expect(""))
+                   .event()
+                   .notifier_dead_event(ultra_sonic_service_dead)
+                   .open_or_create()
+                   .expect("");
 ```
 
 ```{code-block} c
+size_t ultra_sonic_service_dead = 10;
+iox2_service_name_ptr service_name_ptr = iox2_cast_service_name_ptr(service_name);
+iox2_service_builder_h service_builder = iox2_node_service_builder(&node_handle, NULL, service_name_ptr);
+iox2_service_builder_event_h service_builder_event = iox2_service_builder_event(service_builder);
+
+iox2_service_builder_event_set_notifier_dead_event(&service_builder_event, ultra_sonic_service_dead);
+
+iox2_port_factory_event_h event_service = NULL;
+if (iox2_service_builder_event_open_or_create(service_builder_event, NULL, &event_service) != IOX2_OK) {
+    printf("Unable to create service!\n");
+    exit(-1)
+}
+
+// do not forget to release the resources later
+iox2_port_factory_event_drop(event_service);
 ```
 ````
 
@@ -135,12 +217,42 @@ let obstacle_too_close = EventId::new(5);
 ```
 
 ```{code-block} python
+publisher = pubsub_service.publisher_builder().create()
+notifier = event_service.notifier_builder().create()
+
+obstacle_too_close = iox2.EventId.new(5)
 ```
 
 ```{code-block} c++
+auto publisher = pubsub_service.publisher_builder().create().expect("");
+auto notifier = event_service.notifier_builder().create().expect("");
+
+auto obstacle_too_close = EventId(5);
 ```
 
 ```{code-block} c
+// create notifier
+iox2_port_factory_notifier_builder_h notifier_builder = iox2_port_factory_event_notifier_builder(&event_service, NULL);
+iox2_notifier_h notifier = NULL;
+if (iox2_port_factory_notifier_builder_create(notifier_builder, NULL, &notifier) != IOX2_OK) {
+    printf("Unable to create notifier!\n");
+    exit(-1);
+}
+
+// create publisher
+iox2_port_factory_publisher_builder_h publisher_builder =
+    iox2_port_factory_pub_sub_publisher_builder(&pubsub_service, NULL);
+iox2_publisher_h publisher = NULL;
+if (iox2_port_factory_publisher_builder_create(publisher_builder, NULL, &publisher) != IOX2_OK) {
+    printf("Unable to create publisher!\n");
+    exit(-1);
+}
+
+iox2_event_id_t obstacle_too_close = { .value = 5 };
+
+// do not forget to release the resources later
+iox2_publisher_drop(publisher);
+iox2_notifier_drop(notifier);
 ```
 ````
 
@@ -167,12 +279,69 @@ while node.wait(Duration::from_millis(100)).is_ok() {
 ```
 
 ```{code-block} python
+try:
+    while True:
+        node.wait(iox2.Duration.from_millis(100))
+
+        sample = publisher.loan_uninit()
+
+        distance = get_ultra_sonic_sensor_distance();
+        sample = sample.write_payload(
+            Distance(distance_in_meters: distance, some_other_property: 42.0)
+        )
+        sample.send()
+
+        if distance < distance_threshold:
+            notifier.notify_with_custom_event_id(obstacle_too_close)
+
+except iox2.NodeWaitFailure:
+    print("exit")
 ```
 
 ```{code-block} c++
+while (node.wait(iox::units:Duration::fromMilliseconds(100)).has_value()) {
+    auto sample = publisher.loan_uninit().expect("acquire sample");
+
+    auto distance = get_ultra_sonic_sensor_distance();
+    auto initialized_sample =
+        sample.write_payload(Distance { distance, 42.0 });
+
+    if (distance < distance_threshold) {
+        notifier.notify_with_custom_event_id(obstacle_too_close).expect("");
+    }
+}
 ```
 
 ```{code-block} c
+while (iox2_node_wait(&node_handle, 0, 100) == IOX2_OK) {
+    double distance = get_ultra_sonic_sensor_distance();
+
+    // loan sample
+    iox2_sample_mut_h sample = NULL;
+    if (iox2_publisher_loan_slice_uninit(&publisher, NULL, &sample, 1) != IOX2_OK) {
+        printf("Failed to loan sample\n");
+        exit(-1);
+    }
+
+    // write payload
+    struct Distance* payload = NULL;
+    iox2_sample_mut_payload_mut(&sample, (void**) &payload, NULL);
+    payload->distance_in_meters = distance;
+    payload->some_other_property = 42.0;
+
+    // send sample
+    if (iox2_sample_mut_send(sample, NULL) != IOX2_OK) {
+        printf("Failed to send sample\n");
+        exit(-1);
+    }
+
+    if (distance < distance_threshold) {
+        if (iox2_notifier_notify_with_custom_event_id(&notifier, &obstacle_too_close, NULL) != IOX2_OK) {
+            printf("Failed to notify listener!\n");
+            exit(-1);
+        }
+    }
+}
 ```
 ````
 
