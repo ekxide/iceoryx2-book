@@ -275,8 +275,8 @@ sample.send()?;
 ```{code-block} python
 sample = publisher.loan_uninit()
 
+d = get_ultra_sonic_sensor_distance()
 sample = sample.write_payload(
-    d = get_ultra_sonic_sensor_distance()
     Distance(distance_in_meters=d, some_other_property=42.0)
 )
 

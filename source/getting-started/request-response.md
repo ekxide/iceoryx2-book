@@ -91,7 +91,7 @@ In the event loop we poll every 100 ms and handle three cases:
 
 ```rust
 while node.wait(Duration::from_millis(100)).is_ok() {
-    while let Some(response) = pending_response.receive()? {
+    while let Some(position) = pending_response.receive()? {
         show_larry_position_in_app(position);
 
         if !pending_response.is_connected() {
