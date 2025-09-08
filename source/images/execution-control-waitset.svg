@@ -1,125 +1,125 @@
-<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <marker id="arrowhead" markerWidth="8" markerHeight="6" 
-     refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#6c7b7f" />
+    <marker id="arrowhead" markerWidth="6" markerHeight="4" 
+     refX="5" refY="2" orient="auto">
+      <polygon points="0 0, 6 2, 0 4" fill="#6c7b7f" />
     </marker>
-    <marker id="eventarrow" markerWidth="8" markerHeight="6" 
-     refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#9ca3af" />
+    <marker id="eventarrow" markerWidth="6" markerHeight="4" 
+     refX="5" refY="2" orient="auto">
+      <polygon points="0 0, 6 2, 0 4" fill="#9ca3af" />
     </marker>
-    <marker id="greenarrow" markerWidth="8" markerHeight="6" 
-     refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#6b7280" />
+    <marker id="greenarrow" markerWidth="6" markerHeight="4" 
+     refX="5" refY="2" orient="auto">
+      <polygon points="0 0, 6 2, 0 4" fill="#6b7280" />
     </marker>
-    <pattern id="waitPattern" patternUnits="userSpaceOnUse" width="4" height="4">
-      <circle cx="2" cy="2" r="1" fill="#9ca3af" opacity="0.3"/>
+    <pattern id="waitPattern" patternUnits="userSpaceOnUse" width="3" height="3">
+      <circle cx="1.5" cy="1.5" r="0.8" fill="#9ca3af" opacity="0.3"/>
     </pattern>
   </defs>
   
   <!-- Background -->
-  <rect width="800" height="500" fill="transparent"/>
+  <rect width="600" height="450" fill="transparent"/>
   
   <!-- Event Sources Column -->
   
   <!-- Timer -->
-  <rect x="70" y="100" width="100" height="50" fill="#e5e7eb" stroke="#6c7b7f" stroke-width="2" />
-  <text x="120" y="115" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">Interval Timer</text>
-  <text x="120" y="128" text-anchor="middle" font-size="8" fill="#374151">10ms interval</text>
-  <text x="120" y="142" text-anchor="middle" font-size="7" fill="#6b7280">TICK!</text>
+  <rect x="53" y="75" width="75" height="38" fill="#e5e7eb" stroke="#6c7b7f" stroke-width="2" />
+  <text x="90" y="89" text-anchor="middle" font-size="9" font-weight="bold" fill="#374151">Interval Timer</text>
+  <text x="90" y="99" text-anchor="middle" font-size="7" fill="#374151">10ms interval</text>
+  <text x="90" y="109" text-anchor="middle" font-size="6" fill="#6b7280">TICK!</text>
   
   <!-- Listener Port -->
-  <rect x="70" y="180" width="100" height="50" fill="#e5e7eb" stroke="#6c7b7f" stroke-width="2" />
-  <text x="120" y="195" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">Listener Port</text>
-  <text x="120" y="208" text-anchor="middle" font-size="8" fill="#374151">Service: /sensors</text>
-  <rect x="95" y="215" width="50" height="8" fill="#6b7280"/>
-  <text x="120" y="221" text-anchor="middle" font-size="7" fill="white">NEW DATA</text>
+  <rect x="53" y="135" width="75" height="38" fill="#e5e7eb" stroke="#6c7b7f" stroke-width="2" />
+  <text x="90" y="149" text-anchor="middle" font-size="9" font-weight="bold" fill="#374151">Listener Port</text>
+  <text x="90" y="159" text-anchor="middle" font-size="7" fill="#374151">Service: /sensors</text>
+  <rect x="71" y="163" width="38" height="6" fill="#6b7280"/>
+  <text x="90" y="168" text-anchor="middle" font-size="6" fill="white">NEW DATA</text>
   
   <!-- File Descriptor -->
-  <rect x="70" y="260" width="100" height="50" fill="#f3f4f6" stroke="#9ca3af" stroke-width="2"/>
-  <text x="120" y="275" text-anchor="middle" font-size="10" fill="#9ca3af">File Descriptor</text>
-  <text x="120" y="288" text-anchor="middle" font-size="8" fill="#9ca3af">Socket fd: 7</text>
-  <text x="120" y="300" text-anchor="middle" font-size="7" fill="#9ca3af">waiting...</text>
+  <rect x="53" y="195" width="75" height="38" fill="#f3f4f6" stroke="#9ca3af" stroke-width="2"/>
+  <text x="90" y="209" text-anchor="middle" font-size="9" fill="#9ca3af">File Descriptor</text>
+  <text x="90" y="219" text-anchor="middle" font-size="7" fill="#9ca3af">Socket fd: 7</text>
+  <text x="90" y="228" text-anchor="middle" font-size="6" fill="#9ca3af">waiting...</text>
   
   <!-- Deadline Timer -->
-  <rect x="70" y="340" width="100" height="50" fill="#f3f4f6" stroke="#9ca3af" stroke-width="2"/>
-  <text x="120" y="355" text-anchor="middle" font-size="10" fill="#9ca3af">Deadline Timer</text>
-  <text x="120" y="368" text-anchor="middle" font-size="8" fill="#9ca3af">Timeout: 500ms</text>
-  <text x="120" y="380" text-anchor="middle" font-size="7" fill="#9ca3af">not elapsed</text>
+  <rect x="53" y="255" width="75" height="38" fill="#f3f4f6" stroke="#9ca3af" stroke-width="2"/>
+  <text x="90" y="269" text-anchor="middle" font-size="9" fill="#9ca3af">Deadline Timer</text>
+  <text x="90" y="279" text-anchor="middle" font-size="7" fill="#9ca3af">Timeout: 500ms</text>
+  <text x="90" y="288" text-anchor="middle" font-size="6" fill="#9ca3af">not elapsed</text>
   
   <!-- Waitset Core -->
-  <rect x="280" y="150" width="240" height="220" fill="#4b5563" stroke="#374151" stroke-width="2" />
-  <text x="400" y="175" text-anchor="middle" font-size="14" font-weight="bold" fill="white">Waitset</text>
+  <rect x="210" y="113" width="180" height="165" fill="#4b5563" stroke="#374151" stroke-width="2" />
+  <text x="300" y="132" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Waitset</text>
   
   <!-- Event queue inside Waitset -->
-  <rect x="295" y="190" width="210" height="70" fill="rgba(255,255,255,0.2)" stroke="white" stroke-width="1"/>
-  <text x="400" y="205" text-anchor="middle" font-size="9" fill="white">Event Queue</text>
+  <rect x="221" y="143" width="158" height="53" fill="rgba(255,255,255,0.2)" stroke="white" stroke-width="1"/>
+  <text x="300" y="155" text-anchor="middle" font-size="8" fill="white">Event Queue</text>
   
   <!-- Queued events -->
-  <rect x="305" y="215" width="50" height="15" fill="#6b7280" stroke="#6c7b7f" stroke-width="1"/>
-  <text x="330" y="225" text-anchor="middle" font-size="7" fill="white">Timer Event</text>
+  <rect x="229" y="162" width="38" height="11" fill="#6b7280" stroke="#6c7b7f" stroke-width="1"/>
+  <text x="248" y="169" text-anchor="middle" font-size="6" fill="white">Timer Event</text>
   
-  <rect x="365" y="215" width="50" height="15" fill="#6b7280" stroke="#6c7b7f" stroke-width="1"/>
-  <text x="390" y="225" text-anchor="middle" font-size="7" fill="white">Data Event</text>
+  <rect x="274" y="162" width="38" height="11" fill="#6b7280" stroke="#6c7b7f" stroke-width="1"/>
+  <text x="293" y="169" text-anchor="middle" font-size="6" fill="white">Data Event</text>
   
-  <rect x="425" y="215" width="70" height="15" fill="url(#waitPattern)" stroke="#9ca3af" stroke-width="1" stroke-dasharray="2,2"/>
-  <text x="460" y="225" text-anchor="middle" font-size="7" fill="white">empty slots...</text>
+  <rect x="319" y="162" width="53" height="11" fill="url(#waitPattern)" stroke="#9ca3af" stroke-width="1" stroke-dasharray="2,2"/>
+  <text x="345" y="169" text-anchor="middle" font-size="6" fill="white">empty slots...</text>
   
-  <rect x="305" y="238" width="190" height="15" fill="url(#waitPattern)" stroke="#9ca3af" stroke-width="1" stroke-dasharray="2,2"/>
-  <text x="400" y="248" text-anchor="middle" font-size="7" fill="white">...</text>
+  <rect x="229" y="179" width="143" height="11" fill="url(#waitPattern)" stroke="#9ca3af" stroke-width="1" stroke-dasharray="2,2"/>
+  <text x="300" y="186" text-anchor="middle" font-size="6" fill="white">...</text>
   
   <!-- Multiplexing mechanisms inside Waitset -->
   
   <!-- Row 1 of multiplexers -->
-  <rect x="295" y="275" width="50" height="25" fill="#9ca3af" stroke="#6c7b7f"/>
-  <text x="320" y="289" text-anchor="middle" font-size="8" fill="white">select</text>
+  <rect x="221" y="207" width="38" height="19" fill="#9ca3af" stroke="#6c7b7f"/>
+  <text x="240" y="218" text-anchor="middle" font-size="7" fill="white">select</text>
   
-  <rect x="355" y="275" width="50" height="25" fill="#9ca3af" stroke="#6c7b7f"/>
-  <text x="380" y="289" text-anchor="middle" font-size="8" fill="white">epoll</text>
+  <rect x="266" y="207" width="38" height="19" fill="#9ca3af" stroke="#6c7b7f"/>
+  <text x="285" y="218" text-anchor="middle" font-size="7" fill="white">epoll</text>
   
-  <rect x="415" y="275" width="40" height="25" fill="#9ca3af" stroke="#6c7b7f"/>
-  <text x="435" y="289" text-anchor="middle" font-size="8" fill="white">poll</text>
+  <rect x="311" y="207" width="30" height="19" fill="#9ca3af" stroke="#6c7b7f"/>
+  <text x="326" y="218" text-anchor="middle" font-size="7" fill="white">poll</text>
   
-  <rect x="465" y="275" width="35" height="25" fill="#9ca3af" stroke="#6c7b7f"/>
-  <text x="482" y="289" text-anchor="middle" font-size="8" fill="white">...</text>
+  <rect x="348" y="207" width="26" height="19" fill="#9ca3af" stroke="#6c7b7f"/>
+  <text x="361" y="218" text-anchor="middle" font-size="7" fill="white">...</text>
   
   <!-- Row 2 of multiplexers -->
-  <rect x="295" y="310" width="60" height="25" fill="#9ca3af" stroke="#6c7b7f"/>
-  <text x="325" y="324" text-anchor="middle" font-size="8" fill="white">WSAPoll</text>
+  <rect x="221" y="233" width="45" height="19" fill="#9ca3af" stroke="#6c7b7f"/>
+  <text x="244" y="244" text-anchor="middle" font-size="7" fill="white">WSAPoll</text>
   
-  <rect x="365" y="310" width="60" height="25" fill="#9ca3af" stroke="#6c7b7f"/>
-  <text x="395" y="324" text-anchor="middle" font-size="8" fill="white">inotify</text>
+  <rect x="274" y="233" width="45" height="19" fill="#9ca3af" stroke="#6c7b7f"/>
+  <text x="297" y="244" text-anchor="middle" font-size="7" fill="white">inotify</text>
   
-  <rect x="435" y="310" width="60" height="25" fill="#9ca3af" stroke="#6c7b7f"/>
-  <text x="465" y="324" text-anchor="middle" font-size="8" fill="white">knotify</text>
+  <rect x="326" y="233" width="45" height="19" fill="#9ca3af" stroke="#6c7b7f"/>
+  <text x="349" y="244" text-anchor="middle" font-size="7" fill="white">knotify</text>
   
   <!-- Thread Pipeline -->
   
   <!-- Sleep State -->
-  <circle cx="650" cy="225" r="22" fill="url(#waitPattern)" stroke="#9ca3af" stroke-width="2" stroke-dasharray="5,5"/>
-  <text x="650" y="230" text-anchor="middle" font-size="9" font-weight="bold" fill="#9ca3af">SLEEP</text>
+  <circle cx="488" cy="169" r="17" fill="url(#waitPattern)" stroke="#9ca3af" stroke-width="2" stroke-dasharray="4,4"/>
+  <text x="488" y="173" text-anchor="middle" font-size="8" font-weight="bold" fill="#9ca3af">SLEEP</text>
   
   <!-- Wake-up arrow -->
-  <line x1="650" y1="247" x2="650" y2="273" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="488" y1="186" x2="488" y2="205" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)"/>
   
   <!-- Process State -->
-  <circle cx="650" cy="300" r="28" fill="#374151" stroke="#6c7b7f" stroke-width="2"/>
-  <text x="650" y="303" text-anchor="middle" font-size="9" font-weight="bold" fill="white">PROCESS</text>
-  <text x="650" y="312" text-anchor="middle" font-size="7" fill="white">Handle Events</text>
+  <circle cx="488" cy="225" r="21" fill="#374151" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="488" y="227" text-anchor="middle" font-size="8" font-weight="bold" fill="white">PROCESS</text>
+  <text x="488" y="236" text-anchor="middle" font-size="6" fill="white">Handle Events</text>
   
   <!-- Rounded loop back arrow -->
-  <path d="M 678 300 Q 720 300 720 262 Q 720 225 678 225" fill="none" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="3,3"/>
-  <text x="780" y="225" text-anchor="middle" font-size="8" fill="#6c7b7f" transform="rotate(90 740 217)">loop</text>
+  <path d="M 509 225 Q 540 225 540 197 Q 540 169 509 169" fill="none" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="3,3"/>
+  <text x="585" y="169" text-anchor="middle" font-size="7" fill="#6c7b7f" transform="rotate(90 555 164)">loop</text>
   
   <!-- Event flow arrows -->
-  <line x1="170" y1="125" x2="278" y2="200" stroke="#9ca3af" stroke-width="2" marker-end="url(#eventarrow)"/>
-  <text x="215" y="150" font-size="8" fill="#6b7280">event</text>
+  <line x1="128" y1="94" x2="208" y2="150" stroke="#9ca3af" stroke-width="2" marker-end="url(#eventarrow)"/>
+  <text x="162" y="110" font-size="7" fill="#6b7280">event</text>
   
-  <line x1="170" y1="205" x2="278" y2="225" stroke="#9ca3af" stroke-width="2" marker-end="url(#eventarrow)"/>
-  <text x="215" y="210" font-size="8" fill="#6b7280">event</text>
+  <line x1="128" y1="154" x2="208" y2="169" stroke="#9ca3af" stroke-width="2" marker-end="url(#eventarrow)"/>
+  <text x="162" y="155" font-size="7" fill="#6b7280">event</text>
   
   <!-- Wake signal from waitset to pipeline -->
-  <line x1="521" y1="225" x2="625" y2="225" stroke="#6b7280" stroke-width="2" marker-end="url(#greenarrow)"/>
-  <text x="575" y="210" text-anchor="middle" font-size="9" fill="#6b7280">wake up</text>
+  <line x1="391" y1="169" x2="469" y2="169" stroke="#6b7280" stroke-width="2" marker-end="url(#greenarrow)"/>
+  <text x="431" y="158" text-anchor="middle" font-size="8" fill="#6b7280">wake up</text>
   
 </svg>
