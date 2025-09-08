@@ -3,8 +3,8 @@
 Before jumping into the example, we need to clarify the difference between
 **data flow** and **control flow**.
 
-In programming, control flow is about *when* a function executes, while data
-flow is about *what inputs* it receives. In iceoryx2 these two concepts are
+In programming, control flow is about _when_ a function executes, while data
+flow is about _what inputs_ it receives. In iceoryx2 these two concepts are
 separated on purpose, unlike in many network protocols where receiving data
 automatically involves a syscall that wakes up the process.
 
@@ -16,7 +16,7 @@ arguments, and you don’t want to be interrupted until all of them have arrived
 Mixing data and control flow forces you into hacks like sending empty messages
 or waking up too early.
 
-By keeping them separate, iceoryx2 gives you explicit control over *when* your
+By keeping them separate, iceoryx2 gives you explicit control over _when_ your
 system reacts.
 
 ## Why It Matters
@@ -50,7 +50,8 @@ configure both the subscriber buffer and history size accordingly. The
 subscriber also needs to hold on to/borrow three samples in parallel to compute
 position, speed, and acceleration.
 
-```rust
+````{tab-set-code}
+```{code-block} rust
 use iceoryx2::prelude::*;
 
 let node = NodeBuilder::new()
@@ -65,11 +66,45 @@ let pubsub_service = node
     .open_or_create()?;
 ```
 
+```{code-block} python
+import iceoryx2 as iox2
+
+node = iox2.NodeBuilder.new().create(iox2.ServiceType.Ipc)
+
+service = (
+    node.service_builder(iox2.ServiceName.new("distance_to_obstacle"))
+    .publish_subscribe(Distance)
+    .subscriber_max_buffer_size(3)
+    .history_size(3)
+    .subscriber_max_borrowed_samples(3)
+    .open_or_create()
+)
+```
+
+```{code-block} c++
+#include "iox2/iceoryx2.hpp"
+
+auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
+
+auto service = node.service_builder(ServiceName::create("distance_to_obstacle").expect(""))
+                   .publish_subscribe<Distance>()
+                   .subscriber_max_buffer_size(3)
+                   .history_size(3)
+                   .subscriber_max_borrowed_samples(3)
+                   .open_or_create()
+                   .expect("");
+```
+
+```{code-block} c
+```
+````
+
 For the event service, we configure a special event that fires if the sensor
 process is identified as dead, allowing the emergency brake to switch to a safe
 state.
 
-```rust
+````{tab-set-code}
+```{code-block} rust
 let ultra_sonic_service_dead = EventId::new(10);
 let event_service = node
     .service_builder(&"distance_to_obstacle".try_into()?)
@@ -78,20 +113,42 @@ let event_service = node
     .open_or_create()?;
 ```
 
+```{code-block} python
+```
+
+```{code-block} c++
+```
+
+```{code-block} c
+```
+````
+
 Now we create a publisher for the distance samples and a notifier for control
 events.
 
-```rust
+````{tab-set-code}
+```{code-block} rust
 let publisher = pubsub_service.publisher_builder().create()?;
 let notifier = event_service.notifier_builder().create()?;
 
 let obstacle_too_close = EventId::new(5);
 ```
 
+```{code-block} python
+```
+
+```{code-block} c++
+```
+
+```{code-block} c
+```
+````
+
 The publishing loop: send the distance sample every 100 ms, and trigger an event
 if it’s below the threshold.
 
-```rust
+````{tab-set-code}
+```{code-block} rust
 while node.wait(Duration::from_millis(100)).is_ok() {
     let sample = publisher.loan_uninit()?;
 
@@ -109,13 +166,22 @@ while node.wait(Duration::from_millis(100)).is_ok() {
 }
 ```
 
-[GitHub Event-Driven Publisher Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/event_based_communication/publisher.rs)
+```{code-block} python
+```
+
+```{code-block} c++
+```
+
+```{code-block} c
+```
+````
 
 ## Subscriber Setup
 
 On the other side, we again create both services and their ports:
 
-```rust
+````{tab-set-code}
+```{code-block} rust
 use iceoryx2::prelude::*;
 
 let node = NodeBuilder::new()
@@ -139,10 +205,21 @@ let subscriber = pubsub_service.subscriber_builder().create()?;
 let listener = event_service.listener_builder().create()?;
 ```
 
+```{code-block} python
+```
+
+```{code-block} c++
+```
+
+```{code-block} c
+```
+````
+
 Instead of polling every 100 ms, the subscriber just waits for events. When
 woken up, it processes them and goes back to sleep.
 
-```rust
+````{tab-set-code}
+```{code-block} rust
 while listener.blocking_wait_all(|event_id| {
     if event_id == ultra_sonic_service_dead {
         go_into_parking_position();
@@ -161,10 +238,42 @@ while listener.blocking_wait_all(|event_id| {
 }).is_ok() {}
 ```
 
-[GitHub Event-Driven Subscriber Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/event_based_communication/subscriber.rs)
+```{code-block} python
+```
+
+```{code-block} c++
+```
+
+```{code-block} c
+```
+````
 
 ## Health Monitoring
 
 The notifier’s “dead event” relies on health monitoring: iceoryx2 offers
 building blocks to detects when a process dies. How this works in detail is
 covered in a separate tutorial.
+
+## Source Code
+
+````{tab-set}
+```{tab-item} RUST
+* [GitHub Rust Publisher Event-Based-Communication-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/event_based_communication/publisher.rs)
+* [GitHub Rust Subscriber Event-Based-Communication-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/event_based_communication/subscriber.rs)
+```
+
+```{tab-item} PYTHON
+The functionality is fully available in Python, but no example has been written
+yet. Feel free to create a pull request and contribute one.
+```
+
+```{tab-item} C++
+* [GitHub C++ Publisher Event-Based-Communication-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/event_based_communication/src/publisher.cpp)
+* [GitHub C++ Subscriber Event-Based-Communication-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/event_based_communication/src/subscriber.cpp)
+```
+
+```{tab-item} C
+The functionality is fully available in C, but no example has been written
+yet. Feel free to create a pull request and contribute one.
+```
+````
