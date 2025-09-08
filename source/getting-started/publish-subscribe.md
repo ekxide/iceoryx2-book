@@ -5,7 +5,7 @@ distance measured by his ultrasonic sensor to another process that can slam the
 brakes if an obstacle gets closer than X meters.
 
 In iceoryx2, that’s a perfect job for the **publish–subscribe** pattern: one
-process publishes a stream of distances, another subscribes and reacts.
+participant publishes a stream of distances, another subscribes and reacts.
 
 ```lua
 +--------------------+           +-------------------+
@@ -318,8 +318,8 @@ if (iox2_sample_mut_send(sample, NULL) != IOX2_OK) {
 
 Whenever we acquire an uninitialized sample, we must write the payload to it and
 convert it into an initialized sample. This ensures we don’t accidentally ship
-uninitialized garbage across processes. Once the payload is written, the sample
-is safe to send.
+uninitialized garbage across participants. Once the payload is written, the
+sample is safe to send.
 
 ## Subscriber
 

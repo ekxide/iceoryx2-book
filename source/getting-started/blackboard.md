@@ -39,9 +39,9 @@ let node = NodeBuilder::new().create::<ipc::Service>()?;
 
 With the blackboard pattern, all key-value pairs must be defined when the
 service is created. Unlike publish-subscribe, you cannot announce a key without
-providing a value. That means exactly one process is responsible for creating
-the service and initializing default values. All other processes simply open the
-service later.
+providing a value. That means exactly one participant is responsible for
+creating the service and initializing default values. All other participants
+simply open the service later.
 
 We now create a blackboard with two settings:
 

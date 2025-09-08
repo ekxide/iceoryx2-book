@@ -8,8 +8,8 @@ two more sensors:
 * A **bump sensor** that tattles when Larry walks into a wall.
 
 This is where the event messaging pattern comes in. Instead of streaming values,
-a process can send a one-off notification through a notifier port to another
-process that is sleeping on a listener port. The listener wakes up only when
+a participant can send a one-off notification through a notifier port to another
+participant that is sleeping on a listener port. The listener wakes up only when
 something worth caring about happens.
 
 In our case: low battery or wall collision. The health monitor reacts by
@@ -222,7 +222,7 @@ while (iox2_node_wait(&node_handle, 1, 0) == IOX2_OK) {
 
 ## Listener
 
-On the other side, the listener is the process waiting for the health events.
+On the other side, the listener is the participant waiting for the health events.
 First,  create the node and open the event service:
 
 ````{tab-set-code}
@@ -326,8 +326,8 @@ iox2_listener_drop(listener);
 ```
 ````
 
-This process doesn’t need to poll. It just blocks until an event arrives, then
-checks which one it was:
+This participant doesn’t need to poll. It just blocks until an event arrives,
+then checks which one it was:
 
 ````{tab-set-code}
 ```{code-block} rust

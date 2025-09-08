@@ -6,7 +6,7 @@ Before jumping into the example, we need to clarify the difference between
 In programming, control flow is about _when_ a function executes, while data
 flow is about _what inputs_ it receives. In iceoryx2 these two concepts are
 separated on purpose, unlike in many network protocols where receiving data
-automatically involves a syscall that wakes up the process.
+automatically involves a syscall that wakes up the participant.
 
 Messaging patterns like publish–subscribe and request–response define the data
 flow. The event messaging pattern handles control flow. Why split them? Because
