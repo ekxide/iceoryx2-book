@@ -39,14 +39,18 @@ and responses. The following structures are involved:
 1. **Payload segment**
     * A region in shared memory used to communicate payload data between
       participants
+        * The request and response payload structures are often
+          different  
     * Clients have a payload segment to share requests with servers
     * Servers have a payload segment to share responses with clients
     * The organization of memory in the payload segment depends on the
       allocator used in the `iceoryx2` deployment
-    * Deployments for desktop applications may prefer a different strategy to
-      safety-critical applications
+        * This flexibility allows different deployments (e.g. desktop
+          applications vs. safety-critical applications) to utilize a
+          different strategy appropriate to their use-case
 1. **Offset Channel**
-    * A channel for communicating the offsets of payloads between participants
+    * A channel for communicating the offsets of payloads within the payload
+      segment
     * Each client-server pair has one offset channel for requests and one
       offset channel for responses
 

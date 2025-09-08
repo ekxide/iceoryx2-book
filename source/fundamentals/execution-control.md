@@ -1,7 +1,7 @@
 # Execution Control
 
-Developers have complete control over the execution of their applications with
-`iceoryx2`.
+With `iceoryx2`, developers have complete control over the execution of their
+applications.
 
 There are no background threads; all house-keeping operations are carried out
 in the application threads. They occur either through usual interaction with

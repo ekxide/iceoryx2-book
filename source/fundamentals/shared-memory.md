@@ -43,8 +43,10 @@ conditions, data corruption, performance degradation, or even system deadlock.
 battle-tested **lock-free algorithms** originating from classic `iceoryx`,
 mitigating the risk of deadlock.
 
-For safety-critical contexts, **wait-free alternatives** can be easily
-substituted in to facilitate deterministic execution.
+In the vast majority of use-cases, lock-free algorithms are sufficient.
+However, for applications with extreme safety constraints,
+**wait-free alternatives** can be easily substituted in. These variants are
+not available open-source.
 
 ## Zero-copy
 
@@ -81,6 +83,11 @@ payload and copying between user buffers and network stack buffers. This ends
 up requiring multiple times more memory than the actual payload size and
 costing more computing power. This increases in proportion to the number of
 participants.
+
+Furthermore, while shared memory only interacts with the kernel during
+creation, mapping, or deletion, communicating over mechanisms such as
+the network stack often involves multiple kernel interactions during the
+communication, which results in more overhead and thus communication latency.
 
 Zero-copy communication significantly reduces both memory usage and processing
 overhead, improving performance especially for large data transfers.

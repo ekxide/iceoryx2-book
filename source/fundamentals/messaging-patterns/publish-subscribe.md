@@ -20,8 +20,8 @@ to multiple participants. The zero-copy capability enables essentially
 constant latency regardless of payload size.
 
 The pattern is not optimal for cases where data must be kept available to
-participants indefinitely [blackboard](
-/fundamentals/messaging-patterns/blackboard) or when two-way communication is
+participants indefinitely ([blackboard](
+/fundamentals/messaging-patterns/blackboard)) or when two-way communication is
 required ([request-response](
 /fundamentals/messaging-patterns/request-response)).
 
@@ -44,10 +44,12 @@ shared memory. The following structures are involved:
     * Publishers have a payload segment to share samples with subscribers
     * The organization of memory in the payload segment depends on the
       allocator used in the `iceoryx2` deployment
-    * Deployments for desktop applications may prefer a different strategy to
-      safety-critical applications
+        * This flexibility allows different deployments (e.g. desktop
+          applications vs. safety-critical applications) to utilize a
+          different strategy appropriate to their use-case
 1. **Offset Channel**
-    * A channel for communicating the offsets of payloads between participants
+    * A channel for communicating the offsets of payloads within the payload
+      segment
     * Each publisher-subscriber pair has their own offset channel
 
 ## Further Reading
