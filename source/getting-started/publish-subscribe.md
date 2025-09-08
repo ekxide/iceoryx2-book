@@ -252,7 +252,7 @@ while (node.wait(iox::units::Duration::fromMilliseconds(100)).has_value()) {
 ```
 
 ```{code-block} c
-while (iox2_node_wait(&node_handle, 0, 100) == IOX2_OK) {
+while (iox2_node_wait(&node_handle, 0, 10000000) == IOX2_OK) {
     // acquire sensor reading and send it
 }
 ```
@@ -482,7 +482,7 @@ while (node.wait(iox::units::Duration::fromMilliseconds(100)).has_value()) {
 ```
 
 ```{code-block} c
-while (iox2_node_wait(&node_handle, 0, 100) == IOX2_OK) {
+while (iox2_node_wait(&node_handle, 0, 10000000) == IOX2_OK) {
     // receive sample
     iox2_sample_h sample = NULL;
     if (iox2_subscriber_receive(&subscriber, NULL, &sample) != IOX2_OK) {
