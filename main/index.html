@@ -3,15 +3,15 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Quickstart" href="quickstart.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
-        <title>the iceoryx2 book</title>
+        <title>The iceoryx2 Book</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="_static/css/version-picker.css?v=88e46aaf" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=40c8bed2" />
     
     
 
@@ -20,18 +20,81 @@
   body {
     --color-code-background: #f2f2f2;
   --color-code-foreground: #1e1e1e;
+  --color-brand-primary: #6c7b7f;
+  --color-brand-content: #6c7b7f;
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f9fafb;
+  --color-background-hover: #f3f4f6;
+  --color-background-border: #e5e7eb;
+  --color-foreground-primary: #1f2937;
+  --color-foreground-secondary: #6b7280;
+  --color-foreground-muted: #9ca3af;
+  --color-foreground-border: #e5e7eb;
+  --color-code-background: #f3f4f6;
+  --color-code-foreground: #1f2937;
+  --color-link: #6c7b7f;
+  --color-link-underline: #6c7b7f;
+  --color-link-underline--hover: #4b5563;
+  --color-sidebar-background: #f9fafb;
+  --color-sidebar-background-border: #e5e7eb;
+  --color-sidebar-item-background--hover: #f3f4f6;
+  --color-sidebar-link-text: #4b5563;
+  --color-sidebar-link-text--top-level: #1f2937;
+  --color-sidebar-caption-text: #6b7280;
   
   }
   @media not print {
     body[data-theme="dark"] {
       --color-code-background: #2b2b2b;
   --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #9ca3af;
+  --color-brand-content: #9ca3af;
+  --color-background-primary: #1C1D1F;
+  --color-background-secondary: #252628;
+  --color-background-hover: #2a2c2f;
+  --color-background-border: #38393b;
+  --color-foreground-primary: #d2dbde;
+  --color-foreground-secondary: #859399;
+  --color-foreground-muted: #859399;
+  --color-foreground-border: #38393b;
+  --color-code-background: #2a2c2f;
+  --color-code-foreground: #d2dbde;
+  --color-link: #9ca3af;
+  --color-link-underline: #9ca3af;
+  --color-link-underline--hover: #d1d5db;
+  --color-sidebar-background: #252628;
+  --color-sidebar-background-border: #38393b;
+  --color-sidebar-item-background--hover: #2a2c2f;
+  --color-sidebar-link-text: #d2dbde;
+  --color-sidebar-link-text--top-level: #ffffff;
+  --color-sidebar-caption-text: #859399;
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
         --color-code-background: #2b2b2b;
   --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #9ca3af;
+  --color-brand-content: #9ca3af;
+  --color-background-primary: #1C1D1F;
+  --color-background-secondary: #252628;
+  --color-background-hover: #2a2c2f;
+  --color-background-border: #38393b;
+  --color-foreground-primary: #d2dbde;
+  --color-foreground-secondary: #859399;
+  --color-foreground-muted: #859399;
+  --color-foreground-border: #38393b;
+  --color-code-background: #2a2c2f;
+  --color-code-foreground: #d2dbde;
+  --color-link: #9ca3af;
+  --color-link-underline: #9ca3af;
+  --color-link-underline--hover: #d1d5db;
+  --color-sidebar-background: #252628;
+  --color-sidebar-background-border: #38393b;
+  --color-sidebar-item-background--hover: #2a2c2f;
+  --color-sidebar-link-text: #d2dbde;
+  --color-sidebar-link-text--top-level: #ffffff;
+  --color-sidebar-caption-text: #859399;
   
       }
     }
@@ -168,7 +231,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="#"><div class="brand">the iceoryx2 book</div></a>
+      <a href="#"><div class="brand">The iceoryx2 Book</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -189,31 +252,60 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand" href="#">
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
   
-  <span class="sidebar-brand-text">the iceoryx2 book</span>
+  <span class="sidebar-brand-text">The iceoryx2 Book</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
-<div id="searchbox"></div>
-<div class="version-dropdown">
-  <button class="dropdown-button" onclick="toggleVersionDropdown()">
-    main
-    <span class="dropdown-arrow">▼</span>
-  </button>
-  <div class="dropdown-content" id="version-dropdown">
-    <a href="index.html" class="current">
-      main
-    </a>
-  </div>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">User Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="fundamentals/index.html">Fundamentals</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Fundamentals</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="fundamentals/layered-architecture.html">Layered Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fundamentals/shared-memory.html">Shared Memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fundamentals/communication-model.html">Communication Model</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="fundamentals/messaging-patterns/index.html">Messaging Patterns</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Messaging Patterns</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="fundamentals/messaging-patterns/publish-subscribe.html">Publish-Subscribe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fundamentals/messaging-patterns/event.html">Event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fundamentals/messaging-patterns/request-response.html">Request-Response</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fundamentals/messaging-patterns/blackboard.html">Blackboard</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fundamentals/execution-control.html">Execution Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fundamentals/cross-language-support.html">Cross-Language Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fundamentals/gateways-and-tunnels.html">Gateways and Tunnels</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Tutorials</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/wiring-a-robot-brain/index.html">Wiring a Robot Brain</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://eclipse-iceoryx.github.io/iceoryx2">Overview</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.rs/iceoryx2/latest">Rust</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://eclipse-iceoryx.github.io/iceoryx2/python/latest">Python</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://eclipse-iceoryx.github.io/iceoryx2/cxx/latest">C++</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://eclipse-iceoryx.github.io/iceoryx2/c/latest">C</a></li>
+</ul>
+
 </div>
-<div class="sidebar-tree">
-  
 </div>
-</div>
+
       </div>
       
     </div>
@@ -250,8 +342,53 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="the-iceoryx2-book">
-<h1>the iceoryx2 book<a class="headerlink" href="#the-iceoryx2-book" title="Link to this heading">¶</a></h1>
-<p>Coming soon !</p>
+<h1>The iceoryx2 Book<a class="headerlink" href="#the-iceoryx2-book" title="Link to this heading">#</a></h1>
+<p>Welcome to the <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> book! Brought to you with ♡ by the developers at
+<a class="reference external" href="http://ekxide.io">ekxide IO</a>.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">User Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="fundamentals/index.html">Fundamentals</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fundamentals/layered-architecture.html">Layered Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fundamentals/shared-memory.html">Shared Memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fundamentals/communication-model.html">Communication Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fundamentals/messaging-patterns/index.html">Messaging Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fundamentals/execution-control.html">Execution Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fundamentals/cross-language-support.html">Cross-Language Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fundamentals/gateways-and-tunnels.html">Gateways and Tunnels</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/index.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/wiring-a-robot-brain/index.html">Wiring a Robot Brain</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://eclipse-iceoryx.github.io/iceoryx2">Overview</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.rs/iceoryx2/latest">Rust</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://eclipse-iceoryx.github.io/iceoryx2/python/latest">Python</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://eclipse-iceoryx.github.io/iceoryx2/cxx/latest">C++</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://eclipse-iceoryx.github.io/iceoryx2/c/latest">C</a></li>
+</ul>
+</div>
 </section>
 
         </article>
@@ -259,7 +396,15 @@
       <footer>
         
         <div class="related-pages">
-          
+          <a class="next-page" href="quickstart.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Quickstart</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
           
         </div>
         <div class="bottom-of-page">
@@ -290,6 +435,5 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
-    <script src="_static/js/version-picker.js?v=1ee9b7b8"></script>
     </body>
 </html>
