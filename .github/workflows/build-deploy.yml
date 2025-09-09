@@ -1,4 +1,4 @@
-name: Build and Deploy Book
+name: Book
 
 on:
   push:
@@ -73,7 +73,7 @@ jobs:
             ${{ runner.os }}-poetry-
 
       - name: Install Python dependencies
-        run: poetry install --no-root --with dev
+        run: poetry install
 
       - name: Build book versions
         run: make publication

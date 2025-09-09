@@ -1,0 +1,62 @@
+<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="5" 
+     refX="7" refY="2.5" orient="auto">
+      <polygon points="0 0, 8 2.5, 0 5" fill="#6c7b7f" />
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="600" height="450" fill="transparent"/>
+  
+  <!-- Service A -->
+  <circle cx="188" cy="108" r="30" fill="#4b5563" stroke="#374151" stroke-width="2" />
+  <text x="188" y="108" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Service</text>
+  <text x="188" y="121" text-anchor="middle" font-size="10" fill="white">A</text>
+  
+  <!-- Service B -->
+  <circle cx="413" cy="342" r="30" fill="#4b5563" stroke="#374151" stroke-width="2" />
+  <text x="413" y="342" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Service</text>
+  <text x="413" y="355" text-anchor="middle" font-size="10" fill="white">B</text>
+  
+  <!-- Participant A -->
+  <rect x="60" y="72" width="68" height="22" fill="#e5e7eb" stroke="#6c7b7f" stroke-width="2" />
+  <text x="94" y="86" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">Participant A</text>
+  
+  <!-- Participant B -->
+  <rect x="300" y="45" width="68" height="22" fill="#e5e7eb" stroke="#6c7b7f" stroke-width="2" />
+  <text x="334" y="59" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">Participant B</text>
+  
+  <!-- Participant C -->
+  <rect x="225" y="225" width="68" height="22" fill="#e5e7eb" stroke="#6c7b7f" stroke-width="2" />
+  <text x="259" y="239" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">Participant C</text>
+  
+  <!-- Participant D -->
+  <rect x="113" y="180" width="68" height="22" fill="#e5e7eb" stroke="#6c7b7f" stroke-width="2" />
+  <text x="147" y="194" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">Participant D</text>
+  
+  <!-- Participant E -->
+  <rect x="488" y="315" width="68" height="22" fill="#e5e7eb" stroke="#6c7b7f" stroke-width="2" />
+  <text x="522" y="329" text-anchor="middle" font-size="10" font-weight="bold" fill="#374151">Participant E</text>
+  
+  <!-- Arrows showing communication direction -->
+  
+  <!-- Participant A to Service A -->
+  <line x1="128" y1="83" x2="159" y2="95" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Service A to Participant B -->
+  <line x1="212" y1="88" x2="298" y2="55" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Service A to Participant D -->
+  <line x1="170" y1="133" x2="155" y2="180" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Service A to Participant C -->
+  <line x1="205" y1="133" x2="248" y2="223" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Participant C to Service B -->
+  <line x1="293" y1="247" x2="387" y2="323" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Service B to Participant E -->
+  <line x1="441" y1="330" x2="486" y2="326" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+</svg>

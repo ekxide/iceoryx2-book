@@ -1,0 +1,49 @@
+<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowhead" markerWidth="5" markerHeight="3" 
+     refX="4" refY="1.5" orient="auto">
+      <polygon points="0 0, 5 1.5, 0 3" fill="#6c7b7f" />
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="600" height="450" fill="transparent"/>
+  
+  <!-- Physical Memory Block -->
+  <rect x="225" y="75" width="150" height="300" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2" />
+  
+  <!-- Memory address labels -->
+  <text x="300" y="65" text-anchor="middle" font-size="11" font-weight="normal" fill="#6c7b7f">Physical Memory</text>
+  
+  <!-- Memory Region A -->
+  <rect x="240" y="105" width="120" height="60" fill="#e5e7eb" stroke="#6c7b7f" stroke-width="2" stroke-dasharray="3,2"/>
+  <text x="300" y="140" text-anchor="middle" font-size="11" font-weight="normal" fill="#1f2937">Participant Memory</text>
+  
+  <!-- Shared Memory Region -->
+  <rect x="240" y="180" width="120" height="90" fill="#4b5563" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="300" y="225" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Shared Memory</text>
+  <text x="300" y="240" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Region</text>
+  
+  <!-- Memory Region B -->
+  <rect x="240" y="285" width="120" height="60" fill="#e5e7eb" stroke="#6c7b7f" stroke-width="2" stroke-dasharray="3,2"/>
+  <text x="300" y="320" text-anchor="middle" font-size="11" font-weight="normal" fill="#1f2937">Participant Memory</text>
+  
+  <!-- Participant A -->
+  <rect x="90" y="212" width="68" height="26" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2" />
+  <text x="124" y="228" text-anchor="middle" font-size="11" font-weight="normal" fill="#1f2937">Participant</text>
+  
+  <!-- Participant B -->
+  <rect x="442" y="212" width="68" height="26" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2" />
+  <text x="476" y="228" text-anchor="middle" font-size="11" font-weight="normal" fill="#1f2937">Participant</text>
+  
+  <!-- Connection lines from Participant A -->
+  <line x1="158" y1="225" x2="240" y2="135" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="158" y1="225" x2="240" y2="225" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="180" y="220" font-size="9" fill="#6c7b7f">access</text>
+  
+  <!-- Connection lines from Participant B -->
+  <line x1="442" y1="225" x2="360" y2="315" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="442" y1="225" x2="360" y2="225" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="405" y="220" font-size="9" fill="#6c7b7f">access</text>  
+  
+</svg>
