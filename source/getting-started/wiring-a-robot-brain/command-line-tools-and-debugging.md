@@ -2,10 +2,7 @@
 
 ```{admonition} Learning Objectives
 
-After reading this article, you will know how to:
-
-* Introspect an `iceoryx2` system using the `iox2` CLI
-* Record and replay data flowing through `iceoryx2`
+TODO
 ```
 
 Our system has grown into something fairly complex: an ultrasonic sensor

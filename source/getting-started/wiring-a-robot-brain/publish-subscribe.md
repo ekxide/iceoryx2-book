@@ -2,10 +2,7 @@
 
 ```{admonition} Learning Objectives
 
-After reading this article, you will know how to:
-
-* Send and receive data over shared memory using the publish-subscribe
-  messaging pattern
+TODO
 ```
 
 Larry’s hardware and algorithms are already built. Now we want to send the

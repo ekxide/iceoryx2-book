@@ -8,18 +8,17 @@ Welcome to the ``iceoryx2`` book! Brought to you with ♡ by the developers at
    :maxdepth: 1
    :caption: User Manual
 
-   quickstart
    introduction
 
 .. toctree::
    :maxdepth: 2
 
-   fundamentals/index
+   getting-started/index
 
 .. toctree::
    :maxdepth: 2
 
-   tutorials/index
+   fundamentals/index
 
 .. toctree::
    :maxdepth: 1

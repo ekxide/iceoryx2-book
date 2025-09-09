@@ -2,10 +2,7 @@
 
 ```{admonition} Learning Objectives
 
-After reading this article, you will know how to:
-
-* Send requests and streaming responses over shared memory with the
-  request-response messaging pattern
+TODO
 ```
 
 With emergency brakes and some basic fault handling in place, it’s time for

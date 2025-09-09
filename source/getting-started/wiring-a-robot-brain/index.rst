@@ -1,6 +1,12 @@
 Wiring a Robot Brain
 ====================
 
+.. admonition:: Learning Objectives
+
+   This series of articles will show your how to utilize various feature of
+   ``iceoryx2`` to bring up a non-trivial system.
+
+
 Meet Larry, our imaginary robot. Larry’s got an ultrasonic sensor, a camera, and
 enough algorithms to find his way from A to B without hitting a wall. The catch?
 Those algorithms and sensors are already built, but they live in different

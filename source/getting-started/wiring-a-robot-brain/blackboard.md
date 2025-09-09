@@ -2,10 +2,7 @@
 
 ```{admonition} Learning Objectives
 
-After reading this article, you will know how to:
-
-* Share global state amongst participants using the blackboard messaging
-  pattern
+TODO
 ```
 
 Now that our robot Larry can reliably drive from `A` to `B`, we want to tweak

@@ -2,9 +2,7 @@
 
 ```{admonition} Learning Objectives
 
-After reading this article, you will know how to:
-
-* Coordinate participant execution using the event messaging pattern
+TODO
 ```
 
 Larry now has his distance sensor sorted out, but he’s still clumsy. We’ll add
