@@ -1,10 +1,18 @@
 # Publish–Subscribe
 
+```{admonition} Learning Objectives
+
+After reading this article, you will know how to:
+
+* Send and receive data over shared memory using the publish-subscribe
+  messaging pattern
+```
+
 Larry’s hardware and algorithms are already built. Now we want to send the
 distance measured by his ultrasonic sensor to another process that can slam the
 brakes if an obstacle gets closer than X meters.
 
-In iceoryx2, that’s a perfect job for the **publish–subscribe** pattern: one
+In `iceoryx2`, that’s a perfect job for the **publish–subscribe** pattern: one
 participant publishes a stream of distances, another subscribes and reacts.
 
 ```lua
@@ -19,7 +27,7 @@ participant publishes a stream of distances, another subscribes and reacts.
 
 ## Publisher
 
-Everything in iceoryx2 starts with a node. A node represents a communication
+Everything in `iceoryx2` starts with a node. A node represents a communication
 point (like a process or thread) and acts as a factory for services. To keep
 things sane when debugging later, we’ll give this node a name:
 

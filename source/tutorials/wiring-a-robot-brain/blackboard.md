@@ -1,5 +1,13 @@
 # Blackboard
 
+```{admonition} Learning Objectives
+
+After reading this article, you will know how to:
+
+* Share global state amongst participants using the blackboard messaging
+  pattern
+```
+
 Now that our robot Larry can reliably drive from `A` to `B`, we want to tweak
 the hardware and increase the update rate of our cyclic sensor data. For
 example, sending out the ultrasonic sensor distance only every 100 ms might no

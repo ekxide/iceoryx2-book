@@ -1,5 +1,12 @@
 # Event
 
+```{admonition} Learning Objectives
+
+After reading this article, you will know how to:
+
+* Coordinate participant execution using the event messaging pattern
+```
+
 Larry now has his distance sensor sorted out, but he’s still clumsy. We’ll add
 two more sensors:
 
@@ -223,7 +230,7 @@ while (iox2_node_wait(&node_handle, 1, 0) == IOX2_OK) {
 ## Listener
 
 On the other side, the listener is the participant waiting for the health events.
-First,  create the node and open the event service:
+First, create the node and open the event service:
 
 ````{tab-set-code}
 ```{code-block} rust

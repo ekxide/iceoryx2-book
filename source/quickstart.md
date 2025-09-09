@@ -6,31 +6,31 @@ Itching to get straight into coding with `iceoryx2`?
 The tutorial on [Wiring a Robot Brain](/tutorials/wiring-a-robot-brain/index)
 is a great starting point to see the code in action.
 
-Choose a language and get started right away:
+You can get started right away with any of the following languages:
 
 ````{grid} 1 1 2 3
 :gutter: 2
 
 ```{grid-item-card} Rust
-:link: /quickstart
-:link-type: doc
-:shadow: none
-```
-
-```{grid-item-card} C++
-:link: /quickstart
-:link-type: doc
-:shadow: none
-```
-
-```{grid-item-card} C
-:link: /quickstart
+:link: /tutorials/wiring-a-robot-brain/publish-subscribe
 :link-type: doc
 :shadow: none
 ```
 
 ```{grid-item-card} Python
-:link: /quickstart
+:link: /tutorials/wiring-a-robot-brain/publish-subscribe
+:link-type: doc
+:shadow: none
+```
+
+```{grid-item-card} C++
+:link: /tutorials/wiring-a-robot-brain/publish-subscribe
+:link-type: doc
+:shadow: none
+```
+
+```{grid-item-card} C
+:link: /tutorials/wiring-a-robot-brain/publish-subscribe
 :link-type: doc
 :shadow: none
 ```

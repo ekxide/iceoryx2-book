@@ -1,5 +1,13 @@
 # Command Line Tools and Debugging
 
+```{admonition} Learning Objectives
+
+After reading this article, you will know how to:
+
+* Introspect an `iceoryx2` system using the `iox2` CLI
+* Record and replay data flowing through `iceoryx2`
+```
+
 Our system has grown into something fairly complex: an ultrasonic sensor
 measuring distances, an emergency brake, an autopilot service, and a global
 configuration service. When things go wrong, and they will, we need ways to peek

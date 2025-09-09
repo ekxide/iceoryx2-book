@@ -1,5 +1,13 @@
 # Event-Driven Communication
 
+```{admonition} Learning Objectives
+
+After reading this article, you will know how to:
+
+* Combine the publish-subscribe messaging pattern with the event messaging
+  pattern to establish reactive communication
+```
+
 Before jumping into the example, we need to clarify the difference between
 **data flow** and **control flow**.
 
