@@ -14,15 +14,15 @@
   <rect width="600" height="450" fill="transparent"/>
   
   <!-- External Network Applications -->
-  <rect x="225" y="60" width="45" height="19" fill="#6b7280" stroke="#4b5563" stroke-width="2" />
-  <text x="247" y="72" text-anchor="middle" font-size="8" font-weight="bold" fill="white">DDS App</text>
+  <rect x="225" y="60" width="45" height="19" fill="#f9fafb" stroke="#6b7280" stroke-width="2" />
+  <text x="247" y="72" text-anchor="middle" font-size="8" font-weight="bold" fill="#1f2937">DDS App</text>
   
-  <rect x="278" y="60" width="45" height="19" fill="#6b7280" stroke="#4b5563" stroke-width="2" />
-  <text x="300" y="68" text-anchor="middle" font-size="7" font-weight="bold" fill="white">Legacy</text>
-  <text x="300" y="76" text-anchor="middle" font-size="7" font-weight="bold" fill="white">System</text>
+  <rect x="278" y="60" width="45" height="19" fill="#f9fafb" stroke="#6b7280" stroke-width="2" />
+  <text x="300" y="68" text-anchor="middle" font-size="7" font-weight="bold" fill="#1f2937">Legacy</text>
+  <text x="300" y="76" text-anchor="middle" font-size="7" font-weight="bold" fill="#1f2937">App</text>
   
-  <rect x="330" y="60" width="53" height="19" fill="#6b7280" stroke="#4b5563" stroke-width="2" />
-  <text x="356" y="72" text-anchor="middle" font-size="7" font-weight="bold" fill="white">...</text>
+  <rect x="330" y="60" width="53" height="19" fill="#f9fafb" stroke="#6b7280" stroke-width="2" />
+  <text x="356" y="72" text-anchor="middle" font-size="7" font-weight="bold" fill="#1f2937">...</text>
   
   <!-- Host A Container -->
   <rect x="23" y="150" width="240" height="188" fill="none" stroke="#6c7b7f" stroke-width="2" stroke-dasharray="6,3" />
