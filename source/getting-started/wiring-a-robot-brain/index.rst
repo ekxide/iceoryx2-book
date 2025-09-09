@@ -23,6 +23,8 @@ it later while you cook up new algorithms.
 
 Think of it as putting Larry’s nervous system online—without the medical degree.
 
+Throughout this tutorial, the following topics will be covered:
+
 .. toctree::
    :maxdepth: 1
 
