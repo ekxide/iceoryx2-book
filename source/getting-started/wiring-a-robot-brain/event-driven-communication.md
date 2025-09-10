@@ -638,26 +638,41 @@ The notifier’s “dead event” relies on health monitoring: iceoryx2 offers
 building blocks to detects when a process dies. How this works in detail is
 covered in a separate tutorial.
 
-## Source Code
+## Related Examples
 
-````{tab-set}
-```{tab-item} RUST
-* [GitHub Rust Publisher Event-Based-Communication-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/event_based_communication/publisher.rs)
-* [GitHub Rust Subscriber Event-Based-Communication-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/event_based_communication/subscriber.rs)
+<!-- markdownlint-disable-next-line MD033 -->
+<br/>
+
+````{grid} 1 1 2 2
+:gutter: 3
+
+```{grid-item}
+**{octicon}`code` Rust**
+
+{octicon}`mark-github` [Event-Driven Publisher](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/event_based_communication/publisher.rs)  
+{octicon}`mark-github` [Event-Driven Subscriber](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/event_based_communication/subscriber.rs)
 ```
 
-```{tab-item} PYTHON
-The functionality is fully available in Python, but no example has been written
-yet. Feel free to create a pull request and contribute one.
+```{grid-item}
+**{octicon}`code` Python**
+
+Functionality available but needs an example  
+{octicon}`mark-github` [Create pull request](https://github.com/eclipse-iceoryx/iceoryx2/pulls)
 ```
 
-```{tab-item} C++
-* [GitHub C++ Publisher Event-Based-Communication-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/event_based_communication/src/publisher.cpp)
-* [GitHub C++ Subscriber Event-Based-Communication-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/event_based_communication/src/subscriber.cpp)
+```{grid-item}
+**{octicon}`code` C++**
+
+{octicon}`mark-github` [Minimal Event-Driven Publisher](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/event_based_communication/src/publisher.cpp)  
+{octicon}`mark-github` [Minimal Event-Driven Subscriber](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/event_based_communication/src/subscriber.cpp)
 ```
 
-```{tab-item} C
-The functionality is fully available in C, but no example has been written
-yet. Feel free to create a pull request and contribute one.
+```{grid-item}
+**{octicon}`code` C**
+
+Functionality available but needs an example  
+{octicon}`mark-github` 
+[Create pull request](https://github.com/eclipse-iceoryx/iceoryx2/pulls)
 ```
+
 ````

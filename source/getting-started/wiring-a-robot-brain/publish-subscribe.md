@@ -510,26 +510,40 @@ while (iox2_node_wait(&node_handle, 0, 10000000) == IOX2_OK) {
 From here, reacting is easy: if the distance falls below a threshold, Larry can
 hit the emergency brake before smashing into a wall.
 
-## Source Code
+## Related Examples
 
-````{tab-set}
-```{tab-item} RUST
-* [GitHub Rust Publisher-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/publish_subscribe/publisher.rs)
-* [GitHub Rust Subscriber-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/publish_subscribe/subscriber.rs)
+<!-- markdownlint-disable-next-line MD033 -->
+<br/>
+
+````{grid} 1 1 2 2
+:gutter: 3
+
+```{grid-item}
+**{octicon}`code` Rust**
+
+{octicon}`mark-github` [Minimal Publisher](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/publish_subscribe/publisher.rs)  
+{octicon}`mark-github` [Minimal Subscriber](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/publish_subscribe/subscriber.rs)
 ```
 
-```{tab-item} PYTHON
-* [GitHub Python Publisher-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/publish_subscribe/publisher.py)
-* [GitHub Python Subscriber-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/publish_subscribe/subscriber.py)
+```{grid-item}
+**{octicon}`code` Python**
+
+{octicon}`mark-github` [Minimal Publisher](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/publish_subscribe/publisher.py)  
+{octicon}`mark-github` [Minimal Subscriber](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/publish_subscribe/subscriber.py)
 ```
 
-```{tab-item} C++
-* [GitHub C++ Publisher-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/publish_subscribe/src/publisher.cpp)
-* [GitHub C++ Subscriber-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/publish_subscribe/src/subscriber.cpp)
+```{grid-item}
+**{octicon}`code` C++**
+
+{octicon}`mark-github` [Minimal Publisher](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/publish_subscribe/src/publisher.cpp)  
+{octicon}`mark-github` [Minimal Subscriber](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/publish_subscribe/src/subscriber.cpp)
 ```
 
-```{tab-item} C
-* [GitHub C Publisher-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/publish_subscribe/src/publisher.c)
-* [GitHub C Subscriber-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/publish_subscribe/src/subscriber.c)
+```{grid-item}
+**{octicon}`code` C**
+
+{octicon}`mark-github` [Minimal Publisher](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/publish_subscribe/src/publisher.c)  
+{octicon}`mark-github` [Minimal Subscriber](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/publish_subscribe/src/subscriber.c)
 ```
+
 ````

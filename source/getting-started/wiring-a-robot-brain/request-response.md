@@ -635,26 +635,40 @@ This way, the client gets a continuous stream of updates, either side can
 gracefully stop when necessary, and Larry doesn’t drive blindly into canyons
 (in theory).
 
-## Source Code
+## Related Examples
 
-````{tab-set}
-```{tab-item} C
-* [GitHub C Client-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/request_response/src/client.c)
-* [GitHub C Server-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/request_response/src/server.c)
+<!-- markdownlint-disable-next-line MD033 -->
+<br/>
+
+````{grid} 1 1 2 2
+:gutter: 3
+
+```{grid-item}
+**{octicon}`code` Rust**
+
+{octicon}`mark-github` [Minimal Client](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/request_response/client.rs)  
+{octicon}`mark-github` [Minimal Server](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/request_response/server.rs)
 ```
 
-```{tab-item} C++
-* [GitHub C++ Client-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/request_response/src/client.cpp)
-* [GitHub C++ Server-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/request_response/src/server.cpp)
+```{grid-item}
+**{octicon}`code` Python**
+
+{octicon}`mark-github` [Minimal Client](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/request_response/client.py)  
+{octicon}`mark-github` [Minimal Server](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/request_response/server.py)
 ```
 
-```{tab-item} PYTHON
-* [GitHub Python Client-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/request_response/client.py)
-* [GitHub Python Server-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/request_response/server.py)
+```{grid-item}
+**{octicon}`code` C++**
+
+{octicon}`mark-github` [Minimal Client](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/request_response/src/client.cpp)  
+{octicon}`mark-github` [Minimal Server](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/request_response/src/server.cpp)
 ```
 
-```{tab-item} RUST
-* [GitHub Rust Client-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/request_response/client.rs)
-* [GitHub Rust Server-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/request_response/server.rs)
+```{grid-item}
+**{octicon}`code` C**
+
+{octicon}`mark-github` [Minimal Client](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/request_response/src/client.c)  
+{octicon}`mark-github` [Minimal Server](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/request_response/src/server.c)
 ```
+
 ````

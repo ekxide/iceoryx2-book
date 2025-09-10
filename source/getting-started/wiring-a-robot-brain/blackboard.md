@@ -147,11 +147,42 @@ while node.wait(Duration::from_millis(update_rate_handle.get())).is_ok() {
 }
 ```
 
-## Source Code
+## Related Examples
 
-````{tab-set}
-```{tab-item} RUST
-* [GitHub Rust Creator/Writer-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/blackboard/creator.rs)
-* [GitHub Rust Reader-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/blackboard/opener.rs)
+<!-- markdownlint-disable-next-line MD033 -->
+<br/>
+
+````{grid} 1 1 2 2
+
+```{grid-item}
+### {octicon}`code` Rust
+
+{octicon}`mark-github` [Minimal Creator/Writer](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/blackboard/creator.rs)  
+{octicon}`mark-github` [Minimal Reader](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/blackboard/opener.rs)
 ```
+
+```{grid-item}
+**{octicon}`code` Python**
+
+Not yet available  
+{octicon}`mark-github` [Create pull request](https://github.com/eclipse-iceoryx/iceoryx2/pulls)
+```
+
+```{grid-item}
+**{octicon}`code` C++**
+
+Not yet available  
+{octicon}`mark-github` 
+[Create pull request](https://github.com/eclipse-iceoryx/iceoryx2/pulls)
+```
+
+```{grid-item}
+**{octicon}`code` C**
+
+Not yet available  
+{octicon}`mark-github` 
+[Create pull request](https://github.com/eclipse-iceoryx/iceoryx2/pulls)
+```
+
+
 ````

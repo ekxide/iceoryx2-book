@@ -394,26 +394,40 @@ while (iox2_node_wait(&node_handle, 0, 0) == IOX2_OK) {
 ```
 ````
 
-## Source Code
+## Related Examples
 
-````{tab-set}
-```{tab-item} RUST
-* [GitHub Rust Listener-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/event/listener.rs)
-* [GitHub Rust Notifier-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/event/notifier.rs)
+<!-- markdownlint-disable-next-line MD033 -->
+<br/>
+
+````{grid} 1 1 2 2
+:gutter: 3
+
+```{grid-item}
+**{octicon}`code` Rust**
+
+{octicon}`mark-github` [Minimal Notifier](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/event/notifier.rs)  
+{octicon}`mark-github` [Minimal Listener](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/event/listener.rs)
 ```
 
-```{tab-item} PYTHON
-* [GitHub Python Listener-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/event/listener.py)
-* [GitHub Python Notifier-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/event/notifier.py)
+```{grid-item}
+**{octicon}`code` Python**
+
+{octicon}`mark-github` [Minimal Notifier](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/event/notifier.py)  
+{octicon}`mark-github` [Minimal Listener](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/event/listener.py)
 ```
 
-```{tab-item} C++
-* [GitHub C++ Listener-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/event/src/listener.cpp)
-* [GitHub C++ Notifier-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/event/src/notifier.cpp)
+```{grid-item}
+**{octicon}`code` C++**
+
+{octicon}`mark-github` [Minimal Notifier](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/event/src/notifier.cpp)  
+{octicon}`mark-github` [Minimal Listener](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/event/src/listener.cpp)
 ```
 
-```{tab-item} C
-* [GitHub C Listener-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/event/src/listener.c)
-* [GitHub C Notifier-Example](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/event/src/notifier.c)
+```{grid-item}
+**{octicon}`code` C**
+
+{octicon}`mark-github` [Minimal Notifier](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/event/src/notifier.c)  
+{octicon}`mark-github` [Minimal Listener](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/event/src/listener.c)
 ```
+
 ````
