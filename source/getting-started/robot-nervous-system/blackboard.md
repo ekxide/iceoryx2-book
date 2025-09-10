@@ -162,23 +162,18 @@ while node.wait(Duration::from_millis(update_rate_handle.get())).is_ok() {
 **{octicon}`code` Python**
 
 Not yet available  
-{octicon}`mark-github` [Create pull request](https://github.com/eclipse-iceoryx/iceoryx2/pulls)
 ```
 
 ```{grid-item}
 **{octicon}`code` C++**
 
 Not yet available  
-{octicon}`mark-github` 
-[Create pull request](https://github.com/eclipse-iceoryx/iceoryx2/pulls)
 ```
 
 ```{grid-item}
 **{octicon}`code` C**
 
 Not yet available  
-{octicon}`mark-github` 
-[Create pull request](https://github.com/eclipse-iceoryx/iceoryx2/pulls)
 ```
 
 
