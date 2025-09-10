@@ -1,0 +1,616 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Fundamentals" href="../../fundamentals/index.html" /><link rel="prev" title="Blackboard" href="blackboard.html" />
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
+        <title>Command Line Tools and Debugging - The iceoryx2 Book</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=25af2a20" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=40c8bed2" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  --color-brand-primary: #6c7b7f;
+  --color-brand-content: #6c7b7f;
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f9fafb;
+  --color-background-hover: #f3f4f6;
+  --color-background-border: #e5e7eb;
+  --color-foreground-primary: #1f2937;
+  --color-foreground-secondary: #6b7280;
+  --color-foreground-muted: #9ca3af;
+  --color-foreground-border: #e5e7eb;
+  --color-code-background: #f3f4f6;
+  --color-code-foreground: #1f2937;
+  --color-link: #6c7b7f;
+  --color-link-underline: #6c7b7f;
+  --color-link-underline--hover: #4b5563;
+  --color-sidebar-background: #f9fafb;
+  --color-sidebar-background-border: #e5e7eb;
+  --color-sidebar-item-background--hover: #f3f4f6;
+  --color-sidebar-link-text: #4b5563;
+  --color-sidebar-link-text--top-level: #1f2937;
+  --color-sidebar-caption-text: #6b7280;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #9ca3af;
+  --color-brand-content: #9ca3af;
+  --color-background-primary: #1C1D1F;
+  --color-background-secondary: #252628;
+  --color-background-hover: #2a2c2f;
+  --color-background-border: #38393b;
+  --color-foreground-primary: #d2dbde;
+  --color-foreground-secondary: #859399;
+  --color-foreground-muted: #859399;
+  --color-foreground-border: #38393b;
+  --color-code-background: #2a2c2f;
+  --color-code-foreground: #d2dbde;
+  --color-link: #9ca3af;
+  --color-link-underline: #9ca3af;
+  --color-link-underline--hover: #d1d5db;
+  --color-sidebar-background: #252628;
+  --color-sidebar-background-border: #38393b;
+  --color-sidebar-item-background--hover: #2a2c2f;
+  --color-sidebar-link-text: #d2dbde;
+  --color-sidebar-link-text--top-level: #ffffff;
+  --color-sidebar-caption-text: #859399;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #9ca3af;
+  --color-brand-content: #9ca3af;
+  --color-background-primary: #1C1D1F;
+  --color-background-secondary: #252628;
+  --color-background-hover: #2a2c2f;
+  --color-background-border: #38393b;
+  --color-foreground-primary: #d2dbde;
+  --color-foreground-secondary: #859399;
+  --color-foreground-muted: #859399;
+  --color-foreground-border: #38393b;
+  --color-code-background: #2a2c2f;
+  --color-code-foreground: #d2dbde;
+  --color-link: #9ca3af;
+  --color-link-underline: #9ca3af;
+  --color-link-underline--hover: #d1d5db;
+  --color-sidebar-background: #252628;
+  --color-sidebar-background-border: #38393b;
+  --color-sidebar-item-background--hover: #2a2c2f;
+  --color-sidebar-link-text: #d2dbde;
+  --color-sidebar-link-text--top-level: #ffffff;
+  --color-sidebar-caption-text: #859399;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">The iceoryx2 Book</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  <span class="sidebar-brand-text">The iceoryx2 Book</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">User Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">Getting Started</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Getting Started</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l2 current has-children"><a class="reference internal" href="index.html">A Robot Nervous System</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of A Robot Nervous System</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="publish-subscribe.html">Publish–Subscribe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event-driven-communication.html">Event-Driven Communication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="request-response.html">Request-Response</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blackboard.html">Blackboard</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">Command Line Tools and Debugging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../fundamentals/index.html">Fundamentals</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Fundamentals</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../fundamentals/layered-architecture.html">Layered Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../fundamentals/shared-memory.html">Shared Memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../fundamentals/communication-model.html">Communication Model</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../fundamentals/messaging-patterns/index.html">Messaging Patterns</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Messaging Patterns</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../fundamentals/messaging-patterns/publish-subscribe.html">Publish-Subscribe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fundamentals/messaging-patterns/event.html">Event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fundamentals/messaging-patterns/request-response.html">Request-Response</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fundamentals/messaging-patterns/blackboard.html">Blackboard</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../fundamentals/execution-control.html">Execution Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../fundamentals/cross-language-support.html">Cross-Language Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../fundamentals/gateways-and-tunnels.html">Gateways and Tunnels</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://eclipse-iceoryx.github.io/iceoryx2">Overview</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.rs/iceoryx2/latest">Rust</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://eclipse-iceoryx.github.io/iceoryx2/python/latest">Python</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://eclipse-iceoryx.github.io/iceoryx2/cxx/latest">C++</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://eclipse-iceoryx.github.io/iceoryx2/c/latest">C</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="command-line-tools-and-debugging">
+<h1>Command Line Tools and Debugging<a class="headerlink" href="#command-line-tools-and-debugging" title="Link to this heading">#</a></h1>
+<p>Our system has grown into something fairly complex: an ultrasonic sensor
+measuring distances, an emergency brake, an autopilot service, and a global
+configuration service. When things go wrong, and they will, we need the ability
+to peek inside the system. Maybe a node misbehaves, maybe a service is down,
+or maybe an algorithm is not behaving as expected.</p>
+<p>To assist with debugging scenarious such as these, <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> provides command
+line tooling. With it, it’s possible to inspect nodes and services, subscribe
+to data, inject test messages, and even record and replay entire sessions.</p>
+<p>Install the tools with:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>cargo<span class="w"> </span>install<span class="w"> </span>iceoryx2-cli
+</pre></div>
+</div>
+<p>The CLI follows a grammar similar to <code class="docutils literal notranslate"><span class="pre">cargo</span></code>: the first argument is a
+subcommand, and each subcommand has its own help and options. To see the
+available subcommands:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>iox2<span class="w"> </span>--list
+</pre></div>
+</div>
+<section id="discovery">
+<h2>Discovery<a class="headerlink" href="#discovery" title="Link to this heading">#</a></h2>
+<p>To list all nodes with the CLI, you can use the command:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>iox2<span class="w"> </span>node<span class="w"> </span>list
+</pre></div>
+</div>
+<p>You can also get the details of a specific node (configuration, state, whether
+it’s alive of dead) by passing the node name, id or pid (on supported
+platforms) to the command:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>iox2<span class="w"> </span>node<span class="w"> </span>details<span class="w"> </span>00000000067ab750000005550000dcf7
+</pre></div>
+</div>
+<p>In this example the node id is used, depicted by the long hex number,
+which can be found in the <code class="docutils literal notranslate"><span class="pre">node</span> <span class="pre">list</span></code> output.</p>
+<p>To list all services, you can use the command:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>iox2<span class="w"> </span>service<span class="w"> </span>list
+</pre></div>
+</div>
+<p>It’s also possible to interact with services directly, and record and replay
+data using the CLI, which we will now take a look at in some more detail.</p>
+</section>
+<section id="debugging">
+<h2>Debugging<a class="headerlink" href="#debugging" title="Link to this heading">#</a></h2>
+<section id="introspecting-data">
+<h3>Introspecting Data<a class="headerlink" href="#introspecting-data" title="Link to this heading">#</a></h3>
+<p>For this article, we will assume that Larry has a bug where he stubbornly
+refuses to brake even when an obstacle is right in front of him.
+First, we can check whether the distance sensor service is even publishing
+data using the CLI.</p>
+<p>We can subscribe to the service and inspect the payload (which is shown
+hex-encoded):</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>iox2<span class="w"> </span>service<span class="w"> </span>subscribe<span class="w"> </span><span class="s2">&quot;distance_to_obstacle&quot;</span>
+</pre></div>
+</div>
+<p>If the data appears to be flowing, we can check whether notifications are
+reaching the emergency brake:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>iox2<span class="w"> </span>service<span class="w"> </span>listen<span class="w"> </span><span class="s2">&quot;distance_to_obstacle&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="injecting-data">
+<h3>Injecting Data<a class="headerlink" href="#injecting-data" title="Link to this heading">#</a></h3>
+<p>Suppose the data and notifications both appear to be normal, but the brake
+still doesn’t react. We can bypass the sensor and attempt to trigger the brake
+directly. Assuming event ID <code class="docutils literal notranslate"><span class="pre">5</span></code> has been specified to indicate “obstacle too
+close”, we can try sending that notification ten times:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>iox2<span class="w"> </span>service<span class="w"> </span>notify<span class="w"> </span>--event-id<span class="w"> </span><span class="m">5</span><span class="w"> </span>--num<span class="w"> </span><span class="m">10</span><span class="w"> </span>distance_to_obstacle
+</pre></div>
+</div>
+<p>If Larry still doesn’t stop, we can try publishing some test data manually
+before sending the notification to check whether the algorithm only reacts
+when data is present.</p>
+<p>For this we need the data type and the hex representation of the sample we want
+to send. For brevity, the approach for retrieving the hex representation is not
+shown, but generated from the struct:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-0">
+RUST</label><div class="sd-tab-content docutils">
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="cp">#[derive(Debug, ZeroCopySend)]</span>
+<span class="cp">#[repr(C)]</span>
+<span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">Distance</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">distance_in_meters</span><span class="p">:</span><span class="w"> </span><span class="kt">f64</span><span class="p">,</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">some_other_property</span><span class="p">:</span><span class="w"> </span><span class="kt">f32</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="python" for="sd-tab-item-1">
+PYTHON</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">ctypes</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Distance</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;distance_in_meters&quot;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;some_other_property&quot;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+    <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-2">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">Distance</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">distance_in_meters</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">some_other_property</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-3">
+C</label><div class="sd-tab-content docutils">
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">Distance</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">distance_in_meters</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">some_other_property</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>When we have the hex representation of a sample, we can publish it (ten times)
+using this command:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>iox2<span class="w"> </span>service<span class="w"> </span>publish<span class="w"> </span>-d<span class="w"> </span>IOX2DUMP<span class="w"> </span>--type-name<span class="w"> </span>Distance<span class="w"> </span>--type-size<span class="w"> </span><span class="m">16</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--type-alignment<span class="w"> </span><span class="m">8</span><span class="w"> </span>--type-variant<span class="w"> </span>FIXEDSIZE<span class="w"> </span>--repetitions<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--message<span class="w"> </span><span class="s2">&quot;09 00 00 00 1b 00 00 00 ae 47 e1 7a 14 8d bc 40&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>distance_to_obstacle
+</pre></div>
+</div>
+<p>This mechanism allows for probing the system to try and zero in on what may
+be causing the erroneous behaviour.</p>
+</section>
+<section id="recording-and-replaying-data">
+<h3>Recording and Replaying Data<a class="headerlink" href="#recording-and-replaying-data" title="Link to this heading">#</a></h3>
+<p>The CLI provides the capability to record and replay data flowing in the
+<code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> system. This capability can be used to develop tests for
+scenarios that cause erroneous behaviour.</p>
+<p>Similar to test-driven development, where a unit test is written that captures
+a bug, code is updated to handle it, and the bug is confirmed fixed when the
+test passes; a recording of a scenario that causes misbehavior can be
+captured, the code can be updated to handle it, and the fix can be confirmed by
+replaying the scenario and observing that the system no longer exhibits
+erroneous behavior.</p>
+<p>The following CLI command will record 10 seconds of sensor data to a file:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>iox2<span class="w"> </span>service<span class="w"> </span>record<span class="w"> </span>-t<span class="w"> </span><span class="m">10</span><span class="w"> </span>-o<span class="w"> </span>record.dat<span class="w"> </span><span class="s2">&quot;distance_to_obstacle&quot;</span>
+</pre></div>
+</div>
+<p>Returning to the theoretical bug being observed in Larry, we could capture
+a recording of the scenario causing it by placing an obstacle in front of Larry
+during the recording time, which is a situation where the brake <em>should</em>
+activate.</p>
+<p>The file <code class="docutils literal notranslate"><span class="pre">record.dat</span></code> is human-readable. It starts with metadata about the
+service, messaging pattern, and type definitions:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="n">service_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;distance_to_obstacle&quot;</span>
+
+<span class="k">[iceoryx2_version]</span>
+<span class="n">major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="n">minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span>
+<span class="n">patch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="k">[details]</span>
+<span class="n">file_format_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="n">messaging_pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;PublishSubscribe&quot;</span>
+
+<span class="k">[details.types.payload]</span>
+<span class="n">variant</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;FixedSize&quot;</span>
+<span class="n">type_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Distance&quot;</span>
+<span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span>
+<span class="n">alignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span>
+</pre></div>
+</div>
+<p>After the header comes the payload data, encoded in hex:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>### Recorded Data Start ###
+time:     925
+sys head: ...
+payload:  21 00 00 00 63 00 00 00 0a d7 a3 70 fd 2b da 40
+</pre></div>
+</div>
+<p>When you have fixed the algorithm, you can then replay the data with the
+following CLI command:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>iox2<span class="w"> </span>service<span class="w"> </span>replay<span class="w"> </span>-i<span class="w"> </span>record.dat
+</pre></div>
+</div>
+<p>If the emergency brake kicks in, you have confidence that the algorithm
+has been fixed: Larry lives to bump another day!</p>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../../fundamentals/index.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Fundamentals</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="blackboard.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Blackboard</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, ekxide.io
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Command Line Tools and Debugging</a><ul>
+<li><a class="reference internal" href="#discovery">Discovery</a></li>
+<li><a class="reference internal" href="#debugging">Debugging</a><ul>
+<li><a class="reference internal" href="#introspecting-data">Introspecting Data</a></li>
+<li><a class="reference internal" href="#injecting-data">Injecting Data</a></li>
+<li><a class="reference internal" href="#recording-and-replaying-data">Recording and Replaying Data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    </body>
+</html>
