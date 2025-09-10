@@ -14,25 +14,18 @@ As Larry starts driving, the user expects status updates—position, speed,
 progress. At some point the user may even cancel the trip, or Larry himself may
 have to abort if he encounters, say, a canyon.
 
+```{figure} /images/wiring-a-robot-brain-request-response-sequence.svg
+:alt: Request-Response Sequence Diagram between App and Larry Autopilot
+:align: center
+:name: fig-wiring-a-robot-brain-request-response-sequence
+
+Request-Response interactions between App and Larry Autopilot
+```
+
 This is where the request–response (stream) pattern in iceoryx2 comes into
 play. It behaves like regular non-blocking request–response, but with one extra
 trick: the server can send a stream of responses instead of just one. Either
 side can end the stream at any time if it’s no longer interested.
-
-```rust
-Client (App)                           Server (Larry Autopilot)
-     |                                             |
-     |--- Request: "Go to point B" --------------->|
-     |                                             |
-     |<-- Response: "Starting drive..." -----------|
-     |<-- Response: "At (10, 5), speed (1, 0)" ----|
-     |<-- Response: "At (20, 5), speed (1, 0)" ----|
-     |<-- Response: "At (30, 5), speed (0, 0)" ----|
-     |<-- Response: "Arrived at destination!" -----|
-     |                                             |
-     |--- Cancel signal (drop pending response) -->|
-     |                                             |
-```
 
 ## Client
 
