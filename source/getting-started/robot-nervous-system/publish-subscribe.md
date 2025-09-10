@@ -4,7 +4,7 @@ Larry’s hardware and algorithms are already built. Now we want to send the
 distance measured by his ultrasonic sensor to another participant that can slam
 the brakes if an obstacle gets closer than X meters.
 
-In `iceoryx2`, that’s a perfect job for the **publish–subscribe** pattern: one
+In `iceoryx2`, that’s a perfect job for the **publish-subscribe** pattern: one
 participant publishes a stream of distances, another subscribes and reacts.
 
 ```{figure} /images/wiring-a-robot-brain-publish-subscribe-graph.svg

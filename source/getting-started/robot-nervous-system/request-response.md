@@ -1,11 +1,11 @@
-# Request–Response
+# Request-Response
 
 With emergency brakes and some basic fault handling in place, it’s time for
 something a bit more sophisticated.
 
 Imagine the user wants to send our robot Larry to a specific position:
 “Go to point B.”
-As Larry starts driving, the user expects status updates—position, speed,
+As Larry starts driving, the user expects status updates - position, speed,
 progress. At some point the user may even cancel the trip, or Larry himself may
 have to abort if he encounters, say, a canyon.
 
@@ -17,8 +17,8 @@ have to abort if he encounters, say, a canyon.
 Request-Response interactions between App and Larry Autopilot
 ```
 
-This is where the request–response (stream) pattern in `iceoryx2` comes into
-play. It behaves like regular non-blocking request–response, but with one extra
+This is where the request-response (stream) pattern in `iceoryx2` comes into
+play. It behaves like regular non-blocking request-response, but with one extra
 trick: the server can send a stream of responses instead of just one. Either
 side can end the stream at any time if it’s no longer interested.
 
@@ -643,28 +643,28 @@ canyons (in theory).
 **{octicon}`code` Rust**
 
 {octicon}`mark-github` [Minimal Client](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/request_response/client.rs)  
-{octicon}`mark-github` [Minimal Server](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/request_response/server.rs)
+{octicon}`mark-github` [Minimal Server](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/request_response/server.rs)  
 ```
 
 ```{grid-item}
 **{octicon}`code` Python**
 
 {octicon}`mark-github` [Minimal Client](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/request_response/client.py)  
-{octicon}`mark-github` [Minimal Server](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/request_response/server.py)
+{octicon}`mark-github` [Minimal Server](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/request_response/server.py)  
 ```
 
 ```{grid-item}
 **{octicon}`code` C++**
 
 {octicon}`mark-github` [Minimal Client](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/request_response/src/client.cpp)  
-{octicon}`mark-github` [Minimal Server](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/request_response/src/server.cpp)
+{octicon}`mark-github` [Minimal Server](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/request_response/src/server.cpp)  
 ```
 
 ```{grid-item}
 **{octicon}`code` C**
 
 {octicon}`mark-github` [Minimal Client](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/request_response/src/client.c)  
-{octicon}`mark-github` [Minimal Server](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/request_response/src/server.c)
+{octicon}`mark-github` [Minimal Server](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/request_response/src/server.c)  
 ```
 
 ````

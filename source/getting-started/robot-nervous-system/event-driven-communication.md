@@ -8,7 +8,7 @@ flow is about _what inputs_ it receives. In `iceoryx2` these two concepts are
 separated on purpose, unlike in many network protocols where receiving data
 automatically involves a syscall that wakes up the participant.
 
-Messaging patterns like publish–subscribe and request–response define the data
+Messaging patterns like publish-subscribe and request-response define the data
 flow. The event messaging pattern handles control flow. Why split them? Because
 you don’t always want to pass data when triggering execution. Sometimes you just
 need to wake up a function with no additional input. Other times you need
@@ -43,7 +43,7 @@ signals.
 
 We start by creating a node and defining two services with the same name:
 
-* a publish–subscribe service for distance samples,
+* a publish-subscribe service for distance samples,
 * an event service for control signals.
 
 The subscriber needs the last three samples whenever it connects, so we
