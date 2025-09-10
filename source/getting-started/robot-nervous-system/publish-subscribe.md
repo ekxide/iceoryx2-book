@@ -1,8 +1,8 @@
 # Publish–Subscribe
 
 Larry’s hardware and algorithms are already built. Now we want to send the
-distance measured by his ultrasonic sensor to another process that can slam the
-brakes if an obstacle gets closer than X meters.
+distance measured by his ultrasonic sensor to another participant that can slam
+the brakes if an obstacle gets closer than X meters.
 
 In `iceoryx2`, that’s a perfect job for the **publish–subscribe** pattern: one
 participant publishes a stream of distances, another subscribes and reacts.
@@ -83,12 +83,12 @@ meaning:
 
 * self-contained
 * no internal pointers
-* identical memory representation in every process
+* identical memory representation
 
 ````{tab-set-code}
 ```{code-block} rust
 #[derive(Debug, ZeroCopySend)]  // every payload must implement ZeroCopySend
-#[repr(C)]                      // ensures identical layout across processes
+#[repr(C)]                      // ensures consistent and well-defined layout
 pub struct Distance {
     pub distance_in_meters: f64,
     pub some_other_property: f32,

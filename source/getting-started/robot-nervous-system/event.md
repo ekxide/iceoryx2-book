@@ -38,7 +38,7 @@ use iceoryx2::prelude::*;
 let node = NodeBuilder::new().create::<ipc::Service>()?;
 
 let event_service = node
-    .service_builder(&"system health events".try_into()?)
+    .service_builder(&"system_health_events".try_into()?)
     .event()
     .open_or_create()?;
 ```
@@ -51,7 +51,7 @@ node = iox2.NodeBuilder.new().create(iox2.ServiceType.Ipc)
 
 event = (
     node
-    .service_builder(iox2.ServiceName.new("system health events"))
+    .service_builder(iox2.ServiceName.new("system_health_events"))
     .event()
     .open_or_create()
 )
@@ -64,7 +64,7 @@ using namespace iox2;
 
 auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
 
-auto service = node.service_builder(ServiceName::create("system health events").expect(""))
+auto service = node.service_builder(ServiceName::create("system_health_events").expect(""))
                    .event()
                    .open_or_create()
                    .expect("");
@@ -82,7 +82,7 @@ if (iox2_node_builder_create(node_builder_handle, NULL, iox2_service_type_e_IPC,
 }
 
 // create service name
-const char* service_name_value = "system health events";
+const char* service_name_value = "system_health_events";
 iox2_service_name_h service_name = NULL;
 if (iox2_service_name_new(NULL, service_name_value, strlen(service_name_value), &service_name) != IOX2_OK) {
     printf("Unable to create service name!\n");
@@ -232,7 +232,7 @@ use iceoryx2::prelude::*;
 let node = NodeBuilder::new().create::<ipc::Service>()?;
 
 let event_service = node
-    .service_builder(&"system health events".try_into()?)
+    .service_builder(&"system_health_events".try_into()?)
     .event()
     .open_or_create()?;
 ```
@@ -244,7 +244,7 @@ node = iox2.NodeBuilder.new().create(iox2.ServiceType.Ipc)
 
 event = (
     node
-    .service_builder(iox2.ServiceName.new("system health events"))
+    .service_builder(iox2.ServiceName.new("system_health_events"))
     .event()
     .open_or_create()
 )
@@ -257,7 +257,7 @@ using namespace iox2;
 
 auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
 
-auto service = node.service_builder(ServiceName::create("system health events").expect(""))
+auto service = node.service_builder(ServiceName::create("system_health_events").expect(""))
                    .event()
                    .open_or_create()
                    .expect("");
@@ -274,7 +274,7 @@ if (iox2_node_builder_create(node_builder_handle, NULL, iox2_service_type_e_IPC,
 }
 
 // create service name
-const char* service_name_value = "system health events";
+const char* service_name_value = "system_health_events";
 iox2_service_name_h service_name = NULL;
 if (iox2_service_name_new(NULL, service_name_value, strlen(service_name_value), &service_name) != IOX2_OK) {
     printf("Unable to create service name!\n");

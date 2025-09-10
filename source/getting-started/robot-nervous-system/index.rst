@@ -1,19 +1,19 @@
-Wiring a Robot Brain
-====================
+A Robot Nervous System
+======================
 
 .. admonition:: Learning Objectives
 
-   This series of articles will show your how to utilize various feature of
+   This series of articles will show your how to utilize various features of
    ``iceoryx2`` to bring up a non-trivial system.
 
 
 Meet Larry, our imaginary robot. Larry’s got an ultrasonic sensor, a camera, and
 enough algorithms to find his way from A to B without hitting a wall. The catch?
-Those algorithms and sensors are already built, but they live in different
-processes, and maybe even on different machines. Your job is to wire it all
-together so Larry actually does something useful.
+Those algorithms and sensors are already built, they are organized into
+different processes, and maybe even on different machines. Your job is to wire
+it all together so Larry actually does something useful.
 
-That’s where iceoryx2 comes in. In this tutorial, we’ll build the communication
+That’s where ``iceoryx2`` comes in. In this tutorial, we’ll build the communication
 layer that connects Larry’s brain, eyes, and wheels. Along the way, we’ll look
 at publish–subscribe messaging, events, and request–response patterns.
 

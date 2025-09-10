@@ -2,27 +2,28 @@
 
 Now that our robot Larry can reliably drive from `A` to `B`, we want to tweak
 the hardware and increase the update rate of our cyclic sensor data. For
-example, sending out the ultrasonic sensor distance only every 100 ms might no
-longer be sufficient. Similarly, a user might want to configure the battery
-threshold at which Larry raises a low-battery alarm.
+example, we might decide that only sending out the ultrasonic sensor distance
+every 100 ms might no longer be sufficient. Similarly, a user might want
+to the capability to configure the battery threshold at which Larry raises
+a low-battery alarm.
 
 As systems grow more complex, they often accumulate thousands of individual
-configuration settings. Some are shared between processes, others are
-process-specific. With hundreds of processes in play, managing configuration
-efficiently becomes critical.
+configuration settings such as these. Some are shared between participants,
+others are participant-specific. With hundreds of participants in play,
+managing the configuration efficiently becomes critical.
 
-A naïve approach would be to use publish-subscribe: one process manages the
-configuration and publishes updates to all subscribers. But this can quickly
-turn into a memory bottleneck. Consider a 1 MB configuration shared with 1000
-processes. Since iceoryx2 always pre-allocates for the worst case, it must
-reserve 1001 MB of memory - one copy for the publisher and one potential copy
-for each subscriber. Apart from the memory waste, you also risk configuration
-inconsistencies.
+A naïve approach would be to use publish-subscribe: where one participant
+manages the configuration and publishes updates to all subscribing
+participants, but this can quickly turn into a memory bottleneck. Consider a
+1 MB configuration shared with 1000 participants. Since `iceoryx2` always
+pre-allocates memory for the worst case, it must reserve 1001 MB of memory -
+one copy for the publisher and one potential copy for each subscriber. Apart
+from the memory waste, there is also the risk of configuration inconsistencies.
 
 The solution is the blackboard messaging pattern: a key-value repository in
-shared memory. Each process can access exactly the entries it needs, such as the
-ultrasonic sensor’s update rate. Any shared-memory-compatible type can be stored
-in the blackboard.
+shared memory. Each participant can access exactly the entries it needs, such
+as the ultrasonic sensor’s update rate. Any shared-memory-compatible type can
+be stored in the blackboard.
 
 Let’s implement an example where a user app can configure the sensor update
 rate. A higher rate means Larry reacts to obstacles faster and can drive faster.
@@ -41,14 +42,14 @@ With the blackboard pattern, all key-value pairs must be defined when the
 service is created. Unlike publish-subscribe, you cannot announce a key without
 providing a value. That means exactly one participant is responsible for
 creating the service and initializing default values. All other participants
-simply open the service later.
+may open the service later.
 
 We now create a blackboard with two settings:
 
 * the update rate in milliseconds, and
 * the battery threshold for triggering the low-battery alarm.
 
-For keys we use the `FixedSizeByteString` type from the iceoryx2 base library.
+For keys we use the `FixedSizeByteString` type from the `iceoryx2` base library.
 If portability across languages is a concern, integers could be used instead.
 
 ```rust
@@ -71,7 +72,8 @@ let writer = service.writer_builder().create()?;
 ```
 
 To update an entry, we first obtain a handle for it. The handle is type-checked,
-if you provide the wrong type, you’ll get an error instead of silent corruption.
+so if you provide the wrong type, you’ll get an error instead of silently
+corrupting the data.
 
 ```rust
 let mut battery_threshold_handle =
@@ -103,7 +105,7 @@ while node.wait(Duration::from_millis(100)).is_ok() {
 ## Reader
 
 On the subscriber side, we reuse the node setup from the publish-subscribe
-example. We skip to opening the blackboard service:
+example and skip to opening the blackboard service:
 
 ```rust
 type KeyType = FixedSizeByteString<64>;
@@ -112,7 +114,7 @@ let service = node.service_builder(&"global_config".try_into()?)
     .open()?;
 ```
 
-Now we create a reader port:
+And create a reader port:
 
 ```rust
 let reader = service.reader_builder().create()?;
@@ -127,7 +129,7 @@ let update_rate_handle =
 ```
 
 The sensor loop looks almost identical to our original publisher code, except
-the update interval now comes from the global configuration:
+that the update interval now comes from the global configuration:
 
 ```rust
 while node.wait(Duration::from_millis(update_rate_handle.get())).is_ok() {

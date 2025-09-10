@@ -17,14 +17,14 @@ have to abort if he encounters, say, a canyon.
 Request-Response interactions between App and Larry Autopilot
 ```
 
-This is where the request–response (stream) pattern in iceoryx2 comes into
+This is where the request–response (stream) pattern in `iceoryx2` comes into
 play. It behaves like regular non-blocking request–response, but with one extra
 trick: the server can send a stream of responses instead of just one. Either
 side can end the stream at any time if it’s no longer interested.
 
 ## Client
 
-The client is our user-facing app. A request could be a simple 2D position:
+The client is our user-facing app. The request can be a simple 2D position:
 
 ````{tab-set-code}
 ```{code-block} rust
@@ -131,21 +131,21 @@ Then the service, specifying request and response types:
 ````{tab-set-code}
 ```{code-block} rust
 let service = node
-    .service_builder(&"Autopilot")
+    .service_builder(&"autopilot")
     .request_response::<Position, State>()
     .open_or_create()?;
 ```
 
 ```{code-block} python
 service = (
-    node.service_builder(iox2.ServiceName.new("Autopilot"))
+    node.service_builder(iox2.ServiceName.new("autopilot"))
     .request_response(Position, State)
     .open_or_create()
 )
 ```
 
 ```{code-block} c++
-auto service = node.service_builder(ServiceName::create("Autopilot").expect(""))
+auto service = node.service_builder(ServiceName::create("autopilot").expect(""))
                    .request_response<Position, State>()
                    .open_or_create()
                    .expect("");
@@ -153,7 +153,7 @@ auto service = node.service_builder(ServiceName::create("Autopilot").expect(""))
 
 ```{code-block} c
 // Create service name
-const char* service_name_value = "Autopilot";
+const char* service_name_value = "autopilot";
 iox2_service_name_h service_name = NULL;
 if (iox2_service_name_new(NULL, service_name_value, strlen(service_name_value), &service_name) != IOX2_OK) {
     printf("Unable to create service name!\n");
@@ -206,7 +206,7 @@ iox2_service_name_drop(service_name);
 ```
 ````
 
-Create the client port:
+And create the client port:
 
 ````{tab-set-code}
 ```{code-block} rust
@@ -390,7 +390,7 @@ while (iox2_node_wait(&node_handle, 0, 10000000) == IOX2_OK) {
 
 ## Server
 
-On the server side, setup looks similar:
+On the server side, the setup looks similar:
 
 ````{tab-set-code}
 ```{code-block} rust
@@ -398,7 +398,7 @@ use iceoryx2::prelude::*;
 
 let node = NodeBuilder::new().create::<ipc::Service>()?;
 let service = node
-    .service_builder(&"Autopilot")
+    .service_builder(&"autopilot")
     .request_response::<Position, State>()
     .open_or_create()?;
 
@@ -409,7 +409,7 @@ let server = service.server_builder().create()?;
 node = iox2.NodeBuilder.new().create(iox2.ServiceType.Ipc)
 
 service = (
-    node.service_builder(iox2.ServiceName.new("Autopilot"))
+    node.service_builder(iox2.ServiceName.new("autopilot"))
     .request_response(Position, State)
     .open_or_create()
 )
@@ -420,7 +420,7 @@ server = service.server_builder().create()
 ```{code-block} c++
 auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
 
-auto service = node.service_builder(ServiceName::create("Autopilot").expect(""))
+auto service = node.service_builder(ServiceName::create("autopilot").expect(""))
                    .request_response<Position, State>()
                    .open_or_create()
                    .expect("");
@@ -438,7 +438,7 @@ if (iox2_node_builder_create(node_builder_handle, NULL, iox2_service_type_e_IPC,
 }
 
 // Create service name
-const char* service_name_value = "Autopilot";
+const char* service_name_value = "autopilot";
 iox2_service_name_h service_name = NULL;
 if (iox2_service_name_new(NULL, service_name_value, strlen(service_name_value), &service_name) != IOX2_OK) {
     printf("Unable to create service name!\n");
@@ -503,7 +503,8 @@ iox2_node_drop(node_handle);
 ````
 
 The server checks every 100 ms for new requests. (You could combine this with
-event messaging to block until a request arrives, but here we keep it simple.)
+event messaging to block until a request arrives, but for the purpose of this
+tutorial, we keep it simple.)
 When a request is received, Larry starts driving and periodically sends status
 updates.
 
@@ -626,9 +627,9 @@ while (iox2_node_wait(&node_handle, 0, 10000000) == IOX2_OK) {
 ```
 ````
 
-This way, the client gets a continuous stream of updates, either side can
-gracefully stop when necessary, and Larry doesn’t drive blindly into canyons
-(in theory).
+This way, the client can receive a continuous stream of updates, either side
+can gracefully stop when necessary, and Larry doesn’t drive blindly into
+canyons (in theory).
 
 ## Related Examples
 

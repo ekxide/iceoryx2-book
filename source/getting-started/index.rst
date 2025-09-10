@@ -9,4 +9,4 @@ application.
    :maxdepth: 1
 
    quickstart
-   wiring-a-robot-brain/index
+   robot-nervous-system/index
