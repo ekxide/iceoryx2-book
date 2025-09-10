@@ -1,10 +1,5 @@
 # Event
 
-```{admonition} Learning Objectives
-
-TODO
-```
-
 Larry now has his distance sensor sorted out, but he’s still clumsy. We’ll add
 two more sensors:
 

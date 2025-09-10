@@ -1,10 +1,5 @@
 # Blackboard
 
-```{admonition} Learning Objectives
-
-TODO
-```
-
 Now that our robot Larry can reliably drive from `A` to `B`, we want to tweak
 the hardware and increase the update rate of our cyclic sensor data. For
 example, sending out the ultrasonic sensor distance only every 100 ms might no

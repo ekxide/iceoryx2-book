@@ -1,10 +1,5 @@
 # Command Line Tools and Debugging
 
-```{admonition} Learning Objectives
-
-TODO
-```
-
 Our system has grown into something fairly complex: an ultrasonic sensor
 measuring distances, an emergency brake, an autopilot service, and a global
 configuration service. When things go wrong, and they will, we need ways to peek

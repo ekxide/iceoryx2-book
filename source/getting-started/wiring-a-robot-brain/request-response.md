@@ -1,10 +1,5 @@
 # Request–Response
 
-```{admonition} Learning Objectives
-
-TODO
-```
-
 With emergency brakes and some basic fault handling in place, it’s time for
 something a bit more sophisticated.
 

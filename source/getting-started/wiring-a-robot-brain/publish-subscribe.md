@@ -1,10 +1,5 @@
 # Publish–Subscribe
 
-```{admonition} Learning Objectives
-
-TODO
-```
-
 Larry’s hardware and algorithms are already built. Now we want to send the
 distance measured by his ultrasonic sensor to another process that can slam the
 brakes if an obstacle gets closer than X meters.

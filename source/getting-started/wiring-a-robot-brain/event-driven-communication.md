@@ -1,10 +1,5 @@
 # Event-Driven Communication
 
-```{admonition} Learning Objectives
-
-TODO
-```
-
 Before jumping into the example, we need to clarify the difference between
 **data flow** and **control flow**.
 
