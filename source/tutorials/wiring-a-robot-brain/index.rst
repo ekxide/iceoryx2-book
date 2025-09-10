@@ -1,2 +1,0 @@
-Wiring a Robot Brain
-====================

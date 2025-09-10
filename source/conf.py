@@ -43,6 +43,7 @@ source_suffix = {
 html_theme = "furo"
 html_title = "The iceoryx2 Book"
 html_theme_options = {
+    "top_of_page_buttons": [],
     "light_css_variables": {
         "color-brand-primary": "#6c7b7f",
         "color-brand-content": "#6c7b7f",
