@@ -1,5 +1,10 @@
 <svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
   <defs>
+    <style>
+      .custom-fonts {
+        font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+    </style>
     <marker id="arrow" markerWidth="6" markerHeight="6" 
      refX="5" refY="3" orient="auto">
       <polygon points="0,0 0,6 6,3" fill="#6c7b7f"/>
@@ -13,145 +18,145 @@
   
   <!-- Direct iceoryx2 Apps -->
   <rect x="30" y="85" width="40" height="30" fill="#f9fafb" stroke="#6b7280" stroke-width="2" />
-  <text x="50" y="97" text-anchor="middle" font-size="7" font-weight="bold" fill="#1f2937">iceoryx2</text>
-  <text x="50" y="107" text-anchor="middle" font-size="7" fill="#1f2937">App</text>
+  <text x="50" y="97" text-anchor="middle" class="custom-fonts" font-size="7" font-weight="bold" fill="#1f2937">iceoryx2</text>
+  <text x="50" y="107" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">App</text>
   
   <rect x="80" y="85" width="40" height="30" fill="#f9fafb" stroke="#6b7280" stroke-width="2" />
-  <text x="100" y="97" text-anchor="middle" font-size="7" font-weight="bold" fill="#1f2937">iceoryx2</text>
-  <text x="100" y="107" text-anchor="middle" font-size="7" fill="#1f2937">App</text>
+  <text x="100" y="97" text-anchor="middle" class="custom-fonts" font-size="7" font-weight="bold" fill="#1f2937">iceoryx2</text>
+  <text x="100" y="107" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">App</text>
 
   <!-- Tunnel Applications -->
   <rect x="170" y="85" width="40" height="30" fill="#f9fafb" stroke="#6b7280" stroke-width="2" />
-  <text x="190" y="97" text-anchor="middle" font-size="7" font-weight="bold" fill="#1f2937">iceoryx2</text>
-  <text x="190" y="107" text-anchor="middle" font-size="7" fill="#1f2937">App</text>
+  <text x="190" y="97" text-anchor="middle" class="custom-fonts" font-size="7" font-weight="bold" fill="#1f2937">iceoryx2</text>
+  <text x="190" y="107" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">App</text>
 
   <!-- Gateway Applications -->
   <rect x="270" y="85" width="35" height="30" fill="#f9fafb" stroke="#6b7280" stroke-width="2" />
-  <text x="287" y="97" text-anchor="middle" font-size="7" font-weight="bold" fill="#1f2937">Zenoh</text>
-  <text x="287" y="107" text-anchor="middle" font-size="7" fill="#1f2937">App</text>
+  <text x="287" y="97" text-anchor="middle" class="custom-fonts" font-size="7" font-weight="bold" fill="#1f2937">Zenoh</text>
+  <text x="287" y="107" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">App</text>
   
   <rect x="315" y="85" width="35" height="30" fill="#f9fafb" stroke="#6b7280" stroke-width="2" />
-  <text x="332" y="97" text-anchor="middle" font-size="7" font-weight="bold" fill="#1f2937">DDS</text>
-  <text x="332" y="107" text-anchor="middle" font-size="7" fill="#1f2937">App</text>
+  <text x="332" y="97" text-anchor="middle" class="custom-fonts" font-size="7" font-weight="bold" fill="#1f2937">DDS</text>
+  <text x="332" y="107" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">App</text>
   
   <!-- ROS 2 Apps -->
   <rect x="400" y="85" width="35" height="30" fill="#f9fafb" stroke="#6b7280" stroke-width="2" />
-  <text x="417" y="97" text-anchor="middle" font-size="7" font-weight="bold" fill="#1f2937">ROS 2</text>
-  <text x="417" y="107" text-anchor="middle" font-size="7" fill="#1f2937">App</text>
+  <text x="417" y="97" text-anchor="middle" class="custom-fonts" font-size="7" font-weight="bold" fill="#1f2937">ROS 2</text>
+  <text x="417" y="107" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">App</text>
   
   <rect x="445" y="85" width="35" height="30" fill="#f9fafb" stroke="#6b7280" stroke-width="2" />
-  <text x="462" y="97" text-anchor="middle" font-size="7" font-weight="bold" fill="#1f2937">ROS 2</text>
-  <text x="462" y="107" text-anchor="middle" font-size="7" fill="#1f2937">Tool</text>
+  <text x="462" y="97" text-anchor="middle" class="custom-fonts" font-size="7" font-weight="bold" fill="#1f2937">ROS 2</text>
+  <text x="462" y="107" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">Tool</text>
   
   <!-- AUTOSAR Apps -->
   <rect x="540" y="85" width="40" height="30" fill="#f9fafb" stroke="#6b7280" stroke-width="2" />
-  <text x="560" y="97" text-anchor="middle" font-size="7" font-weight="bold" fill="#1f2937">AUTOSAR</text>
-  <text x="560" y="107" text-anchor="middle" font-size="7" fill="#1f2937">App</text>
+  <text x="560" y="97" text-anchor="middle" class="custom-fonts" font-size="7" font-weight="bold" fill="#1f2937">AUTOSAR</text>
+  <text x="560" y="107" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">App</text>
 
   <!-- Middleware Layer -->
   
   <!-- Tunnel -->
   <rect x="140" y="135" width="100" height="35" fill="#4b5563" stroke="#374151" stroke-width="2" />
-  <text x="190" y="147" text-anchor="middle" font-size="8" font-weight="bold" fill="white">tunnel</text>
+  <text x="190" y="147" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="white">tunnel</text>
   <rect x="145" y="153" width="28" height="12" fill="#9ca3af"/>
-  <text x="159" y="161" text-anchor="middle" font-size="6" fill="white">Zenoh</text>
+  <text x="159" y="161" text-anchor="middle" class="custom-fonts" font-size="6" fill="white">Zenoh</text>
   <rect x="178" y="153" width="28" height="12" fill="#9ca3af"/>
-  <text x="192" y="161" text-anchor="middle" font-size="6" fill="white">smoltcp</text>
+  <text x="192" y="161" text-anchor="middle" class="custom-fonts" font-size="6" fill="white">smoltcp</text>
   <rect x="211" y="153" width="24" height="12" fill="#9ca3af"/>
-  <text x="223" y="161" text-anchor="middle" font-size="6" fill="white">...</text>
+  <text x="223" y="161" text-anchor="middle" class="custom-fonts" font-size="6" fill="white">...</text>
 
   <!-- Gateway -->
   <rect x="260" y="135" width="100" height="35" fill="#4b5563" stroke="#374151" stroke-width="2" />
-  <text x="310" y="147" text-anchor="middle" font-size="8" font-weight="bold" fill="white">gateway</text>
+  <text x="310" y="147" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="white">gateway</text>
   <rect x="265" y="153" width="28" height="12" fill="#9ca3af"/>
-  <text x="279" y="161" text-anchor="middle" font-size="6" fill="white">Zenoh</text>
+  <text x="279" y="161" text-anchor="middle" class="custom-fonts" font-size="6" fill="white">Zenoh</text>
   <rect x="298" y="153" width="28" height="12" fill="#9ca3af"/>
-  <text x="312" y="161" text-anchor="middle" font-size="6" fill="white">DDS</text>
+  <text x="312" y="161" text-anchor="middle" class="custom-fonts" font-size="6" fill="white">DDS</text>
   <rect x="331" y="153" width="24" height="12" fill="#9ca3af"/>
-  <text x="343" y="161" text-anchor="middle" font-size="6" fill="white">...</text>
+  <text x="343" y="161" text-anchor="middle" class="custom-fonts" font-size="6" fill="white">...</text>
   
   <!-- RMW -->
   <rect x="380" y="135" width="120" height="35" fill="#4b5563" stroke="#374151" stroke-width="2" />
-  <text x="440" y="155" text-anchor="middle" font-size="8" font-weight="bold" fill="white">rmw_iceoryx2</text>
+  <text x="440" y="155" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="white">rmw_iceoryx2</text>
 
   <!-- iceoryx2 Core Layer -->
   <rect x="20" y="190" width="560" height="60" fill="#4b5563" stroke="#374151" stroke-width="2" />
-  <text x="300" y="240" text-anchor="middle" font-size="18" font-weight="bold" fill="white">iceoryx2</text>
+  <text x="300" y="240" text-anchor="middle" class="custom-fonts" font-size="18" font-weight="bold" fill="white">iceoryx2</text>
   
   <!-- Language Bindings -->
   <rect x="30" y="200" width="540" height="20" fill="#f3f4f6" stroke="#6b7280" stroke-width="2"/>
-  <text x="70" y="212" text-anchor="middle" font-size="8" font-weight="bold" fill="#1f2937">C</text>
-  <text x="120" y="212" text-anchor="middle" font-size="8" font-weight="bold" fill="#1f2937">C++</text>
-  <text x="170" y="212" text-anchor="middle" font-size="8" font-weight="bold" fill="#1f2937">Rust</text>
-  <text x="220" y="212" text-anchor="middle" font-size="8" font-weight="bold" fill="#1f2937">Python</text>
-  <text x="270" y="212" text-anchor="middle" font-size="8" font-weight="bold" fill="#6b7280">Go</text>
-  <text x="320" y="212" text-anchor="middle" font-size="8" font-weight="bold" fill="#6b7280">Swift</text>
-  <text x="370" y="212" text-anchor="middle" font-size="8" font-weight="bold" fill="#6b7280">Lua</text>
-  <text x="420" y="212" text-anchor="middle" font-size="8" font-weight="bold" fill="#6b7280">Java</text>
-  <text x="470" y="212" text-anchor="middle" font-size="8" font-weight="bold" fill="#6b7280">Zig</text>
-  <text x="520" y="212" text-anchor="middle" font-size="8" font-weight="bold" fill="#6b7280">...</text>
+  <text x="70" y="212" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#1f2937">C</text>
+  <text x="120" y="212" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#1f2937">C++</text>
+  <text x="170" y="212" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#1f2937">Rust</text>
+  <text x="220" y="212" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#1f2937">Python</text>
+  <text x="270" y="212" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#6b7280">Go</text>
+  <text x="320" y="212" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#6b7280">Swift</text>
+  <text x="370" y="212" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#6b7280">Lua</text>
+  <text x="420" y="212" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#6b7280">Java</text>
+  <text x="470" y="212" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#6b7280">Zig</text>
+  <text x="520" y="212" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#6b7280">...</text>
 
   <!-- Platform Layer -->
   
   <!-- Bare Metal -->
   <rect x="20" y="260" width="60" height="90" fill="#1f2937" stroke="#6b7280" stroke-width="2" />
-  <text x="50" y="305" text-anchor="middle" font-size="9" font-weight="bold" fill="white">Bare</text>
-  <text x="50" y="315" text-anchor="middle" font-size="9" font-weight="bold" fill="white">Metal</text>
+  <text x="50" y="305" text-anchor="middle" class="custom-fonts" font-size="9" font-weight="bold" fill="white">Bare</text>
+  <text x="50" y="315" text-anchor="middle" class="custom-fonts" font-size="9" font-weight="bold" fill="white">Metal</text>
   
   <!-- Operating Systems -->
   <rect x="90" y="260" width="350" height="45" fill="#d1d5db" stroke="#9ca3af" stroke-width="2" />
-  <text x="265" y="275" text-anchor="middle" font-size="8" font-weight="bold" fill="#1f2937">Operating Systems</text>
+  <text x="265" y="275" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#1f2937">Operating Systems</text>
   
   <rect x="100" y="283" width="45" height="18" fill="white" stroke="#9ca3af"/>
-  <text x="122" y="294" text-anchor="middle" font-size="7" fill="#1f2937">Android</text>
+  <text x="122" y="294" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">Android</text>
   
   <rect x="150" y="283" width="45" height="18" fill="white" stroke="#9ca3af"/>
-  <text x="172" y="294" text-anchor="middle" font-size="7" fill="#1f2937">Linux</text>
+  <text x="172" y="294" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">Linux</text>
   
   <rect x="200" y="283" width="45" height="18" fill="white" stroke="#9ca3af"/>
-  <text x="222" y="294" text-anchor="middle" font-size="7" fill="#1f2937">macOS</text>
+  <text x="222" y="294" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">macOS</text>
   
   <rect x="250" y="283" width="45" height="18" fill="white" stroke="#9ca3af"/>
-  <text x="272" y="294" text-anchor="middle" font-size="7" fill="#1f2937">QNX</text>
+  <text x="272" y="294" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">QNX</text>
   
   <rect x="300" y="283" width="45" height="18" fill="white" stroke="#9ca3af"/>
-  <text x="322" y="294" text-anchor="middle" font-size="7" fill="#1f2937">VxWorks</text>
+  <text x="322" y="294" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">VxWorks</text>
   
   <rect x="350" y="283" width="45" height="18" fill="white" stroke="#9ca3af"/>
-  <text x="372" y="294" text-anchor="middle" font-size="7" fill="#1f2937">Windows</text>
+  <text x="372" y="294" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">Windows</text>
   
   <rect x="400" y="283" width="30" height="18" fill="white" stroke="#9ca3af"/>
-  <text x="415" y="294" text-anchor="middle" font-size="7" fill="#1f2937">...</text>
+  <text x="415" y="294" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">...</text>
 
   <!-- GPU -->
   <rect x="450" y="260" width="60" height="90" fill="#1f2937" stroke="#6b7280" stroke-width="2" />
-  <text x="480" y="310" text-anchor="middle" font-size="9" font-weight="bold" fill="white">GPU</text>
+  <text x="480" y="310" text-anchor="middle" class="custom-fonts" font-size="9" font-weight="bold" fill="white">GPU</text>
   
   <!-- FPGA -->
   <rect x="520" y="260" width="60" height="90" fill="#1f2937" stroke="#6b7280" stroke-width="2" />
-  <text x="550" y="310" text-anchor="middle" font-size="9" font-weight="bold" fill="white">FPGA</text>
+  <text x="550" y="310" text-anchor="middle" class="custom-fonts" font-size="9" font-weight="bold" fill="white">FPGA</text>
 
   <!-- Hardware Architecture -->
   <rect x="90" y="315" width="350" height="35" fill="#6b7280" stroke="#4b5563" stroke-width="2" />
-  <text x="265" y="328" text-anchor="middle" font-size="8" font-weight="bold" fill="white">Hardware Architectures</text>
+  <text x="265" y="328" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="white">Hardware Architectures</text>
   
   <rect x="105" y="333" width="50" height="13" fill="#9ca3af"/>
-  <text x="130" y="341" text-anchor="middle" font-size="7" fill="white">x86_64</text>
+  <text x="130" y="341" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">x86_64</text>
   
   <rect x="160" y="333" width="50" height="13" fill="#9ca3af"/>
-  <text x="185" y="341" text-anchor="middle" font-size="7" fill="white">x86_32</text>
+  <text x="185" y="341" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">x86_32</text>
   
   <rect x="215" y="333" width="50" height="13" fill="#9ca3af"/>
-  <text x="240" y="341" text-anchor="middle" font-size="7" fill="white">AArch64</text>
+  <text x="240" y="341" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">AArch64</text>
   
   <rect x="270" y="333" width="50" height="13" fill="#9ca3af"/>
-  <text x="295" y="341" text-anchor="middle" font-size="7" fill="white">ARMv7</text>
+  <text x="295" y="341" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">ARMv7</text>
   
   <rect x="325" y="333" width="50" height="13" fill="#9ca3af"/>
-  <text x="350" y="341" text-anchor="middle" font-size="7" fill="white">RISC-V</text>
+  <text x="350" y="341" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">RISC-V</text>
 
   <rect x="380" y="333" width="50" height="13" fill="#9ca3af"/>
-  <text x="405" y="341" text-anchor="middle" font-size="7" fill="white">...</text>
+  <text x="405" y="341" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">...</text>
 
   <!-- Connection Arrows -->
   
