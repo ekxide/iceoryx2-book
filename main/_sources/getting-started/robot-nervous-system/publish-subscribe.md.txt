@@ -7,7 +7,7 @@ the brakes if an obstacle gets closer than X meters.
 In `iceoryx2`, that’s a perfect job for the **publish-subscribe** pattern: one
 participant publishes a stream of distances, another subscribes and reacts.
 
-```{figure} /images/wiring-a-robot-brain-publish-subscribe-graph.svg
+```{figure} /images/robot-nervous-system-publish-subscribe-graph.svg
 :alt: Communication graph of Ultrasonic Sensor and Emergency Brake
 :align: center
 :name: fig-wiring-a-robot-brain-publish-subscribe
