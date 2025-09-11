@@ -645,15 +645,16 @@ is covered in a separate tutorial.
 ```{grid-item}
 **{octicon}`code` Rust**
 
-{octicon}`mark-github` [Event-Driven Publisher](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/event_based_communication/publisher.rs)  
-{octicon}`mark-github` [Event-Driven Subscriber](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/event_based_communication/subscriber.rs)
+{octicon}`mark-github` [Minimal Event-Driven Publisher](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/event_based_communication/publisher.rs)  
+{octicon}`mark-github` [Minimal Event-Driven Subscriber](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/event_based_communication/subscriber.rs)
 ```
 
 ```{grid-item}
 **{octicon}`code` Python**
 
-Functionality available but needs an example  
-{octicon}`mark-github` [Create pull request](https://github.com/eclipse-iceoryx/iceoryx2/pulls)
+Functionality available but needs an example.  
+Want to contribute?  
+{octicon}`mark-github` [Create Pull Request](https://github.com/eclipse-iceoryx/iceoryx2/pulls)
 ```
 
 ```{grid-item}
@@ -666,9 +667,10 @@ Functionality available but needs an example
 ```{grid-item}
 **{octicon}`code` C**
 
-Functionality available but needs an example  
+Functionality available but needs an example.  
+Want to contribute?  
 {octicon}`mark-github` 
-[Create pull request](https://github.com/eclipse-iceoryx/iceoryx2/pulls)
+[Create Pull Request](https://github.com/eclipse-iceoryx/iceoryx2/pulls)
 ```
 
 ````
