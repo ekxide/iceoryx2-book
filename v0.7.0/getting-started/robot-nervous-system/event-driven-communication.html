@@ -1,0 +1,1156 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Request-Response" href="request-response.html" /><link rel="prev" title="Event" href="event.html" />
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
+        <title>Event-Driven Communication - The iceoryx2 Book</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=25af2a20" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=40c8bed2" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  --color-brand-primary: #6c7b7f;
+  --color-brand-content: #6c7b7f;
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f9fafb;
+  --color-background-hover: #f3f4f6;
+  --color-background-border: #e5e7eb;
+  --color-foreground-primary: #1f2937;
+  --color-foreground-secondary: #6b7280;
+  --color-foreground-muted: #9ca3af;
+  --color-foreground-border: #e5e7eb;
+  --color-code-background: #f3f4f6;
+  --color-code-foreground: #1f2937;
+  --color-link: #6c7b7f;
+  --color-link-underline: #6c7b7f;
+  --color-link-underline--hover: #4b5563;
+  --color-sidebar-background: #f9fafb;
+  --color-sidebar-background-border: #e5e7eb;
+  --color-sidebar-item-background--hover: #f3f4f6;
+  --color-sidebar-link-text: #4b5563;
+  --color-sidebar-link-text--top-level: #1f2937;
+  --color-sidebar-caption-text: #6b7280;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #9ca3af;
+  --color-brand-content: #9ca3af;
+  --color-background-primary: #1C1D1F;
+  --color-background-secondary: #252628;
+  --color-background-hover: #2a2c2f;
+  --color-background-border: #38393b;
+  --color-foreground-primary: #d2dbde;
+  --color-foreground-secondary: #859399;
+  --color-foreground-muted: #859399;
+  --color-foreground-border: #38393b;
+  --color-code-background: #2a2c2f;
+  --color-code-foreground: #d2dbde;
+  --color-link: #9ca3af;
+  --color-link-underline: #9ca3af;
+  --color-link-underline--hover: #d1d5db;
+  --color-sidebar-background: #252628;
+  --color-sidebar-background-border: #38393b;
+  --color-sidebar-item-background--hover: #2a2c2f;
+  --color-sidebar-link-text: #d2dbde;
+  --color-sidebar-link-text--top-level: #ffffff;
+  --color-sidebar-caption-text: #859399;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #9ca3af;
+  --color-brand-content: #9ca3af;
+  --color-background-primary: #1C1D1F;
+  --color-background-secondary: #252628;
+  --color-background-hover: #2a2c2f;
+  --color-background-border: #38393b;
+  --color-foreground-primary: #d2dbde;
+  --color-foreground-secondary: #859399;
+  --color-foreground-muted: #859399;
+  --color-foreground-border: #38393b;
+  --color-code-background: #2a2c2f;
+  --color-code-foreground: #d2dbde;
+  --color-link: #9ca3af;
+  --color-link-underline: #9ca3af;
+  --color-link-underline--hover: #d1d5db;
+  --color-sidebar-background: #252628;
+  --color-sidebar-background-border: #38393b;
+  --color-sidebar-item-background--hover: #2a2c2f;
+  --color-sidebar-link-text: #d2dbde;
+  --color-sidebar-link-text--top-level: #ffffff;
+  --color-sidebar-caption-text: #859399;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">The iceoryx2 Book</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  <span class="sidebar-brand-text">The iceoryx2 Book</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">User Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">Getting Started</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Getting Started</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l2 current has-children"><a class="reference internal" href="index.html">A Robot Nervous System</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of A Robot Nervous System</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="publish-subscribe.html">Publish–Subscribe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Event</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">Event-Driven Communication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="request-response.html">Request-Response</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blackboard.html">Blackboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="command-line-tools-and-debugging.html">Command Line Tools and Debugging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../fundamentals/index.html">Fundamentals</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Fundamentals</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../fundamentals/layered-architecture.html">Layered Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../fundamentals/shared-memory.html">Shared Memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../fundamentals/communication-model.html">Communication Model</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../fundamentals/messaging-patterns/index.html">Messaging Patterns</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Messaging Patterns</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../fundamentals/messaging-patterns/publish-subscribe.html">Publish-Subscribe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fundamentals/messaging-patterns/event.html">Event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fundamentals/messaging-patterns/request-response.html">Request-Response</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fundamentals/messaging-patterns/blackboard.html">Blackboard</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../fundamentals/execution-control.html">Execution Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../fundamentals/cross-language-support.html">Cross-Language Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../fundamentals/gateways-and-tunnels.html">Gateways and Tunnels</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://eclipse-iceoryx.github.io/iceoryx2">Overview</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.rs/iceoryx2/latest">Rust</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://eclipse-iceoryx.github.io/iceoryx2/python/latest">Python</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://eclipse-iceoryx.github.io/iceoryx2/cxx/latest">C++</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://eclipse-iceoryx.github.io/iceoryx2/c/latest">C</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="event-driven-communication">
+<h1>Event-Driven Communication<a class="headerlink" href="#event-driven-communication" title="Link to this heading">#</a></h1>
+<p>Before jumping into the example, we need to clarify the difference between
+<strong>data flow</strong> and <strong>control flow</strong>.</p>
+<p>In programming, control flow is about <em>when</em> a function executes, while data
+flow is about <em>what inputs</em> it receives. In <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> these two concepts are
+separated on purpose, unlike in many network protocols where receiving data
+automatically involves a syscall that wakes up the participant.</p>
+<p>Messaging patterns like publish-subscribe and request-response define the data
+flow. The event messaging pattern handles control flow. Why split them? Because
+you don’t always want to pass data when triggering execution. Sometimes you just
+need to wake up a function with no additional input. Other times you need
+several inputs, and you don’t want to be interrupted until all of them have
+arrived.
+Mixing data and control flow forces you into hacks like sending empty messages
+or waking up too early.</p>
+<p>By keeping them separate, <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> gives you explicit control over <em>when</em> your
+system reacts.</p>
+<section id="why-it-matters">
+<h2>Why It Matters<a class="headerlink" href="#why-it-matters" title="Link to this heading">#</a></h2>
+<p>Take the emergency brake system of our robot Larry. It doesn’t need every single
+distance sample from the ultrasonic sensor. If the next obstacle detected is on
+another planet, we can ignore it. But when an obstacle is close, we suddenly
+care. And not just about the raw number but also the trend over time. If the
+object is receding, no action is needed; if it’s approaching, we may need to hit
+the brakes.</p>
+<p>Now consider failure cases. If the sensor participant dies and never sends
+another update, Larry shouldn’t drive happily into oblivion. A safe fallback
+(parking, for example) is required. Another factor to consider: the emergency
+brake participant might start after the sensor participant.
+In that case, it still needs the most recent three distance samples to compute
+not just position, but relative speed and acceleration.</p>
+<p>These scenarios show why we want independent streams for data and control
+signals.</p>
+</section>
+<section id="publisher-setup">
+<h2>Publisher Setup<a class="headerlink" href="#publisher-setup" title="Link to this heading">#</a></h2>
+<p>We start by creating a node and defining two services with the same name:</p>
+<ul class="simple">
+<li><p>a publish-subscribe service for distance samples,</p></li>
+<li><p>an event service for control signals.</p></li>
+</ul>
+<p>The subscriber needs the last three samples whenever it connects, so we
+configure both the subscriber buffer and history size accordingly. The
+subscriber also needs to hold on to/borrow three samples in parallel to compute
+position, speed, and acceleration.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-0">
+RUST</label><div class="sd-tab-content docutils">
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">iceoryx2</span><span class="p">::</span><span class="n">prelude</span><span class="p">::</span><span class="o">*</span><span class="p">;</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">create</span><span class="p">::</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="o">&gt;</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">pubsub_service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
+<span class="w">    </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;distance_to_obstacle&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">publish_subscribe</span><span class="p">::</span><span class="o">&lt;</span><span class="n">Distance</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">subscriber_max_buffer_size</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">history_size</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">subscriber_max_borrowed_samples</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="python" for="sd-tab-item-1">
+PYTHON</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">iceoryx2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">iox2</span>
+
+<span class="n">node</span> <span class="o">=</span> <span class="n">iox2</span><span class="o">.</span><span class="n">NodeBuilder</span><span class="o">.</span><span class="n">new</span><span class="p">()</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">iox2</span><span class="o">.</span><span class="n">ServiceType</span><span class="o">.</span><span class="n">Ipc</span><span class="p">)</span>
+
+<span class="n">pubsub_service</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">node</span><span class="o">.</span><span class="n">service_builder</span><span class="p">(</span><span class="n">iox2</span><span class="o">.</span><span class="n">ServiceName</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;distance_to_obstacle&quot;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">publish_subscribe</span><span class="p">(</span><span class="n">Distance</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">subscriber_max_buffer_size</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">history_size</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">subscriber_max_borrowed_samples</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">open_or_create</span><span class="p">()</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-2">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;iox2/iceoryx2.hpp&quot;</span>
+
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">iox2</span><span class="p">;</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">().</span><span class="n">create</span><span class="o">&lt;</span><span class="n">ServiceType</span><span class="o">::</span><span class="n">Ipc</span><span class="o">&gt;</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">pubsub_service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="n">ServiceName</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="s">&quot;distance_to_obstacle&quot;</span><span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">))</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">publish_subscribe</span><span class="o">&lt;</span><span class="n">Distance</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">subscriber_max_buffer_size</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">history_size</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">subscriber_max_borrowed_samples</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-3">
+C</label><div class="sd-tab-content docutils">
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;iox2/iceoryx2.h&quot;</span>
+
+<span class="c1">// create new node</span>
+<span class="n">iox2_node_builder_h</span><span class="w"> </span><span class="n">node_builder_handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_builder_new</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+<span class="n">iox2_node_h</span><span class="w"> </span><span class="n">node_handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_builder_create</span><span class="p">(</span><span class="n">node_builder_handle</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">iox2_service_type_e_IPC</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">node_handle</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Could not create node!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// create service name</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">service_name_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;distance_to_obstacle&quot;</span><span class="p">;</span>
+<span class="n">iox2_service_name_h</span><span class="w"> </span><span class="n">service_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_name_new</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_value</span><span class="p">,</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">service_name_value</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">service_name</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create service name!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// create service builder</span>
+<span class="n">iox2_service_name_ptr</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_cast_service_name_ptr</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
+<span class="n">iox2_service_builder_h</span><span class="w"> </span><span class="n">service_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node_handle</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="p">);</span>
+<span class="n">iox2_service_builder_pub_sub_h</span><span class="w"> </span><span class="n">service_builder_pub_sub</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_service_builder_pub_sub</span><span class="p">(</span><span class="n">service_builder</span><span class="p">);</span>
+
+<span class="c1">// set pub sub payload type</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">payload_type_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Distance&quot;</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_builder_pub_sub_set_payload_type_details</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service_builder_pub_sub</span><span class="p">,</span>
+<span class="w">                                                          </span><span class="n">iox2_type_variant_e_FIXED_SIZE</span><span class="p">,</span>
+<span class="w">                                                          </span><span class="n">payload_type_name</span><span class="p">,</span>
+<span class="w">                                                          </span><span class="n">strlen</span><span class="p">(</span><span class="n">payload_type_name</span><span class="p">),</span>
+<span class="w">                                                          </span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">TransmissionData</span><span class="p">),</span>
+<span class="w">                                                          </span><span class="k">alignof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">TransmissionData</span><span class="p">))</span>
+<span class="w">    </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to set type details</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">iox2_service_builder_pub_sub_set_subscriber_max_buffer_size</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service_builder_pub_sub</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+<span class="n">iox2_service_builder_pub_sub_set_history_size</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service_builder_pub_sub</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+<span class="n">iox2_service_builder_pub_sub_set_subscriber_max_borrowed_samples</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service_builder_pub_sub</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+
+<span class="c1">// create service</span>
+<span class="n">iox2_port_factory_pub_sub_h</span><span class="w"> </span><span class="n">pubsub_service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_builder_pub_sub_open_or_create</span><span class="p">(</span><span class="n">service_builder_pub_sub</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">pubsub_service</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create service!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// do not forget to release the resources later</span>
+<span class="n">iox2_port_factory_pub_sub_drop</span><span class="p">(</span><span class="n">pubsub_service</span><span class="p">);</span>
+<span class="n">iox2_service_name_drop</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
+<span class="n">iox2_node_drop</span><span class="p">(</span><span class="n">node_handle</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the event service, we configure a special event that fires if the sensor
+participant is identified as dead, allowing the emergency brake to switch to a
+safe state.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-4" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-4">
+RUST</label><div class="sd-tab-content docutils">
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">ultra_sonic_service_dead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EventId</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">event_service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
+<span class="w">    </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;distance_to_obstacle&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">event</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">notifier_dead_event</span><span class="p">(</span><span class="n">ultra_sonic_service_dead</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="python" for="sd-tab-item-5">
+PYTHON</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ultra_sonic_service_dead</span> <span class="o">=</span> <span class="n">iox2</span><span class="o">.</span><span class="n">EventId</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">event_service</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">node</span>
+    <span class="o">.</span><span class="n">service_builder</span><span class="p">(</span><span class="n">iox2</span><span class="o">.</span><span class="n">ServiceName</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;distance_to_obstacle&quot;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">event</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">notifier_dead_event</span><span class="p">(</span><span class="n">ultra_sonic_service_dead</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">open_or_create</span><span class="p">()</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-6" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-6">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">ultra_sonic_service_dead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EventId</span><span class="o">::</span><span class="k">new</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">event_service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="n">ServiceName</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="s">&quot;distance_to_obstacle&quot;</span><span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">))</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">event</span><span class="p">()</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">notifier_dead_event</span><span class="p">(</span><span class="n">ultra_sonic_service_dead</span><span class="p">)</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-7" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-7">
+C</label><div class="sd-tab-content docutils">
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">size_t</span><span class="w"> </span><span class="n">ultra_sonic_service_dead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="n">iox2_service_name_ptr</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_cast_service_name_ptr</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
+<span class="n">iox2_service_builder_h</span><span class="w"> </span><span class="n">service_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node_handle</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="p">);</span>
+<span class="n">iox2_service_builder_event_h</span><span class="w"> </span><span class="n">service_builder_event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_service_builder_event</span><span class="p">(</span><span class="n">service_builder</span><span class="p">);</span>
+
+<span class="n">iox2_service_builder_event_set_notifier_dead_event</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service_builder_event</span><span class="p">,</span><span class="w"> </span><span class="n">ultra_sonic_service_dead</span><span class="p">);</span>
+
+<span class="n">iox2_port_factory_event_h</span><span class="w"> </span><span class="n">event_service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_builder_event_open_or_create</span><span class="p">(</span><span class="n">service_builder_event</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">event_service</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create service!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// do not forget to release the resources later</span>
+<span class="n">iox2_port_factory_event_drop</span><span class="p">(</span><span class="n">event_service</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we create a publisher for the distance samples and a notifier for control
+events.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-8" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-8">
+RUST</label><div class="sd-tab-content docutils">
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">publisher</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pubsub_service</span><span class="p">.</span><span class="n">publisher_builder</span><span class="p">().</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">notifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event_service</span><span class="p">.</span><span class="n">notifier_builder</span><span class="p">().</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">obstacle_too_close</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EventId</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-9" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="python" for="sd-tab-item-9">
+PYTHON</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">publisher</span> <span class="o">=</span> <span class="n">pubsub_service</span><span class="o">.</span><span class="n">publisher_builder</span><span class="p">()</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="n">notifier</span> <span class="o">=</span> <span class="n">event_service</span><span class="o">.</span><span class="n">notifier_builder</span><span class="p">()</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+
+<span class="n">obstacle_too_close</span> <span class="o">=</span> <span class="n">iox2</span><span class="o">.</span><span class="n">EventId</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-10" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-10">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">publisher</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pubsub_service</span><span class="p">.</span><span class="n">publisher_builder</span><span class="p">().</span><span class="n">create</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">notifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event_service</span><span class="p">.</span><span class="n">notifier_builder</span><span class="p">().</span><span class="n">create</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">obstacle_too_close</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EventId</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-11" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-11">
+C</label><div class="sd-tab-content docutils">
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// create notifier</span>
+<span class="n">iox2_port_factory_notifier_builder_h</span><span class="w"> </span><span class="n">notifier_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_port_factory_event_notifier_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">event_service</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="n">iox2_notifier_h</span><span class="w"> </span><span class="n">notifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_port_factory_notifier_builder_create</span><span class="p">(</span><span class="n">notifier_builder</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">notifier</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create notifier!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// create publisher</span>
+<span class="n">iox2_port_factory_publisher_builder_h</span><span class="w"> </span><span class="n">publisher_builder</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="n">iox2_port_factory_pub_sub_publisher_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pubsub_service</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="n">iox2_publisher_h</span><span class="w"> </span><span class="n">publisher</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_port_factory_publisher_builder_create</span><span class="p">(</span><span class="n">publisher_builder</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">publisher</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create publisher!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">iox2_event_id_t</span><span class="w"> </span><span class="n">obstacle_too_close</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">};</span>
+
+<span class="c1">// do not forget to release the resources later</span>
+<span class="n">iox2_publisher_drop</span><span class="p">(</span><span class="n">publisher</span><span class="p">);</span>
+<span class="n">iox2_notifier_drop</span><span class="p">(</span><span class="n">notifier</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The publishing loop: send the distance sample every 100 ms, and trigger an
+event if it’s below the threshold.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-12" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-12">
+RUST</label><div class="sd-tab-content docutils">
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">Duration</span><span class="p">::</span><span class="n">from_millis</span><span class="p">(</span><span class="mi">100</span><span class="p">)).</span><span class="n">is_ok</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">publisher</span><span class="p">.</span><span class="n">loan_uninit</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">distance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_ultra_sonic_sensor_distance</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample</span><span class="p">.</span><span class="n">write_payload</span><span class="p">(</span><span class="n">Distance</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">distance_in_meters</span><span class="p">:</span><span class="w"> </span><span class="nc">distance</span><span class="p">,</span>
+<span class="w">        </span><span class="n">some_other_property</span><span class="p">:</span><span class="w"> </span><span class="mf">42.0</span><span class="p">,</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="w">    </span><span class="n">sample</span><span class="p">.</span><span class="n">send</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">distance</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">distance_threshold</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">notifier</span><span class="p">.</span><span class="n">notify_with_custom_event_id</span><span class="p">(</span><span class="n">obstacle_too_close</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-13" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="python" for="sd-tab-item-13">
+PYTHON</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">node</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">iox2</span><span class="o">.</span><span class="n">Duration</span><span class="o">.</span><span class="n">from_millis</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+
+        <span class="n">sample</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">.</span><span class="n">loan_uninit</span><span class="p">()</span>
+
+        <span class="n">distance</span> <span class="o">=</span> <span class="n">get_ultra_sonic_sensor_distance</span><span class="p">();</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">write_payload</span><span class="p">(</span>
+            <span class="n">Distance</span><span class="p">(</span><span class="n">distance_in_meters</span><span class="p">:</span> <span class="n">distance</span><span class="p">,</span> <span class="n">some_other_property</span><span class="p">:</span> <span class="mf">42.0</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">sample</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">distance</span> <span class="o">&lt;</span> <span class="n">distance_threshold</span><span class="p">:</span>
+            <span class="n">notifier</span><span class="o">.</span><span class="n">notify_with_custom_event_id</span><span class="p">(</span><span class="n">obstacle_too_close</span><span class="p">)</span>
+
+<span class="k">except</span> <span class="n">iox2</span><span class="o">.</span><span class="n">NodeWaitFailure</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exit&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-14" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-14">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">iox</span><span class="o">::</span><span class="n">units</span><span class="o">:</span><span class="n">Duration</span><span class="o">::</span><span class="n">fromMilliseconds</span><span class="p">(</span><span class="mi">100</span><span class="p">)).</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">publisher</span><span class="p">.</span><span class="n">loan_uninit</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;acquire sample&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">distance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_ultra_sonic_sensor_distance</span><span class="p">();</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">initialized_sample</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="n">sample</span><span class="p">.</span><span class="n">write_payload</span><span class="p">(</span><span class="n">Distance</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">distance</span><span class="p">,</span><span class="w"> </span><span class="mf">42.0</span><span class="w"> </span><span class="p">});</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">distance</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">distance_threshold</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">notifier</span><span class="p">.</span><span class="n">notify_with_custom_event_id</span><span class="p">(</span><span class="n">obstacle_too_close</span><span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-15" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-15">
+C</label><div class="sd-tab-content docutils">
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node_handle</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">distance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_ultra_sonic_sensor_distance</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// loan sample</span>
+<span class="w">    </span><span class="n">iox2_sample_mut_h</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_publisher_loan_slice_uninit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">publisher</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sample</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to loan sample</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// write payload</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">Distance</span><span class="o">*</span><span class="w"> </span><span class="n">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="n">iox2_sample_mut_payload_mut</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sample</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="o">**</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="n">payload</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="w">    </span><span class="n">payload</span><span class="o">-&gt;</span><span class="n">distance_in_meters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">distance</span><span class="p">;</span>
+<span class="w">    </span><span class="n">payload</span><span class="o">-&gt;</span><span class="n">some_other_property</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">42.0</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// send sample</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_sample_mut_send</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to send sample</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">distance</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">distance_threshold</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_notifier_notify_with_custom_event_id</span><span class="p">(</span><span class="o">&amp;</span><span class="n">notifier</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">obstacle_too_close</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to notify listener!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="subscriber-setup">
+<h2>Subscriber Setup<a class="headerlink" href="#subscriber-setup" title="Link to this heading">#</a></h2>
+<p>On the other side, we again create both services and their ports:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-16" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-16">
+RUST</label><div class="sd-tab-content docutils">
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">iceoryx2</span><span class="p">::</span><span class="n">prelude</span><span class="p">::</span><span class="o">*</span><span class="p">;</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">create</span><span class="p">::</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="o">&gt;</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">pubsub_service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
+<span class="w">    </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;distance_to_obstacle&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">publish_subscribe</span><span class="p">::</span><span class="o">&lt;</span><span class="n">Distance</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">subscriber_max_buffer_size</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">history_size</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">subscriber_max_borrowed_samples</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">ultra_sonic_service_dead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EventId</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">event_service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
+<span class="w">    </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;distance_to_obstacle&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">event</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">notifier_dead_event</span><span class="p">(</span><span class="n">ultra_sonic_service_dead</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">subscriber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pubsub_service</span><span class="p">.</span><span class="n">subscriber_builder</span><span class="p">().</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">listener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event_service</span><span class="p">.</span><span class="n">listener_builder</span><span class="p">().</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-17" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="python" for="sd-tab-item-17">
+PYTHON</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">iceoryx2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">iox2</span>
+
+<span class="n">node</span> <span class="o">=</span> <span class="n">iox2</span><span class="o">.</span><span class="n">NodeBuilder</span><span class="o">.</span><span class="n">new</span><span class="p">()</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">iox2</span><span class="o">.</span><span class="n">ServiceType</span><span class="o">.</span><span class="n">Ipc</span><span class="p">)</span>
+
+<span class="n">pubsub_service</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">node</span><span class="o">.</span><span class="n">service_builder</span><span class="p">(</span><span class="n">iox2</span><span class="o">.</span><span class="n">ServiceName</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;distance_to_obstacle&quot;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">publish_subscribe</span><span class="p">(</span><span class="n">Distance</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">subscriber_max_buffer_size</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">history_size</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">subscriber_max_borrowed_samples</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">open_or_create</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">ultra_sonic_service_dead</span> <span class="o">=</span> <span class="n">iox2</span><span class="o">.</span><span class="n">EventId</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">event_service</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">node</span>
+    <span class="o">.</span><span class="n">service_builder</span><span class="p">(</span><span class="n">iox2</span><span class="o">.</span><span class="n">ServiceName</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;distance_to_obstacle&quot;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">event</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">notifier_dead_event</span><span class="p">(</span><span class="n">ultra_sonic_service_dead</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">open_or_create</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">subscriber</span> <span class="o">=</span> <span class="n">pubsub_service</span><span class="o">.</span><span class="n">subscriber_builder</span><span class="p">()</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="n">listener</span> <span class="o">=</span> <span class="n">event_service</span><span class="o">.</span><span class="n">listener_builder</span><span class="p">()</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-18" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-18">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;iox2/iceoryx2.hpp&quot;</span>
+
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">iox2</span><span class="p">;</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">().</span><span class="n">create</span><span class="o">&lt;</span><span class="n">ServiceType</span><span class="o">::</span><span class="n">Ipc</span><span class="o">&gt;</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">pubsub_service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="n">ServiceName</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="s">&quot;distance_to_obstacle&quot;</span><span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">))</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">publish_subscribe</span><span class="o">&lt;</span><span class="n">Distance</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">subscriber_max_buffer_size</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">history_size</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">subscriber_max_borrowed_samples</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">ultra_sonic_service_dead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EventId</span><span class="o">::</span><span class="k">new</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">event_service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="n">ServiceName</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="s">&quot;distance_to_obstacle&quot;</span><span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">))</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">event</span><span class="p">()</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">notifier_dead_event</span><span class="p">(</span><span class="n">ultra_sonic_service_dead</span><span class="p">)</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">subscriber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pubsub_service</span><span class="p">.</span><span class="n">subscriber_builder</span><span class="p">().</span><span class="n">create</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">listener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event_service</span><span class="p">.</span><span class="n">listener_builder</span><span class="p">().</span><span class="n">create</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-19" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-19">
+C</label><div class="sd-tab-content docutils">
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;iox2/iceoryx2.h&quot;</span>
+
+<span class="c1">// create new node</span>
+<span class="n">iox2_node_builder_h</span><span class="w"> </span><span class="n">node_builder_handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_builder_new</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+<span class="n">iox2_node_h</span><span class="w"> </span><span class="n">node_handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_builder_create</span><span class="p">(</span><span class="n">node_builder_handle</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">iox2_service_type_e_IPC</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">node_handle</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Could not create node!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// create service name</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">service_name_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;distance_to_obstacle&quot;</span><span class="p">;</span>
+<span class="n">iox2_service_name_h</span><span class="w"> </span><span class="n">service_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_name_new</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_value</span><span class="p">,</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">service_name_value</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">service_name</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create service name!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// create service builder</span>
+<span class="n">iox2_service_name_ptr</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_cast_service_name_ptr</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
+<span class="n">iox2_service_builder_h</span><span class="w"> </span><span class="n">service_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node_handle</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="p">);</span>
+<span class="n">iox2_service_builder_pub_sub_h</span><span class="w"> </span><span class="n">service_builder_pub_sub</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_service_builder_pub_sub</span><span class="p">(</span><span class="n">service_builder</span><span class="p">);</span>
+
+<span class="c1">// set pub sub payload type</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">payload_type_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Distance&quot;</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_builder_pub_sub_set_payload_type_details</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service_builder_pub_sub</span><span class="p">,</span>
+<span class="w">                                                          </span><span class="n">iox2_type_variant_e_FIXED_SIZE</span><span class="p">,</span>
+<span class="w">                                                          </span><span class="n">payload_type_name</span><span class="p">,</span>
+<span class="w">                                                          </span><span class="n">strlen</span><span class="p">(</span><span class="n">payload_type_name</span><span class="p">),</span>
+<span class="w">                                                          </span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">TransmissionData</span><span class="p">),</span>
+<span class="w">                                                          </span><span class="k">alignof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">TransmissionData</span><span class="p">))</span>
+<span class="w">    </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to set type details</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">iox2_service_builder_pub_sub_set_subscriber_max_buffer_size</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service_builder_pub_sub</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+<span class="n">iox2_service_builder_pub_sub_set_history_size</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service_builder_pub_sub</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+<span class="n">iox2_service_builder_pub_sub_set_subscriber_max_borrowed_samples</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service_builder_pub_sub</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+
+<span class="c1">// create pubsub service</span>
+<span class="n">iox2_port_factory_pub_sub_h</span><span class="w"> </span><span class="n">pubsub_service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_builder_pub_sub_open_or_create</span><span class="p">(</span><span class="n">service_builder_pub_sub</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">pubsub_service</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create service!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// create event service</span>
+<span class="kt">size_t</span><span class="w"> </span><span class="n">ultra_sonic_service_dead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="n">iox2_service_name_ptr</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_cast_service_name_ptr</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
+<span class="n">iox2_service_builder_h</span><span class="w"> </span><span class="n">service_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node_handle</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="p">);</span>
+<span class="n">iox2_service_builder_event_h</span><span class="w"> </span><span class="n">service_builder_event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_service_builder_event</span><span class="p">(</span><span class="n">service_builder</span><span class="p">);</span>
+
+<span class="n">iox2_service_builder_event_set_notifier_dead_event</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service_builder_event</span><span class="p">,</span><span class="w"> </span><span class="n">ultra_sonic_service_dead</span><span class="p">);</span>
+
+<span class="n">iox2_port_factory_event_h</span><span class="w"> </span><span class="n">event_service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_builder_event_open_or_create</span><span class="p">(</span><span class="n">service_builder_event</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">event_service</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create service!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// create subscriber</span>
+<span class="n">iox2_port_factory_subscriber_builder_h</span><span class="w"> </span><span class="n">subscriber_builder</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="n">iox2_port_factory_pub_sub_subscriber_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pubsub_service</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="n">iox2_subscriber_h</span><span class="w"> </span><span class="n">subscriber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_port_factory_subscriber_builder_create</span><span class="p">(</span><span class="n">subscriber_builder</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">subscriber</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create subscriber!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// create listener</span>
+<span class="n">iox2_port_factory_listener_builder_h</span><span class="w"> </span><span class="n">listener_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_port_factory_event_listener_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">event_service</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="n">iox2_listener_h</span><span class="w"> </span><span class="n">listener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_port_factory_listener_builder_create</span><span class="p">(</span><span class="n">listener_builder</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">listener</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create listener!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// do not forget to release the resources later</span>
+<span class="n">iox2_listener_drop</span><span class="p">(</span><span class="n">listener</span><span class="p">);</span>
+<span class="n">iox2_subscriber_drop</span><span class="p">(</span><span class="n">subscriber</span><span class="p">);</span>
+<span class="n">iox2_port_factory_event_drop</span><span class="p">(</span><span class="n">event_service</span><span class="p">);</span>
+<span class="n">iox2_port_factory_pub_sub_drop</span><span class="p">(</span><span class="n">pubsub_service</span><span class="p">);</span>
+<span class="n">iox2_service_name_drop</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
+<span class="n">iox2_node_drop</span><span class="p">(</span><span class="n">node_handle</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Instead of polling every 100 ms, the subscriber just waits for events. When
+woken up, it processes them and goes back to sleep.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-20" name="sd-tab-set-5" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-20">
+RUST</label><div class="sd-tab-content docutils">
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="n">listener</span><span class="p">.</span><span class="n">blocking_wait_all</span><span class="p">(</span><span class="o">|</span><span class="n">event_id</span><span class="o">|</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">event_id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ultra_sonic_service_dead</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">go_into_parking_position</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">event_id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">obstacle_too_close</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">last_samples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[];</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subscriber</span><span class="p">.</span><span class="n">receive</span><span class="p">()</span><span class="o">?</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">last_samples</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">sample</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">last_samples</span><span class="p">.</span><span class="n">len</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">break</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">perform_break</span><span class="p">(</span><span class="n">last_samples</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}).</span><span class="n">is_ok</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-21" name="sd-tab-set-5" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="python" for="sd-tab-item-21">
+PYTHON</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">event_id</span> <span class="o">=</span> <span class="n">listener</span><span class="o">.</span><span class="n">blocking_wait_one</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">event_id</span> <span class="o">==</span> <span class="n">ultra_sonic_service_dead</span><span class="p">:</span>
+            <span class="n">go_into_parking_position</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">event_id</span> <span class="o">==</span> <span class="n">obstacle_too_close</span><span class="p">:</span>
+            <span class="n">last_samples</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">sample</span> <span class="o">=</span> <span class="n">subscriber</span><span class="o">.</span><span class="n">receive</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">sample</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">payload</span><span class="p">()</span>
+                    <span class="n">last_samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">last_samples</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                        <span class="k">break</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">break</span>
+
+            <span class="n">perform_break</span><span class="p">(</span><span class="n">last_samples</span><span class="p">)</span>
+
+<span class="k">except</span> <span class="n">iox2</span><span class="o">.</span><span class="n">ListenerWaitError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exit&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-22" name="sd-tab-set-5" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-22">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">listener</span><span class="p">.</span><span class="n">blocking_wait_all</span><span class="p">(</span>
+<span class="w">    </span><span class="p">[](</span><span class="k">auto</span><span class="w"> </span><span class="n">event_id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">event_id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ultra_sonic_service_dead</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">go_into_parking_position</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">event_id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">obstacle_too_close</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Sample</span><span class="o">&lt;</span><span class="n">ServiceType</span><span class="o">::</span><span class="n">Ipc</span><span class="p">,</span><span class="w"> </span><span class="n">Distance</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">last_samples</span><span class="p">;</span>
+
+<span class="w">            </span><span class="k">auto</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subscriber</span><span class="p">.</span><span class="n">receive</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">sample</span><span class="p">.</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subscriber</span><span class="p">.</span><span class="n">receive</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="w">                </span><span class="n">last_samples</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">sample</span><span class="p">.</span><span class="n">value</span><span class="p">()));</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">last_samples</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="k">break</span><span class="p">;</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">            </span><span class="n">perform_break</span><span class="p">(</span><span class="n">last_samples</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}))</span><span class="w"> </span><span class="p">{}</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-23" name="sd-tab-set-5" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-23">
+C</label><div class="sd-tab-content docutils">
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">iox2_event_id_t</span><span class="w"> </span><span class="n">event_id</span><span class="p">;</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node_handle</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">has_received_one</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_listener_blocking_wait_one</span><span class="p">(</span><span class="o">&amp;</span><span class="n">listener</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">event_id</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">has_received_one</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to wait for notification!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">has_received_one</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">event_id</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ultra_sonic_service_dead</span><span class="p">.</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">go_into_parking_position</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">has_received_one</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">event_id</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">obstacle_too_close</span><span class="p">.</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">iox2_sample_h</span><span class="w"> </span><span class="n">last_samples</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+<span class="w">        </span><span class="k">for</span><span class="p">(</span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_subscriber_receive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">subscriber</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">last_samples</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to receive sample</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">                </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">last_samples</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">break</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">perform_break</span><span class="p">(</span><span class="n">last_samples</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">for</span><span class="p">(</span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">last_samples</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">iox2_sample_drop</span><span class="p">(</span><span class="n">last_samples</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="health-monitoring">
+<h2>Health Monitoring<a class="headerlink" href="#health-monitoring" title="Link to this heading">#</a></h2>
+<p>The notifier’s “dead event” relies on health monitoring: <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> offers
+building blocks that detects when a participant dies. How this works in detail
+is covered in a separate tutorial.</p>
+</section>
+<section id="related-examples">
+<h2>Related Examples<a class="headerlink" href="#related-examples" title="Link to this heading">#</a></h2>
+<!-- markdownlint-disable-next-line MD033 -->
+<br/>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-row-cols-1 sd-row-cols-xs-1 sd-row-cols-sm-1 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-3 sd-g-xs-3 sd-g-sm-3 sd-g-md-3 sd-g-lg-3 docutils">
+<div class="sd-col sd-d-flex-column docutils">
+<p><strong><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-code" viewBox="0 0 16 16" aria-hidden="true"><path d="m11.28 3.22 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L13.94 8l-3.72-3.72a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215Zm-6.56 0a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L2.06 8l3.72 3.72a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L.47 8.53a.75.75 0 0 1 0-1.06Z"></path></svg> Rust</strong></p>
+<p><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-mark-github" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg> <a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/event_based_communication/publisher.rs">Minimal Event-Driven Publisher</a><br />
+<svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-mark-github" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg> <a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/event_based_communication/subscriber.rs">Minimal Event-Driven Subscriber</a></p>
+</div>
+<div class="sd-col sd-d-flex-column docutils">
+<p><strong><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-code" viewBox="0 0 16 16" aria-hidden="true"><path d="m11.28 3.22 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L13.94 8l-3.72-3.72a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215Zm-6.56 0a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L2.06 8l3.72 3.72a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L.47 8.53a.75.75 0 0 1 0-1.06Z"></path></svg> Python</strong></p>
+<p>Functionality available but needs an example.<br />
+Want to contribute?<br />
+<svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-mark-github" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg> <a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/pulls">Create Pull Request</a></p>
+</div>
+<div class="sd-col sd-d-flex-column docutils">
+<p><strong><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-code" viewBox="0 0 16 16" aria-hidden="true"><path d="m11.28 3.22 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L13.94 8l-3.72-3.72a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215Zm-6.56 0a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L2.06 8l3.72 3.72a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L.47 8.53a.75.75 0 0 1 0-1.06Z"></path></svg> C++</strong></p>
+<p><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-mark-github" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg> <a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/event_based_communication/src/publisher.cpp">Minimal Event-Driven Publisher</a><br />
+<svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-mark-github" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg> <a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/event_based_communication/src/subscriber.cpp">Minimal Event-Driven Subscriber</a></p>
+</div>
+<div class="sd-col sd-d-flex-column docutils">
+<p><strong><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-code" viewBox="0 0 16 16" aria-hidden="true"><path d="m11.28 3.22 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L13.94 8l-3.72-3.72a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215Zm-6.56 0a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L2.06 8l3.72 3.72a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L.47 8.53a.75.75 0 0 1 0-1.06Z"></path></svg> C</strong></p>
+<p>Functionality available but needs an example.<br />
+Want to contribute?<br />
+<svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-mark-github" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>
+<a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/pulls">Create Pull Request</a></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="request-response.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Request-Response</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="event.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Event</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, ekxide.io
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Event-Driven Communication</a><ul>
+<li><a class="reference internal" href="#why-it-matters">Why It Matters</a></li>
+<li><a class="reference internal" href="#publisher-setup">Publisher Setup</a></li>
+<li><a class="reference internal" href="#subscriber-setup">Subscriber Setup</a></li>
+<li><a class="reference internal" href="#health-monitoring">Health Monitoring</a></li>
+<li><a class="reference internal" href="#related-examples">Related Examples</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    </body>
+</html>
