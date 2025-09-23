@@ -1,5 +1,13 @@
 # Quickstart
 
+## Prerequisites
+
+To build and run `iceoryx2`, you will need to install the following packages on your
+operating system:
+
+* `gcc` and `g++` compiler (stable)
+* `clang` compiler (stable)
+
 ## Run an Example
 
 1. Clone the [`iceoryx2`](https://github.com/eclipse-iceoryx/iceoryx2/)
