@@ -38,6 +38,14 @@ use iceoryx2::prelude::*;
 
 let node = NodeBuilder::new().create::<ipc::Service>()?;
 ```
+
+```{code-block} c++
+#include "iceoryx2.hpp"
+
+using namespace iox2;
+
+auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
+```
 ````
 
 With the blackboard pattern, all key-value pairs must be defined when the
@@ -51,14 +59,14 @@ We now create a blackboard with two settings:
 * the update rate in milliseconds, and
 * the battery threshold for triggering the low-battery alarm.
 
-For keys we use the `FixedSizeByteString` type from the `iceoryx2` base library.
+For keys we use the `StaticString` type from the `iceoryx2` base library.
 If portability across languages is a concern, integers could be used instead.
 
 ````{tab-set-code}
 ```{code-block} rust
 use iceoryx2_bb_container::string::StaticString;
 
-type KeyType = StaticString<64>;
+type KeyType = StaticString<50>;
 let service = node.service_builder(&"global_config".try_into()?)
     .blackboard_creator::<KeyType>()
     // low battery warning when load is below 25%
@@ -70,6 +78,26 @@ let service = node.service_builder(&"global_config".try_into()?)
     )
     .create()?;
 ```
+
+```{code-block} c++
+#include "iox2/container/static_string.hpp"
+
+ using KeyType = container::StaticString<50>;
+ auto battery_key = container::StaticString<50>::from_utf8("battery_threshold");
+ auto us_sensor_key = container::StaticString<50>::from_utf8("ultra_sonic_sensor_update_rate_in_ms");
+ if (!battery_key.has_value() || !us_sensor_key.has_value()) {
+     std::cerr << "Blackboard keys could not be created." << std::endl;
+ }
+
+ auto service = node.service_builder(ServiceName::create("global_config").expect(""))
+                    .blackboard_creator<KeyType>()
+                    // low battery warning when load is below 25%
+                    .template add<float>(battery_key.value(), 0.25)
+                    // default ultrasonic update rate = 100 ms
+                    .template add<uint32_t>(us_sensor_key.value(), 100)
+                    .create()
+                    .expect("");
+```
 ````
 
 Now we create a writer port to update values:
@@ -77,6 +105,10 @@ Now we create a writer port to update values:
 ````{tab-set-code}
 ```{code-block} rust
 let writer = service.writer_builder().create()?;
+```
+
+```{code-block} c++
+auto writer = service.writer_builder().create().expect("");
 ```
 ````
 
@@ -90,6 +122,11 @@ let mut battery_threshold_handle =
     writer.entry::<f32>(&"battery_threshold".try_into()?)?;
 let mut update_rate_handle =
     writer.entry::<u32>(&"ultra_sonic_sensor_update_rate_in_ms".try_into()?)?;
+```
+
+```{code-block} c++
+auto battery_threshold_handle = writer.template entry<float>(battery_key.value()).expect("");
+auto update_rate_handle = writer.template entry<uint32_t>(us_sensor_key.value()).expect("");
 ```
 ````
 
@@ -113,6 +150,25 @@ while node.wait(Duration::from_millis(100)).is_ok() {
     }
 }
 ```
+
+```{code-block} c++
+while (node.wait(iox::units::Duration::fromMilliseconds(100)).has_value()) {
+    auto new_battery_threshold = get_battery_threshold();
+    if (new_battery_threshold.has_value()) {
+        // small value -> simple copy API
+        battery_threshold_handle.update_with_copy(new_battery_threshold.value());
+    }
+
+    auto new_update_rate = get_update_rate();
+    if (new_update_rate.has_value()) {
+        // larger values -> zero-copy loan API
+        auto value_uninit = loan_uninit(std::move(update_rate_handle));
+        auto value = write(std::move(value_uninit), new_update_rate.value());
+        // loan consumes the handle, returned when the update completes
+        update_rate_handle = update(std::move(value));
+    }
+}
+```
 ````
 
 ## Reader
@@ -122,10 +178,18 @@ example and skip to opening the blackboard service:
 
 ````{tab-set-code}
 ```{code-block} rust
-type KeyType = StaticString<64>;
+type KeyType = StaticString<50>;
 let service = node.service_builder(&"global_config".try_into()?)
     .blackboard_opener::<KeyType>()
     .open()?;
+```
+
+```{code-block} c++
+using KeyType = container::StaticString<50>;
+auto service = node.service_builder(ServiceName::create("global_config").expect(""))
+                   .blackboard_opener<KeyType>()
+                   .open()
+                   .expect("");
 ```
 ````
 
@@ -134,6 +198,10 @@ And create a reader port:
 ````{tab-set-code}
 ```{code-block} rust
 let reader = service.reader_builder().create()?;
+```
+
+```{code-block} c++
+auto reader = service.reader_builder().create().expect("");
 ```
 ````
 
@@ -145,13 +213,18 @@ handle that always points to the latest value:
 let update_rate_handle =
     reader.entry::<u32>(&"ultra_sonic_sensor_update_rate_in_ms".try_into()?)?;
 ```
+
+```{code-block} c++
+auto update_rate_handle = reader.template entry<uint32_t>(us_sensor_key.value()).expect("");
+```
 ````
 
 The sensor loop looks almost identical to our original publisher code, except
 that the update interval now comes from the global configuration:
 
-```rust
-while node.wait(Duration::from_millis(update_rate_handle.get())).is_ok() {
+````{tab-set-code}
+```{code-block} rust
+while node.wait(Duration::from_millis(update_rate_handle.get() as u64)).is_ok() {
     let sample = publisher.loan_uninit()?;
 
     let sample = sample.write_payload(Distance {
@@ -162,6 +235,17 @@ while node.wait(Duration::from_millis(update_rate_handle.get())).is_ok() {
     sample.send()?;
 }
 ```
+
+```{code-block} c++
+while (node.wait(iox::units::Duration::fromMilliseconds(update_rate_handle.get())).has_value()) {
+    auto sample = publisher.loan_uninit().expect("");
+
+    auto initialized_sample = sample.write_payload(Distance { get_ultra_sonic_sensor_distance(), 42.0 });
+
+    send(std::move(initialized_sample)).expect("");
+}
+```
+````
 
 ## Related Examples
 
@@ -186,7 +270,8 @@ Not yet available
 ```{grid-item}
 **{octicon}`code` C++**
 
-Not yet available
+{octicon}`mark-github` [Minimal Creator/Writer](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/blackboard/src/creator.cpp)
+{octicon}`mark-github` [Minimal Opener/Reader](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/blackboard/src/opener.cpp)
 ```
 
 ```{grid-item}
