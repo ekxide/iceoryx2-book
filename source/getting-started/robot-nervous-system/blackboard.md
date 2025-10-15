@@ -46,6 +46,17 @@ using namespace iox2;
 
 auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
 ```
+
+```{code-block} c
+#include "iox2/iceoryx2.h"
+
+iox2_node_builder_h node_builder = iox2_node_builder_new(NULL);
+iox2_node_h node = NULL;
+if (iox2_node_builder_create(node_builder, NULL, iox2_service_type_e_IPC, &node) != IOX2_OK) {
+    printf("Could not create node!\n");
+    exit(-1);
+}
+```
 ````
 
 With the blackboard pattern, all key-value pairs must be defined when the
@@ -98,6 +109,74 @@ let service = node.service_builder(&"global_config".try_into()?)
                     .create()
                     .expect("");
 ```
+
+```{code-block} c
+// create service name
+const char* service_name_value = "global_config";
+iox2_service_name_h service_name = NULL;
+if (iox2_service_name_new(NULL, service_name_value, strlen(service_name_value), &service_name) != IOX2_OK) {
+    printf("Unable to create service name!\n");
+    goto drop_node;
+}
+
+// create service builder
+iox2_service_name_ptr service_name_ptr = iox2_cast_service_name_ptr(service_name);
+iox2_service_builder_h service_builder = iox2_node_service_builder(&node, NULL, service_name_ptr);
+iox2_service_builder_blackboard_creator_h service_builder_blackboard =
+    iox2_service_builder_blackboard_creator(service_builder);
+
+// set key type
+const char* key_type_name = "uint64_t";
+if (iox2_service_builder_blackboard_creator_set_key_type_details(
+        &service_builder_blackboard, key_type_name, strlen(key_type_name), sizeof(uint64_t), alignof(uint64_t))
+    != IOX2_OK) {
+    printf("Unable to set key type details!\n");
+    goto drop_service_name;
+}
+
+// set key eq comparison function
+iox2_service_builder_blackboard_creator_set_key_eq_comparison_function(&service_builder_blackboard, key_cmp);
+
+// create key-value pairs
+uint64_t battery_key = 0;
+const char* battery_value_type_name = "float";
+float battery_value = 0.25;
+uint64_t us_sensor_key = 1;
+const char* us_sensor_value_type_name = "uint32_t";
+uint32_t us_sensor_value = 100;
+
+iox2_service_builder_blackboard_creator_add(&service_builder_blackboard,
+                                            &battery_key,
+                                            &battery_value,
+                                            NULL,
+                                            battery_value_type_name,
+                                            strlen(battery_value_type_name),
+                                            sizeof(float),
+                                            alignof(float));
+
+iox2_service_builder_blackboard_creator_add(&service_builder_blackboard,
+                                            &us_sensor_key,
+                                            &us_sensor_value,
+                                            NULL,
+                                            us_sensor_value_type_name,
+                                            strlen(us_sensor_value_type_name),
+                                            sizeof(uint32_t),
+                                            alignof(uint32_t));
+
+// create service
+iox2_port_factory_blackboard_h service = NULL;
+if (iox2_service_builder_blackboard_create(service_builder_blackboard, NULL, &service) != IOX2_OK) {
+    printf("Unable to create service!\n");
+    goto drop_service_name;
+}
+
+// do not forget to release the resources later
+drop_service_name:
+    iox2_service_name_drop(service_name);
+drop_node:
+    iox2_node_drop(node);
+
+```
 ````
 
 Now we create a writer port to update values:
@@ -109,6 +188,19 @@ let writer = service.writer_builder().create()?;
 
 ```{code-block} c++
 auto writer = service.writer_builder().create().expect("");
+```
+
+```{code-block} c
+iox2_port_factory_writer_builder_h writer_builder = iox2_port_factory_blackboard_writer_builder(&service, NULL);
+iox2_writer_h writer = NULL;
+if (iox2_port_factory_writer_builder_create(writer_builder, NULL, &writer) != IOX2_OK) {
+    printf("Unable to create writer!\n");
+    goto drop_service;
+}
+
+// do not forget to release the resources later
+drop_service:
+    iox2_port_factory_blackboard_drop(service);
 ```
 ````
 
@@ -127,6 +219,42 @@ let mut update_rate_handle =
 ```{code-block} c++
 auto battery_threshold_handle = writer.template entry<float>(battery_key.value()).expect("");
 auto update_rate_handle = writer.template entry<uint32_t>(us_sensor_key.value()).expect("");
+```
+
+```{code-block} c
+iox2_entry_handle_mut_h battery_threshold_handle = NULL;
+if (iox2_writer_entry(&writer,
+                      NULL,
+                      &battery_threshold_handle,
+                      &battery_key,
+                      battery_value_type_name,
+                      strlen(battery_value_type_name),
+                      sizeof(float),
+                      alignof(float))
+    != IOX2_OK) {
+    printf("Unable to create battery threshold handle!\n");
+    goto drop_writer;
+}
+iox2_entry_handle_mut_h update_rate_handle = NULL;
+if (iox2_writer_entry(&writer,
+                      NULL,
+                      &update_rate_handle,
+                      &us_sensor_key,
+                      us_sensor_value_type_name,
+                      strlen(us_sensor_value_type_name),
+                      sizeof(uint32_t),
+                      alignof(uint32_t))
+    != IOX2_OK) {
+    printf("Unable to create update rate handle!\n");
+    goto drop_battery_threshold_handle;
+}
+
+// do not forget to release the resources later
+    iox2_entry_handle_mut_drop(update_rate_handle);
+drop_battery_threshold_handle:
+    iox2_entry_handle_mut_drop(battery_threshold_handle);
+drop_writer:
+    iox2_writer_drop(writer);
 ```
 ````
 
@@ -169,6 +297,25 @@ while (node.wait(iox::units::Duration::fromMilliseconds(100)).has_value()) {
     }
 }
 ```
+
+```{code-block} c
+while (iox2_node_wait(&node, 0, 100000) == IOX2_OK) {
+    float new_battery_threshold = get_battery_threshold();
+    // small value -> simple copy API
+    iox2_entry_handle_mut_update_with_copy(
+        &battery_threshold_handle, &new_battery_threshold, sizeof(float), alignof(float));
+
+    uint32_t new_update_rate = get_update_rate();
+    // larger values -> zero-copy loan API
+    iox2_entry_value_h value_uninit = NULL;
+    iox2_entry_handle_mut_loan_uninit(update_rate_handle, NULL, &value_uninit, sizeof(uint32_t), alignof(uint32_t));
+    uint32_t* value = NULL;
+    iox2_entry_value_mut(&value_uninit, (void**) &value);
+    *value = new_update_rate;
+    // loan consumes the handle, returned when the update completes
+    iox2_entry_value_update(value_uninit, NULL, &update_rate_handle);
+}
+```
 ````
 
 ## Reader
@@ -191,6 +338,44 @@ auto service = node.service_builder(ServiceName::create("global_config").expect(
                    .open()
                    .expect("");
 ```
+
+```{code-block} c
+// create service name
+const char* service_name_value = "global_config";
+iox2_service_name_h service_name = NULL;
+if (iox2_service_name_new(NULL, service_name_value, strlen(service_name_value), &service_name) != IOX2_OK) {
+    printf("Unable to create service name!\n");
+    goto drop_node;
+}
+
+// create service builder
+iox2_service_name_ptr service_name_ptr = iox2_cast_service_name_ptr(service_name);
+iox2_service_builder_h service_builder = iox2_node_service_builder(&node, NULL, service_name_ptr);
+iox2_service_builder_blackboard_opener_h service_builder_blackboard =
+    iox2_service_builder_blackboard_opener(service_builder);
+
+// set key type
+const char* key_type_name = "uint64_t";
+if (iox2_service_builder_blackboard_opener_set_key_type_details(
+        &service_builder_blackboard, key_type_name, strlen(key_type_name), sizeof(uint64_t), alignof(uint64_t))
+    != IOX2_OK) {
+    printf("Unable to set key type details!\n");
+    goto drop_service_name;
+}
+
+// open service
+iox2_port_factory_blackboard_h service = NULL;
+if (iox2_service_builder_blackboard_open(service_builder_blackboard, NULL, &service) != IOX2_OK) {
+    printf("Unable to open service!\n");
+    goto drop_service_name;
+}
+
+// do not forget to release the resources later
+drop_service_name:
+    iox2_service_name_drop(service_name);
+drop_node:
+    iox2_node_drop(node);
+```
 ````
 
 And create a reader port:
@@ -202,6 +387,19 @@ let reader = service.reader_builder().create()?;
 
 ```{code-block} c++
 auto reader = service.reader_builder().create().expect("");
+```
+
+```{code-block} c
+iox2_port_factory_reader_builder_h reader_builder = iox2_port_factory_blackboard_reader_builder(&service, NULL);
+iox2_reader_h reader = NULL;
+if (iox2_port_factory_reader_builder_create(reader_builder, NULL, &reader) != IOX2_OK) {
+    printf("Unable to create reader!\n");
+    goto drop_service;
+}
+
+// do not forget to release the resources later
+drop_service:
+    iox2_port_factory_blackboard_drop(service);
 ```
 ````
 
@@ -216,6 +414,28 @@ let update_rate_handle =
 
 ```{code-block} c++
 auto update_rate_handle = reader.template entry<uint32_t>(us_sensor_key.value()).expect("");
+```
+
+```{code-block} c
+uint64_t us_sensor_key = 1;
+const char* us_sensor_value_type_name = "uint32_t";
+iox2_entry_handle_h update_rate_handle = NULL;
+if (iox2_reader_entry(&reader,
+                      NULL,
+                      &update_rate_handle,
+                      &us_sensor_key,
+                      us_sensor_value_type_name,
+                      strlen(us_sensor_value_type_name),
+                      sizeof(uint32_t),
+                      alignof(uint32_t))
+    != IOX2_OK) {
+    printf("Unable to create update rate handle!\n");
+    goto drop_reader;
+}
+
+// do not forget to release the resources later
+drop_reader:
+    iox2_reader_drop(reader);
 ```
 ````
 
@@ -244,6 +464,36 @@ while (node.wait(iox::units::Duration::fromMilliseconds(update_rate_handle.get()
 
     send(std::move(initialized_sample)).expect("");
 }
+```
+
+```{code-block} c
+uint32_t new_update_rate = 0;
+iox2_entry_handle_get(&update_rate_handle, &new_update_rate, sizeof(uint32_t), alignof(uint32_t));
+while (iox2_node_wait(&node, 0, new_update_rate * 1000) == IOX2_OK) {
+    // loan sample
+    iox2_sample_mut_h sample = NULL;
+    if (iox2_publisher_loan_slice_uninit(&publisher, NULL, &sample, 1) != IOX2_OK) {
+        printf("Failed to loan sample\n");
+        goto drop_update_rate_handle;
+    }
+
+    // write payload
+    struct Distance* payload = NULL;
+    iox2_sample_mut_payload_mut(&sample, (void**) &payload, NULL);
+    payload->distance_in_meters = get_ultra_sonic_sensor_distance();
+    payload->some_other_property = 42.0;
+
+    // send sample
+    if (iox2_sample_mut_send(sample, NULL) != IOX2_OK) {
+        printf("Failed to send sample\n");
+        goto drop_update_rate_handle;
+    }
+    iox2_entry_handle_get(&update_rate_handle, &new_update_rate, sizeof(uint32_t), alignof(uint32_t));
+}
+
+// do not forget to release the resources later
+drop_update_rate_handle:
+    iox2_entry_handle_drop(update_rate_handle);
 ```
 ````
 
@@ -277,7 +527,8 @@ Not yet available
 ```{grid-item}
 **{octicon}`code` C**
 
-Not yet available
+{octicon}`mark-github` [Minimal Creator/Writer](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/blackboard/src/creator.c)
+{octicon}`mark-github` [Minimal Opener/Reader](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/blackboard/src/opener.c)
 ```
 
 
