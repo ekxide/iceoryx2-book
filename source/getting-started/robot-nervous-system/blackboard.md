@@ -22,8 +22,8 @@ from the memory waste, there is also the risk of configuration inconsistencies.
 
 The solution is the blackboard messaging pattern: a key-value repository in
 shared memory. Each participant can access exactly the entries it needs, such
-as the ultrasonic sensor’s update rate. Any shared-memory-compatible type can
-be stored in the blackboard.
+as the ultrasonic sensor’s update rate. Any shared-memory-compatible and
+trivially-copyable type, can be stored in the blackboard.
 
 Let’s implement an example where a user app can configure the sensor update
 rate. A higher rate means Larry reacts to obstacles faster and can drive faster.
