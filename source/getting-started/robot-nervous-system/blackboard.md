@@ -71,7 +71,8 @@ We now create a blackboard with two settings:
 * the battery threshold for triggering the low-battery alarm.
 
 For keys we use the `StaticString` type from the `iceoryx2` base library.
-If portability across languages is a concern, integers could be used instead.
+Currently, only Rust and C++ can share the `StaticString` in-memory. If the
+blackboard is also to be used in C or Python, integers can be used instead.
 
 ````{tab-set-code}
 ```{code-block} rust
