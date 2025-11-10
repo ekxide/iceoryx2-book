@@ -349,7 +349,7 @@
 the hardware and increase the update rate of our cyclic sensor data. For
 example, we might decide that only sending out the ultrasonic sensor distance
 every 100 ms might no longer be sufficient. Similarly, a user might want
-to the capability to configure the battery threshold at which Larry raises
+to have the capability to configure the battery threshold at which Larry raises
 a low-battery alarm.</p>
 <p>As systems grow more complex, they often accumulate thousands of individual
 configuration settings such as these. Some are shared between participants,
@@ -364,17 +364,48 @@ one copy for the publisher and one potential copy for each subscriber. Apart
 from the memory waste, there is also the risk of configuration inconsistencies.</p>
 <p>The solution is the blackboard messaging pattern: a key-value repository in
 shared memory. Each participant can access exactly the entries it needs, such
-as the ultrasonic sensor’s update rate. Any shared-memory-compatible type can
-be stored in the blackboard.</p>
+as the ultrasonic sensor’s update rate. Any shared-memory-compatible and
+trivially-copyable type, can be stored in the blackboard.</p>
 <p>Let’s implement an example where a user app can configure the sensor update
 rate. A higher rate means Larry reacts to obstacles faster and can drive faster.</p>
 <section id="writer">
 <h2>Writer<a class="headerlink" href="#writer" title="Link to this heading">#</a></h2>
 <p>As always, we start by creating a node:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-0">
+RUST</label><div class="sd-tab-content docutils">
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">iceoryx2</span><span class="p">::</span><span class="n">prelude</span><span class="p">::</span><span class="o">*</span><span class="p">;</span>
 
 <span class="kd">let</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">::</span><span class="n">new</span><span class="p">().</span><span class="n">create</span><span class="p">::</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="o">&gt;</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 </pre></div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-1">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;iceoryx2.hpp&quot;</span>
+
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">iox2</span><span class="p">;</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">().</span><span class="n">create</span><span class="o">&lt;</span><span class="n">ServiceType</span><span class="o">::</span><span class="n">Ipc</span><span class="o">&gt;</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-2">
+C</label><div class="sd-tab-content docutils">
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;iox2/iceoryx2.h&quot;</span>
+
+<span class="n">iox2_node_builder_h</span><span class="w"> </span><span class="n">node_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_builder_new</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+<span class="n">iox2_node_h</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_builder_create</span><span class="p">(</span><span class="n">node_builder</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">iox2_service_type_e_IPC</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">node</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Could not create node!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
 </div>
 <p>With the blackboard pattern, all key-value pairs must be defined when the
 service is created. Unlike publish-subscribe, you cannot announce a key without
@@ -386,35 +417,224 @@ may open the service later.</p>
 <li><p>the update rate in milliseconds, and</p></li>
 <li><p>the battery threshold for triggering the low-battery alarm.</p></li>
 </ul>
-<p>For keys we use the <code class="docutils literal notranslate"><span class="pre">FixedSizeByteString</span></code> type from the <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> base library.
-If portability across languages is a concern, integers could be used instead.</p>
-<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">iceoryx2_bb_container</span><span class="p">::</span><span class="n">byte_string</span><span class="p">::</span><span class="n">FixedSizeByteString</span><span class="p">;</span>
+<p>For keys we use the <code class="docutils literal notranslate"><span class="pre">StaticString</span></code> type from the <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> base library.
+Currently, only Rust and C++ can share the <code class="docutils literal notranslate"><span class="pre">StaticString</span></code> in-memory. If the
+blackboard is also to be used in C or Python, integers can be used instead.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-3">
+RUST</label><div class="sd-tab-content docutils">
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">iceoryx2_bb_container</span><span class="p">::</span><span class="n">string</span><span class="p">::</span><span class="n">StaticString</span><span class="p">;</span>
 
-<span class="k">type</span><span class="w"> </span><span class="nc">KeyType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FixedSizeByteString</span><span class="o">&lt;</span><span class="mi">64</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">KeyType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">StaticString</span><span class="o">&lt;</span><span class="mi">50</span><span class="o">&gt;</span><span class="p">;</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;global_config&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
 <span class="w">    </span><span class="p">.</span><span class="n">blackboard_creator</span><span class="p">::</span><span class="o">&lt;</span><span class="n">KeyType</span><span class="o">&gt;</span><span class="p">()</span>
 <span class="w">    </span><span class="c1">// low battery warning when load is below 25%</span>
-<span class="w">    </span><span class="p">.</span><span class="n">add</span><span class="p">::</span><span class="o">&lt;</span><span class="kt">f32</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;battery_threshold&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="mf">0.25</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">add</span><span class="p">::</span><span class="o">&lt;</span><span class="kt">f32</span><span class="o">&gt;</span><span class="p">(</span><span class="n">StaticString</span><span class="p">::</span><span class="n">try_from</span><span class="p">(</span><span class="s">&quot;battery_threshold&quot;</span><span class="p">)</span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="mf">0.25</span><span class="p">)</span>
 <span class="w">    </span><span class="c1">// default ultrasonic update rate = 100 ms</span>
-<span class="w">    </span><span class="p">.</span><span class="n">add</span><span class="p">::</span><span class="o">&lt;</span><span class="kt">u32</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;ultra_sonic_sensor_update_rate_in_ms&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">add</span><span class="p">::</span><span class="o">&lt;</span><span class="kt">u32</span><span class="o">&gt;</span><span class="p">(</span>
+<span class="w">        </span><span class="n">StaticString</span><span class="p">::</span><span class="n">try_from</span><span class="p">(</span><span class="s">&quot;ultra_sonic_sensor_update_rate_in_ms&quot;</span><span class="p">)</span><span class="o">?</span><span class="p">,</span>
+<span class="w">        </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span>
 <span class="w">    </span><span class="p">.</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 </pre></div>
 </div>
+</div>
+<input id="sd-tab-item-4" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-4">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;iox2/container/static_string.hpp&quot;</span>
+
+<span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="n">KeyType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">container</span><span class="o">::</span><span class="n">StaticString</span><span class="o">&lt;</span><span class="mi">50</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">battery_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">container</span><span class="o">::</span><span class="n">StaticString</span><span class="o">&lt;</span><span class="mi">50</span><span class="o">&gt;::</span><span class="n">from_utf8</span><span class="p">(</span><span class="s">&quot;battery_threshold&quot;</span><span class="p">);</span>
+<span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">us_sensor_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">container</span><span class="o">::</span><span class="n">StaticString</span><span class="o">&lt;</span><span class="mi">50</span><span class="o">&gt;::</span><span class="n">from_utf8</span><span class="p">(</span><span class="s">&quot;ultra_sonic_sensor_update_rate_in_ms&quot;</span><span class="p">);</span>
+<span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">battery_key</span><span class="p">.</span><span class="n">has_value</span><span class="p">()</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">us_sensor_key</span><span class="p">.</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Blackboard keys could not be created.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w"> </span><span class="p">}</span>
+
+<span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="n">ServiceName</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="s">&quot;global_config&quot;</span><span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">))</span>
+<span class="w">                    </span><span class="p">.</span><span class="n">blackboard_creator</span><span class="o">&lt;</span><span class="n">KeyType</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="w">                    </span><span class="c1">// low battery warning when load is below 25%</span>
+<span class="w">                    </span><span class="p">.</span><span class="k">template</span><span class="w"> </span><span class="n">add</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">battery_key</span><span class="p">.</span><span class="n">value</span><span class="p">(),</span><span class="w"> </span><span class="mf">0.25</span><span class="p">)</span>
+<span class="w">                    </span><span class="c1">// default ultrasonic update rate = 100 ms</span>
+<span class="w">                    </span><span class="p">.</span><span class="k">template</span><span class="w"> </span><span class="n">add</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">us_sensor_key</span><span class="p">.</span><span class="n">value</span><span class="p">(),</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">.</span><span class="n">create</span><span class="p">()</span>
+<span class="w">                    </span><span class="p">.</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-5">
+C</label><div class="sd-tab-content docutils">
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// create service name</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">service_name_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;global_config&quot;</span><span class="p">;</span>
+<span class="n">iox2_service_name_h</span><span class="w"> </span><span class="n">service_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_name_new</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_value</span><span class="p">,</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">service_name_value</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">service_name</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create service name!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">goto</span><span class="w"> </span><span class="n">drop_node</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// create service builder</span>
+<span class="n">iox2_service_name_ptr</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_cast_service_name_ptr</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
+<span class="n">iox2_service_builder_h</span><span class="w"> </span><span class="n">service_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="p">);</span>
+<span class="n">iox2_service_builder_blackboard_creator_h</span><span class="w"> </span><span class="n">service_builder_blackboard</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="n">iox2_service_builder_blackboard_creator</span><span class="p">(</span><span class="n">service_builder</span><span class="p">);</span>
+
+<span class="c1">// set key type</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">key_type_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;uint64_t&quot;</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_builder_blackboard_creator_set_key_type_details</span><span class="p">(</span>
+<span class="w">        </span><span class="o">&amp;</span><span class="n">service_builder_blackboard</span><span class="p">,</span><span class="w"> </span><span class="n">key_type_name</span><span class="p">,</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">key_type_name</span><span class="p">),</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">uint64_t</span><span class="p">),</span><span class="w"> </span><span class="k">alignof</span><span class="p">(</span><span class="kt">uint64_t</span><span class="p">))</span>
+<span class="w">    </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to set key type details!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">goto</span><span class="w"> </span><span class="n">drop_service_name</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// set key eq comparison function</span>
+<span class="n">iox2_service_builder_blackboard_creator_set_key_eq_comparison_function</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service_builder_blackboard</span><span class="p">,</span><span class="w"> </span><span class="n">key_cmp</span><span class="p">);</span>
+
+<span class="c1">// create key-value pairs</span>
+<span class="kt">uint64_t</span><span class="w"> </span><span class="n">battery_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">battery_value_type_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;float&quot;</span><span class="p">;</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">battery_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.25</span><span class="p">;</span>
+<span class="kt">uint64_t</span><span class="w"> </span><span class="n">us_sensor_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">us_sensor_value_type_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;uint32_t&quot;</span><span class="p">;</span>
+<span class="kt">uint32_t</span><span class="w"> </span><span class="n">us_sensor_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span>
+
+<span class="n">iox2_service_builder_blackboard_creator_add</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service_builder_blackboard</span><span class="p">,</span>
+<span class="w">                                            </span><span class="o">&amp;</span><span class="n">battery_key</span><span class="p">,</span>
+<span class="w">                                            </span><span class="o">&amp;</span><span class="n">battery_value</span><span class="p">,</span>
+<span class="w">                                            </span><span class="nb">NULL</span><span class="p">,</span>
+<span class="w">                                            </span><span class="n">battery_value_type_name</span><span class="p">,</span>
+<span class="w">                                            </span><span class="n">strlen</span><span class="p">(</span><span class="n">battery_value_type_name</span><span class="p">),</span>
+<span class="w">                                            </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">),</span>
+<span class="w">                                            </span><span class="k">alignof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+
+<span class="n">iox2_service_builder_blackboard_creator_add</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service_builder_blackboard</span><span class="p">,</span>
+<span class="w">                                            </span><span class="o">&amp;</span><span class="n">us_sensor_key</span><span class="p">,</span>
+<span class="w">                                            </span><span class="o">&amp;</span><span class="n">us_sensor_value</span><span class="p">,</span>
+<span class="w">                                            </span><span class="nb">NULL</span><span class="p">,</span>
+<span class="w">                                            </span><span class="n">us_sensor_value_type_name</span><span class="p">,</span>
+<span class="w">                                            </span><span class="n">strlen</span><span class="p">(</span><span class="n">us_sensor_value_type_name</span><span class="p">),</span>
+<span class="w">                                            </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">),</span>
+<span class="w">                                            </span><span class="k">alignof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">));</span>
+
+<span class="c1">// create service</span>
+<span class="n">iox2_port_factory_blackboard_h</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_builder_blackboard_create</span><span class="p">(</span><span class="n">service_builder_blackboard</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">service</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create service!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">goto</span><span class="w"> </span><span class="n">drop_service_name</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// do not forget to release the resources later</span>
+<span class="nl">drop_service_name</span><span class="p">:</span>
+<span class="w">    </span><span class="n">iox2_service_name_drop</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
+<span class="nl">drop_node</span><span class="p">:</span>
+<span class="w">    </span><span class="n">iox2_node_drop</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
 <p>Now we create a writer port to update values:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-6" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-6">
+RUST</label><div class="sd-tab-content docutils">
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="n">writer_builder</span><span class="p">().</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 </pre></div>
+</div>
+</div>
+<input id="sd-tab-item-7" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-7">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="n">writer_builder</span><span class="p">().</span><span class="n">create</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-8" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-8">
+C</label><div class="sd-tab-content docutils">
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">iox2_port_factory_writer_builder_h</span><span class="w"> </span><span class="n">writer_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_port_factory_blackboard_writer_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="n">iox2_writer_h</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_port_factory_writer_builder_create</span><span class="p">(</span><span class="n">writer_builder</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">writer</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create writer!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">goto</span><span class="w"> </span><span class="n">drop_service</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// do not forget to release the resources later</span>
+<span class="nl">drop_service</span><span class="p">:</span>
+<span class="w">    </span><span class="n">iox2_port_factory_blackboard_drop</span><span class="p">(</span><span class="n">service</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
 </div>
 <p>To update an entry, we first obtain a handle for it. The handle is type-checked,
 so if you provide the wrong type, you’ll get an error instead of silently
 corrupting the data.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-9" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-9">
+RUST</label><div class="sd-tab-content docutils">
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">battery_threshold_handle</span><span class="w"> </span><span class="o">=</span>
-<span class="w">    </span><span class="n">writer</span><span class="p">.</span><span class="n">entry</span><span class="p">::</span><span class="o">&lt;</span><span class="kt">f32</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;battery_threshold&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">);</span>
+<span class="w">    </span><span class="n">writer</span><span class="p">.</span><span class="n">entry</span><span class="p">::</span><span class="o">&lt;</span><span class="kt">f32</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;battery_threshold&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
 <span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">update_rate_handle</span><span class="w"> </span><span class="o">=</span>
-<span class="w">    </span><span class="n">writer</span><span class="p">.</span><span class="n">entry</span><span class="p">::</span><span class="o">&lt;</span><span class="kt">u32</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;ultra_sonic_sensor_update_rate_in_ms&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">);</span>
+<span class="w">    </span><span class="n">writer</span><span class="p">.</span><span class="n">entry</span><span class="p">::</span><span class="o">&lt;</span><span class="kt">u32</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;ultra_sonic_sensor_update_rate_in_ms&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
 </pre></div>
+</div>
+</div>
+<input id="sd-tab-item-10" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-10">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">battery_threshold_handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">writer</span><span class="p">.</span><span class="k">template</span><span class="w"> </span><span class="n">entry</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">battery_key</span><span class="p">.</span><span class="n">value</span><span class="p">()).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">update_rate_handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">writer</span><span class="p">.</span><span class="k">template</span><span class="w"> </span><span class="n">entry</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">us_sensor_key</span><span class="p">.</span><span class="n">value</span><span class="p">()).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-11" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-11">
+C</label><div class="sd-tab-content docutils">
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">iox2_entry_handle_mut_h</span><span class="w"> </span><span class="n">battery_threshold_handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_writer_entry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">writer</span><span class="p">,</span>
+<span class="w">                      </span><span class="nb">NULL</span><span class="p">,</span>
+<span class="w">                      </span><span class="o">&amp;</span><span class="n">battery_threshold_handle</span><span class="p">,</span>
+<span class="w">                      </span><span class="o">&amp;</span><span class="n">battery_key</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">battery_value_type_name</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">strlen</span><span class="p">(</span><span class="n">battery_value_type_name</span><span class="p">),</span>
+<span class="w">                      </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">),</span>
+<span class="w">                      </span><span class="k">alignof</span><span class="p">(</span><span class="kt">float</span><span class="p">))</span>
+<span class="w">    </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create battery threshold handle!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">goto</span><span class="w"> </span><span class="n">drop_writer</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">iox2_entry_handle_mut_h</span><span class="w"> </span><span class="n">update_rate_handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_writer_entry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">writer</span><span class="p">,</span>
+<span class="w">                      </span><span class="nb">NULL</span><span class="p">,</span>
+<span class="w">                      </span><span class="o">&amp;</span><span class="n">update_rate_handle</span><span class="p">,</span>
+<span class="w">                      </span><span class="o">&amp;</span><span class="n">us_sensor_key</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">us_sensor_value_type_name</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">strlen</span><span class="p">(</span><span class="n">us_sensor_value_type_name</span><span class="p">),</span>
+<span class="w">                      </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">),</span>
+<span class="w">                      </span><span class="k">alignof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">))</span>
+<span class="w">    </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create update rate handle!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">goto</span><span class="w"> </span><span class="n">drop_battery_threshold_handle</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// do not forget to release the resources later</span>
+<span class="w">    </span><span class="n">iox2_entry_handle_mut_drop</span><span class="p">(</span><span class="n">update_rate_handle</span><span class="p">);</span>
+<span class="nl">drop_battery_threshold_handle</span><span class="p">:</span>
+<span class="w">    </span><span class="n">iox2_entry_handle_mut_drop</span><span class="p">(</span><span class="n">battery_threshold_handle</span><span class="p">);</span>
+<span class="nl">drop_writer</span><span class="p">:</span>
+<span class="w">    </span><span class="n">iox2_writer_drop</span><span class="p">(</span><span class="n">writer</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
 </div>
 <p>In the event loop, we periodically check for user input and update entries as
 needed:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-12" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-12">
+RUST</label><div class="sd-tab-content docutils">
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">Duration</span><span class="p">::</span><span class="n">from_millis</span><span class="p">(</span><span class="mi">100</span><span class="p">)).</span><span class="n">is_ok</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">new_battery_threshold</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_battery_threshold</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="c1">// small value -&gt; simple copy API</span>
@@ -431,30 +651,205 @@ needed:</p>
 <span class="p">}</span>
 </pre></div>
 </div>
+</div>
+<input id="sd-tab-item-13" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-13">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">iox</span><span class="o">::</span><span class="n">units</span><span class="o">::</span><span class="n">Duration</span><span class="o">::</span><span class="n">fromMilliseconds</span><span class="p">(</span><span class="mi">100</span><span class="p">)).</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">new_battery_threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_battery_threshold</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">new_battery_threshold</span><span class="p">.</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// small value -&gt; simple copy API</span>
+<span class="w">        </span><span class="n">battery_threshold_handle</span><span class="p">.</span><span class="n">update_with_copy</span><span class="p">(</span><span class="n">new_battery_threshold</span><span class="p">.</span><span class="n">value</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">new_update_rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_update_rate</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">new_update_rate</span><span class="p">.</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// larger values -&gt; zero-copy loan API</span>
+<span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">value_uninit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">loan_uninit</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">update_rate_handle</span><span class="p">));</span>
+<span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">write</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">value_uninit</span><span class="p">),</span><span class="w"> </span><span class="n">new_update_rate</span><span class="p">.</span><span class="n">value</span><span class="p">());</span>
+<span class="w">        </span><span class="c1">// loan consumes the handle, returned when the update completes</span>
+<span class="w">        </span><span class="n">update_rate_handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">update</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">value</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-14" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-14">
+C</label><div class="sd-tab-content docutils">
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100000</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">new_battery_threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_battery_threshold</span><span class="p">();</span>
+<span class="w">    </span><span class="c1">// small value -&gt; simple copy API</span>
+<span class="w">    </span><span class="n">iox2_entry_handle_mut_update_with_copy</span><span class="p">(</span>
+<span class="w">        </span><span class="o">&amp;</span><span class="n">battery_threshold_handle</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">new_battery_threshold</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">),</span><span class="w"> </span><span class="k">alignof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">new_update_rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_update_rate</span><span class="p">();</span>
+<span class="w">    </span><span class="c1">// larger values -&gt; zero-copy loan API</span>
+<span class="w">    </span><span class="n">iox2_entry_value_h</span><span class="w"> </span><span class="n">value_uninit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="n">iox2_entry_handle_mut_loan_uninit</span><span class="p">(</span><span class="n">update_rate_handle</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">value_uninit</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">),</span><span class="w"> </span><span class="k">alignof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">));</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="o">*</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="n">iox2_entry_value_mut</span><span class="p">(</span><span class="o">&amp;</span><span class="n">value_uninit</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="o">**</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="n">value</span><span class="p">);</span>
+<span class="w">    </span><span class="o">*</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new_update_rate</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// loan consumes the handle, returned when the update completes</span>
+<span class="w">    </span><span class="n">iox2_entry_value_update</span><span class="p">(</span><span class="n">value_uninit</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">update_rate_handle</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="reader">
 <h2>Reader<a class="headerlink" href="#reader" title="Link to this heading">#</a></h2>
 <p>On the subscriber side, we reuse the node setup from the publish-subscribe
 example and skip to opening the blackboard service:</p>
-<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">type</span><span class="w"> </span><span class="nc">KeyType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FixedSizeByteString</span><span class="o">&lt;</span><span class="mi">64</span><span class="o">&gt;</span><span class="p">;</span>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-15" name="sd-tab-set-5" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-15">
+RUST</label><div class="sd-tab-content docutils">
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">type</span><span class="w"> </span><span class="nc">KeyType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">StaticString</span><span class="o">&lt;</span><span class="mi">50</span><span class="o">&gt;</span><span class="p">;</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;global_config&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
 <span class="w">    </span><span class="p">.</span><span class="n">blackboard_opener</span><span class="p">::</span><span class="o">&lt;</span><span class="n">KeyType</span><span class="o">&gt;</span><span class="p">()</span>
 <span class="w">    </span><span class="p">.</span><span class="n">open</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 </pre></div>
 </div>
+</div>
+<input id="sd-tab-item-16" name="sd-tab-set-5" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-16">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">KeyType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">container</span><span class="o">::</span><span class="n">StaticString</span><span class="o">&lt;</span><span class="mi">50</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="n">ServiceName</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="s">&quot;global_config&quot;</span><span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">))</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">blackboard_opener</span><span class="o">&lt;</span><span class="n">KeyType</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">open</span><span class="p">()</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-17" name="sd-tab-set-5" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-17">
+C</label><div class="sd-tab-content docutils">
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// create service name</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">service_name_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;global_config&quot;</span><span class="p">;</span>
+<span class="n">iox2_service_name_h</span><span class="w"> </span><span class="n">service_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_name_new</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_value</span><span class="p">,</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">service_name_value</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">service_name</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create service name!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">goto</span><span class="w"> </span><span class="n">drop_node</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// create service builder</span>
+<span class="n">iox2_service_name_ptr</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_cast_service_name_ptr</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
+<span class="n">iox2_service_builder_h</span><span class="w"> </span><span class="n">service_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="p">);</span>
+<span class="n">iox2_service_builder_blackboard_opener_h</span><span class="w"> </span><span class="n">service_builder_blackboard</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="n">iox2_service_builder_blackboard_opener</span><span class="p">(</span><span class="n">service_builder</span><span class="p">);</span>
+
+<span class="c1">// set key type</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">key_type_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;uint64_t&quot;</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_builder_blackboard_opener_set_key_type_details</span><span class="p">(</span>
+<span class="w">        </span><span class="o">&amp;</span><span class="n">service_builder_blackboard</span><span class="p">,</span><span class="w"> </span><span class="n">key_type_name</span><span class="p">,</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">key_type_name</span><span class="p">),</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">uint64_t</span><span class="p">),</span><span class="w"> </span><span class="k">alignof</span><span class="p">(</span><span class="kt">uint64_t</span><span class="p">))</span>
+<span class="w">    </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to set key type details!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">goto</span><span class="w"> </span><span class="n">drop_service_name</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// open service</span>
+<span class="n">iox2_port_factory_blackboard_h</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_builder_blackboard_open</span><span class="p">(</span><span class="n">service_builder_blackboard</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">service</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to open service!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">goto</span><span class="w"> </span><span class="n">drop_service_name</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// do not forget to release the resources later</span>
+<span class="nl">drop_service_name</span><span class="p">:</span>
+<span class="w">    </span><span class="n">iox2_service_name_drop</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
+<span class="nl">drop_node</span><span class="p">:</span>
+<span class="w">    </span><span class="n">iox2_node_drop</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
 <p>And create a reader port:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-18" name="sd-tab-set-6" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-18">
+RUST</label><div class="sd-tab-content docutils">
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="n">reader_builder</span><span class="p">().</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 </pre></div>
 </div>
+</div>
+<input id="sd-tab-item-19" name="sd-tab-set-6" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-19">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="n">reader_builder</span><span class="p">().</span><span class="n">create</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-20" name="sd-tab-set-6" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-20">
+C</label><div class="sd-tab-content docutils">
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">iox2_port_factory_reader_builder_h</span><span class="w"> </span><span class="n">reader_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_port_factory_blackboard_reader_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="n">iox2_reader_h</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_port_factory_reader_builder_create</span><span class="p">(</span><span class="n">reader_builder</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">reader</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create reader!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">goto</span><span class="w"> </span><span class="n">drop_service</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// do not forget to release the resources later</span>
+<span class="nl">drop_service</span><span class="p">:</span>
+<span class="w">    </span><span class="n">iox2_port_factory_blackboard_drop</span><span class="p">(</span><span class="n">service</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
 <p>We’re interested in the <code class="docutils literal notranslate"><span class="pre">ultra_sonic_sensor_update_rate_in_ms</span></code>. We obtain a
 handle that always points to the latest value:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-21" name="sd-tab-set-7" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-21">
+RUST</label><div class="sd-tab-content docutils">
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">update_rate_handle</span><span class="w"> </span><span class="o">=</span>
-<span class="w">    </span><span class="n">reader</span><span class="p">.</span><span class="n">entry</span><span class="p">::</span><span class="o">&lt;</span><span class="kt">u32</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;ultra_sonic_sensor_update_rate_in_ms&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">);</span>
+<span class="w">    </span><span class="n">reader</span><span class="p">.</span><span class="n">entry</span><span class="p">::</span><span class="o">&lt;</span><span class="kt">u32</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;ultra_sonic_sensor_update_rate_in_ms&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
 </pre></div>
+</div>
+</div>
+<input id="sd-tab-item-22" name="sd-tab-set-7" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-22">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">update_rate_handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="k">template</span><span class="w"> </span><span class="n">entry</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">us_sensor_key</span><span class="p">.</span><span class="n">value</span><span class="p">()).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-23" name="sd-tab-set-7" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-23">
+C</label><div class="sd-tab-content docutils">
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">us_sensor_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">us_sensor_value_type_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;uint32_t&quot;</span><span class="p">;</span>
+<span class="n">iox2_entry_handle_h</span><span class="w"> </span><span class="n">update_rate_handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_reader_entry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">reader</span><span class="p">,</span>
+<span class="w">                      </span><span class="nb">NULL</span><span class="p">,</span>
+<span class="w">                      </span><span class="o">&amp;</span><span class="n">update_rate_handle</span><span class="p">,</span>
+<span class="w">                      </span><span class="o">&amp;</span><span class="n">us_sensor_key</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">us_sensor_value_type_name</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">strlen</span><span class="p">(</span><span class="n">us_sensor_value_type_name</span><span class="p">),</span>
+<span class="w">                      </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">),</span>
+<span class="w">                      </span><span class="k">alignof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">))</span>
+<span class="w">    </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create update rate handle!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">goto</span><span class="w"> </span><span class="n">drop_reader</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// do not forget to release the resources later</span>
+<span class="nl">drop_reader</span><span class="p">:</span>
+<span class="w">    </span><span class="n">iox2_reader_drop</span><span class="p">(</span><span class="n">reader</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
 </div>
 <p>The sensor loop looks almost identical to our original publisher code, except
 that the update interval now comes from the global configuration:</p>
-<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">Duration</span><span class="p">::</span><span class="n">from_millis</span><span class="p">(</span><span class="n">update_rate_handle</span><span class="p">.</span><span class="n">get</span><span class="p">())).</span><span class="n">is_ok</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-24" name="sd-tab-set-8" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-24">
+RUST</label><div class="sd-tab-content docutils">
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">Duration</span><span class="p">::</span><span class="n">from_millis</span><span class="p">(</span><span class="n">update_rate_handle</span><span class="p">.</span><span class="n">get</span><span class="p">()</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">u64</span><span class="p">)).</span><span class="n">is_ok</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">publisher</span><span class="p">.</span><span class="n">loan_uninit</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample</span><span class="p">.</span><span class="n">write_payload</span><span class="p">(</span><span class="n">Distance</span><span class="w"> </span><span class="p">{</span>
@@ -466,6 +861,54 @@ that the update interval now comes from the global configuration:</p>
 <span class="p">}</span>
 </pre></div>
 </div>
+</div>
+<input id="sd-tab-item-25" name="sd-tab-set-8" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-25">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">iox</span><span class="o">::</span><span class="n">units</span><span class="o">::</span><span class="n">Duration</span><span class="o">::</span><span class="n">fromMilliseconds</span><span class="p">(</span><span class="n">update_rate_handle</span><span class="p">.</span><span class="n">get</span><span class="p">())).</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">publisher</span><span class="p">.</span><span class="n">loan_uninit</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">initialized_sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample</span><span class="p">.</span><span class="n">write_payload</span><span class="p">(</span><span class="n">Distance</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">get_ultra_sonic_sensor_distance</span><span class="p">(),</span><span class="w"> </span><span class="mf">42.0</span><span class="w"> </span><span class="p">});</span>
+
+<span class="w">    </span><span class="n">send</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">initialized_sample</span><span class="p">)).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-26" name="sd-tab-set-8" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-26">
+C</label><div class="sd-tab-content docutils">
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">new_update_rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="n">iox2_entry_handle_get</span><span class="p">(</span><span class="o">&amp;</span><span class="n">update_rate_handle</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">new_update_rate</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">),</span><span class="w"> </span><span class="k">alignof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">));</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">new_update_rate</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// loan sample</span>
+<span class="w">    </span><span class="n">iox2_sample_mut_h</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_publisher_loan_slice_uninit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">publisher</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sample</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to loan sample</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="n">drop_update_rate_handle</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// write payload</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">Distance</span><span class="o">*</span><span class="w"> </span><span class="n">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="n">iox2_sample_mut_payload_mut</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sample</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="o">**</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="n">payload</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="w">    </span><span class="n">payload</span><span class="o">-&gt;</span><span class="n">distance_in_meters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_ultra_sonic_sensor_distance</span><span class="p">();</span>
+<span class="w">    </span><span class="n">payload</span><span class="o">-&gt;</span><span class="n">some_other_property</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">42.0</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// send sample</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_sample_mut_send</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to send sample</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="n">drop_update_rate_handle</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">iox2_entry_handle_get</span><span class="p">(</span><span class="o">&amp;</span><span class="n">update_rate_handle</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">new_update_rate</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">),</span><span class="w"> </span><span class="k">alignof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="c1">// do not forget to release the resources later</span>
+<span class="nl">drop_update_rate_handle</span><span class="p">:</span>
+<span class="w">    </span><span class="n">iox2_entry_handle_drop</span><span class="p">(</span><span class="n">update_rate_handle</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="related-examples">
 <h2>Related Examples<a class="headerlink" href="#related-examples" title="Link to this heading">#</a></h2>
@@ -475,8 +918,8 @@ that the update interval now comes from the global configuration:</p>
 <div class="sd-row sd-row-cols-1 sd-row-cols-xs-1 sd-row-cols-sm-1 sd-row-cols-md-2 sd-row-cols-lg-2 docutils">
 <div class="sd-col sd-d-flex-column docutils">
 <p class="rubric" id="rust"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-code" viewBox="0 0 16 16" aria-hidden="true"><path d="m11.28 3.22 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L13.94 8l-3.72-3.72a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215Zm-6.56 0a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L2.06 8l3.72 3.72a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L.47 8.53a.75.75 0 0 1 0-1.06Z"></path></svg> Rust</p>
-<p><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-mark-github" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg> <a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/blackboard/creator.rs">Minimal Creator/Writer</a><br />
-<svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-mark-github" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg> <a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/blackboard/opener.rs">Minimal Reader</a></p>
+<p><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-mark-github" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg> <a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/blackboard/creator.rs">Minimal Creator/Writer</a>
+<svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-mark-github" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg> <a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/blackboard/opener.rs">Minimal Opener/Reader</a></p>
 </div>
 <div class="sd-col sd-d-flex-column docutils">
 <p><strong><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-code" viewBox="0 0 16 16" aria-hidden="true"><path d="m11.28 3.22 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L13.94 8l-3.72-3.72a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215Zm-6.56 0a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L2.06 8l3.72 3.72a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L.47 8.53a.75.75 0 0 1 0-1.06Z"></path></svg> Python</strong></p>
@@ -484,11 +927,13 @@ that the update interval now comes from the global configuration:</p>
 </div>
 <div class="sd-col sd-d-flex-column docutils">
 <p><strong><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-code" viewBox="0 0 16 16" aria-hidden="true"><path d="m11.28 3.22 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L13.94 8l-3.72-3.72a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215Zm-6.56 0a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L2.06 8l3.72 3.72a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L.47 8.53a.75.75 0 0 1 0-1.06Z"></path></svg> C++</strong></p>
-<p>Not yet available</p>
+<p><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-mark-github" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg> <a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/blackboard/src/creator.cpp">Minimal Creator/Writer</a>
+<svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-mark-github" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg> <a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/blackboard/src/opener.cpp">Minimal Opener/Reader</a></p>
 </div>
 <div class="sd-col sd-d-flex-column docutils">
 <p><strong><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-code" viewBox="0 0 16 16" aria-hidden="true"><path d="m11.28 3.22 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L13.94 8l-3.72-3.72a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215Zm-6.56 0a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L2.06 8l3.72 3.72a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L.47 8.53a.75.75 0 0 1 0-1.06Z"></path></svg> C</strong></p>
-<p>Not yet available</p>
+<p><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-mark-github" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg> <a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/blackboard/src/creator.c">Minimal Creator/Writer</a>
+<svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-mark-github" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg> <a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/blackboard/src/opener.c">Minimal Opener/Reader</a></p>
 </div>
 </div>
 </div>
