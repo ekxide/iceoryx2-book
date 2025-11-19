@@ -1,6 +1,12 @@
 # Blackboard
 
-- TODO: add diagram "Blackboard Communication Model"
+```{figure} /images/blackboard-pattern.svg
+:alt: blackboard messaging pattern
+:align: center
+:name: fig-blackboard-communication
+
+Blackboard Communication Model
+```
 
 An unidirectional messaging pattern based on a shared-memory key-value
 repository which can be modified by (for now) one writer and read by many
