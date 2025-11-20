@@ -20,7 +20,7 @@ readers is interested in a subset of the key-value pairs, such as global
 configuration settings adjusted at runtime or a regularly updated global state,
 with each participant only interested in a small part of it.
 
-The pattern is not suitable for cases where large payloads shall be 
+The pattern is not suitable for cases where large payloads shall be
 communicated to multiple participants ([publish-subscribe](
 /fundamentals/messaging-patterns/publish-subscribe)) or when a bidirectional
 communication is required ([request-response](
@@ -28,7 +28,13 @@ communication is required ([request-response](
 
 ## Mechanism
 
-- TODO: add diagram "Blackboard in Shared Memory"
+```{figure} /images/blackboard-mechanism.svg
+:alt: blackboard messaging pattern
+:align: center
+:name: fig-blackboard-mechanism
+
+Blackboard in Shared Memory
+```
 
 Writers and readers don't work directly on the key-value repository, but can
 retrieve entry handles for a specific key, enabling efficient access. These
