@@ -20,13 +20,25 @@ readers is interested in a subset of the key-value pairs, such as global
 configuration settings adjusted at runtime or a regularly updated global state,
 with each participant only interested in a small part of it.
 
-The pattern is not suitable for cases where the readers require previous values
-or when a bidirectional communication is required ([request-response](
+The pattern is not suitable for cases where large payloads shall be 
+communicated to multiple participants ([publish-subscribe](
+/fundamentals/messaging-patterns/publish-subscribe)) or when a bidirectional
+communication is required ([request-response](
 /fundamentals/messaging-patterns/request-response)).
 
 ## Mechanism
 
 - TODO: add diagram "Blackboard in Shared Memory"
+
+Writers and readers don't work directly on the key-value repository, but can
+retrieve entry handles for a specific key, enabling efficient access. These
+entry handles are used to update the corresponding value or read the latest
+value without having to iterate over the entire key-value repository again.
+
+The blackboard can be combined with the event messaging pattern so that the
+receiving participant is notified when the value it is interested in is
+updated. Each entry handle provides an entry id to facilitate event handling by
+the receiving participants.
 
 ## Further Reading
 
