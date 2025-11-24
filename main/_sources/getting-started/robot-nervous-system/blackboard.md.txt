@@ -39,6 +39,12 @@ use iceoryx2::prelude::*;
 let node = NodeBuilder::new().create::<ipc::Service>()?;
 ```
 
+```{code-block} python
+import iceoryx2 as iox2
+
+node = iox2.NodeBuilder.new().create(iox2.ServiceType.Ipc)
+```
+
 ```{code-block} c++
 #include "iceoryx2.hpp"
 
@@ -89,6 +95,19 @@ let service = node.service_builder(&"global_config".try_into()?)
         100,
     )
     .create()?;
+```
+
+```{code-block} python
+battery_key = ctypes.c_uint64(0)
+us_sensor_key = ctypes.c_uint64(1)
+
+service = (
+    node.service_builder(iox2.ServiceName.new("global_config"))
+    .blackboard_creator(ctypes.c_uint64)
+    .add(battery_key, ctypes.c_float(0.25))
+    .add(us_sensor_key, ctypes.c_uint32(100))
+    .create()
+)
 ```
 
 ```{code-block} c++
@@ -187,6 +206,10 @@ Now we create a writer port to update values:
 let writer = service.writer_builder().create()?;
 ```
 
+```{code-block} python
+writer = service.writer_builder().create()
+```
+
 ```{code-block} c++
 auto writer = service.writer_builder().create().expect("");
 ```
@@ -215,6 +238,11 @@ let mut battery_threshold_handle =
     writer.entry::<f32>(&"battery_threshold".try_into()?)?;
 let mut update_rate_handle =
     writer.entry::<u32>(&"ultra_sonic_sensor_update_rate_in_ms".try_into()?)?;
+```
+
+```{code-block} python
+battery_threshold_handle = writer.entry(battery_key, ctypes.c_float)
+update_rate_handle = writer.entry(us_sensor_key, ctypes.c_uint32)
 ```
 
 ```{code-block} c++
@@ -280,6 +308,30 @@ while node.wait(Duration::from_millis(100)).is_ok() {
 }
 ```
 
+```{code-block} python
+try:
+    while True:
+        node.wait(iox2.Duration.from_millis(100))
+
+        new_battery_threshold = get_battery_threshold()
+        if new_battery_threshold is not None:
+            # small value -> simple copy API
+            battery_threshold_handle.update_with_copy(
+                ctypes.c_float(new_battery_threshold)
+            )
+
+        new_update_rate = get_update_rate()
+        if new_update_rate is not None:
+            # larger values -> zero-copy loan API
+            value_uninit = update_rate_handle.loan_uninit()
+            value = value_uninit.write(ctypes.c_uint32(new_update_rate))
+            # loan consumes the handle, returned when the update completes
+            update_rate_handle = value.update()
+
+except iox2.NodeWaitFailure:
+    print("exit")
+```
+
 ```{code-block} c++
 while (node.wait(iox::units::Duration::fromMilliseconds(100)).has_value()) {
     auto new_battery_threshold = get_battery_threshold();
@@ -330,6 +382,14 @@ type KeyType = StaticString<50>;
 let service = node.service_builder(&"global_config".try_into()?)
     .blackboard_opener::<KeyType>()
     .open()?;
+```
+
+```{code-block} python
+service = (
+    node.service_builder(iox2.ServiceName.new("global_config"))
+    .blackboard_opener(ctypes.c_uint64)
+    .open()
+)
 ```
 
 ```{code-block} c++
@@ -386,6 +446,10 @@ And create a reader port:
 let reader = service.reader_builder().create()?;
 ```
 
+```{code-block} python
+reader = service.reader_builder().create()
+```
+
 ```{code-block} c++
 auto reader = service.reader_builder().create().expect("");
 ```
@@ -411,6 +475,10 @@ handle that always points to the latest value:
 ```{code-block} rust
 let update_rate_handle =
     reader.entry::<u32>(&"ultra_sonic_sensor_update_rate_in_ms".try_into()?)?;
+```
+
+```{code-block} python
+update_rate_handle = reader.entry(us_sensor_key, ctypes.c_uint32)
 ```
 
 ```{code-block} c++
@@ -455,6 +523,28 @@ while node.wait(Duration::from_millis(update_rate_handle.get() as u64)).is_ok() 
 
     sample.send()?;
 }
+```
+
+```{code-block} python
+try:
+    while True:
+        node.wait(
+            iox2.Duration.from_millis(
+                update_rate_handle.get().decode_as(ctypes.c_uint32).value
+            )
+        )
+
+        sample = publisher.loan_uninit()
+
+        d = get_ultrasonic_sensor_distance()
+        sample = sample.write_payload(
+            Distance(distance_in_meters=d, some_other_property=42.0)
+        )
+
+        sample.send()
+
+except iox2.NodeWaitFailure:
+    print("exit")
 ```
 
 ```{code-block} c++
@@ -508,27 +598,28 @@ drop_update_rate_handle:
 ```{grid-item}
 ### {octicon}`code` Rust
 
-{octicon}`mark-github` [Minimal Creator/Writer](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/blackboard/creator.rs)
+{octicon}`mark-github` [Minimal Creator/Writer](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/blackboard/creator.rs)  
 {octicon}`mark-github` [Minimal Opener/Reader](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/rust/blackboard/opener.rs)
 ```
 
 ```{grid-item}
 **{octicon}`code` Python**
 
-Not yet available
+{octicon}`mark-github` [Minimal Creator/Writer](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/blackboard/creator.py)  
+{octicon}`mark-github` [Minimal Opener/Reader](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/blackboard/opener.py)
 ```
 
 ```{grid-item}
 **{octicon}`code` C++**
 
-{octicon}`mark-github` [Minimal Creator/Writer](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/blackboard/src/creator.cpp)
+{octicon}`mark-github` [Minimal Creator/Writer](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/blackboard/src/creator.cpp)  
 {octicon}`mark-github` [Minimal Opener/Reader](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/cxx/blackboard/src/opener.cpp)
 ```
 
 ```{grid-item}
 **{octicon}`code` C**
 
-{octicon}`mark-github` [Minimal Creator/Writer](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/blackboard/src/creator.c)
+{octicon}`mark-github` [Minimal Creator/Writer](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/blackboard/src/creator.c)  
 {octicon}`mark-github` [Minimal Opener/Reader](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/c/blackboard/src/opener.c)
 ```
 
