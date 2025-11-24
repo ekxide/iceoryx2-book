@@ -605,8 +605,8 @@ drop_update_rate_handle:
 ```{grid-item}
 **{octicon}`code` Python**
 
-{octicon}`mark-github` [Minimal Creator/Writer](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/blackboard/creator.rs)  
-{octicon}`mark-github` [Minimal Opener/Reader](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/blackboard/opener.rs)
+{octicon}`mark-github` [Minimal Creator/Writer](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/blackboard/creator.py)  
+{octicon}`mark-github` [Minimal Opener/Reader](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/blackboard/opener.py)
 ```
 
 ```{grid-item}
