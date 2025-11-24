@@ -102,7 +102,7 @@ battery_key = ctypes.c_uint64(0)
 us_sensor_key = ctypes.c_uint64(1)
 
 service = (
-    node.service_builder(iox2.ServiceName.new("My/Funk/ServiceName"))
+    node.service_builder(iox2.ServiceName.new("global_config"))
     .blackboard_creator(ctypes.c_uint64)
     .add(battery_key, ctypes.c_float(0.25))
     .add(us_sensor_key, ctypes.c_uint32(100))
@@ -386,7 +386,7 @@ let service = node.service_builder(&"global_config".try_into()?)
 
 ```{code-block} python
 service = (
-    node.service_builder(iox2.ServiceName.new("My/Funk/ServiceName"))
+    node.service_builder(iox2.ServiceName.new("global_config"))
     .blackboard_opener(ctypes.c_uint64)
     .open()
 )
