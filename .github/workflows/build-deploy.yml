@@ -35,6 +35,15 @@ jobs:
           files: source
           config: .markdownlint.json
           dot: true
+      
+      - name: markdown link check
+        uses: harryvasanth/markdown-link-checker@b5f33b5e6ee2ec424427fa84a8b7eed0f8aa2dd6 # v1
+        with:
+          path: "source"
+          recursive: "true"
+          timeout: "15"
+          retry-count: "3"
+          verbose: "true"
 
   build:
     needs: lint
