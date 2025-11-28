@@ -1,0 +1,104 @@
+name: Broken Links
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'source/**'
+      - 'poetry.lock'
+      - 'pyproject.toml'
+      - '.github/workflows/linkcheck.yml'
+  schedule:
+    # Nightly at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.8.4
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz
+
+      - name: Cache Poetry virtualenv
+        uses: actions/cache@v4
+        with:
+          path: |
+            .venv
+            ~/.cache/pypoetry
+          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
+
+      - name: Install Python dependencies
+        run: poetry install
+
+      - name: Run linkcheck
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          poetry run sphinx-build -b linkcheck source build/linkcheck
+
+      - name: Check for broken links
+        run: |
+          if [ -f build/linkcheck/output.txt ]; then
+            echo "## Link Check Results" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            
+            # Count broken links
+            BROKEN_COUNT=$(grep -c "broken" build/linkcheck/output.txt || true)
+            REDIRECT_COUNT=$(grep -c "redirected" build/linkcheck/output.txt || true)
+            
+            echo "- **Broken links:** $BROKEN_COUNT" >> $GITHUB_STEP_SUMMARY
+            echo "- **Redirects:** $REDIRECT_COUNT" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            
+            if [ $BROKEN_COUNT -gt 0 ]; then
+              echo "### ❌ Broken Links Found" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+              grep "broken" build/linkcheck/output.txt | head -20 >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+              exit 1
+            else
+              echo "### ✅ No Broken Links" >> $GITHUB_STEP_SUMMARY
+            fi
+            
+            if [ $REDIRECT_COUNT -gt 0 ]; then
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### 🔄 Redirects" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+              grep "redirected" build/linkcheck/output.txt | head -10 >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "No linkcheck output found"
+            exit 1
+          fi
+
+      - name: Upload linkcheck report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: linkcheck-report-${{ github.sha }}
+          path: build/linkcheck/
+          retention-days: 7
