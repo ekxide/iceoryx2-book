@@ -37,6 +37,20 @@ source_suffix = {
     ".md": "markdown",
 }
 
+# -- Options for linkcheck ---------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-the-linkcheck-builder
+
+linkcheck_timeout = 30
+linkcheck_workers = 5
+linkcheck_retries = 3
+linkcheck_ignore = [
+    r'http://localhost.*',
+    r'http://127\.0\.0\.1.*',
+]
+
+linkcheck_rate_limit_timeout = 60.0
+linkcheck_anchors = True
+
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
