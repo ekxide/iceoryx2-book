@@ -18,9 +18,9 @@ immediate feedback, data queries, or remote procedure calls. The use of shared
 memory enables efficient transfer of both request and response payloads.
 
 The pattern is not suitable for cases where one-way communication suffices
-([publish-subscribe](/fundamentals/messaging-patterns/publish-subscribe)) or
+([publish-subscribe](publish-subscribe.md)) or
 when data needs to persist for multiple consumers ([blackboard](
-/fundamentals/messaging-patterns/blackboard)).
+blackboard.md)).
 
 ## Mechanism
 

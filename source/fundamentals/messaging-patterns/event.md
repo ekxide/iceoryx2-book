@@ -28,7 +28,7 @@ Listeners can put their thread into a sleep state and be woken up by notifiers
 on the service.
 
 A single participant can handle multiple listeners
-[using a `Waitset`](/fundamentals/execution-control.md#waitset), which allows the
+[using a `Waitset`](../execution-control.md#waitset), which allows the
 participant to wait on several event sources simultaneously.
 
 An `EventId` is provided with each notification, either assigned automatically

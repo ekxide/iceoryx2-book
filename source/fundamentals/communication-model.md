@@ -33,7 +33,7 @@ The communication graph between participants in an `iceoryx2` system is
 determined using services.
 
 A service is a construct defined by a unique service name and a
-[messaging pattern](/fundamentals/messaging-patterns/index), and
+[messaging pattern](messaging-patterns/index.rst), and
 [quality-of-service (QoS) properties](https://docs.rs/iceoryx2/0.6.1/iceoryx2/#quality-of-services).
 Participants may create new services that do not already exist in the
 system or open existing services created by other participants:
