@@ -48,8 +48,18 @@ linkcheck_ignore = [
     r'http://127\.0\.0\.1.*',
 ]
 
-linkcheck_rate_limit_timeout = 60.0
+linkcheck_rate_limit_timeout = 30.0
 linkcheck_anchors = True
+
+import os
+linkcheck_request_headers = {
+    "*": {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:100.0) Gecko/20100101 Firefox/100.0",
+    },
+    "github.com": {
+        "Authorization": f"token {os.environ.get('GITHUB_TOKEN', '')}",
+    },
+}
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output

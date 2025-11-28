@@ -52,6 +52,8 @@ jobs:
         run: poetry install
 
       - name: Run linkcheck
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           poetry run sphinx-build -b linkcheck source build/linkcheck
         continue-on-error: true
