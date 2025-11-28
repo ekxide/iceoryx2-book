@@ -46,6 +46,7 @@ linkcheck_retries = 3
 linkcheck_ignore = [
     r'http://localhost.*',
     r'http://127\.0\.0\.1.*',
+    r'.*ekxide\.io.*',
 ]
 
 linkcheck_rate_limit_timeout = 30.0
