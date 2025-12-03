@@ -16,9 +16,8 @@ type; the shared-memory compatible value types can vary, but are fixed for a
 specific key.
 
 The blackboard messaging pattern is ideal for scenarios where a large number of
-readers is interested in a subset of the key-value pairs, such as global
-configuration settings adjusted at runtime or a regularly updated global state,
-with each participant only interested in a small part of it.
+readers are interested in a subset of the key-value pairs, such as global
+configuration settings adjusted at runtime or a regularly updated global state.
 
 The pattern is not suitable for cases where large payloads shall be
 communicated to multiple participants ([publish-subscribe](
@@ -41,10 +40,8 @@ retrieve entry handles for a specific key, enabling efficient access. These
 entry handles are used to update the corresponding value or read the latest
 value without having to iterate over the entire key-value repository again.
 
-The blackboard can be combined with the event messaging pattern so that the
-receiving participant is notified when the value it is interested in is
-updated. Each entry handle provides an entry id to facilitate event handling by
-the receiving participants.
+Each key-value entry has a unique ID which can be sent along with events so
+listening participants are able to react to specific updates in the blackboard.
 
 ## Further Reading
 
