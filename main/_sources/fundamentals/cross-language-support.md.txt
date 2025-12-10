@@ -42,28 +42,28 @@ to tackle the complexity of manual memory layout management.
 ````{grid} 1 1 2 3
 :gutter: 2
 
-```{grid-item-card} Example: Cross-language Publish-Subscribe (Rust)
-:link: https://github.com/eclipse-iceoryx/iceoryx2/tree/main/examples/rust/publish_subscribe_cross_language
+```{grid-item-card} Example: Cross-language Communication of Basic Types (Rust)
+:link: https://github.com/eclipse-iceoryx/iceoryx2/tree/main/examples/rust/cross_language_communication_basics
 :link-type: url
 :shadow: none
 
-See how to send up cross-language publish-subscribe from a Rust application.
+Send basic types over shared memory from Rust to applications in other languages.
 ```
 
-```{grid-item-card} Example: Cross-language Publish-Subscribe (C++)
-:link: https://github.com/eclipse-iceoryx/iceoryx2/tree/main/examples/cxx/publish_subscribe_cross_language
+```{grid-item-card} Example: Cross-language Communication of Basic Types (Python)
+:link: https://github.com/eclipse-iceoryx/iceoryx2/tree/main/examples/python/cross_language_communication_basics
 :link-type: url
 :shadow: none
 
-See how to send up cross-language publish-subscribe from a C++ application.
+Send basic types over shared memory from Python to applications in other languages.
 ```
 
-```{grid-item-card} Example: Cross-language Publish-Subscribe (Python)
-:link: https://github.com/eclipse-iceoryx/iceoryx2/tree/main/examples/python/publish_subscribe_cross_language
+```{grid-item-card} Example: Cross-language Communication of Basic Types (C++)
+:link: https://github.com/eclipse-iceoryx/iceoryx2/tree/main/examples/cxx/cross_language_communication_basics
 :link-type: url
 :shadow: none
 
-See how to send up cross-language publish-subscribe from a Python application.
+Send basic types over shared memory from C++ to applications in other languages.
 ```
 
 ````
