@@ -19,6 +19,6 @@ Concept
 
 Deployment
     A configurable set of concept implementations. Examples include
-    [`Local`](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/iceoryx2/src/service/local.rs#L51)
-    and [`Ipc`](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/iceoryx2/src/service/ipc.rs#L50).
+    [`Local`](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/iceoryx2/src/service/local.rs)
+    and [`Ipc`](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/iceoryx2/src/service/ipc.rs).
 ```
