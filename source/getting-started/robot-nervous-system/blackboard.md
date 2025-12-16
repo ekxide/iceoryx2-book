@@ -50,7 +50,7 @@ node = iox2.NodeBuilder.new().create(iox2.ServiceType.Ipc)
 
 using namespace iox2;
 
-auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
+auto node = NodeBuilder().create<ServiceType::Ipc>().value();
 ```
 
 ```{code-block} c
@@ -120,14 +120,14 @@ service = (
      std::cerr << "Blackboard keys could not be created." << std::endl;
  }
 
- auto service = node.service_builder(ServiceName::create("global_config").expect(""))
+ auto service = node.service_builder(ServiceName::create("global_config").value())
                     .blackboard_creator<KeyType>()
                     // low battery warning when load is below 25%
                     .template add<float>(battery_key.value(), 0.25)
                     // default ultrasonic update rate = 100 ms
                     .template add<uint32_t>(us_sensor_key.value(), 100)
                     .create()
-                    .expect("");
+                    .value();
 ```
 
 ```{code-block} c
@@ -211,7 +211,7 @@ writer = service.writer_builder().create()
 ```
 
 ```{code-block} c++
-auto writer = service.writer_builder().create().expect("");
+auto writer = service.writer_builder().create().value();
 ```
 
 ```{code-block} c
@@ -246,8 +246,8 @@ update_rate_handle = writer.entry(us_sensor_key, ctypes.c_uint32)
 ```
 
 ```{code-block} c++
-auto battery_threshold_handle = writer.template entry<float>(battery_key.value()).expect("");
-auto update_rate_handle = writer.template entry<uint32_t>(us_sensor_key.value()).expect("");
+auto battery_threshold_handle = writer.template entry<float>(battery_key.value()).value();
+auto update_rate_handle = writer.template entry<uint32_t>(us_sensor_key.value()).value();
 ```
 
 ```{code-block} c
@@ -327,7 +327,7 @@ except iox2.NodeWaitFailure:
 ```
 
 ```{code-block} c++
-while (node.wait(iox::units::Duration::fromMilliseconds(100)).has_value()) {
+while (node.wait(iox2::bb::Duration::from_millis(100)).has_value()) {
     auto new_battery_threshold = get_battery_threshold();
     if (new_battery_threshold.has_value()) {
         // small value -> simple copy API
@@ -336,11 +336,7 @@ while (node.wait(iox::units::Duration::fromMilliseconds(100)).has_value()) {
 
     auto new_update_rate = get_update_rate();
     if (new_update_rate.has_value()) {
-        // larger values -> zero-copy loan API
-        auto value_uninit = loan_uninit(std::move(update_rate_handle));
-        auto value = write(std::move(value_uninit), new_update_rate.value());
-        // loan consumes the handle, returned when the update completes
-        update_rate_handle = update(std::move(value));
+        update_rate_handle.update_with_copy(new_update_rate.value());
     }
 }
 ```
@@ -388,10 +384,10 @@ service = (
 
 ```{code-block} c++
 using KeyType = container::StaticString<50>;
-auto service = node.service_builder(ServiceName::create("global_config").expect(""))
+auto service = node.service_builder(ServiceName::create("global_config").value())
                    .blackboard_opener<KeyType>()
                    .open()
-                   .expect("");
+                   .value();
 ```
 
 ```{code-block} c
@@ -445,7 +441,7 @@ reader = service.reader_builder().create()
 ```
 
 ```{code-block} c++
-auto reader = service.reader_builder().create().expect("");
+auto reader = service.reader_builder().create().value();
 ```
 
 ```{code-block} c
@@ -476,7 +472,7 @@ update_rate_handle = reader.entry(us_sensor_key, ctypes.c_uint32)
 ```
 
 ```{code-block} c++
-auto update_rate_handle = reader.template entry<uint32_t>(us_sensor_key.value()).expect("");
+auto update_rate_handle = reader.template entry<uint32_t>(us_sensor_key.value()).value();
 ```
 
 ```{code-block} c
@@ -544,12 +540,12 @@ except iox2.NodeWaitFailure:
 ```
 
 ```{code-block} c++
-while (node.wait(iox::units::Duration::fromMilliseconds(update_rate_handle.get())).has_value()) {
-    auto sample = publisher.loan_uninit().expect("");
+while (node.wait(iox2::bb::Duration::from_millis(*update_rate_handle.get())).has_value()) {
+    auto sample = publisher.loan_uninit().value();
 
     auto initialized_sample = sample.write_payload(Distance { get_ultra_sonic_sensor_distance(), 42.0 });
 
-    send(std::move(initialized_sample)).expect("");
+    send(std::move(initialized_sample)).value();
 }
 ```
 
