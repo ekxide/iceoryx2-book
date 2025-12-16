@@ -299,11 +299,7 @@ while node.wait(Duration::from_millis(100)).is_ok() {
     }
 
     if let Some(new_update_rate) = get_update_rate() {
-        // larger values -> zero-copy loan API
-        let value_uninit = update_rate_handle.loan_uninit();
-        let value = value_uninit.write(new_update_rate);
-        // loan consumes the handle, returned when the update completes
-        update_rate_handle = value.update();
+        update_rate_handle.update_with_copy(new_update_rate);
     }
 }
 ```
@@ -513,7 +509,9 @@ that the update interval now comes from the global configuration:
 
 ````{tab-set-code}
 ```{code-block} rust
-while node.wait(Duration::from_millis(update_rate_handle.get() as u64)).is_ok() {
+while node.wait(Duration::from_millis(*update_rate_handle.get() as u64))
+          .is_ok() 
+{
     let sample = publisher.loan_uninit()?;
 
     let sample = sample.write_payload(Distance {
