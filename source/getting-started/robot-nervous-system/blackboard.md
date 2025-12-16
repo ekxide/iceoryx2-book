@@ -318,11 +318,9 @@ try:
 
         new_update_rate = get_update_rate()
         if new_update_rate is not None:
-            # larger values -> zero-copy loan API
-            value_uninit = update_rate_handle.loan_uninit()
-            value = value_uninit.write(ctypes.c_uint32(new_update_rate))
-            # loan consumes the handle, returned when the update completes
-            update_rate_handle = value.update()
+            update_rate_handle.update_with_copy(
+                ctypes.c_uint32(new_update_rate)
+            )
 
 except iox2.NodeWaitFailure:
     print("exit")
