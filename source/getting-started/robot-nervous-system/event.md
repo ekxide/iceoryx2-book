@@ -62,12 +62,12 @@ event = (
 
 using namespace iox2;
 
-auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
+auto node = NodeBuilder().create<ServiceType::Ipc>().value();
 
-auto service = node.service_builder(ServiceName::create("system_health_events").expect(""))
+auto service = node.service_builder(ServiceName::create("system_health_events").value())
                    .event()
                    .open_or_create()
-                   .expect("");
+                   .value();
 ```
 
 ```{code-block} c
@@ -118,7 +118,7 @@ notifier = event.notifier_builder().create()
 ```
 
 ```{code-block} c++
-auto notifier = service.notifier_builder().create().expect("");
+auto notifier = service.notifier_builder().create().value();
 ```
 
 ```{code-block} c
@@ -190,13 +190,13 @@ except iox2.NodeWaitFailure:
 ```
 
 ```{code-block} c++
-while (node.wait(iox::units::Duration::fromSeconds(1)).has_value()) {
+while (node.wait(iox2::bb::Duration::from_secs(1)).has_value()) {
     if ( bump_sensor_was_activated() ) {
-        notifier.notify_with_custom_event_id(wall_was_hit).expect("");
+        notifier.notify_with_custom_event_id(wall_was_hit).value();
     }
 
     if ( battery_state() < battery_threshold ) {
-        notifier.notify_with_custom_event_id(battery_is_low).expect("");
+        notifier.notify_with_custom_event_id(battery_is_low).value();
     }
 }
 ```
@@ -255,12 +255,12 @@ event = (
 
 using namespace iox2;
 
-auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
+auto node = NodeBuilder().create<ServiceType::Ipc>().value();
 
-auto service = node.service_builder(ServiceName::create("system_health_events").expect(""))
+auto service = node.service_builder(ServiceName::create("system_health_events").value())
                    .event()
                    .open_or_create()
-                   .expect("");
+                   .value();
 ```
 
 ```{code-block} c
@@ -310,7 +310,7 @@ listener = event.listener_builder().create()
 ```
 
 ```{code-block} c++
-auto listener = service.listener_builder().create().expect("");
+auto listener = service.listener_builder().create().value();
 ```
 
 ```{code-block} c

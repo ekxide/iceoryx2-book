@@ -108,7 +108,7 @@ node = iox2.NodeBuilder.new().create(iox2.ServiceType.Ipc)
 
 using namespace iox2;
 
-auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
+auto node = NodeBuilder().create<ServiceType::Ipc>().value();
 ```
 
 ```{code-block} c
@@ -145,10 +145,10 @@ service = (
 ```
 
 ```{code-block} c++
-auto service = node.service_builder(ServiceName::create("autopilot").expect(""))
+auto service = node.service_builder(ServiceName::create("autopilot").value())
                    .request_response<Position, State>()
                    .open_or_create()
-                   .expect("");
+                   .value();
 ```
 
 ```{code-block} c
@@ -218,7 +218,7 @@ client = service.client_builder().create()
 ```
 
 ```{code-block} c++
-auto client = service.client_builder().create().expect("");
+auto client = service.client_builder().create().value();
 ```
 
 ```{code-block} c
@@ -258,10 +258,10 @@ pending_response = request.send()
 ```
 
 ```{code-block} c++
-auto request = client.loan_uninit().expect("");
+auto request = client.loan_uninit().value();
 auto initialized_request = request.write_payload(Position {{123.456, 789.1}});
 
-pending_response = send(std::move(initialized_request)).expect("");
+pending_response = send(std::move(initialized_request)).value();
 ```
 
 ```{code-block} c
@@ -337,9 +337,9 @@ except iox2.NodeWaitFailure:
 ```
 
 ```{code-block} c++
-while (node.wait(iox::units::Duration::fromMilliseconds(100)).has_value()) {
+while (node.wait(iox2::bb::Duration::from_millis(100)).has_value()) {
     while (true) {
-        auto position = pending_response.receive().expect("");
+        auto position = pending_response.receive().value();
         if (position.has_value()) {
             show_larry_position_in_app(position.value())
         } else {
@@ -418,14 +418,14 @@ server = service.server_builder().create()
 ```
 
 ```{code-block} c++
-auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
+auto node = NodeBuilder().create<ServiceType::Ipc>().value();
 
-auto service = node.service_builder(ServiceName::create("autopilot").expect(""))
+auto service = node.service_builder(ServiceName::create("autopilot").value())
                    .request_response<Position, State>()
                    .open_or_create()
-                   .expect("");
+                   .value();
 
-auto server = service.server_builder().create().expect("");
+auto server = service.server_builder().create().value();
 ```
 
 ```{code-block} c
@@ -563,10 +563,10 @@ except iox2.NodeWaitFailure:
 ```
 
 ```{code-block} c++
-auto active_request = server.receive().expect("");
-while (node.wait(iox::units::Duration::fromMilliseconds(100)).has_value()) {
+auto active_request = server.receive().value();
+while (node.wait(iox2::bb::Duration::from_millis(100)).has_value()) {
     if ( !active_request.has_value() ) {
-        active_request = server.receive().expect("");
+        active_request = server.receive().value();
         if ( active_request.has_value() ) {
             drive_to_position(active_request);
         }
@@ -575,13 +575,13 @@ while (node.wait(iox::units::Duration::fromMilliseconds(100)).has_value()) {
     if ( active_request.has_value() ) {
         if ( !active_request->is_connected() ) {
             stop_driving();
-            active_request = iox::nullopt;
+            active_request = iox2::bb::NULLOPT;
         } else if ( arrived_at_destination() ) {
-            active_request = iox::nullopt;
+            active_request = iox2::bb::NULLOPT;
         } else {
-            auto response = active_request->loan_uninit().expect("");
+            auto response = active_request->loan_uninit().value();
             auto initialized_response = response.write_payload(get_current_state());
-            send(std::move(initialized_response)).expect("");
+            send(std::move(initialized_response)).value();
         }
     }
 }
