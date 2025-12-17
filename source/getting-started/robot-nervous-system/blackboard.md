@@ -349,14 +349,8 @@ while (iox2_node_wait(&node, 0, 100000) == IOX2_OK) {
         &battery_threshold_handle, &new_battery_threshold, sizeof(float), alignof(float));
 
     uint32_t new_update_rate = get_update_rate();
-    // larger values -> zero-copy loan API
-    iox2_entry_value_h value_uninit = NULL;
-    iox2_entry_handle_mut_loan_uninit(update_rate_handle, NULL, &value_uninit, sizeof(uint32_t), alignof(uint32_t));
-    uint32_t* value = NULL;
-    iox2_entry_value_mut(&value_uninit, (void**) &value);
-    *value = new_update_rate;
-    // loan consumes the handle, returned when the update completes
-    iox2_entry_value_update(value_uninit, NULL, &update_rate_handle);
+    iox2_entry_handle_mut_update_with_copy(
+        &update_rate_handle, &new_update_rate, sizeof(uint32_t), alignof(uint32_t));
 }
 ```
 ````
@@ -551,7 +545,7 @@ while (node.wait(iox2::bb::Duration::from_millis(*update_rate_handle.get())).has
 
 ```{code-block} c
 uint32_t new_update_rate = 0;
-iox2_entry_handle_get(&update_rate_handle, &new_update_rate, sizeof(uint32_t), alignof(uint32_t));
+iox2_entry_handle_get(&update_rate_handle, &new_update_rate, sizeof(uint32_t), alignof(uint32_t), NULL);
 while (iox2_node_wait(&node, 0, new_update_rate * 1000) == IOX2_OK) {
     // loan sample
     iox2_sample_mut_h sample = NULL;
@@ -571,7 +565,7 @@ while (iox2_node_wait(&node, 0, new_update_rate * 1000) == IOX2_OK) {
         printf("Failed to send sample\n");
         goto drop_update_rate_handle;
     }
-    iox2_entry_handle_get(&update_rate_handle, &new_update_rate, sizeof(uint32_t), alignof(uint32_t));
+    iox2_entry_handle_get(&update_rate_handle, &new_update_rate, sizeof(uint32_t), alignof(uint32_t), NULL);
 }
 
 // do not forget to release the resources later
