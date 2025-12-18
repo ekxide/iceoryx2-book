@@ -35,10 +35,11 @@ communication is required ([request-response](
 Blackboard in Shared Memory
 ```
 
-Writers and readers don't work directly on the key-value repository, but can
-retrieve entry handles for a specific key, enabling efficient access. These
-entry handles are used to update the corresponding value or read the latest
-value without having to iterate over the entire key-value repository again.
+The blackboard messaging pattern currently allows one writer and multiple
+readers. These can obtain write or read permission for specific key-value
+pairs. The writer is then able to update the respective values efficiently,
+while the readers can efficiently read the latest values - without having to
+iterate the complete key-value-repository again.
 
 Each key-value entry has a unique ID which can be sent along with events so
 listening participants are able to react to specific updates in the blackboard.
