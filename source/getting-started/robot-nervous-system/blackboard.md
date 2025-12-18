@@ -50,7 +50,7 @@ node = iox2.NodeBuilder.new().create(iox2.ServiceType.Ipc)
 
 using namespace iox2;
 
-auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
+auto node = NodeBuilder().create<ServiceType::Ipc>().value();
 ```
 
 ```{code-block} c
@@ -120,14 +120,14 @@ service = (
      std::cerr << "Blackboard keys could not be created." << std::endl;
  }
 
- auto service = node.service_builder(ServiceName::create("global_config").expect(""))
+ auto service = node.service_builder(ServiceName::create("global_config").value())
                     .blackboard_creator<KeyType>()
                     // low battery warning when load is below 25%
                     .template add<float>(battery_key.value(), 0.25)
                     // default ultrasonic update rate = 100 ms
                     .template add<uint32_t>(us_sensor_key.value(), 100)
                     .create()
-                    .expect("");
+                    .value();
 ```
 
 ```{code-block} c
@@ -211,7 +211,7 @@ writer = service.writer_builder().create()
 ```
 
 ```{code-block} c++
-auto writer = service.writer_builder().create().expect("");
+auto writer = service.writer_builder().create().value();
 ```
 
 ```{code-block} c
@@ -246,8 +246,8 @@ update_rate_handle = writer.entry(us_sensor_key, ctypes.c_uint32)
 ```
 
 ```{code-block} c++
-auto battery_threshold_handle = writer.template entry<float>(battery_key.value()).expect("");
-auto update_rate_handle = writer.template entry<uint32_t>(us_sensor_key.value()).expect("");
+auto battery_threshold_handle = writer.template entry<float>(battery_key.value()).value();
+auto update_rate_handle = writer.template entry<uint32_t>(us_sensor_key.value()).value();
 ```
 
 ```{code-block} c
@@ -299,11 +299,7 @@ while node.wait(Duration::from_millis(100)).is_ok() {
     }
 
     if let Some(new_update_rate) = get_update_rate() {
-        // larger values -> zero-copy loan API
-        let value_uninit = update_rate_handle.loan_uninit();
-        let value = value_uninit.write(new_update_rate);
-        // loan consumes the handle, returned when the update completes
-        update_rate_handle = value.update();
+        update_rate_handle.update_with_copy(new_update_rate);
     }
 }
 ```
@@ -322,18 +318,16 @@ try:
 
         new_update_rate = get_update_rate()
         if new_update_rate is not None:
-            # larger values -> zero-copy loan API
-            value_uninit = update_rate_handle.loan_uninit()
-            value = value_uninit.write(ctypes.c_uint32(new_update_rate))
-            # loan consumes the handle, returned when the update completes
-            update_rate_handle = value.update()
+            update_rate_handle.update_with_copy(
+                ctypes.c_uint32(new_update_rate)
+            )
 
 except iox2.NodeWaitFailure:
     print("exit")
 ```
 
 ```{code-block} c++
-while (node.wait(iox::units::Duration::fromMilliseconds(100)).has_value()) {
+while (node.wait(iox2::bb::Duration::from_millis(100)).has_value()) {
     auto new_battery_threshold = get_battery_threshold();
     if (new_battery_threshold.has_value()) {
         // small value -> simple copy API
@@ -342,11 +336,7 @@ while (node.wait(iox::units::Duration::fromMilliseconds(100)).has_value()) {
 
     auto new_update_rate = get_update_rate();
     if (new_update_rate.has_value()) {
-        // larger values -> zero-copy loan API
-        auto value_uninit = loan_uninit(std::move(update_rate_handle));
-        auto value = write(std::move(value_uninit), new_update_rate.value());
-        // loan consumes the handle, returned when the update completes
-        update_rate_handle = update(std::move(value));
+        update_rate_handle.update_with_copy(new_update_rate.value());
     }
 }
 ```
@@ -359,14 +349,8 @@ while (iox2_node_wait(&node, 0, 100000) == IOX2_OK) {
         &battery_threshold_handle, &new_battery_threshold, sizeof(float), alignof(float));
 
     uint32_t new_update_rate = get_update_rate();
-    // larger values -> zero-copy loan API
-    iox2_entry_value_h value_uninit = NULL;
-    iox2_entry_handle_mut_loan_uninit(update_rate_handle, NULL, &value_uninit, sizeof(uint32_t), alignof(uint32_t));
-    uint32_t* value = NULL;
-    iox2_entry_value_mut(&value_uninit, (void**) &value);
-    *value = new_update_rate;
-    // loan consumes the handle, returned when the update completes
-    iox2_entry_value_update(value_uninit, NULL, &update_rate_handle);
+    iox2_entry_handle_mut_update_with_copy(
+        &update_rate_handle, &new_update_rate, sizeof(uint32_t), alignof(uint32_t));
 }
 ```
 ````
@@ -394,10 +378,10 @@ service = (
 
 ```{code-block} c++
 using KeyType = container::StaticString<50>;
-auto service = node.service_builder(ServiceName::create("global_config").expect(""))
+auto service = node.service_builder(ServiceName::create("global_config").value())
                    .blackboard_opener<KeyType>()
                    .open()
-                   .expect("");
+                   .value();
 ```
 
 ```{code-block} c
@@ -451,7 +435,7 @@ reader = service.reader_builder().create()
 ```
 
 ```{code-block} c++
-auto reader = service.reader_builder().create().expect("");
+auto reader = service.reader_builder().create().value();
 ```
 
 ```{code-block} c
@@ -482,7 +466,7 @@ update_rate_handle = reader.entry(us_sensor_key, ctypes.c_uint32)
 ```
 
 ```{code-block} c++
-auto update_rate_handle = reader.template entry<uint32_t>(us_sensor_key.value()).expect("");
+auto update_rate_handle = reader.template entry<uint32_t>(us_sensor_key.value()).value();
 ```
 
 ```{code-block} c
@@ -513,7 +497,9 @@ that the update interval now comes from the global configuration:
 
 ````{tab-set-code}
 ```{code-block} rust
-while node.wait(Duration::from_millis(update_rate_handle.get() as u64)).is_ok() {
+while node.wait(Duration::from_millis(*update_rate_handle.get() as u64))
+          .is_ok() 
+{
     let sample = publisher.loan_uninit()?;
 
     let sample = sample.write_payload(Distance {
@@ -548,18 +534,18 @@ except iox2.NodeWaitFailure:
 ```
 
 ```{code-block} c++
-while (node.wait(iox::units::Duration::fromMilliseconds(update_rate_handle.get())).has_value()) {
-    auto sample = publisher.loan_uninit().expect("");
+while (node.wait(iox2::bb::Duration::from_millis(*update_rate_handle.get())).has_value()) {
+    auto sample = publisher.loan_uninit().value();
 
     auto initialized_sample = sample.write_payload(Distance { get_ultra_sonic_sensor_distance(), 42.0 });
 
-    send(std::move(initialized_sample)).expect("");
+    send(std::move(initialized_sample)).value();
 }
 ```
 
 ```{code-block} c
 uint32_t new_update_rate = 0;
-iox2_entry_handle_get(&update_rate_handle, &new_update_rate, sizeof(uint32_t), alignof(uint32_t));
+iox2_entry_handle_get(&update_rate_handle, &new_update_rate, sizeof(uint32_t), alignof(uint32_t), NULL);
 while (iox2_node_wait(&node, 0, new_update_rate * 1000) == IOX2_OK) {
     // loan sample
     iox2_sample_mut_h sample = NULL;
@@ -579,7 +565,7 @@ while (iox2_node_wait(&node, 0, new_update_rate * 1000) == IOX2_OK) {
         printf("Failed to send sample\n");
         goto drop_update_rate_handle;
     }
-    iox2_entry_handle_get(&update_rate_handle, &new_update_rate, sizeof(uint32_t), alignof(uint32_t));
+    iox2_entry_handle_get(&update_rate_handle, &new_update_rate, sizeof(uint32_t), alignof(uint32_t), NULL);
 }
 
 // do not forget to release the resources later
