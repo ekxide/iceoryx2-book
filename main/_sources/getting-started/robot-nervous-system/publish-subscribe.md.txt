@@ -47,8 +47,8 @@ node = (
 using namespace iox2;
 
 auto node = NodeBuilder()
-    .name(NodeName::create("UltraSonicSensor").expect("")
-    .create<ServiceType::Ipc>().expect("");
+    .name(NodeName::create("UltraSonicSensor").value()
+    .create<ServiceType::Ipc>().value();
 ```
 
 ```{code-block} c
@@ -150,10 +150,10 @@ service = (
 ```
 
 ```{code-block} c++
-auto service = node.service_builder(ServiceName::create("distance_to_obstacle").expect(""))
+auto service = node.service_builder(ServiceName::create("distance_to_obstacle").value())
                    .publish_subscribe<Distance>()
                    .open_or_create()
-                   .expect("");
+                   .value();
 ```
 
 ```{code-block} c
@@ -207,7 +207,7 @@ publisher = service.publisher_builder().create()
 ```
 
 ```{code-block} c++
-auto publisher = service.publisher_builder().create().expect("");
+auto publisher = service.publisher_builder().create().value();
 ```
 
 ```{code-block} c
@@ -245,7 +245,7 @@ except iox2.NodeWaitFailure:
 ```
 
 ```{code-block} c++
-while (node.wait(iox::units::Duration::fromMilliseconds(100)).has_value()) {
+while (node.wait(iox2::bb::Duration::from_millis(100)).has_value()) {
     // acquire sensor reading and send it
 }
 ```
@@ -285,12 +285,12 @@ sample.send()
 ```
 
 ```{code-block} c++
-auto sample = publisher.loan_uninit().expect("");
+auto sample = publisher.loan_uninit().value();
 
 auto initialized_sample =
   sample.write_payload(Distance { get_ultra_sonic_sensor_distance(), 42.0 });
 
-send(std::move(initialized_sample)).expect("");
+send(std::move(initialized_sample)).value();
 ```
 
 ```{code-block} c
@@ -354,12 +354,12 @@ service = (
 
 using namespace iox2;
 
-auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
+auto node = NodeBuilder().create<ServiceType::Ipc>().value();
 
-auto service = node.service_builder(ServiceName::create("distance_to_obstacle").expect(""))
+auto service = node.service_builder(ServiceName::create("distance_to_obstacle").value())
                    .publish_subscribe<Distance>()
                    .open_or_create()
-                   .expect("");
+                   .value();
 ```
 
 ```{code-block} c
@@ -425,7 +425,7 @@ subscriber = service.subscriber_builder().create()
 ```
 
 ```{code-block} c++
-auto subscriber = service.subscriber_builder().create().expect("");
+auto subscriber = service.subscriber_builder().create().value();
 ```
 
 ```{code-block} c
@@ -471,11 +471,11 @@ except iox2.NodeWaitFailure:
 ```
 
 ```{code-block} c++
-while (node.wait(iox::units::Duration::fromMilliseconds(100)).has_value()) {
-    auto sample = subscriber.receive().expect("");
+while (node.wait(iox2::bb::Duration::from_millis(100)).has_value()) {
+    auto sample = subscriber.receive().value();
     while (sample.has_value()) {
         std::cout << "received distance: " << sample->payload() << std::endl;
-        sample = subscriber.receive().expect("");
+        sample = subscriber.receive().value();
     }
 }
 ```

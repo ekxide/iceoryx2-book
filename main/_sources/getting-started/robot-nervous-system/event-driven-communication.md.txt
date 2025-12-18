@@ -87,15 +87,15 @@ pubsub_service = (
 
 using namespace iox2;
 
-auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
+auto node = NodeBuilder().create<ServiceType::Ipc>().value();
 
-auto pubsub_service = node.service_builder(ServiceName::create("distance_to_obstacle").expect(""))
+auto pubsub_service = node.service_builder(ServiceName::create("distance_to_obstacle").value())
                    .publish_subscribe<Distance>()
                    .subscriber_max_buffer_size(3)
                    .history_size(3)
                    .subscriber_max_borrowed_samples(3)
                    .open_or_create()
-                   .expect("");
+                   .value();
 ```
 
 ```{code-block} c
@@ -180,11 +180,11 @@ event_service = (
 
 ```{code-block} c++
 auto ultra_sonic_service_dead = EventId::new(10);
-auto event_service = node.service_builder(ServiceName::create("distance_to_obstacle").expect(""))
+auto event_service = node.service_builder(ServiceName::create("distance_to_obstacle").value())
                    .event()
                    .notifier_dead_event(ultra_sonic_service_dead)
                    .open_or_create()
-                   .expect("");
+                   .value();
 ```
 
 ```{code-block} c
@@ -225,8 +225,8 @@ obstacle_too_close = iox2.EventId.new(5)
 ```
 
 ```{code-block} c++
-auto publisher = pubsub_service.publisher_builder().create().expect("");
-auto notifier = event_service.notifier_builder().create().expect("");
+auto publisher = pubsub_service.publisher_builder().create().value();
+auto notifier = event_service.notifier_builder().create().value();
 
 auto obstacle_too_close = EventId(5);
 ```
@@ -300,15 +300,15 @@ except iox2.NodeWaitFailure:
 ```
 
 ```{code-block} c++
-while (node.wait(iox::units:Duration::fromMilliseconds(100)).has_value()) {
-    auto sample = publisher.loan_uninit().expect("acquire sample");
+while (node.wait(iox2::bb:Duration::from_millis(100)).has_value()) {
+    auto sample = publisher.loan_uninit().value();
 
     auto distance = get_ultra_sonic_sensor_distance();
     auto initialized_sample =
         sample.write_payload(Distance { distance, 42.0 });
 
     if (distance < distance_threshold) {
-        notifier.notify_with_custom_event_id(obstacle_too_close).expect("");
+        notifier.notify_with_custom_event_id(obstacle_too_close).value();
     }
 }
 ```
@@ -408,25 +408,25 @@ listener = event_service.listener_builder().create()
 
 using namespace iox2;
 
-auto node = NodeBuilder().create<ServiceType::Ipc>().expect("");
+auto node = NodeBuilder().create<ServiceType::Ipc>().value();
 
-auto pubsub_service = node.service_builder(ServiceName::create("distance_to_obstacle").expect(""))
+auto pubsub_service = node.service_builder(ServiceName::create("distance_to_obstacle").value())
                    .publish_subscribe<Distance>()
                    .subscriber_max_buffer_size(3)
                    .history_size(3)
                    .subscriber_max_borrowed_samples(3)
                    .open_or_create()
-                   .expect("");
+                   .value();
 
 auto ultra_sonic_service_dead = EventId::new(10);
-auto event_service = node.service_builder(ServiceName::create("distance_to_obstacle").expect(""))
+auto event_service = node.service_builder(ServiceName::create("distance_to_obstacle").value())
                    .event()
                    .notifier_dead_event(ultra_sonic_service_dead)
                    .open_or_create()
-                   .expect("");
+                   .value();
 
-auto subscriber = pubsub_service.subscriber_builder().create().expect("");
-auto listener = event_service.listener_builder().create().expect("");
+auto subscriber = pubsub_service.subscriber_builder().create().value();
+auto listener = event_service.listener_builder().create().value();
 ```
 
 ```{code-block} c
@@ -576,9 +576,9 @@ while (listener.blocking_wait_all(
         if ( event_id == obstacle_too_close ) {
             std::vector<Sample<ServiceType::Ipc, Distance, void>> last_samples;
 
-            auto sample = subscriber.receive().expect("");
+            auto sample = subscriber.receive().value();
             while (sample.has_value()) {
-                sample = subscriber.receive().expect("");
+                sample = subscriber.receive().value();
                 last_samples.push_back(std::move(sample.value()));
                 if (last_samples.size() == 3) {
                     break;

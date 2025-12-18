@@ -395,8 +395,8 @@ C++</label><div class="sd-tab-content docutils">
 <span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">iox2</span><span class="p">;</span>
 
 <span class="k">auto</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">()</span>
-<span class="w">    </span><span class="p">.</span><span class="n">name</span><span class="p">(</span><span class="n">NodeName</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="s">&quot;UltraSonicSensor&quot;</span><span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="p">.</span><span class="n">create</span><span class="o">&lt;</span><span class="n">ServiceType</span><span class="o">::</span><span class="n">Ipc</span><span class="o">&gt;</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">.</span><span class="n">name</span><span class="p">(</span><span class="n">NodeName</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="s">&quot;UltraSonicSensor&quot;</span><span class="p">).</span><span class="n">value</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">create</span><span class="o">&lt;</span><span class="n">ServiceType</span><span class="o">::</span><span class="n">Ipc</span><span class="o">&gt;</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -520,10 +520,10 @@ PYTHON</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-10" name="sd-tab-set-2" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-10">
 C++</label><div class="sd-tab-content docutils">
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="n">ServiceName</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="s">&quot;distance_to_obstacle&quot;</span><span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">))</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="n">ServiceName</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="s">&quot;distance_to_obstacle&quot;</span><span class="p">).</span><span class="n">value</span><span class="p">())</span>
 <span class="w">                   </span><span class="p">.</span><span class="n">publish_subscribe</span><span class="o">&lt;</span><span class="n">Distance</span><span class="o">&gt;</span><span class="p">()</span>
 <span class="w">                   </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span>
-<span class="w">                   </span><span class="p">.</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">value</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -588,7 +588,7 @@ PYTHON</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-14" name="sd-tab-set-3" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-14">
 C++</label><div class="sd-tab-content docutils">
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">publisher</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="n">publisher_builder</span><span class="p">().</span><span class="n">create</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">publisher</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="n">publisher_builder</span><span class="p">().</span><span class="n">create</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -637,7 +637,7 @@ PYTHON</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-18" name="sd-tab-set-4" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-18">
 C++</label><div class="sd-tab-content docutils">
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">iox</span><span class="o">::</span><span class="n">units</span><span class="o">::</span><span class="n">Duration</span><span class="o">::</span><span class="n">fromMilliseconds</span><span class="p">(</span><span class="mi">100</span><span class="p">)).</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">iox2</span><span class="o">::</span><span class="n">bb</span><span class="o">::</span><span class="n">Duration</span><span class="o">::</span><span class="n">from_millis</span><span class="p">(</span><span class="mi">100</span><span class="p">)).</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// acquire sensor reading and send it</span>
 <span class="p">}</span>
 </pre></div>
@@ -688,12 +688,12 @@ PYTHON</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-22" name="sd-tab-set-5" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-22">
 C++</label><div class="sd-tab-content docutils">
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">publisher</span><span class="p">.</span><span class="n">loan_uninit</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">publisher</span><span class="p">.</span><span class="n">loan_uninit</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
 
 <span class="k">auto</span><span class="w"> </span><span class="n">initialized_sample</span><span class="w"> </span><span class="o">=</span>
 <span class="w">  </span><span class="n">sample</span><span class="p">.</span><span class="n">write_payload</span><span class="p">(</span><span class="n">Distance</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">get_ultra_sonic_sensor_distance</span><span class="p">(),</span><span class="w"> </span><span class="mf">42.0</span><span class="w"> </span><span class="p">});</span>
 
-<span class="n">send</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">initialized_sample</span><span class="p">)).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="n">send</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">initialized_sample</span><span class="p">)).</span><span class="n">value</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -768,12 +768,12 @@ C++</label><div class="sd-tab-content docutils">
 
 <span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">iox2</span><span class="p">;</span>
 
-<span class="k">auto</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">().</span><span class="n">create</span><span class="o">&lt;</span><span class="n">ServiceType</span><span class="o">::</span><span class="n">Ipc</span><span class="o">&gt;</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">().</span><span class="n">create</span><span class="o">&lt;</span><span class="n">ServiceType</span><span class="o">::</span><span class="n">Ipc</span><span class="o">&gt;</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
 
-<span class="k">auto</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="n">ServiceName</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="s">&quot;distance_to_obstacle&quot;</span><span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">))</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="n">ServiceName</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="s">&quot;distance_to_obstacle&quot;</span><span class="p">).</span><span class="n">value</span><span class="p">())</span>
 <span class="w">                   </span><span class="p">.</span><span class="n">publish_subscribe</span><span class="o">&lt;</span><span class="n">Distance</span><span class="o">&gt;</span><span class="p">()</span>
 <span class="w">                   </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span>
-<span class="w">                   </span><span class="p">.</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="w">                   </span><span class="p">.</span><span class="n">value</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -850,7 +850,7 @@ PYTHON</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-30" name="sd-tab-set-7" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-30">
 C++</label><div class="sd-tab-content docutils">
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">subscriber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="n">subscriber_builder</span><span class="p">().</span><span class="n">create</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">subscriber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="n">subscriber_builder</span><span class="p">().</span><span class="n">create</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -907,11 +907,11 @@ PYTHON</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-34" name="sd-tab-set-8" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-34">
 C++</label><div class="sd-tab-content docutils">
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">iox</span><span class="o">::</span><span class="n">units</span><span class="o">::</span><span class="n">Duration</span><span class="o">::</span><span class="n">fromMilliseconds</span><span class="p">(</span><span class="mi">100</span><span class="p">)).</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subscriber</span><span class="p">.</span><span class="n">receive</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">iox2</span><span class="o">::</span><span class="n">bb</span><span class="o">::</span><span class="n">Duration</span><span class="o">::</span><span class="n">from_millis</span><span class="p">(</span><span class="mi">100</span><span class="p">)).</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subscriber</span><span class="p">.</span><span class="n">receive</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
 <span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">sample</span><span class="p">.</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;received distance: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">sample</span><span class="o">-&gt;</span><span class="n">payload</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<span class="w">        </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subscriber</span><span class="p">.</span><span class="n">receive</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subscriber</span><span class="p">.</span><span class="n">receive</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
