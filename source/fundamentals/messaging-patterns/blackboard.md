@@ -41,9 +41,6 @@ pairs. The writer is then able to update the respective values efficiently,
 while the readers can efficiently read the latest values - without having to
 iterate the complete key-value-repository again.
 
-Each key-value entry has a unique ID which can be sent along with events so
-listening participants are able to react to specific updates in the blackboard.
-
 ## Further Reading
 
 ````{grid} 1 1 2 3
