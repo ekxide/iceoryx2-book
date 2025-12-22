@@ -345,9 +345,38 @@
         <article role="main" id="furo-main-content">
           <section id="blackboard">
 <h1>Blackboard<a class="headerlink" href="#blackboard" title="Link to this heading">#</a></h1>
-<p>Conceptual documentation for the blackboard pattern is not yet complete.<br />
-For the time-being, take a look at the <a class="reference external" href="https://docs.rs/iceoryx2/latest">API reference</a>
-for information on how to use it.</p>
+<figure class="align-center" id="fig-blackboard-communication">
+<img alt="blackboard messaging pattern" src="../../_images/blackboard-pattern.svg" />
+<figcaption>
+<p><span class="caption-text">Blackboard Communication Model</span><a class="headerlink" href="#fig-blackboard-communication" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>An unidirectional messaging pattern based on a shared-memory key-value
+repository which can be modified by (for now) one writer and read by many
+readers. Updates and read operations are made on a key basis, not on the entire
+shared memory. All keys are unique and have the same shared-memory compatible
+type; the shared-memory compatible value types can vary, but are fixed for a
+specific key.</p>
+<p>The blackboard messaging pattern is ideal for scenarios where a large number of
+readers are interested in a subset of the key-value pairs, such as global
+configuration settings adjusted at runtime or a regularly updated global state.</p>
+<p>The pattern is not suitable for cases where large payloads shall be
+communicated to multiple participants (<a class="reference internal" href="publish-subscribe.html"><span class="doc std std-doc">publish-subscribe</span></a>) or when a bidirectional
+communication is required (<a class="reference internal" href="request-response.html"><span class="doc std std-doc">request-response</span></a>).</p>
+<section id="mechanism">
+<h2>Mechanism<a class="headerlink" href="#mechanism" title="Link to this heading">#</a></h2>
+<figure class="align-center" id="fig-blackboard-mechanism">
+<img alt="blackboard messaging pattern" src="../../_images/blackboard-mechanism.svg" />
+<figcaption>
+<p><span class="caption-text">Blackboard in Shared Memory</span><a class="headerlink" href="#fig-blackboard-mechanism" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The blackboard messaging pattern currently allows one writer and multiple
+readers. These can obtain write or read permission for specific key-value
+pairs. The writer is then able to update the respective values efficiently,
+while the readers can efficiently read the latest values - without having to
+iterate the complete key-value-repository again.</p>
+</section>
 <section id="further-reading">
 <h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading">#</a></h2>
 <div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
@@ -440,6 +469,7 @@ Example: Blackboard Service with Notification (Rust)</div>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Blackboard</a><ul>
+<li><a class="reference internal" href="#mechanism">Mechanism</a></li>
 <li><a class="reference internal" href="#further-reading">Further Reading</a></li>
 </ul>
 </li>
