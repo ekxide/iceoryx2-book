@@ -116,6 +116,10 @@ pub extern "C" fn entrypoint() -> ! {
 }
 ```
 
+Take a look at the [startup code in the bare metal example](
+https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/nostd/bare-metal/rust/publish-subscribe/src/startup.rs)
+to see how an arbitrary entry point can be integrated into the application.
+
 ## Further Reading
 
 ````{grid} 1 1 2 3
