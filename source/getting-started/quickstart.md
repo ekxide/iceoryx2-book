@@ -7,6 +7,7 @@ operating system:
 
 * `gcc` and `g++` compiler (stable)
 * `clang` compiler (stable)
+* [`Rust` compiler](https://rust-lang.org/tools/install/)
 
 ## Run an Example
 
@@ -81,7 +82,7 @@ From the `iceoryx2` repository root, execute the following:
 
     cmake -S . -B target/ff/cc/build
     cmake --build target/ff/cc/build
-    cmake --install target/ff/cc/build --prefix target/ff/install # or some other location
+    cmake --install target/ff/cc/build --prefix target/ff/cc/install # or some other location
 
 Then, make the installed headers and libraries available to your project using one of these methods:
 
@@ -89,32 +90,33 @@ Then, make the installed headers and libraries available to your project using o
 
 Set the `CMAKE_PREFIX_PATH` to include the install location:
 
-    set(CMAKE_PREFIX_PATH "/path/to/prefix" ${CMAKE_PREFIX_PATH})
-    find_package(iceoryx2 REQUIRED)
-    target_link_libraries(your_target iceoryx2-cxx)
+    list(APPEND CMAKE_PREFIX_PATH "/full/path/to/iceoryx2/install/prefix")
+    find_package(iceoryx2-cxx REQUIRED)
+    target_link_libraries(your_target iceoryx2-cxx::static-lib-cxx) # or iceoryx2-cxx::shared-lib-cxx
 
 Or pass it via command line:
 
-    cmake -DCMAKE_PREFIX_PATH=/path/to/prefix ...
+    cmake -DCMAKE_PREFIX_PATH=/full/path/to/iceoryx2/install/prefix ...
 
 **For other build systems:**
 
-- Add the include directory: `/path/to/prefix/include`
-- Add the library directory: `/path/to/prefix/lib`
-- Link against the built iceoryx2 library
+- Add the include directory: `/full/path/to/iceoryx2/install/prefix/include`
+- Add the library directory: `/full/path/to/iceoryx2/install/prefix/lib`
+- Link against the built iceoryx2-cxx library
 
 ```
 
 ```{tab-item} C
 In order to use `iceoryx2` in your C project, [the C bindings](
 https://github.com/eclipse-iceoryx/iceoryx2/tree/main/iceoryx2-c) to
-`iceoryx2` must be built.
+`iceoryx2` must be built. They are build together with the C++ bindings but
+can also be build standalone.
 
 From the `iceoryx2` repository root, execute the following:
 
     cmake -S . -B target/ff/cc/build -DBUILD_CXX=OFF
     cmake --build target/ff/cc/build
-    cmake --install target/ff/cc/build --prefix target/ff/install # or some other location
+    cmake --install target/ff/cc/build --prefix target/ff/cc/install # or some other location
 
 Then, make the installed headers and libraries available to your project using one of these methods:
 
@@ -122,19 +124,19 @@ Then, make the installed headers and libraries available to your project using o
 
 Set the `CMAKE_PREFIX_PATH` to include the install location:
 
-    set(CMAKE_PREFIX_PATH "/path/to/prefix" ${CMAKE_PREFIX_PATH})
-    find_package(iceoryx2 REQUIRED)
-    target_link_libraries(your_target iceoryx2-c)
+    list(APPEND CMAKE_PREFIX_PATH "/full/path/to/iceoryx2/install/prefix")
+    find_package(iceoryx2-c REQUIRED)
+    target_link_libraries(your_target iceoryx2-c::static-lib) # or iceoryx2-c::shared-lib
 
 Or pass it via command line:
 
-    cmake -DCMAKE_PREFIX_PATH=/path/to/prefix ...
+    cmake -DCMAKE_PREFIX_PATH=/full/path/to/iceoryx2/install/prefix ...
 
 **For other build systems:**
 
-- Add the include directory: `/path/to/prefix/include`
-- Add the library directory: `/path/to/prefix/lib`
-- Link against the built iceoryx2 library
+- Add the include directory: `/full/path/to/iceoryx2/install/prefix/include`
+- Add the library directory: `/full/path/to/iceoryx2/install/prefix/lib`
+- Link against the built iceoryx2-c library
 
 ```
 
