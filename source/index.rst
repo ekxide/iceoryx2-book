@@ -127,6 +127,11 @@ Welcome to the ``iceoryx2`` book! Brought to you with ♡ by the developers at
 .. toctree::
    :maxdepth: 2
 
+   tutorials/index
+
+.. toctree::
+   :maxdepth: 2
+
    how-to/index
 
 .. toctree::
