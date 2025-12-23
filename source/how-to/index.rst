@@ -7,4 +7,5 @@ and solving common problems with ``iceoryx2``.
 .. toctree::
    :maxdepth: 1
 
+   build-for-nostd-targets
    configure-the-logging-backend
