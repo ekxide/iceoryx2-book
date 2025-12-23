@@ -85,5 +85,4 @@ See how configuring the default logger relates to building for `no_std` targets.
 See the default logger selected for the `no_std` POSIX examples.
 ```
 
-
 ````
