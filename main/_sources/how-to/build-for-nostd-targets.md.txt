@@ -16,7 +16,7 @@ disabling the `std` feature. You can do this when specifying the dependency
 in your `Cargo.toml`:
 
 ```toml
-iceoryx2 = { version = "0.8.0", default-features = false }
+iceoryx2 = { version = "X.Y.Z", default-features = false }
 ```
 
 ## Selecting a default logger
@@ -31,7 +31,7 @@ available and can be selected by configuring the dependency in your
 `Cargo.toml`:
 
 ```toml
-iceoryx2-loggers = { version = "0.8.0", default-features = false, features = ["posix", "console"]}
+iceoryx2-loggers = { version = "X.Y.Z", default-features = false, features = ["posix", "console"]}
 ```
 
 For bare metal targets, there are no alternatives available yet, but stay tuned!
