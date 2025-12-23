@@ -44,7 +44,7 @@ Alternatively, you can manually add the desired version to your project's
 Cargo.toml:
 
     [dependencies]
-    iceoryx2 = "0.8.0"
+    iceoryx2 = "X.Y.Z"
 
 ```
 
@@ -68,7 +68,7 @@ The dependency can be added with:
 
 Add the desired version to your `requirements.txt`:
 
-    iceoryx2==0.8.0
+    iceoryx2==X.Y.Z
 
 ```
 

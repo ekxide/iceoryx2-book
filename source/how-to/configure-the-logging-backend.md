@@ -33,7 +33,7 @@ You can do this in your `Cargo.toml` by adding `iceoryx2-loggers` as a
 dependency:
 
 ```toml
-iceoryx2-loggers = { version = "0.7.0", default-features = false, features = ["std", "console"] }
+iceoryx2-loggers = { version = "X.Y.Z", default-features = false, features = ["std", "console"] }
 ```
 
 ## Overriding the default logger
