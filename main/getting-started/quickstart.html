@@ -352,6 +352,7 @@ operating system:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">gcc</span></code> and <code class="docutils literal notranslate"><span class="pre">g++</span></code> compiler (stable)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">clang</span></code> compiler (stable)</p></li>
+<li><p><a class="reference external" href="https://rust-lang.org/tools/install/"><code class="docutils literal notranslate"><span class="pre">Rust</span></code> compiler</a></p></li>
 </ul>
 </section>
 <section id="run-an-example">
@@ -430,56 +431,57 @@ C++</label><div class="sd-tab-content docutils">
 <p>From the <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> repository root, execute the following:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cmake -S . -B target/ff/cc/build
 cmake --build target/ff/cc/build
-cmake --install target/ff/cc/build --prefix target/ff/install # or some other location
+cmake --install target/ff/cc/build --prefix target/ff/cc/install # or some other location
 </pre></div>
 </div>
 <p>Then, make the installed headers and libraries available to your project using one of these methods:</p>
 <p><strong>For CMake projects:</strong></p>
 <p>Set the <code class="docutils literal notranslate"><span class="pre">CMAKE_PREFIX_PATH</span></code> to include the install location:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set(CMAKE_PREFIX_PATH &quot;/path/to/prefix&quot; ${CMAKE_PREFIX_PATH})
-find_package(iceoryx2 REQUIRED)
-target_link_libraries(your_target iceoryx2-cxx)
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>list(APPEND CMAKE_PREFIX_PATH &quot;/full/path/to/iceoryx2/install/prefix&quot;)
+find_package(iceoryx2-cxx REQUIRED)
+target_link_libraries(your_target iceoryx2-cxx::static-lib-cxx) # or iceoryx2-cxx::shared-lib-cxx
 </pre></div>
 </div>
 <p>Or pass it via command line:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cmake -DCMAKE_PREFIX_PATH=/path/to/prefix ...
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cmake -DCMAKE_PREFIX_PATH=/full/path/to/iceoryx2/install/prefix ...
 </pre></div>
 </div>
 <p><strong>For other build systems:</strong></p>
 <ul class="simple">
-<li><p>Add the include directory: <code class="docutils literal notranslate"><span class="pre">/path/to/prefix/include</span></code></p></li>
-<li><p>Add the library directory: <code class="docutils literal notranslate"><span class="pre">/path/to/prefix/lib</span></code></p></li>
-<li><p>Link against the built iceoryx2 library</p></li>
+<li><p>Add the include directory: <code class="docutils literal notranslate"><span class="pre">/full/path/to/iceoryx2/install/prefix/include</span></code></p></li>
+<li><p>Add the library directory: <code class="docutils literal notranslate"><span class="pre">/full/path/to/iceoryx2/install/prefix/lib</span></code></p></li>
+<li><p>Link against the built iceoryx2-cxx library</p></li>
 </ul>
 </div>
 <input id="sd-tab-item-3" name="sd-tab-set-0" type="radio">
 <label class="sd-tab-label" for="sd-tab-item-3">
 C</label><div class="sd-tab-content docutils">
 <p>In order to use <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> in your C project, <a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/tree/main/iceoryx2-c">the C bindings</a> to
-<code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> must be built.</p>
+<code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> must be built. They are build together with the C++ bindings but
+can also be build standalone.</p>
 <p>From the <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> repository root, execute the following:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cmake -S . -B target/ff/cc/build -DBUILD_CXX=OFF
 cmake --build target/ff/cc/build
-cmake --install target/ff/cc/build --prefix target/ff/install # or some other location
+cmake --install target/ff/cc/build --prefix target/ff/cc/install # or some other location
 </pre></div>
 </div>
 <p>Then, make the installed headers and libraries available to your project using one of these methods:</p>
 <p><strong>For CMake projects:</strong></p>
 <p>Set the <code class="docutils literal notranslate"><span class="pre">CMAKE_PREFIX_PATH</span></code> to include the install location:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set(CMAKE_PREFIX_PATH &quot;/path/to/prefix&quot; ${CMAKE_PREFIX_PATH})
-find_package(iceoryx2 REQUIRED)
-target_link_libraries(your_target iceoryx2-c)
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>list(APPEND CMAKE_PREFIX_PATH &quot;/full/path/to/iceoryx2/install/prefix&quot;)
+find_package(iceoryx2-c REQUIRED)
+target_link_libraries(your_target iceoryx2-c::static-lib) # or iceoryx2-c::shared-lib
 </pre></div>
 </div>
 <p>Or pass it via command line:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cmake -DCMAKE_PREFIX_PATH=/path/to/prefix ...
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cmake -DCMAKE_PREFIX_PATH=/full/path/to/iceoryx2/install/prefix ...
 </pre></div>
 </div>
 <p><strong>For other build systems:</strong></p>
 <ul class="simple">
-<li><p>Add the include directory: <code class="docutils literal notranslate"><span class="pre">/path/to/prefix/include</span></code></p></li>
-<li><p>Add the library directory: <code class="docutils literal notranslate"><span class="pre">/path/to/prefix/lib</span></code></p></li>
-<li><p>Link against the built iceoryx2 library</p></li>
+<li><p>Add the include directory: <code class="docutils literal notranslate"><span class="pre">/full/path/to/iceoryx2/install/prefix/include</span></code></p></li>
+<li><p>Add the library directory: <code class="docutils literal notranslate"><span class="pre">/full/path/to/iceoryx2/install/prefix/lib</span></code></p></li>
+<li><p>Link against the built iceoryx2-c library</p></li>
 </ul>
 </div>
 </div>
