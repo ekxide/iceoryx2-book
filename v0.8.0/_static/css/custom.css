@@ -1,0 +1,13 @@
+.muted-card {
+    opacity: 0.5;
+    color: #6c757d !important;
+}
+
+.muted-card .card-title {
+    color: #6c757d !important;
+}
+
+.headerlink {
+    font-size: 0.8em;
+    vertical-align: middle;
+}

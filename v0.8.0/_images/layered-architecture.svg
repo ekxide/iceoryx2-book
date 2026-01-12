@@ -1,0 +1,38 @@
+<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .custom-fonts {
+        font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="600" height="450" fill="transparent"/>
+  
+  <!-- User API Layer -->
+  <rect x="100" y="60" width="400" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="120" y="80" font-size="13" font-weight="bold" class="custom-fonts" fill="#374151">iceoryx2</text>
+  <text x="120" y="97" font-size="11" class="custom-fonts" fill="#6b7280">User API • Service • Ports • Execution Control</text>
+  
+  <!-- Concept Abstraction Layer -->
+  <rect x="100" y="125" width="400" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="120" y="145" font-size="13" font-weight="bold" class="custom-fonts" fill="#374151">iceoryx2_cal</text>
+  <text x="120" y="162" font-size="11" class="custom-fonts" fill="#6b7280">Concepts • Storage • Channels • Events</text>
+  
+  <!-- Building Blocks Layer -->
+  <rect x="100" y="190" width="400" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="120" y="210" font-size="13" font-weight="bold" class="custom-fonts" fill="#374151">iceoryx2_bb</text>
+  <text x="120" y="227" font-size="11" class="custom-fonts" fill="#6b7280">Building Blocks • Algorithms • Containers • Utilities</text>
+  
+  <!-- Platform Abstraction Layer -->
+  <rect x="100" y="255" width="400" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="120" y="275" font-size="13" font-weight="bold" class="custom-fonts" fill="#374151">iceoryx2_pal</text>
+  <text x="120" y="292" font-size="11" class="custom-fonts" fill="#6b7280">Platform Abstraction • POSIX • OS-specific APIs</text>
+  
+  <!-- Operating System / Hardware -->
+  <rect x="100" y="320" width="400" height="50" fill="#e5e7eb" stroke="#9ca3af" stroke-width="2"/>
+  <text x="120" y="340" font-size="13" font-weight="bold" class="custom-fonts" fill="#374151">Operating System</text>
+  <text x="120" y="357" font-size="11" class="custom-fonts" fill="#6b7280">Linux • QNX • Windows • Hardware Abstraction</text>
+  
+</svg>

@@ -1,0 +1,145 @@
+<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .custom-fonts {
+        font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+    </style>
+    <marker id="arrowhead" markerWidth="6" markerHeight="4" 
+     refX="5" refY="2" orient="auto">
+      <polygon points="0 0, 6 2, 0 4" fill="#6c7b7f" />
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="600" height="450" fill="transparent"/>
+    
+  <!-- Client Participant -->
+  <rect x="8" y="183" width="113" height="75" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2" />
+  <text x="64" y="204" text-anchor="middle" class="custom-fonts" font-size="11" font-weight="bold" fill="#374151">Participant</text>
+  
+  <!-- Client Port -->
+  <rect x="23" y="216" width="83" height="26" fill="#6b7280" stroke="#4b5563" stroke-width="2"/>
+  <text x="64" y="227" text-anchor="middle" class="custom-fonts" font-size="10" font-weight="bold" fill="white">Client Port</text>
+  <text x="64" y="237" text-anchor="middle" class="custom-fonts" font-size="8" fill="white">Request/Response</text>
+
+  <!-- Server Participant -->
+  <rect x="480" y="183" width="113" height="75" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2" />
+  <text x="536" y="204" text-anchor="middle" class="custom-fonts" font-size="11" font-weight="bold" fill="#374151">Participant</text>
+
+  <!-- Server Port -->
+  <rect x="495" y="216" width="83" height="26" fill="#6b7280" stroke="#4b5563" stroke-width="2"/>
+  <text x="536" y="227" text-anchor="middle" class="custom-fonts" font-size="10" font-weight="bold" fill="white">Server Port</text>
+  <text x="536" y="237" text-anchor="middle" class="custom-fonts" font-size="8" fill="white">Request/Response</text>
+
+  <!-- Request Shared Memory Region -->
+  <rect x="165" y="25" width="270" height="158" fill="#4b5563" stroke="#374151" stroke-width="2" />
+  <text x="300" y="44" text-anchor="middle" class="custom-fonts" font-size="12" font-weight="bold" fill="white">Shared Memory Region</text>
+  
+  <!-- Request Payload Segment -->
+  <rect x="180" y="55" width="240" height="60" fill="none" stroke="white" stroke-width="2" stroke-dasharray="4,2"/>
+  <text x="300" y="70" text-anchor="middle" class="custom-fonts" font-size="10" font-weight="bold" fill="white">Payload Segment</text>
+  
+  <!-- Request payload blocks -->
+  <rect x="195" y="81" width="26" height="14" fill="#6b7280" stroke="white" stroke-width="1"/>
+  <rect x="221" y="81" width="26" height="14" fill="#d1d5db" stroke="white" stroke-width="1"/>
+  <rect x="247" y="81" width="26" height="14" fill="#d1d5db" stroke="white" stroke-width="1"/>
+  <rect x="273" y="81" width="26" height="14" fill="#d1d5db" stroke="white" stroke-width="1"/>
+  <rect x="299" y="81" width="26" height="14" fill="#d1d5db" stroke="white" stroke-width="1"/>
+  <rect x="325" y="81" width="26" height="14" fill="#d1d5db" stroke="white" stroke-width="1"/>
+  <rect x="351" y="81" width="26" height="14" fill="#d1d5db" stroke="white" stroke-width="1"/>
+  <rect x="377" y="81" width="26" height="14" fill="#d1d5db" stroke="white" stroke-width="1"/>
+  
+  <!-- Request payload labels -->
+  <text x="208" y="106" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">R₁</text>
+  <text x="234" y="106" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">R₂</text>
+  <text x="260" y="106" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">R₃</text>
+  <text x="286" y="106" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">R₄</text>
+  <text x="312" y="106" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">R₅</text>
+  <text x="338" y="106" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">R₆</text>
+  <text x="364" y="106" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">R₇</text>
+  <text x="390" y="106" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">R₈</text>
+
+  <!-- Request Offset Channel -->
+  <rect x="180" y="123" width="240" height="38" fill="none" stroke="white" stroke-width="2" stroke-dasharray="4,2"/>
+  <text x="300" y="138" text-anchor="middle" class="custom-fonts" font-size="10" font-weight="bold" fill="white">Offset Channel</text>
+  
+  <!-- Request offset indicators -->  
+  <rect x="199" y="143" width="15" height="9" fill="#6b7280" stroke="white" stroke-width="1"/>
+  <text x="206" y="150" text-anchor="middle" class="custom-fonts" font-size="6" fill="white">R₁</text>
+
+  <!-- Response Shared Memory Region -->
+  <rect x="165" y="288" width="270" height="158" fill="#4b5563" stroke="#374151" stroke-width="2" />
+  <text x="300" y="307" text-anchor="middle" class="custom-fonts" font-size="12" font-weight="bold" fill="white">Shared Memory Region</text>
+  
+  <!-- Response Payload Segment -->
+  <rect x="180" y="318" width="240" height="60" fill="none" stroke="white" stroke-width="2" stroke-dasharray="4,2"/>
+  <text x="300" y="333" text-anchor="middle" class="custom-fonts" font-size="10" font-weight="bold" fill="white">Payload Segment</text>
+  
+  <!-- Response payload blocks -->
+  <rect x="195" y="344" width="26" height="14" fill="#6b7280" stroke="white" stroke-width="1"/>
+  <rect x="221" y="344" width="26" height="14" fill="#6b7280" stroke="white" stroke-width="1"/>
+  <rect x="247" y="344" width="26" height="14" fill="#374151" stroke="white" stroke-width="1"/>
+  <rect x="273" y="344" width="26" height="14" fill="#374151" stroke="white" stroke-width="1"/>
+  <rect x="299" y="344" width="26" height="14" fill="#374151" stroke="white" stroke-width="1"/>
+  <rect x="325" y="344" width="26" height="14" fill="#d1d5db" stroke="white" stroke-width="1"/>
+  <rect x="351" y="344" width="26" height="14" fill="#d1d5db" stroke="white" stroke-width="1"/>
+  <rect x="377" y="344" width="26" height="14" fill="#d1d5db" stroke="white" stroke-width="1"/>
+  
+  <!-- Response payload labels -->
+  <text x="208" y="369" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">P₁</text>
+  <text x="234" y="369" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">P₂</text>
+  <text x="260" y="369" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">P₃</text>
+  <text x="286" y="369" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">P₄</text>
+  <text x="312" y="369" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">P₅</text>
+  <text x="338" y="369" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">P₆</text>
+  <text x="364" y="369" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">P₇</text>
+  <text x="390" y="369" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">P₈</text>
+
+  <!-- Response Offset Channel -->
+  <rect x="180" y="386" width="240" height="38" fill="none" stroke="white" stroke-width="2" stroke-dasharray="4,2"/>
+  <text x="300" y="401" text-anchor="middle" class="custom-fonts" font-size="10" font-weight="bold" fill="white">Offset Channel</text>
+  
+  <!-- Response offset indicators -->  
+  <rect x="199" y="406" width="15" height="9" fill="#374151" stroke="white" stroke-width="1"/>
+  <text x="206" y="413" text-anchor="middle" class="custom-fonts" font-size="6" fill="white">P₃</text>
+  
+  <rect x="218" y="406" width="15" height="9" fill="#374151" stroke="white" stroke-width="1"/>
+  <text x="225" y="413" text-anchor="middle" class="custom-fonts" font-size="6" fill="white">P₄</text>
+  
+  <rect x="237" y="406" width="15" height="9" fill="#374151" stroke="white" stroke-width="1"/>
+  <text x="244" y="413" text-anchor="middle" class="custom-fonts" font-size="6" fill="white">P₅</text>
+  
+  <rect x="256" y="406" width="15" height="9" fill="#6b7280" stroke="white" stroke-width="1"/>
+  <text x="263" y="413" text-anchor="middle" class="custom-fonts" font-size="6" fill="white">P₁</text>
+  
+  <rect x="275" y="406" width="15" height="9" fill="#6b7280" stroke="white" stroke-width="1"/>
+  <text x="282" y="413" text-anchor="middle" class="custom-fonts" font-size="6" fill="white">P₂</text>
+
+  <!-- Request flow arrows - L-shaped from client to request memory region -->
+  <line x1="68" y1="183" x2="68" y2="103" stroke="#6c7b7f" stroke-width="2.5"/>
+  <line x1="68" y1="103" x2="163" y2="103" stroke="#6c7b7f" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+  
+  <!-- Request flow arrows - L-shaped from request memory region to server -->
+  <line x1="435" y1="103" x2="540" y2="103" stroke="#6c7b7f" stroke-width="2.5"/>
+  <line x1="540" y1="103" x2="540" y2="181" stroke="#6c7b7f" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+  
+  <!-- Response flow arrows - L-shaped from server to response memory region -->
+  <line x1="540" y1="258" x2="540" y2="366" stroke="#6c7b7f" stroke-width="2.5"/>
+  <line x1="540" y1="366" x2="437" y2="366" stroke="#6c7b7f" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+
+  <!-- Response flow arrows - L-shaped from response memory region to client -->
+  <line x1="67" y1="366" x2="165" y2="366" stroke="#6c7b7f" stroke-width="2.5"/>
+  <line x1="68" y1="366" x2="68" y2="260" stroke="#6c7b7f" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+  
+  <!-- Legend -->
+  <rect x="480" y="385" width="14" height="9" fill="#374151"/>
+  <text x="500" y="393" font-size="9" class="custom-fonts" fill="#6c7b7f">New</text>
+  
+  <rect x="480" y="399" width="14" height="9" fill="#6b7280"/>
+  <text x="500" y="407" font-size="9" class="custom-fonts" fill="#6c7b7f">Held</text>
+  
+  <rect x="480" y="413" width="14" height="9" fill="#d1d5db"/>
+  <text x="500" y="421" font-size="9" class="custom-fonts" fill="#6c7b7f">Free</text>
+
+</svg>
