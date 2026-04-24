@@ -12,6 +12,15 @@ components provided by lower layers.
 Software Layers in the Architecture of `iceoryx2`
 ```
 
+## User Toolkit (`iceoryx2-userland`)
+
+Tools to develop, test, and debug applications using `iceoryx2`.
+
+## Application Services (`iceoryx2-services`)
+
+Microservices that provide or consume `iceoryx2` services. These may run
+in separate execution units or be embedded in applications.
+
 ## User API (`iceoryx2`)
 
 Components that applications use to interact with the `iceoryx2`

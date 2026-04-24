@@ -9,30 +9,40 @@
   
   <!-- Background -->
   <rect width="600" height="450" fill="transparent"/>
-  
+
+  <!-- iceoryx2-services (top-left) -->
+  <rect x="100" y="22" width="215" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="110" y="42" font-size="13" font-weight="bold" class="custom-fonts" fill="#374151">iceoryx2-services</text>
+  <text x="110" y="59" font-size="11" class="custom-fonts" fill="#6b7280">Application Services • Discovery • Tunnel</text>
+
+  <!-- iceoryx2-userland (top-right) -->
+  <rect x="330" y="22" width="170" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="335" y="42" font-size="13" font-weight="bold" class="custom-fonts" fill="#374151">iceoryx2-userland</text>
+  <text x="335" y="59" font-size="11" class="custom-fonts" fill="#6b7280">User Toolkit • Record and Replay</text>
+
   <!-- User API Layer -->
-  <rect x="100" y="60" width="400" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
-  <text x="120" y="80" font-size="13" font-weight="bold" class="custom-fonts" fill="#374151">iceoryx2</text>
-  <text x="120" y="97" font-size="11" class="custom-fonts" fill="#6b7280">User API • Service • Ports • Execution Control</text>
+  <rect x="100" y="87" width="400" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="110" y="107" font-size="13" font-weight="bold" class="custom-fonts" fill="#374151">iceoryx2</text>
+  <text x="110" y="124" font-size="11" class="custom-fonts" fill="#6b7280">User API • Service • Ports • Execution Control</text>
   
   <!-- Concept Abstraction Layer -->
-  <rect x="100" y="125" width="400" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
-  <text x="120" y="145" font-size="13" font-weight="bold" class="custom-fonts" fill="#374151">iceoryx2_cal</text>
-  <text x="120" y="162" font-size="11" class="custom-fonts" fill="#6b7280">Concepts • Storage • Channels • Events</text>
+  <rect x="100" y="152" width="400" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="110" y="172" font-size="13" font-weight="bold" class="custom-fonts" fill="#374151">iceoryx2_cal</text>
+  <text x="110" y="189" font-size="11" class="custom-fonts" fill="#6b7280">Concepts • Storage • Channels • Events</text>
   
   <!-- Building Blocks Layer -->
-  <rect x="100" y="190" width="400" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
-  <text x="120" y="210" font-size="13" font-weight="bold" class="custom-fonts" fill="#374151">iceoryx2_bb</text>
-  <text x="120" y="227" font-size="11" class="custom-fonts" fill="#6b7280">Building Blocks • Algorithms • Containers • Utilities</text>
+  <rect x="100" y="217" width="400" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="110" y="237" font-size="13" font-weight="bold" class="custom-fonts" fill="#374151">iceoryx2_bb</text>
+  <text x="110" y="254" font-size="11" class="custom-fonts" fill="#6b7280">Building Blocks • Algorithms • Containers • Utilities</text>
   
   <!-- Platform Abstraction Layer -->
-  <rect x="100" y="255" width="400" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
-  <text x="120" y="275" font-size="13" font-weight="bold" class="custom-fonts" fill="#374151">iceoryx2_pal</text>
-  <text x="120" y="292" font-size="11" class="custom-fonts" fill="#6b7280">Platform Abstraction • POSIX • OS-specific APIs</text>
+  <rect x="100" y="282" width="400" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
+  <text x="110" y="302" font-size="13" font-weight="bold" class="custom-fonts" fill="#374151">iceoryx2_pal</text>
+  <text x="110" y="319" font-size="11" class="custom-fonts" fill="#6b7280">Platform Abstraction • POSIX • OS-specific APIs</text>
   
   <!-- Operating System / Hardware -->
-  <rect x="100" y="320" width="400" height="50" fill="#e5e7eb" stroke="#9ca3af" stroke-width="2"/>
-  <text x="120" y="340" font-size="13" font-weight="bold" class="custom-fonts" fill="#374151">Operating System</text>
-  <text x="120" y="357" font-size="11" class="custom-fonts" fill="#6b7280">Linux • QNX • Windows • Hardware Abstraction</text>
+  <rect x="100" y="347" width="400" height="50" fill="#e5e7eb" stroke="#9ca3af" stroke-width="2"/>
+  <text x="110" y="367" font-size="13" font-weight="bold" class="custom-fonts" fill="#374151">Operating System</text>
+  <text x="110" y="384" font-size="11" class="custom-fonts" fill="#6b7280">Linux • QNX • Windows • Hardware Abstraction</text>
   
 </svg>
