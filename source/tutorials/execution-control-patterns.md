@@ -41,43 +41,11 @@ A trading process that consumes a stream of price ticks from a market data
 feed has no fixed schedule. Ticks arrive whenever the market sends them,
 and the consumer must react with the smallest possible delay.
 
-```rust
-use core::time::Duration;
-use iceoryx2::prelude::*;
-
-const TARGET_PRICE: f64 = 100.0;
-
-#[derive(Debug, Clone, Copy, ZeroCopySend)]
-#[repr(C)]
-struct PriceTick {
-    instrument_id: u32,
-    price: f64,
-}
-
-let node = NodeBuilder::new()
-    .name(&"MarketDataConsumer".try_into()?)
-    .create::<ipc::Service>()?;
-
-let ticks_service = node
-    .service_builder(&"market/ticks".try_into()?)
-    .publish_subscribe::<PriceTick>()
-    .open_or_create()?;
-
-let orders_service = node
-    .service_builder(&"market/orders".try_into()?)
-    .publish_subscribe::<u32>()
-    .open_or_create()?;
-
-let subscriber = ticks_service.subscriber_builder().create()?;
-let orders_publisher = orders_service.publisher_builder().create()?;
-
-while node.wait(Duration::ZERO).is_ok() {
-    while let Some(tick) = subscriber.receive()? {
-        if tick.price > TARGET_PRICE {
-            orders_publisher.send_copy(tick.instrument_id)?;
-        }
-    }
-}
+```{literalinclude} ../../snippets/execution-control-patterns/src/bin/market_data_consumer.rs
+:language: rust
+:start-after: // snippet:start
+:end-before: // snippet:end
+:dedent:
 ```
 
 The outer `node.wait(Duration::ZERO)` returns immediately and only errors
@@ -105,44 +73,11 @@ A cruise controller reads the vehicle's current speed, computes a throttle
 command, and sends it to the actuator at a fixed rate. The control math
 depends on a stable loop period.
 
-```rust
-use core::time::Duration;
-use iceoryx2::prelude::*;
-
-const CONTROL_PERIOD: Duration = Duration::from_millis(20); // 50 Hz
-const SETPOINT_KMH: f32 = 100.0;
-const KP: f32 = 0.1;
-
-let node = NodeBuilder::new()
-    .name(&"CruiseController".try_into()?)
-    .create::<ipc::Service>()?;
-
-let speed_service = node
-    .service_builder(&"vehicle/speed".try_into()?)
-    .publish_subscribe::<f32>()
-    .subscriber_max_buffer_size(1)
-    .open_or_create()?;
-
-let throttle_service = node
-    .service_builder(&"vehicle/throttle".try_into()?)
-    .publish_subscribe::<f32>()
-    .open_or_create()?;
-
-let speed_subscriber = speed_service.subscriber_builder().create()?;
-let throttle_publisher = throttle_service.publisher_builder().create()?;
-
-let mut current_speed = 0.0f32;
-
-while node.wait(CONTROL_PERIOD).is_ok() {
-    match speed_subscriber.receive() {
-        Ok(Some(sample)) => current_speed = *sample,
-        Ok(None) => { /* no new sample — reuse last known speed */ }
-        Err(_) => { /* TODO: handle receive failure */ }
-    }
-
-    let throttle = (KP * (SETPOINT_KMH - current_speed)).clamp(0.0, 1.0);
-    throttle_publisher.send_copy(throttle)?;
-}
+```{literalinclude} ../../snippets/execution-control-patterns/src/bin/cruise_control.rs
+:language: rust
+:start-after: // snippet:start
+:end-before: // snippet:end
+:dedent:
 ```
 
 `Node::wait(CONTROL_PERIOD)` paces the loop; nothing else triggers a tick.
@@ -189,43 +124,11 @@ Pairing a publish-subscribe service for the frames with an event service
 for "new frame ready" notifications lets the processor sleep until a frame
 is available.
 
-```rust
-use core::time::Duration;
-use iceoryx2::prelude::*;
-
-#[derive(Debug, Clone, Copy, ZeroCopySend)]
-#[repr(C)]
-struct CameraFrame {
-    frame_id: u64,
-    width: u32,
-    height: u32,
-    timestamp_ns: u64,
-}
-
-let node = NodeBuilder::new()
-    .name(&"FrameProcessor".try_into()?)
-    .create::<ipc::Service>()?;
-
-let frames_service = node
-    .service_builder(&"camera/frames".try_into()?)
-    .publish_subscribe::<CameraFrame>()
-    .open_or_create()?;
-
-let signal_service = node
-    .service_builder(&"camera/frames".try_into()?)
-    .event()
-    .open_or_create()?;
-
-let subscriber = frames_service.subscriber_builder().create()?;
-let listener = signal_service.listener_builder().create()?;
-
-while node.wait(Duration::ZERO).is_ok() {
-    if listener.timed_wait_one(Duration::from_secs(1))?.is_some() {
-        while let Some(frame) = subscriber.receive()? {
-            // process frame
-        }
-    }
-}
+```{literalinclude} ../../snippets/execution-control-patterns/src/bin/frame_processor.rs
+:language: rust
+:start-after: // snippet:start
+:end-before: // snippet:end
+:dedent:
 ```
 
 The thread sleeps inside `timed_wait_one` until a notification arrives or
@@ -272,56 +175,11 @@ emergency-stop input that can interrupt either of them. Multiplexing these
 on a single `WaitSet` lets the supervisor sleep between events and react
 to whichever one fires next.
 
-```rust
-use core::time::Duration;
-use iceoryx2::prelude::*;
-
-const CONTROL_PERIOD: Duration = Duration::from_millis(20); // 50 Hz
-const SPEED_DEADLINE: Duration = Duration::from_millis(100);
-
-let node = NodeBuilder::new()
-    .name(&"VehicleSupervisor".try_into()?)
-    .create::<ipc::Service>()?;
-
-let speed_signal = node
-    .service_builder(&"vehicle/speed".try_into()?)
-    .event()
-    .open_or_create()?;
-
-let emergency_stop_signal = node
-    .service_builder(&"vehicle/emergency_stop".try_into()?)
-    .event()
-    .open_or_create()?;
-
-let speed_listener = speed_signal.listener_builder().create()?;
-let emergency_stop_listener = emergency_stop_signal.listener_builder().create()?;
-
-let waitset = WaitSetBuilder::new().create::<ipc::Service>()?;
-let tick_guard = waitset.attach_interval(CONTROL_PERIOD)?;
-let speed_guard = waitset.attach_deadline(&speed_listener, SPEED_DEADLINE)?;
-let emergency_stop_guard = waitset.attach_notification(&emergency_stop_listener)?;
-
-waitset.wait_and_process(|attachment_id| {
-    if attachment_id.has_event_from(&tick_guard) {
-        // run periodic control step
-    }
-    if attachment_id.has_missed_deadline(&speed_guard) {
-        // speed sensor went silent — engage fail-safe
-    }
-    if attachment_id.has_event_from(&speed_guard) {
-        speed_listener
-            .try_wait_all(|_id| { /* drain */ })
-            .unwrap();
-        // process new speed reading
-    }
-    if attachment_id.has_event_from(&emergency_stop_guard) {
-        emergency_stop_listener
-            .try_wait_all(|_id| { /* drain */ })
-            .unwrap();
-        // engage emergency stop
-    }
-    CallbackProgression::Continue
-})?;
+```{literalinclude} ../../snippets/execution-control-patterns/src/bin/vehicle_supervisor.rs
+:language: rust
+:start-after: // snippet:start
+:end-before: // snippet:end
+:dedent:
 ```
 
 Each attachment type maps to one of the patterns covered earlier:
