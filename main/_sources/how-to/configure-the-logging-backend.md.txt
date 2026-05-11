@@ -15,9 +15,13 @@ There are two ways to configure the logging backend:
 ## Specifying a default logger
 
 The default logger is configured via feature flags set on the
-[`iceoryx2-loggers`](
-https://github.com/eclipse-iceoryx/iceoryx2/blob/main/iceoryx2-log/loggers/Cargo.toml)
-crate. The default logger is automatically used by the logging API unless
+[`iceoryx2-bb-loggers`](
+https://github.com/eclipse-iceoryx/iceoryx2/blob/main/iceoryx2-bb/loggers/Cargo.toml)
+crate, which are re-exported in the [`iceoryx2`](
+https://github.com/eclipse-iceoryx/iceoryx2/blob/main/iceoryx2/Cargo.toml)
+crate.
+
+The default logger is automatically used by the logging API unless
 overridden at runtime by your application.
 
 The `iceoryx2` crate sets a [sane default](
@@ -26,22 +30,29 @@ for the logger backend when built with default features enabled. If this
 default suits your use case, no additional configuration is needed.
 
 However, if you want to build without default features enabled (such as when
-building for `no_std` targets), you need to manually enable the appropriate
-features on the `iceoryx2-loggers` crate.
+building for `no_std` targets), corresponding features need to be enabled.
 
-You can do this in your `Cargo.toml` by adding `iceoryx2-loggers` as a
-dependency:
+This can be done in your `Cargo.toml` using the `std` features and re-exported
+logger features:
+
+### `std` builds
 
 ```toml
-iceoryx2-loggers = { version = "X.Y.Z", default-features = false, features = ["std", "console"] }
+iceoryx2 = { version = "X.Y.Z", default-features = false, features = ["std", "console"] }
+```
+
+### `no_std` builds
+
+```toml
+iceoryx2 = { version = "X.Y.Z", default-features = false, features = ["console"] }
 ```
 
 ## Overriding the default logger
 
-You can also override the default logger at runtime. This is most useful when
-you want to provide a custom logger implementation rather than use those
-provided by `iceoryx2`. This approach is slightly less ergonomic, as you must
-remember to set the logger in your application before any `iceoryx2` APIs are
+The default logger can also be overwritten at runtime. This is most useful when
+wanting to provide a custom logger implementation rather than use those
+provided by `iceoryx2`. This approach is slightly less ergonomic, as the logger
+must be set at runtime in your application before any `iceoryx2` APIs are
 called.
 
 ```rust

@@ -22,16 +22,16 @@ iceoryx2 = { version = "X.Y.Z", default-features = false }
 ## Selecting a default logger
 
 Disabling the default features on the `iceoryx2` crate also disables the
-features that select the default logger in the `iceoryx2-loggers` crate.
+features that select the default logger in the `iceoryx2-bb-loggers` crate.
 As a result, all log messages are discarded.
 
 For POSIX targets such as QNX 8, which currently does not have `std` support
 upstream, a console logger implementation that uses the POSIX API is
-available and can be selected by configuring the dependency in your
-`Cargo.toml`:
+available and can be selected by selecting the corresponding re-exported
+features on `iceoryx2`:
 
 ```toml
-iceoryx2-loggers = { version = "X.Y.Z", default-features = false, features = ["posix", "console"]}
+iceoryx2 = { version = "X.Y.Z", default-features = false, features = ["console"]}
 ```
 
 For bare metal targets, there are no alternatives available yet, but stay tuned!

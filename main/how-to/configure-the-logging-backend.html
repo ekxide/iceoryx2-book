@@ -365,27 +365,37 @@ to.</p>
 <section id="specifying-a-default-logger">
 <h2>Specifying a default logger<a class="headerlink" href="#specifying-a-default-logger" title="Link to this heading">#</a></h2>
 <p>The default logger is configured via feature flags set on the
-<a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/blob/main/iceoryx2-log/loggers/Cargo.toml"><code class="docutils literal notranslate"><span class="pre">iceoryx2-loggers</span></code></a>
-crate. The default logger is automatically used by the logging API unless
+<a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/blob/main/iceoryx2-bb/loggers/Cargo.toml"><code class="docutils literal notranslate"><span class="pre">iceoryx2-bb-loggers</span></code></a>
+crate, which are re-exported in the <a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/blob/main/iceoryx2/Cargo.toml"><code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code></a>
+crate.</p>
+<p>The default logger is automatically used by the logging API unless
 overridden at runtime by your application.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> crate sets a <a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/blob/main/iceoryx2/Cargo.toml">sane default</a>
 for the logger backend when built with default features enabled. If this
 default suits your use case, no additional configuration is needed.</p>
 <p>However, if you want to build without default features enabled (such as when
-building for <code class="docutils literal notranslate"><span class="pre">no_std</span></code> targets), you need to manually enable the appropriate
-features on the <code class="docutils literal notranslate"><span class="pre">iceoryx2-loggers</span></code> crate.</p>
-<p>You can do this in your <code class="docutils literal notranslate"><span class="pre">Cargo.toml</span></code> by adding <code class="docutils literal notranslate"><span class="pre">iceoryx2-loggers</span></code> as a
-dependency:</p>
-<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="n">iceoryx2-loggers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;X.Y.Z&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">default-features</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="n">features</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;std&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;console&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+building for <code class="docutils literal notranslate"><span class="pre">no_std</span></code> targets), corresponding features need to be enabled.</p>
+<p>This can be done in your <code class="docutils literal notranslate"><span class="pre">Cargo.toml</span></code> using the <code class="docutils literal notranslate"><span class="pre">std</span></code> features and re-exported
+logger features:</p>
+<section id="std-builds">
+<h3><code class="docutils literal notranslate"><span class="pre">std</span></code> builds<a class="headerlink" href="#std-builds" title="Link to this heading">#</a></h3>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="n">iceoryx2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;X.Y.Z&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">default-features</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="n">features</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;std&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;console&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
 </pre></div>
 </div>
 </section>
+<section id="no-std-builds">
+<h3><code class="docutils literal notranslate"><span class="pre">no_std</span></code> builds<a class="headerlink" href="#no-std-builds" title="Link to this heading">#</a></h3>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="n">iceoryx2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;X.Y.Z&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">default-features</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="n">features</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;console&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
 <section id="overriding-the-default-logger">
 <h2>Overriding the default logger<a class="headerlink" href="#overriding-the-default-logger" title="Link to this heading">#</a></h2>
-<p>You can also override the default logger at runtime. This is most useful when
-you want to provide a custom logger implementation rather than use those
-provided by <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>. This approach is slightly less ergonomic, as you must
-remember to set the logger in your application before any <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> APIs are
+<p>The default logger can also be overwritten at runtime. This is most useful when
+wanting to provide a custom logger implementation rather than use those
+provided by <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>. This approach is slightly less ergonomic, as the logger
+must be set at runtime in your application before any <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> APIs are
 called.</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">iceoryx2</span><span class="p">::</span><span class="n">prelude</span><span class="p">::</span><span class="o">*</span><span class="p">;</span>
 
@@ -491,7 +501,11 @@ View logger configuration for no_std on POSIX</div>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Configure the logging backend</a><ul>
-<li><a class="reference internal" href="#specifying-a-default-logger">Specifying a default logger</a></li>
+<li><a class="reference internal" href="#specifying-a-default-logger">Specifying a default logger</a><ul>
+<li><a class="reference internal" href="#std-builds"><code class="docutils literal notranslate"><span class="pre">std</span></code> builds</a></li>
+<li><a class="reference internal" href="#no-std-builds"><code class="docutils literal notranslate"><span class="pre">no_std</span></code> builds</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#overriding-the-default-logger">Overriding the default logger</a></li>
 <li><a class="reference internal" href="#further-reading">Further Reading</a></li>
 </ul>

@@ -374,13 +374,13 @@ in your <code class="docutils literal notranslate"><span class="pre">Cargo.toml<
 <section id="selecting-a-default-logger">
 <h2>Selecting a default logger<a class="headerlink" href="#selecting-a-default-logger" title="Link to this heading">#</a></h2>
 <p>Disabling the default features on the <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> crate also disables the
-features that select the default logger in the <code class="docutils literal notranslate"><span class="pre">iceoryx2-loggers</span></code> crate.
+features that select the default logger in the <code class="docutils literal notranslate"><span class="pre">iceoryx2-bb-loggers</span></code> crate.
 As a result, all log messages are discarded.</p>
 <p>For POSIX targets such as QNX 8, which currently does not have <code class="docutils literal notranslate"><span class="pre">std</span></code> support
 upstream, a console logger implementation that uses the POSIX API is
-available and can be selected by configuring the dependency in your
-<code class="docutils literal notranslate"><span class="pre">Cargo.toml</span></code>:</p>
-<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="n">iceoryx2-loggers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;X.Y.Z&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">default-features</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="n">features</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;posix&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;console&quot;</span><span class="p">]}</span>
+available and can be selected by selecting the corresponding re-exported
+features on <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="n">iceoryx2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;X.Y.Z&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">default-features</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="n">features</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;console&quot;</span><span class="p">]}</span>
 </pre></div>
 </div>
 <p>For bare metal targets, there are no alternatives available yet, but stay tuned!</p>
