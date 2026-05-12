@@ -119,27 +119,30 @@ Multiple notifications can also coalesce into a single wake-up, so the
 listener should drain all pending events on each wake rather than handle
 just one.
 
-### Example: Frame processor
+### Example: Log Aggregator
 
-A processor that consumes camera frames from an upstream component shouldn't
-busy-poll. Frames arrive periodically (or in bursts when the camera
-buffers a few), and the processor has nothing useful to do between them.
-Pairing a publish-subscribe service for the frames with an event service
-for "new frame ready" notifications lets the processor sleep until a frame
-is available.
+A log aggregator collects entries from throughout the system and writes them
+to a sink. Logs arrive irregularly and data flow may be quiet during steady
+state or bursting during an incident, so neither a busy loop nor a fixed-rate
+poll fits well. Furthermore it may not be optimal to trigger a context switch
+for every single log write.
 
-```{literalinclude} ../../snippets/execution-control-patterns/src/bin/frame_processor.rs
+Instead, participants can write a series of log entries and then trigger a
+single notification once done.
+
+```{literalinclude} ../../snippets/execution-control-patterns/src/bin/log_aggregator.rs
 :language: rust
 :start-after: // snippet:start
 :end-before: // snippet:end
 :dedent:
 ```
 
-The thread sleeps inside `timed_wait_one` until a notification arrives or
-one second elapses, whichever comes first. The one-second timeout is a
-safety net for the outer `node.wait(Duration::ZERO)` signal check; the
-real wake-up trigger is the notification. When the listener wakes, the
-subscriber drain handles whatever frames have accumulated.
+Every worker notifies on the same event service, so any of them can wake
+the aggregator. The one-second timeout on `timed_wait_one` is a safety
+net for the outer `node.wait(Duration::ZERO)` signal check; the real
+wake-up trigger is a worker's notification. The drain loop handles
+whatever entries arrived between wake-ups, including bursts that
+coalesced into a single notification.
 
 ## Multiplexing
 
