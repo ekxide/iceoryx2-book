@@ -9,3 +9,4 @@ and solving common problems with ``iceoryx2``.
 
    build-for-nostd-targets
    configure-the-logging-backend
+   customize-the-platform-abstraction
