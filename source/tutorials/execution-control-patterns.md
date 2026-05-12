@@ -12,15 +12,20 @@ each with different trade-offs:
 
 A pattern often seen in middleware solutions is to couple data flow with
 control flow. Threads are put to sleep when no data is available to
-process and wake-up signals are emitted automatically when data arrives. While
-convenient, this coupling can introduce unwanted latency through system calls
-and context switches.
+process, and wake-up signals are emitted automatically when data
+arrives.
 
-`iceoryx2` instead decouples control flow from data flow, so the user
-decides when a participant thread is put to sleep and when it is made
-ready to run. This lets the user pick execution patterns suited to the
-application's requirements: minimal latency, efficient CPU usage, or
-coordination across multiple sources.
+This coupling forces a wake-up per sample. Workloads whose useful unit
+of work spans multiple samples — a batch from one source, or correlated
+samples across several — pay the cost of system calls and context
+switches on wake-ups that produce no work.
+
+`iceoryx2` instead decouples control flow from data flow. The user
+decides when a participant thread is put to sleep, when it is made
+ready to run, and what signals trigger the transition.
+
+The following sections cover the patterns for managing application
+execution with `iceoryx2`.
 
 ## Busy looping
 
@@ -35,7 +40,7 @@ kernel-bypass networking, where the latency budget justifies dedicating
 the core. Practical deployments pin the polling thread to a specific core
 and raise its scheduling priority.
 
-### Example: Market data consumer
+### Example: Market Data Consumer
 
 A trading process that consumes a stream of price ticks from a market data
 feed has no fixed schedule. Ticks arrive whenever the market sends them,
@@ -67,11 +72,11 @@ governed by the platform on which `iceoryx2` is deployed.
 This pattern is well-suited to tasks that have a well-defined schedule, such as
 heartbeat mechanisms or time-triggered architectures.
 
-### Example: Cruise control
+### Example: Cruise Control
 
-A cruise controller reads the vehicle's current speed, computes a throttle
-command, and sends it to the actuator at a fixed rate. The control math
-depends on a stable loop period.
+This cruise control application reads the vehicle's current speed, computes a
+throttle command, and sends it to the actuator at a fixed rate. The control
+math depends on a stable loop period.
 
 ```{literalinclude} ../../snippets/execution-control-patterns/src/bin/cruise_control.rs
 :language: rust
@@ -104,12 +109,11 @@ up extra services.
 This approach combines efficient CPU usage with timely response when work
 arrives: threads wake only when there is work to do.
 
-Events are pure signals; they carry no payload. To move data alongside a
-wake-up, pair an event service with a publish-subscribe service: the
+Events carry no payload, thus to move data alongside a wake-up, an event
+service must be paired with a publish-subscribe service: the
 producer publishes a sample, then notifies; the consumer wakes and drains
-its inbox. This reconstructs the data-plus-wake-up flow that other
-middleware couples implicitly, while keeping the data path and the control
-path as separate, independently tunable services.
+available samples. This approach reconstructs the data-plus-wake-up flow that
+other middlewares couple implicitly.
 
 Multiple notifications can also coalesce into a single wake-up, so the
 listener should drain all pending events on each wake rather than handle
@@ -159,8 +163,8 @@ A `WaitSet` supports three kinds of attachments:
 
 Multiplexing keeps the efficient sleep/wake behaviour of the single-source
 patterns while consolidating several concerns into one thread at the cost of
-bookkeeping: each attachment returns a guard that must outlive its use, and
-the callback has to disambiguate which source fired before handling it.
+bookkeeping complexity, the callback has to disambiguate which source fired
+before handling it.
 
 The same coalescing caveat as the event-driven pattern applies to
 notification and deadline attachments. Drain all pending events inside
