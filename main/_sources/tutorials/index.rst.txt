@@ -1,10 +1,10 @@
 Tutorials
 =========
 
-The tutorials articles provide guided activities that aim to teach readers how
-to use ``iceoryx2``.
+These tutorials guide you through practical examples to develop understanding
+and competency with ``iceoryx2``'s features and patterns.
 
 .. toctree::
    :maxdepth: 1
 
-   wiring-a-robot-brain/index
+   execution-control-patterns
