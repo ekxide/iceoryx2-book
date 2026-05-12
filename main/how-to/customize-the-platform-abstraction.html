@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Messaging Patterns" href="messaging-patterns/index.html" /><link rel="prev" title="Shared Memory" href="shared-memory.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Glossary" href="../glossary.html" /><link rel="prev" title="Configure the logging backend" href="configure-the-logging-backend.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
-        <title>Communication Model - The iceoryx2 Book</title>
+        <title>Customize the platform abstraction - The iceoryx2 Book</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -281,21 +281,21 @@
 </ul>
 </li>
 </ul>
-<ul class="current">
-<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Fundamentals</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Fundamentals</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="layered-architecture.html">Layered Architecture</a></li>
-<li class="toctree-l2"><a class="reference internal" href="shared-memory.html">Shared Memory</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Communication Model</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="messaging-patterns/index.html">Messaging Patterns</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Messaging Patterns</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="messaging-patterns/publish-subscribe.html">Publish-Subscribe</a></li>
-<li class="toctree-l3"><a class="reference internal" href="messaging-patterns/event.html">Event</a></li>
-<li class="toctree-l3"><a class="reference internal" href="messaging-patterns/request-response.html">Request-Response</a></li>
-<li class="toctree-l3"><a class="reference internal" href="messaging-patterns/blackboard.html">Blackboard</a></li>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../fundamentals/index.html">Fundamentals</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Fundamentals</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fundamentals/layered-architecture.html">Layered Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fundamentals/shared-memory.html">Shared Memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fundamentals/communication-model.html">Communication Model</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../fundamentals/messaging-patterns/index.html">Messaging Patterns</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Messaging Patterns</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fundamentals/messaging-patterns/publish-subscribe.html">Publish-Subscribe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fundamentals/messaging-patterns/event.html">Event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fundamentals/messaging-patterns/request-response.html">Request-Response</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fundamentals/messaging-patterns/blackboard.html">Blackboard</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="execution-control.html">Execution Control</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cross-language-support.html">Cross-Language Support</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gateways-and-tunnels.html">Gateways and Tunnels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fundamentals/execution-control.html">Execution Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fundamentals/cross-language-support.html">Cross-Language Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fundamentals/gateways-and-tunnels.html">Gateways and Tunnels</a></li>
 </ul>
 </li>
 </ul>
@@ -305,11 +305,11 @@
 </ul>
 </li>
 </ul>
-<ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../how-to/index.html">How To</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of How To</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../how-to/build-for-nostd-targets.html">Build for <code class="docutils literal notranslate"><span class="pre">no_std</span></code> targets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../how-to/configure-the-logging-backend.html">Configure the logging backend</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../how-to/customize-the-platform-abstraction.html">Customize the platform abstraction</a></li>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">How To</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of How To</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="build-for-nostd-targets.html">Build for <code class="docutils literal notranslate"><span class="pre">no_std</span></code> targets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configure-the-logging-backend.html">Configure the logging backend</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Customize the platform abstraction</a></li>
 </ul>
 </li>
 </ul>
@@ -357,55 +357,121 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="communication-model">
-<h1>Communication Model<a class="headerlink" href="#communication-model" title="Link to this heading">#</a></h1>
-<section id="nodes">
-<h2>Nodes<a class="headerlink" href="#nodes" title="Link to this heading">#</a></h2>
-<figure class="align-center" id="id1">
-<img alt="nodes lifecycle management" src="../_images/nodes-lifecycle-management.svg" />
-<figcaption>
-<p><span class="caption-text">Lifecycle Management via Nodes</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-<p>Nodes are the entry-point for participants to interact with the <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>
-system. They provide the mechanisms for creating services and their ports, and
-managing their lifetimes.</p>
-<p>Nodes are also responsible for detecting and handling failures in
-other nodes. This peer-to-peer monitoring ensures that system resources don’t
-become permanently lost due to failed participants.</p>
-<p>Generally, each participant is represented by single node.</p>
+          <section id="customize-the-platform-abstraction">
+<h1>Customize the platform abstraction<a class="headerlink" href="#customize-the-platform-abstraction" title="Link to this heading">#</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>’s <a class="reference internal" href="../fundamentals/layered-architecture.html"><span class="std std-doc">upper layers</span></a> depend
+on a platform abstraction layer (PAL) that lives in <a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/tree/main/iceoryx2-pal"><code class="docutils literal notranslate"><span class="pre">iceoryx2-pal</span></code></a>.
+The PAL is currently POSIX-flavored, and has two parts: a set of compile-time
+<strong>settings</strong> in <a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/tree/main/iceoryx2-pal/configuration"><code class="docutils literal notranslate"><span class="pre">iceoryx2-pal/configuration</span></code></a>,
+and an implementation of the POSIX surface that <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> uses in
+<a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/tree/main/iceoryx2-pal/posix"><code class="docutils literal notranslate"><span class="pre">iceoryx2-pal/posix</span></code></a>.</p>
+<p>There are a number of platforms supported out-of-the-box: <strong>Linux</strong>,
+<strong>FreeBSD</strong>, <strong>macOS</strong>, <strong>QNX</strong>, and <strong>Windows</strong>.
+Support for these implementations is maintained upstream — no porting effort
+required. The PAL keeps pace with upstream changes as part of the normal
+release cycle.</p>
+<p>If support for another platform is required, two complementary override
+mechanisms enable an integrator to substitute their own settings, a custom
+POSIX implementation, or both, at build time. This approach however requires
+taking ownership of both the initial port and the ongoing maintenance of
+a custom platform.</p>
+<p>Alternatively, get in touch with the <a class="reference external" href="https://ekxide.io/contact"><code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> team</a>
+if you would like to add support for additional platforms upstream.</p>
+<section id="compile-time-settings">
+<h2>Compile-time Settings<a class="headerlink" href="#compile-time-settings" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/tree/main/iceoryx2-pal/configuration"><code class="docutils literal notranslate"><span class="pre">iceoryx2-pal/configuration</span></code></a>
+exposes a small set of compile-time constants that <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> uses.
+The defaults are tailored to common operating systems, but a target may need
+different values — for example, a platform whose temporary directory is
+read-only, or one without a conventional <code class="docutils literal notranslate"><span class="pre">/tmp</span></code> at all.</p>
+<p>The override is a single <code class="docutils literal notranslate"><span class="pre">.rs</span></code> file containing a <code class="docutils literal notranslate"><span class="pre">settings</span></code> module with the
+expected constants:</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">pub</span><span class="w"> </span><span class="k">mod</span><span class="w"> </span><span class="nn">settings</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">GLOBAL_CONFIG_PATH</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="p">[</span><span class="kt">u8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">b&quot;/etc&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">USER_CONFIG_PATH</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="p">[</span><span class="kt">u8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">b&quot;.config&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">TEMP_DIRECTORY</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="p">[</span><span class="kt">u8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">b&quot;/my_tmp/&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">TEST_DIRECTORY</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="p">[</span><span class="kt">u8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">b&quot;/my_tmp/tests/&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">SHARED_MEMORY_DIRECTORY</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="p">[</span><span class="kt">u8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">b&quot;/dev/my_shm/&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">PATH_SEPARATOR</span><span class="p">:</span><span class="w"> </span><span class="kt">u8</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">b&#39;/&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">ROOT</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="p">[</span><span class="kt">u8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">b&quot;/&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">REQUIRED_SOCKET_DIRECTORY</span><span class="p">:</span><span class="w"> </span><span class="nb">Option</span><span class="o">&lt;&amp;</span><span class="p">[</span><span class="kt">u8</span><span class="p">]</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">None</span><span class="p">;</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">ICEORYX2_ROOT_PATH</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="p">[</span><span class="kt">u8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">b&quot;/my_tmp/&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">FILENAME_LENGTH</span><span class="p">:</span><span class="w"> </span><span class="kt">usize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">255</span><span class="p">;</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">PATH_LENGTH</span><span class="p">:</span><span class="w"> </span><span class="kt">usize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">255</span><span class="p">;</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">AT_LEAST_TIMING_VARIANCE</span><span class="p">:</span><span class="w"> </span><span class="kt">f32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.25</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The constants required by the <code class="docutils literal notranslate"><span class="pre">settings</span></code> module may evolve as <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>
+develops. Refer to <a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/blob/main/iceoryx2-pal/configuration/src/lib.rs"><code class="docutils literal notranslate"><span class="pre">iceoryx2-pal/configuration/src/lib.rs</span></code></a>
+for the current canonical list.</p>
+</div>
+<p>The file lives anywhere on disk. To wire it in, set
+<code class="docutils literal notranslate"><span class="pre">IOX2_CUSTOM_PLATFORM_CONFIGURATION_PATH</span></code> to its absolute path. For local
+experimentation, exporting the env var directly works:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">export IOX2_CUSTOM_PLATFORM_CONFIGURATION_PATH=/abs/path/to/settings.rs</span>
+</pre></div>
+</div>
+<p>For anything beyond a one-off build, set it persistently via the project’s
+<code class="docutils literal notranslate"><span class="pre">.cargo/config.toml</span></code>:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[env]</span>
+<span class="n">IOX2_CUSTOM_PLATFORM_CONFIGURATION_PATH</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/abs/path/to/settings.rs&quot;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>’s build picks up the env var and substitutes the file in at compile time.
+A successful build emits a warning naming the file in use:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">warning: iceoryx2-pal-configuration@x.y.z: Building with custom configuration: /abs/path/to/settings.rs</span>
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Two gotchas to keep in mind:</p>
+<ol class="arabic simple">
+<li><p><strong>Clear <code class="docutils literal notranslate"><span class="pre">target/</span></code> after switching the override on or off.</strong> A prior
+build with the default configuration is cached against a different
+<code class="docutils literal notranslate"><span class="pre">cfg</span></code>, and cargo will silently reuse it — the custom file appears to
+be ignored.</p></li>
+<li><p><strong>The override is not available under Bazel builds.</strong> It relies on
+<code class="docutils literal notranslate"><span class="pre">cargo</span></code>’s env-var-driven build script.</p></li>
+</ol>
+</div>
 </section>
-<section id="services">
-<h2>Services<a class="headerlink" href="#services" title="Link to this heading">#</a></h2>
-<figure class="align-center" id="fig-service-oriented-communication-model">
-<img alt="service oriented nature of iceoryx2" src="../_images/service-orientation.svg" />
-<figcaption>
-<p><span class="caption-text">Service-oriented Communication Graph</span><a class="headerlink" href="#fig-service-oriented-communication-model" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-<p>The communication graph between participants in an <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> system is
-determined using services.</p>
-<p>A service is a construct defined by a unique service name and a
-<a class="reference internal" href="messaging-patterns/index.html"><span class="doc std std-doc">messaging pattern</span></a>, and
-<a class="reference external" href="https://docs.rs/iceoryx2/0.6.1/iceoryx2/#quality-of-services">quality-of-service (QoS) properties</a>.
-Participants may create new services that do not already exist in the
-system or open existing services created by other participants:</p>
-<ul class="simple">
-<li><p>When creating a service, a participant defines the terms for
-communication by specifying the messaging pattern and quality-of-service
-properties</p></li>
-<li><p>When opening a service, a participant may specify its own quality-of-service
-properties, however they must be compatible in order for communication to occur</p></li>
-</ul>
-<p>This service-centric approach provides several advantages: it decouples
-participants from direct knowledge of each other, enables dynamic discovery of
-communication partners, and allows the system to enforce consistent
-communication contracts across all participants.</p>
-</section>
-<section id="ports">
-<h2>Ports<a class="headerlink" href="#ports" title="Link to this heading">#</a></h2>
-<p>Ports are the interfaces for interacting with services in an <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> system
-and represent specific roles in the communication over a service.</p>
+<section id="posix-abstraction">
+<h2>POSIX Abstraction<a class="headerlink" href="#posix-abstraction" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/tree/main/iceoryx2-pal/posix"><code class="docutils literal notranslate"><span class="pre">iceoryx2-pal/posix</span></code></a>
+is the implementation of the POSIX surface that <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> uses. Built-in
+implementations cover the supported platforms.
+Targets that lack POSIX, or that need significant adjustments to a POSIX
+implementation (different signal semantics, different shared-memory
+primitives, an underlying RTOS instead of an OS), need their own
+implementation in place of those provided upstream.</p>
+<p>Implementing a custom POSIX abstraction can be a significant undertaking —
+the POSIX surface spans file descriptors, signals, mmap, semaphores,
+threading primitives, and more. The pragmatic starting point is to copy one of
+the existing implementations in <a class="reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/tree/main/iceoryx2-pal/posix/src"><code class="docutils literal notranslate"><span class="pre">iceoryx2-pal/posix/src</span></code></a>
+from upstream and adapt each primitive to the platform’s actual capabilities.</p>
+<p>Wiring is the same shape as the settings override, with a different env
+var pointing at the directory containing your implementation:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">export IOX2_CUSTOM_POSIX_PLATFORM_PATH=/abs/path/to/posix</span>
+</pre></div>
+</div>
+<p>Or persistently in <code class="docutils literal notranslate"><span class="pre">.cargo/config.toml</span></code>:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[env]</span>
+<span class="n">IOX2_CUSTOM_POSIX_PLATFORM_PATH</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/abs/path/to/posix&quot;</span>
+</pre></div>
+</div>
+<p>A successful build emits a warning naming the directory in use:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">warning: iceoryx2-pal-posix@x.y.z: Building with custom POSIX abstraction at: /abs/path/to/posix/</span>
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The same two gotchas as the settings override apply: clear <code class="docutils literal notranslate"><span class="pre">target/</span></code> when
+switching the override on or off, and the override is unavailable under
+Bazel builds.</p>
+</div>
 </section>
 <section id="further-reading">
 <h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading">#</a></h2>
@@ -415,29 +481,19 @@ and represent specific roles in the communication over a service.</p>
 <div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-none sd-card-hover docutils">
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
-Understand Execution Control</div>
-<p class="sd-card-text">Understand how <code class="docutils literal notranslate"><span class="pre">Event</span></code> services fit into the bigger picture of execution control
-with <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>.</p>
+Platform Settings Source</div>
+<p class="sd-card-text">View the current settings included in the platform configuration.</p>
 </div>
-<a class="sd-stretched-link sd-hide-link-text reference internal" href="execution-control.html"><span class="doc">Execution Control</span></a></div>
-</div>
-<div class="sd-col sd-d-flex-row docutils">
-<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-none sd-card-hover docutils">
-<div class="sd-card-body docutils">
-<div class="sd-card-title sd-font-weight-bold docutils">
-Understand Gateways and Tunnels</div>
-<p class="sd-card-text">Understand how to extend <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> across hosts.</p>
-</div>
-<a class="sd-stretched-link sd-hide-link-text reference internal" href="gateways-and-tunnels.html"><span class="doc">Gateways and Tunnels</span></a></div>
+<a class="sd-stretched-link sd-hide-link-text reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/blob/main/iceoryx2-pal/configuration/src/lib.rs"><span>https://github.com/eclipse-iceoryx/iceoryx2/blob/main/iceoryx2-pal/configuration/src/lib.rs</span></a></div>
 </div>
 <div class="sd-col sd-d-flex-row docutils">
 <div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-none sd-card-hover docutils">
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
-Explore Quality-of-Service Properties</div>
-<p class="sd-card-text">View the currently supported quality-of-service properties.</p>
+POSIX PAL Source</div>
+<p class="sd-card-text">View the currently-available POSIX PAL implementations</p>
 </div>
-<a class="sd-stretched-link sd-hide-link-text reference external" href="https://docs.rs/iceoryx2/latest/iceoryx2/#quality-of-services"><span>https://docs.rs/iceoryx2/latest/iceoryx2/#quality-of-services</span></a></div>
+<a class="sd-stretched-link sd-hide-link-text reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/tree/main/iceoryx2-pal/posix/src"><span>https://github.com/eclipse-iceoryx/iceoryx2/tree/main/iceoryx2-pal/posix/src</span></a></div>
 </div>
 </div>
 </div>
@@ -449,23 +505,23 @@ Explore Quality-of-Service Properties</div>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="messaging-patterns/index.html">
+          <a class="next-page" href="../glossary.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Messaging Patterns</div>
+                <div class="title">Glossary</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="shared-memory.html">
+          <a class="prev-page" href="configure-the-logging-backend.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Shared Memory</div>
+                <div class="title">Configure the logging backend</div>
                 
               </div>
             </a>
@@ -499,10 +555,9 @@ Explore Quality-of-Service Properties</div>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Communication Model</a><ul>
-<li><a class="reference internal" href="#nodes">Nodes</a></li>
-<li><a class="reference internal" href="#services">Services</a></li>
-<li><a class="reference internal" href="#ports">Ports</a></li>
+<li><a class="reference internal" href="#">Customize the platform abstraction</a><ul>
+<li><a class="reference internal" href="#compile-time-settings">Compile-time Settings</a></li>
+<li><a class="reference internal" href="#posix-abstraction">POSIX Abstraction</a></li>
 <li><a class="reference internal" href="#further-reading">Further Reading</a></li>
 </ul>
 </li>
