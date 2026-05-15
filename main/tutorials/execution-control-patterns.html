@@ -375,9 +375,9 @@ control flow. Threads are put to sleep when no data is available to
 process, and wake-up signals are emitted automatically when data
 arrives.</p>
 <p>This coupling forces a wake-up per sample. Workloads whose useful unit
-of work spans multiple samples — a batch from one source, or correlated
-samples across several — pay the cost of system calls and context
-switches on wake-ups that produce no work.</p>
+of work spans multiple samples pay the cost of system calls and context
+switches on wake-ups that produce no work. Examples include sensor fusion
+algorithms and algorithms that operate over a window of data.</p>
 <p><code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> instead decouples control flow from data flow. The user
 decides when a participant thread is put to sleep, when it is made
 ready to run, and what signals trigger the transition.</p>
@@ -511,84 +511,122 @@ sample arrived, the controller reuses the last known value.</p>
 after a unit of work is done. The difference is that threads are woken up
 in response to notifications via the <a class="reference internal" href="../fundamentals/messaging-patterns/event.html"><span class="doc std std-doc">event messaging pattern</span></a>. Events are defined by the user
 and can be triggered from anywhere in the system.</p>
-<p>Each notification carries an <code class="docutils literal notranslate"><span class="pre">EventId</span></code>. Notifiers and listeners are
-many-to-many on a service, so the same <code class="docutils literal notranslate"><span class="pre">EventId</span></code> from several producers can
-wake one listener (for example, a pool of workers all flagging “data ready”).<br />
-Conversely, a single listener can branch on the <code class="docutils literal notranslate"><span class="pre">EventId</span></code> to handle different
-kinds of work — shutdown, config change, frame ready — without spinning
-up extra services.</p>
+<p>Notifiers and listeners are many-to-many on a service, so any notifier
+can trigger any listener attached to that service.
+Additionally, the <code class="docutils literal notranslate"><span class="pre">EventId</span></code>, included with every notification, can be used
+to disambiguate notifications on a single service.</p>
 <p>This approach combines efficient CPU usage with timely response when work
 arrives: threads wake only when there is work to do.</p>
-<p>Events carry no payload, thus to move data alongside a wake-up, an event
-service must be paired with a publish-subscribe service: the
-producer publishes a sample, then notifies; the consumer wakes and drains
-available samples. This approach reconstructs the data-plus-wake-up flow that
-other middlewares couple implicitly.</p>
-<p>Multiple notifications can also coalesce into a single wake-up, so the
-listener should drain all pending events on each wake rather than handle
-just one.</p>
-<section id="example-log-aggregator">
-<h3>Example: Log Aggregator<a class="headerlink" href="#example-log-aggregator" title="Link to this heading">#</a></h3>
-<p>A log aggregator collects entries from throughout the system and writes them
-to a sink. Logs arrive irregularly and data flow may be quiet during steady
-state or bursting during an incident, so neither a busy loop nor a fixed-rate
-poll fits well. Furthermore it may not be optimal to trigger a context switch
-for every single log write.</p>
-<p>Instead, participants can write a series of log entries and then trigger a
-single notification once done.</p>
+<p>Events carry no payload beyond the <code class="docutils literal notranslate"><span class="pre">EventId</span></code>, so to move data alongside
+a wake-up, an event service must be paired with a publish-subscribe
+service: the producer publishes a sample, then notifies; the consumer
+wakes and drains available samples.
+This approach reconstructs the data-plus-wake-up flow that other middlewares
+couple implicitly.</p>
+<section id="example-event-data-recorder">
+<h3>Example: Event Data Recorder<a class="headerlink" href="#example-event-data-recorder" title="Link to this heading">#</a></h3>
+<p>A vehicle event-data recorder packages and uploads sensor data to the cloud
+whenever an incident occurs (for instance, when the emergency brake fires)
+so the scenario can be replayed for analysis. Sensors publish continuously
+on their own schedules; the recorder only has work to do at incident time.</p>
+<p>The event-data recorder does not need to wake on publish of every sample.
+This would introduce overhead when no real work needs to be done. Instead,
+a single event service signals when the work should be done.</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">core</span><span class="p">::</span><span class="n">time</span><span class="p">::</span><span class="n">Duration</span><span class="p">;</span>
 <span class="k">use</span><span class="w"> </span><span class="n">iceoryx2</span><span class="p">::</span><span class="n">prelude</span><span class="p">::</span><span class="o">*</span><span class="p">;</span>
 
 <span class="cp">#[derive(Debug, Clone, Copy, ZeroCopySend)]</span>
 <span class="cp">#[repr(C)]</span>
-<span class="k">struct</span><span class="w"> </span><span class="nc">LogEntry</span><span class="w"> </span><span class="p">{</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">WheelSpeed</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">timestamp_ns</span><span class="p">:</span><span class="w"> </span><span class="kt">u64</span><span class="p">,</span>
-<span class="w">    </span><span class="n">worker_id</span><span class="p">:</span><span class="w"> </span><span class="kt">u32</span><span class="p">,</span>
-<span class="w">    </span><span class="n">severity</span><span class="p">:</span><span class="w"> </span><span class="kt">u32</span><span class="p">,</span>
+<span class="w">    </span><span class="n">axle</span><span class="p">:</span><span class="w"> </span><span class="kt">u32</span><span class="p">,</span>
+<span class="w">    </span><span class="n">speed_mps</span><span class="p">:</span><span class="w"> </span><span class="kt">f32</span><span class="p">,</span>
 <span class="p">}</span>
 
+<span class="cp">#[derive(Debug, Clone, Copy, ZeroCopySend)]</span>
+<span class="cp">#[repr(C)]</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">ImuSample</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">timestamp_ns</span><span class="p">:</span><span class="w"> </span><span class="kt">u64</span><span class="p">,</span>
+<span class="w">    </span><span class="n">accel_mps2</span><span class="p">:</span><span class="w"> </span><span class="kt">f32</span><span class="p">,</span>
+<span class="w">    </span><span class="n">yaw_rate_rps</span><span class="p">:</span><span class="w"> </span><span class="kt">f32</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="cp">#[derive(Debug, Clone, Copy, ZeroCopySend)]</span>
+<span class="cp">#[repr(C)]</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">ObjectTrack</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">timestamp_ns</span><span class="p">:</span><span class="w"> </span><span class="kt">u64</span><span class="p">,</span>
+<span class="w">    </span><span class="n">distance_m</span><span class="p">:</span><span class="w"> </span><span class="kt">f32</span><span class="p">,</span>
+<span class="w">    </span><span class="n">relative_speed_mps</span><span class="p">:</span><span class="w"> </span><span class="kt">f32</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">const</span><span class="w"> </span><span class="n">LOOKBACK_WINDOW</span><span class="p">:</span><span class="w"> </span><span class="kt">usize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">256</span><span class="p">;</span>
+
 <span class="kd">let</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
-<span class="w">    </span><span class="p">.</span><span class="n">name</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;LogAggregator&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">name</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;EventDataRecorder&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
 <span class="w">    </span><span class="p">.</span><span class="n">create</span><span class="p">::</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="o">&gt;</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 
-<span class="kd">let</span><span class="w"> </span><span class="n">publish_subscribe_service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
-<span class="w">    </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;monitoring/logs&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
-<span class="w">    </span><span class="p">.</span><span class="n">publish_subscribe</span><span class="p">::</span><span class="o">&lt;</span><span class="n">LogEntry</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">wheel_speed_service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
+<span class="w">    </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;vehicle/wheel_speed&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">publish_subscribe</span><span class="p">::</span><span class="o">&lt;</span><span class="n">WheelSpeed</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">subscriber_max_buffer_size</span><span class="p">(</span><span class="n">LOOKBACK_WINDOW</span><span class="p">)</span>
 <span class="w">    </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 
-<span class="kd">let</span><span class="w"> </span><span class="n">event_service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
-<span class="w">    </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;monitoring/logs&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">imu_service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
+<span class="w">    </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;vehicle/imu&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">publish_subscribe</span><span class="p">::</span><span class="o">&lt;</span><span class="n">ImuSample</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">subscriber_max_buffer_size</span><span class="p">(</span><span class="n">LOOKBACK_WINDOW</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">object_track_service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
+<span class="w">    </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;vehicle/object_track&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">publish_subscribe</span><span class="p">::</span><span class="o">&lt;</span><span class="n">ObjectTrack</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">subscriber_max_buffer_size</span><span class="p">(</span><span class="n">LOOKBACK_WINDOW</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">trigger_service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
+<span class="w">    </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;vehicle/incident_trigger&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
 <span class="w">    </span><span class="p">.</span><span class="n">event</span><span class="p">()</span>
 <span class="w">    </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 
-<span class="kd">let</span><span class="w"> </span><span class="n">subscriber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">publish_subscribe_service</span><span class="p">.</span><span class="n">subscriber_builder</span><span class="p">().</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
-<span class="kd">let</span><span class="w"> </span><span class="n">listener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event_service</span><span class="p">.</span><span class="n">listener_builder</span><span class="p">().</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">wheel_speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wheel_speed_service</span><span class="p">.</span><span class="n">subscriber_builder</span><span class="p">().</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">imu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">imu_service</span><span class="p">.</span><span class="n">subscriber_builder</span><span class="p">().</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">object_track</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">object_track_service</span><span class="p">.</span><span class="n">subscriber_builder</span><span class="p">().</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">trigger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trigger_service</span><span class="p">.</span><span class="n">listener_builder</span><span class="p">().</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 
 <span class="k">while</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">Duration</span><span class="p">::</span><span class="n">ZERO</span><span class="p">).</span><span class="n">is_ok</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">listener</span><span class="p">.</span><span class="n">timed_wait_one</span><span class="p">(</span><span class="n">Duration</span><span class="p">::</span><span class="n">from_secs</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">?</span><span class="p">.</span><span class="n">is_some</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subscriber</span><span class="p">.</span><span class="n">receive</span><span class="p">()</span><span class="o">?</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="c1">// write entry to sink</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">trigger</span><span class="p">.</span><span class="n">timed_wait_one</span><span class="p">(</span><span class="n">Duration</span><span class="p">::</span><span class="n">from_secs</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">?</span><span class="p">.</span><span class="n">is_some</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wheel_speed</span><span class="p">.</span><span class="n">receive</span><span class="p">()</span><span class="o">?</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// append to upload bundle</span>
 <span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">imu</span><span class="p">.</span><span class="n">receive</span><span class="p">()</span><span class="o">?</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// append to upload bundle</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">object_track</span><span class="p">.</span><span class="n">receive</span><span class="p">()</span><span class="o">?</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// append to upload bundle</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="c1">// ship the bundle upstream for offline scenario analysis</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Every worker notifies on the same event service, so any of them can wake
-the aggregator. The one-second timeout on <code class="docutils literal notranslate"><span class="pre">timed_wait_one</span></code> is a safety
-net for the outer <code class="docutils literal notranslate"><span class="pre">node.wait(Duration::ZERO)</span></code> signal check; the real
-wake-up trigger is a worker’s notification. The drain loop handles
-whatever entries arrived between wake-ups, including bursts that
-coalesced into a single notification.</p>
+<p>Each pubsub service is configured with a large <code class="docutils literal notranslate"><span class="pre">subscriber_max_buffer_size</span></code>,
+so the recorder accumulates a lookback window without dropping samples
+between triggers. When the trigger arrives, draining each subscriber to
+exhaustion captures the full window of pre-event data. The one-second
+timeout on <code class="docutils literal notranslate"><span class="pre">timed_wait_one</span></code> is the safety net for the outer
+<code class="docutils literal notranslate"><span class="pre">node.wait(Duration::ZERO)</span></code> signal check; the wake-up trigger is the
+incident notification.</p>
 </section>
 </section>
 <section id="multiplexing">
 <h2>Multiplexing<a class="headerlink" href="#multiplexing" title="Link to this heading">#</a></h2>
 <p>Multiplexing combines several of the patterns above into a single thread.
-<code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> provides a <code class="docutils literal notranslate"><span class="pre">WaitSet</span></code> that holds a set of attachments — interval
-timers, event notifications, and deadline-monitored event sources — and
-puts the thread to sleep until any of them fires. When the wake-up arrives,
-the <code class="docutils literal notranslate"><span class="pre">WaitSet</span></code> invokes a user-supplied callback identifying which attachment
-was responsible.</p>
+<code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> provides a <code class="docutils literal notranslate"><span class="pre">WaitSet</span></code> that holds a set of attachments: interval
+timers, event notifications, and deadline-monitored event sources. The
+execution of the thread can be handed over to the <code class="docutils literal notranslate"><span class="pre">WaitSet</span></code>, which
+puts the thread to sleep and wakes it up when any attachment is triggered.
+When the wake-up arrives, the <code class="docutils literal notranslate"><span class="pre">WaitSet</span></code> invokes a user-supplied callback
+identifying which attachment triggered the wake-up.</p>
 <p>A <code class="docutils literal notranslate"><span class="pre">WaitSet</span></code> supports three kinds of attachments:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">attach_interval(duration)</span></code> — a periodic tick, equivalent to the
@@ -597,7 +635,7 @@ timer-driven pattern but composable with other sources.</p></li>
 listener, equivalent to the event-driven pattern.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">attach_deadline(&amp;listener,</span> <span class="pre">duration)</span></code> — wake on an event <em>or</em> if no
 event arrives within the deadline. The deadline resets every time an
-event is received — e.g. fail safe if no sensor sample arrives within
+event is received e.g. fail safe if no sensor sample arrives within
 100 ms.</p></li>
 </ul>
 <p>Multiplexing keeps the efficient sleep/wake behaviour of the single-source
@@ -776,7 +814,7 @@ Code Examples</div>
 </ul>
 </li>
 <li><a class="reference internal" href="#event-driven">Event-driven</a><ul>
-<li><a class="reference internal" href="#example-log-aggregator">Example: Log Aggregator</a></li>
+<li><a class="reference internal" href="#example-event-data-recorder">Example: Event Data Recorder</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#multiplexing">Multiplexing</a><ul>

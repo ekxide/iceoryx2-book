@@ -16,9 +16,9 @@ process, and wake-up signals are emitted automatically when data
 arrives.
 
 This coupling forces a wake-up per sample. Workloads whose useful unit
-of work spans multiple samples — a batch from one source, or correlated
-samples across several — pay the cost of system calls and context
-switches on wake-ups that produce no work.
+of work spans multiple samples pay the cost of system calls and context
+switches on wake-ups that produce no work. Examples include sensor fusion
+algorithms and algorithms that operate over a window of data.
 
 `iceoryx2` instead decouples control flow from data flow. The user
 decides when a participant thread is put to sleep, when it is made
@@ -99,59 +99,56 @@ in response to notifications via the [event messaging pattern](
 /fundamentals/messaging-patterns/event). Events are defined by the user
 and can be triggered from anywhere in the system.
 
-Each notification carries an `EventId`. Notifiers and listeners are
-many-to-many on a service, so the same `EventId` from several producers can
-wake one listener (for example, a pool of workers all flagging "data ready").  
-Conversely, a single listener can branch on the `EventId` to handle different
-kinds of work — shutdown, config change, frame ready — without spinning
-up extra services.
+Notifiers and listeners are many-to-many on a service, so any notifier
+can trigger any listener attached to that service.
+Additionally, the `EventId`, included with every notification, can be used
+to disambiguate notifications on a single service.
 
 This approach combines efficient CPU usage with timely response when work
 arrives: threads wake only when there is work to do.
 
-Events carry no payload, thus to move data alongside a wake-up, an event
-service must be paired with a publish-subscribe service: the
-producer publishes a sample, then notifies; the consumer wakes and drains
-available samples. This approach reconstructs the data-plus-wake-up flow that
-other middlewares couple implicitly.
+Events carry no payload beyond the `EventId`, so to move data alongside
+a wake-up, an event service must be paired with a publish-subscribe
+service: the producer publishes a sample, then notifies; the consumer
+wakes and drains available samples.
+This approach reconstructs the data-plus-wake-up flow that other middlewares
+couple implicitly.
 
-Multiple notifications can also coalesce into a single wake-up, so the
-listener should drain all pending events on each wake rather than handle
-just one.
+### Example: Event Data Recorder
 
-### Example: Log Aggregator
+A vehicle event-data recorder packages and uploads sensor data to the cloud
+whenever an incident occurs (for instance, when the emergency brake fires)
+so the scenario can be replayed for analysis. Sensors publish continuously
+on their own schedules; the recorder only has work to do at incident time.
 
-A log aggregator collects entries from throughout the system and writes them
-to a sink. Logs arrive irregularly and data flow may be quiet during steady
-state or bursting during an incident, so neither a busy loop nor a fixed-rate
-poll fits well. Furthermore it may not be optimal to trigger a context switch
-for every single log write.
+The event-data recorder does not need to wake on publish of every sample.
+This would introduce overhead when no real work needs to be done. Instead,
+a single event service signals when the work should be done.
 
-Instead, participants can write a series of log entries and then trigger a
-single notification once done.
-
-```{literalinclude} ../../snippets/execution-control-patterns/src/bin/log_aggregator.rs
+```{literalinclude} ../../snippets/execution-control-patterns/src/bin/event_data_recorder.rs
 :language: rust
 :start-after: // snippet:start
 :end-before: // snippet:end
 :dedent:
 ```
 
-Every worker notifies on the same event service, so any of them can wake
-the aggregator. The one-second timeout on `timed_wait_one` is a safety
-net for the outer `node.wait(Duration::ZERO)` signal check; the real
-wake-up trigger is a worker's notification. The drain loop handles
-whatever entries arrived between wake-ups, including bursts that
-coalesced into a single notification.
+Each pubsub service is configured with a large `subscriber_max_buffer_size`,
+so the recorder accumulates a lookback window without dropping samples
+between triggers. When the trigger arrives, draining each subscriber to
+exhaustion captures the full window of pre-event data. The one-second
+timeout on `timed_wait_one` is the safety net for the outer
+`node.wait(Duration::ZERO)` signal check; the wake-up trigger is the
+incident notification.
 
 ## Multiplexing
 
 Multiplexing combines several of the patterns above into a single thread.
-`iceoryx2` provides a `WaitSet` that holds a set of attachments — interval
-timers, event notifications, and deadline-monitored event sources — and
-puts the thread to sleep until any of them fires. When the wake-up arrives,
-the `WaitSet` invokes a user-supplied callback identifying which attachment
-was responsible.
+`iceoryx2` provides a `WaitSet` that holds a set of attachments: interval
+timers, event notifications, and deadline-monitored event sources. The
+execution of the thread can be handed over to the `WaitSet`, which
+puts the thread to sleep and wakes it up when any attachment is triggered.
+When the wake-up arrives, the `WaitSet` invokes a user-supplied callback
+identifying which attachment triggered the wake-up.
 
 A `WaitSet` supports three kinds of attachments:
 
@@ -161,7 +158,7 @@ A `WaitSet` supports three kinds of attachments:
   listener, equivalent to the event-driven pattern.
 * `attach_deadline(&listener, duration)` — wake on an event _or_ if no
   event arrives within the deadline. The deadline resets every time an
-  event is received — e.g. fail safe if no sensor sample arrives within
+  event is received e.g. fail safe if no sensor sample arrives within
   100 ms.
 
 Multiplexing keeps the efficient sleep/wake behaviour of the single-source
