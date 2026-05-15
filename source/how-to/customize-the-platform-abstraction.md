@@ -58,7 +58,7 @@ pub mod settings {
 The constants required by the `settings` module may evolve as `iceoryx2`
 develops. Refer to [`iceoryx2-pal/configuration/src/lib.rs`](
 https://github.com/eclipse-iceoryx/iceoryx2/blob/main/iceoryx2-pal/configuration/src/lib.rs)
-for the current canonical list.
+for the current list.
 ```
 
 The file lives anywhere on disk. To wire it in, set
@@ -159,5 +159,4 @@ View the current settings included in the platform configuration.
 
 View the currently-available POSIX PAL implementations
 ```
-
 ````
