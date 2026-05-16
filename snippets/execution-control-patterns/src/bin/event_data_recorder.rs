@@ -64,6 +64,7 @@ fn main() -> Result<(), Box<dyn core::error::Error>> {
 
     while node.wait(Duration::ZERO).is_ok() {
         if trigger.timed_wait_one(Duration::from_secs(1))?.is_some() {
+            trigger.try_wait_all(|_id| {})?;
             while let Some(sample) = wheel_speed.receive()? {
                 // append to upload bundle
             }

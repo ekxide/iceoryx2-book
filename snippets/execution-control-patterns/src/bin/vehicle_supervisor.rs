@@ -36,9 +36,7 @@ fn main() -> Result<(), Box<dyn core::error::Error>> {
             // speed sensor went silent — engage fail-safe
         }
         if attachment_id.has_event_from(&speed_guard) {
-            speed_listener
-                .try_wait_all(|_id| { /* drain */ })
-                .unwrap();
+            speed_listener.try_wait_all(|_id| { /* drain */ }).unwrap();
             // process new speed reading
         }
         if attachment_id.has_event_from(&emergency_stop_guard) {
