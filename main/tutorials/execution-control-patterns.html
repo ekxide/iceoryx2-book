@@ -595,6 +595,7 @@ a single event service signals when the work should be done.</p>
 
 <span class="k">while</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">Duration</span><span class="p">::</span><span class="n">ZERO</span><span class="p">).</span><span class="n">is_ok</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">trigger</span><span class="p">.</span><span class="n">timed_wait_one</span><span class="p">(</span><span class="n">Duration</span><span class="p">::</span><span class="n">from_secs</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">?</span><span class="p">.</span><span class="n">is_some</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">trigger</span><span class="p">.</span><span class="n">try_wait_all</span><span class="p">(</span><span class="o">|</span><span class="n">_id</span><span class="o">|</span><span class="w"> </span><span class="p">{})</span><span class="o">?</span><span class="p">;</span>
 <span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wheel_speed</span><span class="p">.</span><span class="n">receive</span><span class="p">()</span><span class="o">?</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="c1">// append to upload bundle</span>
 <span class="w">        </span><span class="p">}</span>
@@ -611,11 +612,14 @@ a single event service signals when the work should be done.</p>
 </div>
 <p>Each pubsub service is configured with a large <code class="docutils literal notranslate"><span class="pre">subscriber_max_buffer_size</span></code>,
 so the recorder accumulates a lookback window without dropping samples
-between triggers. When the trigger arrives, draining each subscriber to
-exhaustion captures the full window of pre-event data. The one-second
-timeout on <code class="docutils literal notranslate"><span class="pre">timed_wait_one</span></code> is the safety net for the outer
-<code class="docutils literal notranslate"><span class="pre">node.wait(Duration::ZERO)</span></code> signal check; the wake-up trigger is the
-incident notification.</p>
+between triggers. When a trigger arrives, <code class="docutils literal notranslate"><span class="pre">try_wait_all</span></code> drains any
+further triggers queued behind it, so several sensors signalling the
+same incident produce one upload rather than several near-empty ones.
+Draining each subscriber to exhaustion then captures the full pre-event
+window. The one-second timeout on <code class="docutils literal notranslate"><span class="pre">timed_wait_one</span></code> ensures the outer
+<code class="docutils literal notranslate"><span class="pre">node.wait(Duration::ZERO)</span></code> runs at least once per second, so the
+recorder can notice <code class="docutils literal notranslate"><span class="pre">SIGTERM</span></code>/<code class="docutils literal notranslate"><span class="pre">SIGINT</span></code> and shut down cleanly even when
+no triggers are arriving.</p>
 </section>
 </section>
 <section id="multiplexing">
@@ -642,10 +646,6 @@ event is received e.g. fail safe if no sensor sample arrives within
 patterns while consolidating several concerns into one thread at the cost of
 bookkeeping complexity, the callback has to disambiguate which source fired
 before handling it.</p>
-<p>The same coalescing caveat as the event-driven pattern applies to
-notification and deadline attachments. Drain all pending events inside
-the callback, otherwise the <code class="docutils literal notranslate"><span class="pre">WaitSet</span></code> will keep waking the thread as long
-as there are queued events on a source.</p>
 <section id="example-vehicle-supervisor">
 <h3>Example: Vehicle supervisor<a class="headerlink" href="#example-vehicle-supervisor" title="Link to this heading">#</a></h3>
 <p>A vehicle supervisor pulls together three concerns into one thread: a
@@ -689,9 +689,7 @@ to whichever one fires next.</p>
 <span class="w">        </span><span class="c1">// speed sensor went silent — engage fail-safe</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">attachment_id</span><span class="p">.</span><span class="n">has_event_from</span><span class="p">(</span><span class="o">&amp;</span><span class="n">speed_guard</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">speed_listener</span>
-<span class="w">            </span><span class="p">.</span><span class="n">try_wait_all</span><span class="p">(</span><span class="o">|</span><span class="n">_id</span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* drain */</span><span class="w"> </span><span class="p">})</span>
-<span class="w">            </span><span class="p">.</span><span class="n">unwrap</span><span class="p">();</span>
+<span class="w">        </span><span class="n">speed_listener</span><span class="p">.</span><span class="n">try_wait_all</span><span class="p">(</span><span class="o">|</span><span class="n">_id</span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* drain */</span><span class="w"> </span><span class="p">}).</span><span class="n">unwrap</span><span class="p">();</span>
 <span class="w">        </span><span class="c1">// process new speed reading</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">attachment_id</span><span class="p">.</span><span class="n">has_event_from</span><span class="p">(</span><span class="o">&amp;</span><span class="n">emergency_stop_guard</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -709,8 +707,10 @@ to whichever one fires next.</p>
 is the emergency-stop wake-up, and <code class="docutils literal notranslate"><span class="pre">attach_deadline</span></code> combines both.
 The supervisor receives ordinary speed updates as notifications, and
 the deadline fires only if the speed sensor goes silent past the budget.
-Inside each notification branch, <code class="docutils literal notranslate"><span class="pre">try_wait_all</span></code> drains any coalesced
-events on that listener before the callback returns.</p>
+Each notification branch must drain its listener with <code class="docutils literal notranslate"><span class="pre">try_wait_all</span></code>
+before returning. While unread notifications remain, the <code class="docutils literal notranslate"><span class="pre">WaitSet</span></code>
+treats the source as still ready and re-enters the callback
+immediately, so a branch that doesn’t drain spins the thread.</p>
 </section>
 </section>
 <section id="further-reading">

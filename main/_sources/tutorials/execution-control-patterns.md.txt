@@ -134,11 +134,14 @@ a single event service signals when the work should be done.
 
 Each pubsub service is configured with a large `subscriber_max_buffer_size`,
 so the recorder accumulates a lookback window without dropping samples
-between triggers. When the trigger arrives, draining each subscriber to
-exhaustion captures the full window of pre-event data. The one-second
-timeout on `timed_wait_one` is the safety net for the outer
-`node.wait(Duration::ZERO)` signal check; the wake-up trigger is the
-incident notification.
+between triggers. When a trigger arrives, `try_wait_all` drains any
+further triggers queued behind it, so several sensors signalling the
+same incident produce one upload rather than several near-empty ones.
+Draining each subscriber to exhaustion then captures the full pre-event
+window. The one-second timeout on `timed_wait_one` ensures the outer
+`node.wait(Duration::ZERO)` runs at least once per second, so the
+recorder can notice `SIGTERM`/`SIGINT` and shut down cleanly even when
+no triggers are arriving.
 
 ## Multiplexing
 
@@ -166,11 +169,6 @@ patterns while consolidating several concerns into one thread at the cost of
 bookkeeping complexity, the callback has to disambiguate which source fired
 before handling it.
 
-The same coalescing caveat as the event-driven pattern applies to
-notification and deadline attachments. Drain all pending events inside
-the callback, otherwise the `WaitSet` will keep waking the thread as long
-as there are queued events on a source.
-
 ### Example: Vehicle supervisor
 
 A vehicle supervisor pulls together three concerns into one thread: a
@@ -191,8 +189,10 @@ Each attachment type maps to one of the patterns covered earlier:
 is the emergency-stop wake-up, and `attach_deadline` combines both.
 The supervisor receives ordinary speed updates as notifications, and
 the deadline fires only if the speed sensor goes silent past the budget.
-Inside each notification branch, `try_wait_all` drains any coalesced
-events on that listener before the callback returns.
+Each notification branch must drain its listener with `try_wait_all`
+before returning. While unread notifications remain, the `WaitSet`
+treats the source as still ready and re-enters the callback
+immediately, so a branch that doesn't drain spins the thread.
 
 ## Further Reading
 
