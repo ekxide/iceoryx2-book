@@ -1,9 +1,8 @@
 # Request-Response
 
-```{figure} /images/request-response-pattern.svg
-:alt: request-response messaging pattern
-:align: center
+```{inline-svg} /images/request-response-pattern.svg
 :name: fig-request-response-communication
+:alt: request-response messaging pattern
 
 Request-Response Communication Model
 ```
@@ -24,10 +23,9 @@ when data needs to persist for multiple consumers ([blackboard](
 
 ## Mechanism
 
-```{figure} /images/request-response-mechanism.svg
-:alt: request-response messaging protocol
-:align: center
+```{inline-svg} /images/request-response-mechanism.svg
 :name: fig-request-response-mechanism
+:alt: request-response messaging protocol
 
 Request-Response over Shared Memory
 ```
