@@ -4,10 +4,9 @@ Shared memory is a memory region that multiple participants can access
 directly, enabling the exchange of data without copying between separate
 memory locations.
 
-```{figure} /images/shared-memory.svg
-:alt: shared memory region between participants
-:align: center
+```{inline-svg} /images/shared-memory.svg
 :name: fig-shared-memory-between-participants
+:alt: shared memory region between participants
 
 Memory Regions Accessible to Communicating Participants
 ```
@@ -57,10 +56,9 @@ the payload data at the exact location and form that it is produced.
 While shared memory enables zero-copy communication, it requires an appropriate
 API that allows producers to write data directly into shared memory regions.
 
-```{figure} /images/zero-copy-communication.svg
-:alt: zero-copy communication
-:align: center
+```{inline-svg} /images/zero-copy-communication.svg
 :name: fig-shared-memory-zero-copy-communication
+:alt: zero-copy communication
 
 Participants Communicating over a Shared Memory Region
 ```
@@ -69,10 +67,9 @@ This contrasts with alternative communication mechanisms, which can involve
 serialization and multiple copies along the communication path between
 participants.
 
-```{figure} /images/network-stack-communication.svg
-:alt: communication over network stack
-:align: center
+```{inline-svg} /images/network-stack-communication.svg
 :name: fig-network-stack-communication-single-host
+:alt: communication over network stack
 
 Participants Communicating over the Network Stack
 ```

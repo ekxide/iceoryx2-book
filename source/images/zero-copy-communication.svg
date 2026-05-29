@@ -1,63 +1,49 @@
-<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 600 208" role="img" aria-label="Participants communicating over a shared memory region" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .zc-phys     { fill: var(--ix-bg-2, #080d16); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .zc-shared   { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
+    .zc-box      { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .zc-phys-t   { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-muted, #bccbd6); }
+    .zc-shared-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-text, #eaf3f7); }
+    .zc-data     { font-family: var(--font-stack--monospace, monospace); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .zc-name     { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-text, #eaf3f7); }
+    .zc-label    { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .zc-total    { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
+    .zc-flow     { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
+  </style>
   <defs>
-    <style>
-      .custom-fonts {
-        font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      }
-    </style>
-    <marker id="arrowhead" markerWidth="5" markerHeight="3" 
-     refX="4" refY="1.5" orient="auto">
-      <polygon points="0 0, 5 1.5, 0 3" fill="#6c7b7f" />
+    <marker id="zc-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse" overflow="visible">
+      <path d="M1,1 L9,5 L1,9 Z" fill="var(--ix-muted, #bccbd6)"/>
     </marker>
   </defs>
-  
-  <!-- Background -->
-  <rect width="600" height="450" fill="transparent"/>
-  
-  <!-- Physical Memory Block -->
-  <rect x="225" y="120" width="150" height="240" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2"/>
-  
-  <!-- Physical Memory Label -->
-  <text x="300" y="110" text-anchor="middle" class="custom-fonts" font-size="12" font-weight="bold" fill="#6c7b7f">Physical Memory</text>
-  
-  <!-- Shared Memory Region -->
-  <rect x="240" y="195" width="120" height="75" fill="#4b5563" stroke="#6c7b7f" stroke-width="2"/>
-  <text x="300" y="220" text-anchor="middle" class="custom-fonts" font-size="11" font-weight="bold" fill="white">Shared Memory</text>
-  <text x="300" y="235" text-anchor="middle" class="custom-fonts" font-size="11" font-weight="bold" fill="white">Region</text>
-  <text x="300" y="250" text-anchor="middle" class="custom-fonts" font-size="9" fill="white">Original Data (100 MB)</text>
-  
+
+  <!-- Physical memory + shared region -->
+  <rect class="zc-phys" x="210" y="20" width="180" height="140" rx="12"/>
+  <text class="zc-phys-t" x="300" y="40" text-anchor="middle">Physical Memory</text>
+  <rect class="zc-shared" x="228" y="66" width="144" height="68" rx="8"/>
+  <text class="zc-shared-t" x="300" y="94" text-anchor="middle">Shared Memory Region</text>
+  <text class="zc-data" x="300" y="116" text-anchor="middle">Original Data (100 MB)</text>
+
   <!-- Publisher -->
-  <rect x="50" y="215" width="70" height="30" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2"/>
-  <text x="85" y="233" text-anchor="middle" class="custom-fonts" font-size="10" font-weight="bold" fill="#6c7b7f">Participant</text>
-  
-  <!-- Subscriber 1 -->
-  <rect x="480" y="170" width="70" height="30" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2"/>
-  <text x="515" y="188" text-anchor="middle" class="custom-fonts" font-size="10" font-weight="bold" fill="#6c7b7f">Participant</text>
-  
-  <!-- Subscriber 2 -->
-  <rect x="480" y="225" width="70" height="30" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2"/>
-  <text x="515" y="243" text-anchor="middle" class="custom-fonts" font-size="10" font-weight="bold" fill="#6c7b7f">Participant</text>
-  
-  <!-- Subscriber 3 -->
-  <rect x="480" y="280" width="70" height="30" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2"/>
-  <text x="515" y="298" text-anchor="middle" class="custom-fonts" font-size="10" font-weight="bold" fill="#6c7b7f">Participant</text>
-  
-  <!-- Arrows -->
-  <!-- Publisher to shared memory -->
-  <line x1="120" y1="230" x2="240" y2="230" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <text x="180" y="225" text-anchor="middle" class="custom-fonts" font-size="9" fill="#6c7b7f">write</text>
-  
-  <!-- Shared memory to subscribers -->
-  <line x1="360" y1="210" x2="480" y2="185" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <text x="420" y="190" text-anchor="middle" class="custom-fonts" font-size="9" fill="#6c7b7f">read</text>
-  
-  <line x1="360" y1="232" x2="480" y2="240" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <text x="420" y="230" text-anchor="middle" class="custom-fonts" font-size="9" fill="#6c7b7f">read</text>
-  
-  <line x1="360" y1="255" x2="480" y2="295" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <text x="420" y="270" text-anchor="middle" class="custom-fonts" font-size="9" fill="#6c7b7f">read</text>
-  
-  <!-- Total Memory Label -->
-  <text x="300" y="380" text-anchor="middle" class="custom-fonts" font-size="12" font-weight="normal" fill="#6c7b7f">Total Memory: ~100 MB</text>
-  
+  <rect class="zc-box" x="44" y="80" width="80" height="40" rx="10"/>
+  <text class="zc-name" x="84" y="104" text-anchor="middle">Participant</text>
+
+  <!-- Subscribers -->
+  <rect class="zc-box" x="476" y="34" width="80" height="40" rx="10"/>
+  <text class="zc-name" x="516" y="58" text-anchor="middle">Participant</text>
+  <rect class="zc-box" x="476" y="80" width="80" height="40" rx="10"/>
+  <text class="zc-name" x="516" y="104" text-anchor="middle">Participant</text>
+  <rect class="zc-box" x="476" y="126" width="80" height="40" rx="10"/>
+  <text class="zc-name" x="516" y="150" text-anchor="middle">Participant</text>
+
+  <!-- Flow (even gaps: ~10px clear of each component) -->
+  <line class="zc-flow" x1="134" y1="100" x2="200" y2="100" marker-end="url(#zc-arrow)"/>
+  <text class="zc-label" x="167" y="94" text-anchor="middle">write</text>
+  <line class="zc-flow" x1="400" y1="86" x2="466" y2="58" marker-end="url(#zc-arrow)"/>
+  <line class="zc-flow" x1="400" y1="100" x2="466" y2="100" marker-end="url(#zc-arrow)"/>
+  <line class="zc-flow" x1="400" y1="114" x2="466" y2="142" marker-end="url(#zc-arrow)"/>
+  <text class="zc-label" x="433" y="92" text-anchor="middle">read</text>
+
+  <!-- Total -->
+  <text class="zc-total" x="300" y="192" text-anchor="middle">Total Memory: ~100 MB</text>
 </svg>
