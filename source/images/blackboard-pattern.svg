@@ -1,60 +1,49 @@
-<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 560 296" role="img" aria-label="Blackboard communication model" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .bb-box   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .bb-port  { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
+    .bb-svc   { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
+    .bb-title { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
+    .bb-port-t{ font-family: var(--font-stack--monospace, monospace); font-weight: 600; font-size: 10px; fill: var(--ix-ice, #2dd4e8); }
+    .bb-sub   { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .bb-svc-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 13px; fill: var(--ix-ice, #2dd4e8); }
+    .bb-svc-s { font-family: var(--font-stack--monospace, monospace); font-size: 9.5px; fill: var(--ix-muted, #bccbd6); }
+    .bb-flow  { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
+  </style>
   <defs>
-    <style>
-      .custom-fonts {
-        font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      }
-    </style>
-    <marker id="arrowhead" markerWidth="6" markerHeight="4"
-     refX="5" refY="2" orient="auto">
-      <polygon points="0 0, 6 2, 0 4" fill="#6c7b7f" />
+    <marker id="bb-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse" overflow="visible">
+      <path d="M1,1 L9,5 L1,9 Z" fill="var(--ix-muted, #bccbd6)"/>
     </marker>
-    <pattern id="sleepPattern" patternUnits="userSpaceOnUse" width="3" height="3">
-      <circle cx="1.5" cy="1.5" r="0.8" fill="#9ca3af" opacity="0.3"/>
-    </pattern>
   </defs>
 
-  <!-- Background -->
-  <rect width="600" height="450" fill="transparent"/>
+  <!-- Writer -->
+  <rect class="bb-box" x="44" y="102" width="140" height="96" rx="12"/>
+  <text class="bb-title" x="114" y="128" text-anchor="middle">Participant</text>
+  <rect class="bb-port" x="58" y="144" width="112" height="40" rx="8"/>
+  <text class="bb-port-t" x="114" y="161" text-anchor="middle">Writer Port</text>
+  <text class="bb-sub" x="114" y="176" text-anchor="middle">Update values</text>
 
   <!-- Service -->
-  <circle cx="300" cy="225" r="38" fill="#4b5563" stroke="#374151" stroke-width="2" />
-  <text x="300" y="220" text-anchor="middle" class="custom-fonts" font-size="12" font-weight="bold" fill="white">Service</text>
-  <text x="300" y="237" text-anchor="middle" class="custom-fonts" font-size="9" fill="white">/global_config</text>
+  <circle class="bb-svc" cx="280" cy="150" r="48"/>
+  <text class="bb-svc-t" x="280" y="146" text-anchor="middle">Service</text>
+  <text class="bb-svc-s" x="280" y="164" text-anchor="middle">/global_config</text>
 
-  <!-- Writer Participant -->
-  <rect x="60" y="180" width="113" height="75" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2" />
-  <text x="116" y="202" text-anchor="middle" class="custom-fonts" font-size="11" font-weight="bold" fill="#374151">Participant</text>
+  <!-- Reader 1 -->
+  <rect class="bb-box" x="376" y="32" width="140" height="96" rx="12"/>
+  <text class="bb-title" x="446" y="58" text-anchor="middle">Participant</text>
+  <rect class="bb-port" x="390" y="74" width="112" height="40" rx="8"/>
+  <text class="bb-port-t" x="446" y="91" text-anchor="middle">Reader Port</text>
+  <text class="bb-sub" x="446" y="106" text-anchor="middle">Read values</text>
 
-  <!-- Writer Port -->
-  <rect x="75" y="220" width="83" height="26" fill="#6b7280" stroke="#4b5563" stroke-width="2"/>
-  <text x="116" y="231" text-anchor="middle" class="custom-fonts" font-size="9" font-weight="bold" fill="white">Writer Port</text>
-  <text x="116" y="241" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">Update values</text>
+  <!-- Reader 2 -->
+  <rect class="bb-box" x="376" y="172" width="140" height="96" rx="12"/>
+  <text class="bb-title" x="446" y="198" text-anchor="middle">Participant</text>
+  <rect class="bb-port" x="390" y="214" width="112" height="40" rx="8"/>
+  <text class="bb-port-t" x="446" y="231" text-anchor="middle">Reader Port</text>
+  <text class="bb-sub" x="446" y="246" text-anchor="middle">Read values</text>
 
-  <!-- Reader Participant 1 -->
-  <rect x="428" y="123" width="113" height="75" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2" />
-  <text x="484" y="145" text-anchor="middle" class="custom-fonts" font-size="11" font-weight="bold" fill="#374151">Participant</text>
-
-  <!-- Reader Port 1 -->
-  <rect x="443" y="163" width="83" height="26" fill="#6b7280" stroke="#4b5563" stroke-width="2"/>
-  <text x="484" y="174" text-anchor="middle" class="custom-fonts" font-size="9" font-weight="bold" fill="white">Reader Port</text>
-  <text x="484" y="184" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">Read values</text>
-
-  <!-- Reader Participant 2 -->
-  <rect x="428" y="262" width="113" height="75" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2" />
-  <text x="484" y="284" text-anchor="middle" class="custom-fonts" font-size="11" font-weight="bold" fill="#374151">Participant</text>
-
-  <!-- Reader Port 2 -->
-  <rect x="443" y="302" width="83" height="26" fill="#6b7280" stroke="#4b5563" stroke-width="2"/>
-  <text x="484" y="313" text-anchor="middle" class="custom-fonts" font-size="9" font-weight="bold" fill="white">Reader Port</text>
-  <text x="484" y="323" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">Read values</text>
-
-  <!-- Arrow from writer to service -->
-  <line x1="173" y1="225" x2="260" y2="225" stroke="#6c7b7f" stroke-width="2.5" marker-end="url(#arrowhead)"/>
-
-  <!-- Arrows from service to readers -->
-  <line x1="330" y1="198" x2="426" y2="161" stroke="#6c7b7f" stroke-width="2.5" marker-end="url(#arrowhead)"/>
-
-  <line x1="330" y1="252" x2="426" y2="305" stroke="#6c7b7f" stroke-width="2.5" marker-end="url(#arrowhead)"/>
-
+  <!-- Flow -->
+  <line class="bb-flow" x1="190" y1="150" x2="224" y2="150" marker-end="url(#bb-arrow)"/>
+  <line class="bb-flow" x1="325" y1="117" x2="370" y2="83" marker-end="url(#bb-arrow)"/>
+  <line class="bb-flow" x1="325" y1="183" x2="370" y2="217" marker-end="url(#bb-arrow)"/>
 </svg>
