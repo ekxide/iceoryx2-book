@@ -1,90 +1,80 @@
-<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="-22 0 644 320" role="img" aria-label="Publish-subscribe over shared memory" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .pm-box   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .pm-port  { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
+    .pm-smr   { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
+    .pm-seg   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1; stroke-dasharray: 5 3; }
+    .pm-new   { fill: var(--ix-ice, #2dd4e8); }
+    .pm-held  { fill: var(--ix-blue, #5b8def); }
+    .pm-free  { fill: none; stroke: var(--ix-muted, #bccbd6); stroke-width: 1.5; }
+    .pm-title { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
+    .pm-port-t{ font-family: var(--font-stack--monospace, monospace); font-weight: 600; font-size: 10px; fill: var(--ix-ice, #2dd4e8); }
+    .pm-label { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-muted, #bccbd6); }
+    .pm-cell  { font-family: var(--font-stack--monospace, monospace); font-size: 8.5px; fill: var(--ix-muted, #bccbd6); }
+    .pm-leg   { font-family: var(--font-stack, sans-serif); font-size: 9.5px; fill: var(--ix-muted, #bccbd6); }
+    .pm-flow  { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
+  </style>
   <defs>
-    <style>
-      .custom-fonts {
-        font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      }
-    </style>
-    <marker id="bluearrow" markerWidth="6" markerHeight="4" 
-     refX="5" refY="2" orient="auto">
-      <polygon points="0 0, 6 2, 0 4" fill="#6c7b7f" />
+    <marker id="pm-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse" overflow="visible">
+      <path d="M1,1 L9,5 L1,9 Z" fill="var(--ix-muted, #bccbd6)"/>
     </marker>
   </defs>
-  
-  <!-- Background -->
-  <rect width="600" height="450" fill="transparent"/>
-    
-  <!-- Publisher Participant -->
-  <rect x="30" y="165" width="120" height="80" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2" />
-  <text x="90" y="190" text-anchor="middle" class="custom-fonts" font-size="12" font-weight="bold" fill="#374151">Participant</text>
-  
-  <!-- Publisher Port -->
-  <rect x="45" y="208" width="90" height="28" fill="#6b7280" stroke="#4b5563" stroke-width="2"/>
-  <text x="90" y="224" text-anchor="middle" class="custom-fonts" font-size="10" font-weight="bold" fill="white">Publisher Port</text>
-  
-  <!-- Receiver Participant -->
-  <rect x="450" y="165" width="120" height="80" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2" />
-  <text x="510" y="190" text-anchor="middle" class="custom-fonts" font-size="12" font-weight="bold" fill="#374151">Participant</text>
-  
-  <!-- Subscriber Port -->
-  <rect x="465" y="208" width="90" height="28" fill="#6b7280" stroke="#4b5563" stroke-width="2"/>
-  <text x="510" y="224" text-anchor="middle" class="custom-fonts" font-size="10" font-weight="bold" fill="white">Subscriber Port</text>
 
-  <!-- Shared Memory Region -->
-  <rect x="175" y="115" width="250" height="180" fill="#4b5563" stroke="#374151" stroke-width="2" />
-  <text x="300" y="138" text-anchor="middle" class="custom-fonts" font-size="14" font-weight="bold" fill="white">Shared Memory Region</text>
-  
-  <!-- Payload Segment -->
-  <rect x="190" y="155" width="220" height="60" fill="none" stroke="white" stroke-width="2" stroke-dasharray="4,2"/>
-  <text x="300" y="174" text-anchor="middle" class="custom-fonts" font-size="11" font-weight="bold" fill="white">Payload Segment</text>
-  
-  <!-- Memory segments with outlines -->
-  <rect x="200" y="188" width="26" height="14" fill="#d1d5db" stroke="white" stroke-width="1"/>
-  <rect x="228" y="188" width="22" height="14" fill="#6b7280" stroke="white" stroke-width="1"/>
-  <rect x="252" y="188" width="32" height="14" fill="#6b7280" stroke="white" stroke-width="1"/>
-  <rect x="286" y="188" width="20" height="14" fill="#374151" stroke="white" stroke-width="1"/>
-  <rect x="308" y="188" width="28" height="14" fill="#374151" stroke="white" stroke-width="1"/>
-  <rect x="338" y="188" width="24" height="14" fill="#d1d5db" stroke="white" stroke-width="1"/>
-  <rect x="364" y="188" width="34" height="14" fill="#d1d5db" stroke="white" stroke-width="1"/>
-  
-  <!-- Payload labels -->
-  <text x="213" y="198" text-anchor="middle" class="custom-fonts" font-size="8" fill="white">P₁</text>
-  <text x="239" y="198" text-anchor="middle" class="custom-fonts" font-size="8" fill="white">P₂</text>
-  <text x="268" y="198" text-anchor="middle" class="custom-fonts" font-size="8" fill="white">P₃</text>
-  <text x="296" y="198" text-anchor="middle" class="custom-fonts" font-size="8" fill="white">P₄</text>
-  <text x="322" y="198" text-anchor="middle" class="custom-fonts" font-size="8" fill="white">P₅</text>
-  <text x="350" y="198" text-anchor="middle" class="custom-fonts" font-size="8" fill="white">P₆</text>
-  <text x="381" y="198" text-anchor="middle" class="custom-fonts" font-size="8" fill="white">P₇</text>
+  <!-- Publisher -->
+  <rect class="pm-box" x="4" y="124" width="130" height="86" rx="12"/>
+  <text class="pm-title" x="69" y="150" text-anchor="middle">Participant</text>
+  <rect class="pm-port" x="18" y="166" width="102" height="30" rx="8"/>
+  <text class="pm-port-t" x="69" y="185" text-anchor="middle">Publisher Port</text>
 
-  <!-- Offset Channel -->
-  <rect x="190" y="225" width="220" height="40" fill="none" stroke="white" stroke-width="2" stroke-dasharray="4,2"/>
-  <text x="300" y="241" text-anchor="middle" class="custom-fonts" font-size="11" font-weight="bold" fill="white">Offset Channel</text>
-  
-  <!-- Shared offset indicators -->  
-  <rect x="210" y="246" width="16" height="10" fill="#374151" stroke="white" stroke-width="1"/>
-  <text x="218" y="253" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">P₄</text>
-  
-  <rect x="230" y="246" width="16" height="10" fill="#374151" stroke="white" stroke-width="1"/>
-  <text x="238" y="253" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">P₅</text>
-  
-  <rect x="250" y="246" width="16" height="10" fill="#6b7280" stroke="white" stroke-width="1"/>
-  <text x="258" y="253" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">P₂</text>
-  
-  <rect x="270" y="246" width="16" height="10" fill="#6b7280" stroke="white" stroke-width="1"/>
-  <text x="278" y="253" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">P₃</text>
-  
-  <!-- Horizontal connection arrows -->
-  <line x1="150" y1="207" x2="173" y2="207" stroke="#6c7b7f" stroke-width="2.5" marker-end="url(#bluearrow)"/>
-  <line x1="425" y1="202" x2="448" y2="202" stroke="#6c7b7f" stroke-width="2.5" marker-end="url(#bluearrow)"/>
-  
-  <!-- Legend -->  
-  <rect x="520" y="330" width="14" height="10" fill="#374151"/>
-  <text x="540" y="338" font-size="10" class="custom-fonts" fill="#9ca3af">New</text>
-  
-  <rect x="520" y="345" width="14" height="10" fill="#6b7280"/>
-  <text x="540" y="353" font-size="10" class="custom-fonts" fill="#9ca3af">Held</text>
-  
-  <rect x="520" y="360" width="14" height="10" fill="#d1d5db"/>
-  <text x="540" y="368" font-size="10" class="custom-fonts" fill="#9ca3af">Free</text>
-  
+  <!-- Shared memory region -->
+  <rect class="pm-smr" x="178" y="64" width="244" height="218" rx="12"/>
+  <text class="pm-title" x="300" y="88" text-anchor="middle">Shared Memory Region</text>
+
+  <!-- Payload segment -->
+  <rect class="pm-seg" x="194" y="102" width="212" height="82" rx="6"/>
+  <text class="pm-label" x="300" y="120" text-anchor="middle">Payload Segment</text>
+  <rect class="pm-free" x="204" y="132" width="24" height="20" rx="3"/>
+  <rect class="pm-held" x="232" y="132" width="24" height="20" rx="3"/>
+  <rect class="pm-held" x="260" y="132" width="24" height="20" rx="3"/>
+  <rect class="pm-new"  x="288" y="132" width="24" height="20" rx="3"/>
+  <rect class="pm-new"  x="316" y="132" width="24" height="20" rx="3"/>
+  <rect class="pm-free" x="344" y="132" width="24" height="20" rx="3"/>
+  <rect class="pm-free" x="372" y="132" width="24" height="20" rx="3"/>
+  <text class="pm-cell" x="216" y="168" text-anchor="middle">P₁</text>
+  <text class="pm-cell" x="244" y="168" text-anchor="middle">P₂</text>
+  <text class="pm-cell" x="272" y="168" text-anchor="middle">P₃</text>
+  <text class="pm-cell" x="300" y="168" text-anchor="middle">P₄</text>
+  <text class="pm-cell" x="328" y="168" text-anchor="middle">P₅</text>
+  <text class="pm-cell" x="356" y="168" text-anchor="middle">P₆</text>
+  <text class="pm-cell" x="384" y="168" text-anchor="middle">P₇</text>
+
+  <!-- Offset channel -->
+  <rect class="pm-seg" x="194" y="196" width="212" height="70" rx="6"/>
+  <text class="pm-label" x="300" y="214" text-anchor="middle">Offset Channel</text>
+  <rect class="pm-new"  x="250" y="224" width="22" height="16" rx="3"/>
+  <rect class="pm-new"  x="276" y="224" width="22" height="16" rx="3"/>
+  <rect class="pm-held" x="302" y="224" width="22" height="16" rx="3"/>
+  <rect class="pm-held" x="328" y="224" width="22" height="16" rx="3"/>
+  <text class="pm-cell" x="261" y="254" text-anchor="middle">P₄</text>
+  <text class="pm-cell" x="287" y="254" text-anchor="middle">P₅</text>
+  <text class="pm-cell" x="313" y="254" text-anchor="middle">P₂</text>
+  <text class="pm-cell" x="339" y="254" text-anchor="middle">P₃</text>
+
+  <!-- Subscriber -->
+  <rect class="pm-box" x="466" y="124" width="130" height="86" rx="12"/>
+  <text class="pm-title" x="531" y="150" text-anchor="middle">Participant</text>
+  <rect class="pm-port" x="480" y="166" width="102" height="30" rx="8"/>
+  <text class="pm-port-t" x="531" y="185" text-anchor="middle">Subscriber Port</text>
+
+  <!-- Flow (endpoints kept clear of the boxes and region) -->
+  <line class="pm-flow" x1="140" y1="181" x2="172" y2="181" marker-end="url(#pm-arrow)"/>
+  <line class="pm-flow" x1="428" y1="181" x2="460" y2="181" marker-end="url(#pm-arrow)"/>
+
+  <!-- Legend -->
+  <rect class="pm-new"  x="210" y="298" width="14" height="11" rx="2"/>
+  <text class="pm-leg" x="230" y="307">New</text>
+  <rect class="pm-held" x="286" y="298" width="14" height="11" rx="2"/>
+  <text class="pm-leg" x="306" y="307">Held</text>
+  <rect class="pm-free" x="362" y="298" width="14" height="11" rx="2"/>
+  <text class="pm-leg" x="382" y="307">Free</text>
 </svg>
