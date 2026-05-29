@@ -2,55 +2,68 @@
     position: relative;
     display: block;
     min-width: 200px;
-    margin: 1rem 0;
+    margin: 0.75rem 0 1rem;
     text-align: right;
-    padding-right: 1rem;
+    padding-right: 0.25rem;
 }
 
 .dropdown-button {
-    background: var(--color-sidebar-background);
-    color: var(--color-foreground-primary);
-    border: 1px solid var(--color-background-border);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: var(--ix-surface);
+    color: var(--ix-text);
+    border: 1px solid var(--ix-line);
+    border-radius: 999px;
+    padding: 0.4rem 0.9rem;
+    font-family: var(--font-stack--monospace);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
 }
 
 .dropdown-button:hover {
-    background: var(--color-background-hover);
+    border-color: rgba(45, 212, 232, 0.45);
+    color: var(--ix-ice);
 }
 
 .dropdown-arrow {
     transition: transform 0.2s;
-    font-size: 0.8em;
+    font-size: 0.6em;
+    color: var(--ix-muted-2);
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
-    background: var(--color-background-primary);
-    box-shadow: var(--box-shadow);
-    border-radius: var(--border-radius);
+    background: var(--ix-surface);
+    box-shadow: 0 24px 50px -28px rgba(0, 0, 0, 0.6);
+    border-radius: var(--ix-radius-sm);
     z-index: 1000;
-    border: 1px solid var(--color-background-border);
-    margin-top: 0.25rem;
+    border: 1px solid var(--ix-line);
+    margin-top: 0.35rem;
     right: 0;
     left: auto;
+    overflow: hidden;
 }
 
 .dropdown-content a {
-    color: var(--color-foreground-primary);
-    padding: 0.5rem 0.75rem;
+    color: var(--ix-muted);
+    padding: 0.5rem 0.9rem;
     text-decoration: none;
     display: block;
-    transition: background-color 0.2s;
-    font-size: var(--font-size--small);
-    font-family: var(--font-stack);
+    transition: background-color 0.2s, color 0.2s;
+    font-size: 0.82rem;
+    font-family: var(--font-stack--monospace);
 }
 
 .dropdown-content a:hover {
-    background: var(--color-background-hover);
+    background: rgba(45, 212, 232, 0.08);
+    color: var(--ix-text);
 }
 
 .dropdown-content a.current {
-    background: var(--color-brand-primary--lighten-40);
-    color: var(--color-brand-primary);
-    font-weight: 500;
+    background: rgba(45, 212, 232, 0.1);
+    color: var(--ix-ice);
+    font-weight: 600;
 }
