@@ -615,6 +615,11 @@ figcaption, .caption-text {
 /* mermaid diagrams */
 .mermaid { display: flex; justify-content: center; }
 
+/* inline themed diagrams (SVG reads --ix-* vars, so it themes with the page) */
+.ix-diagram { margin: 1.8rem auto; max-width: 640px; text-align: center; }
+.ix-diagram svg { width: 100%; height: auto; display: block; }
+.ix-diagram figcaption { margin-top: 0.85rem; color: var(--ix-muted); font-size: 0.9rem; }
+
 /* =================================================================
    Tables
    ================================================================= */

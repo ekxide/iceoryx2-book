@@ -213,3 +213,55 @@ html_js_files = [
     "js/version-picker.js",
     "js/external-links.js",
 ]
+
+
+# -- inline-svg directive ----------------------------------------------------
+# `{inline-svg} path` inlines an SVG file into the page (wrapped in a figure)
+# so it reads the theme's --ix-* CSS variables and follows the light/dark
+# toggle — which a plain <img> SVG cannot. Optional caption as directive body.
+import re as _re
+from pathlib import Path as _Path
+from docutils import nodes as _nodes
+from docutils.parsers.rst import Directive as _Directive, directives as _directives
+
+
+class _InlineSvg(_Directive):
+    required_arguments = 1
+    final_argument_whitespace = True
+    has_content = True
+    option_spec = {"name": _directives.unchanged, "alt": _directives.unchanged}
+
+    def run(self):
+        env = self.state.document.settings.env
+        arg = self.arguments[0].strip()
+        if arg.startswith("/"):
+            path = _Path(env.srcdir) / arg.lstrip("/")
+        else:
+            path = _Path(env.doc2path(env.docname)).parent / arg
+
+        try:
+            svg = path.read_text(encoding="utf-8")
+        except OSError as exc:
+            return [self.state_machine.reporter.error(
+                f"inline-svg: cannot read {path}: {exc}", line=self.lineno)]
+        env.note_dependency(str(path))
+
+        # drop XML prolog / doctype so the markup inlines cleanly into HTML
+        svg = _re.sub(r"<\?xml.*?\?>\s*", "", svg, flags=_re.DOTALL)
+        svg = _re.sub(r"<!DOCTYPE.*?>\s*", "", svg, flags=_re.DOTALL)
+
+        figure = _nodes.figure(classes=["ix-diagram"])
+        figure += _nodes.raw("", svg, format="html")
+        if self.content:
+            caption = _nodes.caption()
+            self.state.nested_parse(self.content, self.content_offset, caption)
+            if len(caption) == 1 and isinstance(caption[0], _nodes.paragraph):
+                caption.children = caption[0].children
+            figure += caption
+        self.add_name(figure)
+        return [figure]
+
+
+def setup(app):
+    app.add_directive("inline-svg", _InlineSvg)
+    return {"parallel_read_safe": True, "parallel_write_safe": True}
