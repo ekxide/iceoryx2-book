@@ -1,48 +1,44 @@
-<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <style>
-      .custom-fonts {
-        font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      }
-    </style>
-  </defs>
-  
-  <!-- Background -->
-  <rect width="600" height="450" fill="transparent"/>
+<svg viewBox="0 0 640 470" role="img" aria-label="Layered architecture of iceoryx2" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .ix-arch-box { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
+    .ix-arch-os  { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .ix-arch-code{ fill: var(--ix-code-bg, #0a111c); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .ix-arch-t   { font-family: var(--font-stack--monospace, monospace); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
+    .ix-arch-os-t{ font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 13px; fill: var(--ix-muted, #bccbd6); }
+    .ix-arch-s   { font-family: var(--font-stack, sans-serif); font-size: 11px; fill: var(--ix-text, #eaf3f7); }
+  </style>
 
-  <!-- iceoryx2-services (top-left) -->
-  <rect x="100" y="22" width="215" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
-  <text x="110" y="42" font-size="12" font-weight="bold" class="custom-fonts" fill="#374151">iceoryx2-services</text>
-  <text x="110" y="59" font-size="10" class="custom-fonts" fill="#6b7280">Application Services • Discovery • Tunnel</text>
+  <rect class="ix-arch-box" x="40" y="28" width="330" height="60" rx="10"/>
+  <rect class="ix-arch-code" x="52" y="39" width="134" height="20" rx="5"/>
+  <text class="ix-arch-t" x="58" y="53">iceoryx2-services</text>
+  <text class="ix-arch-s" x="58" y="72">Application services • Discovery • Tunnel</text>
 
-  <!-- iceoryx2-userland (top-right) -->
-  <rect x="330" y="22" width="170" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
-  <text x="340" y="42" font-size="12" font-weight="bold" class="custom-fonts" fill="#374151">iceoryx2-userland</text>
-  <text x="340" y="59" font-size="10" class="custom-fonts" fill="#6b7280">User Toolkit • Record and Replay</text>
+  <rect class="ix-arch-box" x="386" y="28" width="214" height="60" rx="10"/>
+  <rect class="ix-arch-code" x="398" y="39" width="134" height="20" rx="5"/>
+  <text class="ix-arch-t" x="404" y="53">iceoryx2-userland</text>
+  <text class="ix-arch-s" x="404" y="72">Toolkit • Record &amp; replay</text>
 
-  <!-- User API Layer -->
-  <rect x="100" y="87" width="400" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
-  <text x="110" y="107" font-size="12" font-weight="bold" class="custom-fonts" fill="#374151">iceoryx2</text>
-  <text x="110" y="124" font-size="10" class="custom-fonts" fill="#6b7280">User API • Service • Ports • Execution Control</text>
-  
-  <!-- Concept Abstraction Layer -->
-  <rect x="100" y="152" width="400" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
-  <text x="110" y="172" font-size="12" font-weight="bold" class="custom-fonts" fill="#374151">iceoryx2_cal</text>
-  <text x="110" y="189" font-size="10" class="custom-fonts" fill="#6b7280">Concepts • Storage • Channels • Events</text>
-  
-  <!-- Building Blocks Layer -->
-  <rect x="100" y="217" width="400" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
-  <text x="110" y="237" font-size="12" font-weight="bold" class="custom-fonts" fill="#374151">iceoryx2_bb</text>
-  <text x="110" y="254" font-size="10" class="custom-fonts" fill="#6b7280">Building Blocks • Algorithms • Containers • Utilities</text>
-  
-  <!-- Platform Abstraction Layer -->
-  <rect x="100" y="282" width="400" height="50" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
-  <text x="110" y="302" font-size="12" font-weight="bold" class="custom-fonts" fill="#374151">iceoryx2_pal</text>
-  <text x="110" y="319" font-size="10" class="custom-fonts" fill="#6b7280">Platform Abstraction • POSIX • OS-specific APIs</text>
-  
-  <!-- Operating System / Hardware -->
-  <rect x="100" y="347" width="400" height="50" fill="#e5e7eb" stroke="#9ca3af" stroke-width="2"/>
-  <text x="110" y="367" font-size="12" font-weight="bold" class="custom-fonts" fill="#374151">Operating System</text>
-  <text x="110" y="384" font-size="10" class="custom-fonts" fill="#6b7280">Linux • QNX • Windows • Hardware Abstraction • etc.</text>
-  
+  <rect class="ix-arch-box" x="40" y="102" width="560" height="60" rx="10"/>
+  <rect class="ix-arch-code" x="52" y="113" width="70" height="20" rx="5"/>
+  <text class="ix-arch-t" x="58" y="127">iceoryx2</text>
+  <text class="ix-arch-s" x="58" y="146">User API • Services • Ports • Execution control</text>
+
+  <rect class="ix-arch-box" x="40" y="176" width="560" height="60" rx="10"/>
+  <rect class="ix-arch-code" x="52" y="187" width="98" height="20" rx="5"/>
+  <text class="ix-arch-t" x="58" y="201">iceoryx2-cal</text>
+  <text class="ix-arch-s" x="58" y="220">Concepts • Storage • Channels • Events</text>
+
+  <rect class="ix-arch-box" x="40" y="250" width="560" height="60" rx="10"/>
+  <rect class="ix-arch-code" x="52" y="261" width="91" height="20" rx="5"/>
+  <text class="ix-arch-t" x="58" y="275">iceoryx2-bb</text>
+  <text class="ix-arch-s" x="58" y="294">Building blocks • Algorithms • Containers • Utilities</text>
+
+  <rect class="ix-arch-box" x="40" y="324" width="560" height="60" rx="10"/>
+  <rect class="ix-arch-code" x="52" y="335" width="98" height="20" rx="5"/>
+  <text class="ix-arch-t" x="58" y="349">iceoryx2-pal</text>
+  <text class="ix-arch-s" x="58" y="368">Platform abstraction • POSIX • OS-specific APIs</text>
+
+  <rect class="ix-arch-os" x="40" y="398" width="560" height="60" rx="10"/>
+  <text class="ix-arch-os-t" x="58" y="423">Operating System</text>
+  <text class="ix-arch-s" x="58" y="442">Linux • QNX • Windows • Hardware abstraction • etc</text>
 </svg>
