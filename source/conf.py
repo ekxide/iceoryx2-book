@@ -211,4 +211,5 @@ html_css_files = [
 html_js_files = [
     "js/atmosphere.js",
     "js/version-picker.js",
+    "js/external-links.js",
 ]
