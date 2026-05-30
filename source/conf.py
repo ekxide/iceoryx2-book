@@ -80,7 +80,7 @@ html_theme_options = {
         # surfaces are slightly cool-tinted: neutral white reads warm next to
         # the cool page (simultaneous contrast).
         "ix-bg": "#f5f8fc",
-        "ix-bg-2": "#eef3f9",
+        "ix-bg-2": "#e2eaf3",
         "ix-surface": "#fafcff",
         "ix-surface-2": "#f2f7fc",
         "ix-line": "rgba(15, 55, 90, 0.12)",
