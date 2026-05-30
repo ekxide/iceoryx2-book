@@ -27,7 +27,7 @@ The iceoryx2 Book
      <p class="ix-hero__eyebrow"><span class="ix-hero__dot"></span>The <span class="ix-hero__word">iceoryx<span class="ix-hero__two">2</span></span> Book</p>
      <h1 class="ix-hero__title">The guide to iceoryx2.</h1>
      <p class="ix-hero__lead">Fundamentals, tutorials, and how-tos for building
-     zero-copy systems with <code class="ix-hero__code">iceoryx2</code>.</p>
+     safe, reliable and performant zero-copy systems with <code class="ix-hero__code">iceoryx2</code>.</p>
      <div class="ix-hero__cta">
        <a class="ix-btn ix-btn--primary" href="getting-started/quickstart.html">
          Get started

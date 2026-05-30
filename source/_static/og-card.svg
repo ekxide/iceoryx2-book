@@ -36,6 +36,6 @@
 
   <text x="600" y="410" text-anchor="middle" font-family="Satoshi, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="120" letter-spacing="-3" fill="#0c1825">iceoryx<tspan fill="#0a8aa0">2</tspan></text>
   <text x="600" y="462" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="26" letter-spacing="14" fill="#74879a">THE BOOK</text>
-  <text x="600" y="512" text-anchor="middle" font-family="Satoshi, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" fill="#46596b">Fundamentals, tutorials, and how-tos for building</text>
-  <text x="600" y="548" text-anchor="middle" font-family="Satoshi, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" fill="#46596b">zero-copy systems with iceoryx2</text>
+  <text x="600" y="512" text-anchor="middle" font-family="Satoshi, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="27" fill="#46596b">Fundamentals, tutorials, and how-tos for building</text>
+  <text x="600" y="548" text-anchor="middle" font-family="Satoshi, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="27" fill="#46596b">safe, reliable and performant zero-copy systems with iceoryx2</text>
 </svg>
