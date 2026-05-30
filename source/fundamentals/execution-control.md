@@ -18,10 +18,9 @@ control, and lends itself to real-time analysis and certification processes.
 The `Waitset` is an optional component that facilitates the setup of reactive
 processing loops in user threads.
 
-```{figure} /images/execution-control-waitset.svg
-:alt: execution control via waitset
-:align: center
+```{inline-svg} /images/execution-control-waitset.svg
 :name: fig-execution-control-with-waitset
+:alt: execution control via waitset
 
 Event Multiplexing via Waitset
 ```
