@@ -394,6 +394,11 @@ input.sidebar-search:focus {
    ================================================================= */
 .theme-toggle { color: var(--ix-muted); transition: color 0.2s; }
 .theme-toggle:hover { color: var(--ix-ice); }
+/* kill transitions for the instant the theme flips (no sidebar color flicker) */
+html.ix-theme-switching,
+html.ix-theme-switching *,
+html.ix-theme-switching *::before,
+html.ix-theme-switching *::after { transition: none !important; }
 /* keep the toggle clickable above the hero, whose full-width block would
    otherwise overlap this top-right control and swallow the clicks */
 .content-icon-container { position: relative; z-index: 5; }
