@@ -693,3 +693,73 @@ blockquote {
   html { scroll-behavior: auto; }
   .sd-card, .sd-btn { transition: none; }
 }
+
+/* =================================================================
+   Print — force a light, ink-friendly layout and drop chrome/effects.
+   The diagrams read the --ix-* vars, so overriding them to the light
+   palette makes the inline SVGs print light as well.
+   ================================================================= */
+@media print {
+  body {
+    /* brand tokens → paper */
+    --ix-bg: #ffffff !important;
+    --ix-bg-2: #eef3f9 !important;
+    --ix-surface: #ffffff !important;
+    --ix-surface-2: #f2f6fb !important;
+    --ix-line: rgba(15, 55, 90, 0.22) !important;
+    --ix-ice: #0a7385 !important;
+    --ix-blue: #2f59bf !important;
+    --ix-mint: #0b8a66 !important;
+    --ix-text: #0c1825 !important;
+    --ix-muted: #33485a !important;
+    --ix-muted-2: #56697b !important;
+    --ix-code-bg: #f1f5f9 !important;
+    /* Furo mappings */
+    --color-background-primary: #ffffff !important;
+    --color-background-secondary: #ffffff !important;
+    --color-foreground-primary: #0c1825 !important;
+    --color-foreground-secondary: #33485a !important;
+    --color-code-background: #f1f5f9 !important;
+    --color-code-foreground: #1f3346 !important;
+    background: #ffffff !important;
+    color: #0c1825 !important;
+  }
+
+  /* drop interactive chrome / effects */
+  .sidebar-drawer,
+  .toc-drawer,
+  .mobile-header,
+  .content-icon-container,
+  .back-to-top,
+  .related-pages,
+  .ix-bg,
+  .copybtn,
+  .version-picker,
+  a.headerlink { display: none !important; }
+
+  /* content fills the page */
+  .page, .main { display: block !important; }
+  .content {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* flat surfaces on paper */
+  *, *::before, *::after { box-shadow: none !important; text-shadow: none !important; }
+
+  /* keep intended backgrounds/borders (else they'd drop to white) */
+  .ix-diagram, .ix-diagram svg,
+  .highlight, .admonition, .sd-card {
+    -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+  }
+
+  /* avoid awkward page breaks */
+  figure, pre, table, .admonition, .sd-card, .ix-diagram { break-inside: avoid; }
+  h1, h2, h3, h4 { break-after: avoid; }
+
+  /* no entrance animations on paper */
+  * { animation: none !important; }
+}
