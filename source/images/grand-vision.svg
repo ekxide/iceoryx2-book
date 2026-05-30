@@ -81,10 +81,10 @@
   <!-- iceoryx2 core -->
   <rect class="gv-core" x="20" y="190" width="560" height="90" rx="8"/>
   <rect class="gv-bind" x="30" y="206" width="540" height="20" rx="4"/>
-  <text class="gv-bind-a" x="70"  y="219" text-anchor="middle">C</text>
-  <text class="gv-bind-a" x="120" y="219" text-anchor="middle">C++</text>
-  <text class="gv-bind-a" x="170" y="219" text-anchor="middle">C#</text>
-  <text class="gv-bind-a" x="220" y="219" text-anchor="middle">Rust</text>
+  <text class="gv-bind-a" x="70"  y="219" text-anchor="middle">Rust</text>
+  <text class="gv-bind-a" x="120" y="219" text-anchor="middle">C</text>
+  <text class="gv-bind-a" x="170" y="219" text-anchor="middle">C++</text>
+  <text class="gv-bind-a" x="220" y="219" text-anchor="middle">C#</text>
   <text class="gv-bind-a" x="270" y="219" text-anchor="middle">Python</text>
   <text class="gv-bind-p" x="320" y="219" text-anchor="middle">Go</text>
   <text class="gv-bind-p" x="370" y="219" text-anchor="middle">Lua</text>
