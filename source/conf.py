@@ -265,7 +265,10 @@ class _InlineSvg(_Directive):
         svg = _re.sub(r"<!DOCTYPE.*?>\s*", "", svg, flags=_re.DOTALL)
 
         figure = _nodes.figure(classes=["ix-diagram"])
-        figure += _nodes.raw("", svg, format="html")
+        # wrap the SVG in a scroll container so dense diagrams can pan
+        # horizontally on narrow screens without shrinking the caption
+        figure += _nodes.raw(
+            "", f'<div class="ix-diagram__scroll">{svg}</div>', format="html")
         if self.content:
             caption = _nodes.caption()
             self.state.nested_parse(self.content, self.content_offset, caption)
