@@ -7,10 +7,9 @@ By abstracting the complexity of shared memory behind simple APIs, it enables
 developers to focus on their domain-specific problems while seamlessly
 achieving low-latency, efficient communication.
 
-```{figure} /images/grand-vision.svg
-:alt: vision for iceoryx2
-:align: center
+```{inline-svg} /images/grand-vision.svg
 :name: fig-grand-vision
+:alt: vision for iceoryx2
 
 Distributed, Portable and Safety-Certifiable Systems with `iceoryx2`
 ```

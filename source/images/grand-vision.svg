@@ -1,187 +1,177 @@
-<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="10 75 580 311" role="img" aria-label="Distributed, portable and safety-certifiable systems with iceoryx2" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .gv-app    { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .gv-app-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 7.5px; fill: var(--ix-text, #eaf3f7); }
+    .gv-app-s  { font-family: var(--font-stack, sans-serif); font-size: 7px; fill: var(--ix-muted, #bccbd6); }
+    .gv-mw     { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
+    .gv-mw-t   { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 9px; fill: var(--ix-text, #eaf3f7); }
+    .gv-chip   { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 0.75; }
+    .gv-chip-t { font-family: var(--font-stack, sans-serif); font-size: 6.5px; fill: var(--ix-muted, #bccbd6); }
+    .gv-core   { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
+    .gv-core-t { font-family: var(--font-stack, sans-serif); font-weight: 700; font-size: 20px; fill: var(--ix-text, #eaf3f7); }
+    .gv-bind   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .gv-bind-a { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 8.5px; fill: var(--ix-text, #eaf3f7); }
+    .gv-bind-p { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 8.5px; fill: var(--ix-muted-2, #6b7d8c); }
+    .gv-plat   { fill: var(--ix-bg-2, #080d16); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .gv-plat-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-text, #eaf3f7); }
+    .gv-region { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .gv-region-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 8.5px; fill: var(--ix-text, #eaf3f7); }
+    .gv-pchip   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 0.75; }
+    .gv-pchip-t { font-family: var(--font-stack, sans-serif); font-size: 7px; fill: var(--ix-muted, #bccbd6); }
+    .gv-flow   { stroke: var(--ix-muted, #bccbd6); stroke-width: 1.5; fill: none; }
+  </style>
   <defs>
-    <style>
-      .custom-fonts {
-        font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      }
-    </style>
-    <marker id="arrow" markerWidth="6" markerHeight="6" 
-     refX="5" refY="3" orient="auto">
-      <polygon points="0,0 0,6 6,3" fill="#6c7b7f"/>
+    <marker id="gv-arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto" markerUnits="userSpaceOnUse" overflow="visible">
+      <path d="M1,1 L7,4 L1,7 Z" fill="var(--ix-muted, #bccbd6)"/>
     </marker>
   </defs>
-  
-  <!-- Background -->
-  <rect width="600" height="450" fill="transparent"/>
 
-  <!-- Application Layer -->
-  
-  <!-- Direct iceoryx2 Apps -->
-  <rect x="30" y="85" width="40" height="30" fill="#f9fafb" stroke="#6b7280" stroke-width="2" />
-  <text x="50" y="97" text-anchor="middle" class="custom-fonts" font-size="7" font-weight="bold" fill="#1f2937">iceoryx2</text>
-  <text x="50" y="107" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">App</text>
-  
-  <rect x="80" y="85" width="40" height="30" fill="#f9fafb" stroke="#6b7280" stroke-width="2" />
-  <text x="100" y="97" text-anchor="middle" class="custom-fonts" font-size="7" font-weight="bold" fill="#1f2937">iceoryx2</text>
-  <text x="100" y="107" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">App</text>
+  <!-- Application layer -->
+  <rect class="gv-app" x="30" y="85" width="40" height="30" rx="5"/>
+  <text class="gv-app-t" x="50" y="98" text-anchor="middle">iceoryx2</text>
+  <text class="gv-app-s" x="50" y="108" text-anchor="middle">App</text>
+  <rect class="gv-app" x="80" y="85" width="40" height="30" rx="5"/>
+  <text class="gv-app-t" x="100" y="98" text-anchor="middle">iceoryx2</text>
+  <text class="gv-app-s" x="100" y="108" text-anchor="middle">App</text>
 
-  <!-- Tunnel Applications -->
-  <rect x="170" y="85" width="40" height="30" fill="#f9fafb" stroke="#6b7280" stroke-width="2" />
-  <text x="190" y="97" text-anchor="middle" class="custom-fonts" font-size="7" font-weight="bold" fill="#1f2937">iceoryx2</text>
-  <text x="190" y="107" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">App</text>
+  <rect class="gv-app" x="170" y="85" width="40" height="30" rx="5"/>
+  <text class="gv-app-t" x="190" y="98" text-anchor="middle">iceoryx2</text>
+  <text class="gv-app-s" x="190" y="108" text-anchor="middle">App</text>
 
-  <!-- Gateway Applications -->
-  <rect x="270" y="85" width="35" height="30" fill="#f9fafb" stroke="#6b7280" stroke-width="2" />
-  <text x="287" y="97" text-anchor="middle" class="custom-fonts" font-size="7" font-weight="bold" fill="#1f2937">Zenoh</text>
-  <text x="287" y="107" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">App</text>
-  
-  <rect x="315" y="85" width="35" height="30" fill="#f9fafb" stroke="#6b7280" stroke-width="2" />
-  <text x="332" y="97" text-anchor="middle" class="custom-fonts" font-size="7" font-weight="bold" fill="#1f2937">DDS</text>
-  <text x="332" y="107" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">App</text>
-  
-  <!-- ROS 2 Apps -->
-  <rect x="400" y="85" width="35" height="30" fill="#f9fafb" stroke="#6b7280" stroke-width="2" />
-  <text x="417" y="97" text-anchor="middle" class="custom-fonts" font-size="7" font-weight="bold" fill="#1f2937">ROS 2</text>
-  <text x="417" y="107" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">App</text>
-  
-  <rect x="445" y="85" width="35" height="30" fill="#f9fafb" stroke="#6b7280" stroke-width="2" />
-  <text x="462" y="97" text-anchor="middle" class="custom-fonts" font-size="7" font-weight="bold" fill="#1f2937">ROS 2</text>
-  <text x="462" y="107" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">Tool</text>
-  
-  <!-- AUTOSAR Apps -->
-  <rect x="540" y="85" width="40" height="30" fill="#f9fafb" stroke="#6b7280" stroke-width="2" />
-  <text x="560" y="97" text-anchor="middle" class="custom-fonts" font-size="7" font-weight="bold" fill="#1f2937">AUTOSAR</text>
-  <text x="560" y="107" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">App</text>
+  <rect class="gv-app" x="270" y="85" width="35" height="30" rx="5"/>
+  <text class="gv-app-t" x="287" y="98" text-anchor="middle">Zenoh</text>
+  <text class="gv-app-s" x="287" y="108" text-anchor="middle">App</text>
+  <rect class="gv-app" x="315" y="85" width="35" height="30" rx="5"/>
+  <text class="gv-app-t" x="332" y="98" text-anchor="middle">DDS</text>
+  <text class="gv-app-s" x="332" y="108" text-anchor="middle">App</text>
 
-  <!-- Middleware Layer -->
-  
-  <!-- Tunnel -->
-  <rect x="140" y="135" width="100" height="35" fill="#4b5563" stroke="#374151" stroke-width="2" />
-  <text x="190" y="147" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="white">tunnel</text>
-  <rect x="145" y="153" width="28" height="12" fill="#9ca3af"/>
-  <text x="159" y="161" text-anchor="middle" class="custom-fonts" font-size="6" fill="white">Zenoh</text>
-  <rect x="178" y="153" width="28" height="12" fill="#9ca3af"/>
-  <text x="192" y="161" text-anchor="middle" class="custom-fonts" font-size="6" fill="white">smoltcp</text>
-  <rect x="211" y="153" width="24" height="12" fill="#9ca3af"/>
-  <text x="223" y="161" text-anchor="middle" class="custom-fonts" font-size="6" fill="white">...</text>
+  <rect class="gv-app" x="400" y="85" width="35" height="30" rx="5"/>
+  <text class="gv-app-t" x="417" y="98" text-anchor="middle">ROS 2</text>
+  <text class="gv-app-s" x="417" y="108" text-anchor="middle">App</text>
+  <rect class="gv-app" x="445" y="85" width="35" height="30" rx="5"/>
+  <text class="gv-app-t" x="462" y="98" text-anchor="middle">ROS 2</text>
+  <text class="gv-app-s" x="462" y="108" text-anchor="middle">Tool</text>
 
-  <!-- Gateway -->
-  <rect x="260" y="135" width="100" height="35" fill="#4b5563" stroke="#374151" stroke-width="2" />
-  <text x="310" y="147" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="white">gateway</text>
-  <rect x="265" y="153" width="28" height="12" fill="#9ca3af"/>
-  <text x="279" y="161" text-anchor="middle" class="custom-fonts" font-size="6" fill="white">Zenoh</text>
-  <rect x="298" y="153" width="28" height="12" fill="#9ca3af"/>
-  <text x="312" y="161" text-anchor="middle" class="custom-fonts" font-size="6" fill="white">DDS</text>
-  <rect x="331" y="153" width="24" height="12" fill="#9ca3af"/>
-  <text x="343" y="161" text-anchor="middle" class="custom-fonts" font-size="6" fill="white">...</text>
-  
-  <!-- RMW -->
-  <rect x="380" y="135" width="120" height="35" fill="#4b5563" stroke="#374151" stroke-width="2" />
-  <text x="440" y="155" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="white">rmw_iceoryx2</text>
+  <rect class="gv-app" x="540" y="85" width="40" height="30" rx="5"/>
+  <text class="gv-app-t" x="560" y="98" text-anchor="middle">AUTOSAR</text>
+  <text class="gv-app-s" x="560" y="108" text-anchor="middle">App</text>
 
-  <!-- iceoryx2 Core Layer -->
-  <rect x="20" y="190" width="560" height="60" fill="#4b5563" stroke="#374151" stroke-width="2" />
-  <text x="300" y="240" text-anchor="middle" class="custom-fonts" font-size="18" font-weight="bold" fill="white">iceoryx2</text>
-  
-  <!-- Language Bindings -->
-  <rect x="30" y="200" width="540" height="20" fill="#f3f4f6" stroke="#6b7280" stroke-width="2"/>
-  <text x="70" y="212" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#1f2937">C</text>
-  <text x="120" y="212" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#1f2937">C++</text>
-  <text x="170" y="212" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#1f2937">Rust</text>
-  <text x="220" y="212" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#1f2937">Python</text>
-  <text x="270" y="212" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#6b7280">Go</text>
-  <text x="320" y="212" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#6b7280">Swift</text>
-  <text x="370" y="212" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#6b7280">Lua</text>
-  <text x="420" y="212" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#6b7280">Java</text>
-  <text x="470" y="212" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#6b7280">Zig</text>
-  <text x="520" y="212" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#6b7280">...</text>
+  <!-- Middleware layer -->
+  <rect class="gv-mw" x="140" y="135" width="100" height="35" rx="6"/>
+  <text class="gv-mw-t" x="190" y="147" text-anchor="middle">tunnel</text>
+  <rect class="gv-chip" x="145" y="152" width="28" height="13" rx="2"/>
+  <text class="gv-chip-t" x="159" y="161" text-anchor="middle">Zenoh</text>
+  <rect class="gv-chip" x="178" y="152" width="28" height="13" rx="2"/>
+  <text class="gv-chip-t" x="192" y="161" text-anchor="middle">smoltcp</text>
+  <rect class="gv-chip" x="211" y="152" width="24" height="13" rx="2"/>
+  <text class="gv-chip-t" x="223" y="161" text-anchor="middle">…</text>
 
-  <!-- Platform Layer -->
-  
-  <!-- Bare Metal -->
-  <rect x="20" y="260" width="60" height="90" fill="#1f2937" stroke="#6b7280" stroke-width="2" />
-  <text x="50" y="305" text-anchor="middle" class="custom-fonts" font-size="9" font-weight="bold" fill="white">Bare</text>
-  <text x="50" y="315" text-anchor="middle" class="custom-fonts" font-size="9" font-weight="bold" fill="white">Metal</text>
-  
-  <!-- Operating Systems -->
-  <rect x="90" y="260" width="350" height="45" fill="#d1d5db" stroke="#9ca3af" stroke-width="2" />
-  <text x="265" y="275" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="#1f2937">Operating Systems</text>
-  
-  <rect x="100" y="283" width="45" height="18" fill="white" stroke="#9ca3af"/>
-  <text x="122" y="294" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">Android</text>
-  
-  <rect x="150" y="283" width="45" height="18" fill="white" stroke="#9ca3af"/>
-  <text x="172" y="294" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">Linux</text>
-  
-  <rect x="200" y="283" width="45" height="18" fill="white" stroke="#9ca3af"/>
-  <text x="222" y="294" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">macOS</text>
-  
-  <rect x="250" y="283" width="45" height="18" fill="white" stroke="#9ca3af"/>
-  <text x="272" y="294" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">QNX</text>
-  
-  <rect x="300" y="283" width="45" height="18" fill="white" stroke="#9ca3af"/>
-  <text x="322" y="294" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">VxWorks</text>
-  
-  <rect x="350" y="283" width="45" height="18" fill="white" stroke="#9ca3af"/>
-  <text x="372" y="294" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">Windows</text>
-  
-  <rect x="400" y="283" width="30" height="18" fill="white" stroke="#9ca3af"/>
-  <text x="415" y="294" text-anchor="middle" class="custom-fonts" font-size="7" fill="#1f2937">...</text>
+  <rect class="gv-mw" x="260" y="135" width="100" height="35" rx="6"/>
+  <text class="gv-mw-t" x="310" y="147" text-anchor="middle">gateway</text>
+  <rect class="gv-chip" x="265" y="152" width="28" height="13" rx="2"/>
+  <text class="gv-chip-t" x="279" y="161" text-anchor="middle">Zenoh</text>
+  <rect class="gv-chip" x="298" y="152" width="28" height="13" rx="2"/>
+  <text class="gv-chip-t" x="312" y="161" text-anchor="middle">DDS</text>
+  <rect class="gv-chip" x="331" y="152" width="24" height="13" rx="2"/>
+  <text class="gv-chip-t" x="343" y="161" text-anchor="middle">…</text>
 
-  <!-- GPU -->
-  <rect x="450" y="260" width="60" height="90" fill="#1f2937" stroke="#6b7280" stroke-width="2" />
-  <text x="480" y="310" text-anchor="middle" class="custom-fonts" font-size="9" font-weight="bold" fill="white">GPU</text>
-  
-  <!-- FPGA -->
-  <rect x="520" y="260" width="60" height="90" fill="#1f2937" stroke="#6b7280" stroke-width="2" />
-  <text x="550" y="310" text-anchor="middle" class="custom-fonts" font-size="9" font-weight="bold" fill="white">FPGA</text>
+  <rect class="gv-mw" x="380" y="135" width="120" height="35" rx="6"/>
+  <text class="gv-mw-t" x="440" y="156" text-anchor="middle">rmw_iceoryx2</text>
 
-  <!-- Hardware Architecture -->
-  <rect x="90" y="315" width="350" height="35" fill="#6b7280" stroke="#4b5563" stroke-width="2" />
-  <text x="265" y="328" text-anchor="middle" class="custom-fonts" font-size="8" font-weight="bold" fill="white">Hardware Architectures</text>
-  
-  <rect x="105" y="333" width="50" height="13" fill="#9ca3af"/>
-  <text x="130" y="341" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">x86_64</text>
-  
-  <rect x="160" y="333" width="50" height="13" fill="#9ca3af"/>
-  <text x="185" y="341" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">x86_32</text>
-  
-  <rect x="215" y="333" width="50" height="13" fill="#9ca3af"/>
-  <text x="240" y="341" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">AArch64</text>
-  
-  <rect x="270" y="333" width="50" height="13" fill="#9ca3af"/>
-  <text x="295" y="341" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">ARMv7</text>
-  
-  <rect x="325" y="333" width="50" height="13" fill="#9ca3af"/>
-  <text x="350" y="341" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">RISC-V</text>
+  <!-- iceoryx2 core -->
+  <rect class="gv-core" x="20" y="190" width="560" height="90" rx="8"/>
+  <rect class="gv-bind" x="30" y="206" width="540" height="20" rx="4"/>
+  <text class="gv-bind-a" x="70"  y="219" text-anchor="middle">C</text>
+  <text class="gv-bind-a" x="120" y="219" text-anchor="middle">C++</text>
+  <text class="gv-bind-a" x="170" y="219" text-anchor="middle">C#</text>
+  <text class="gv-bind-a" x="220" y="219" text-anchor="middle">Rust</text>
+  <text class="gv-bind-a" x="270" y="219" text-anchor="middle">Python</text>
+  <text class="gv-bind-p" x="320" y="219" text-anchor="middle">Go</text>
+  <text class="gv-bind-p" x="370" y="219" text-anchor="middle">Lua</text>
+  <text class="gv-bind-p" x="420" y="219" text-anchor="middle">Java</text>
+  <text class="gv-bind-p" x="470" y="219" text-anchor="middle">Zig</text>
+  <text class="gv-bind-p" x="520" y="219" text-anchor="middle">…</text>
+  <!-- iceoryx2 brand: oryx mark + wordmark (matches the sidebar brand) -->
+  <g transform="translate(209.97 223) scale(0.3756)" style="color: var(--ix-text, #eaf3f7)">
+    <g stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" vector-effect="non-scaling-stroke">
+      <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 848.671875 1037.96875 L 769.335938 1174.023438 L 749.492188 974.179688 Z M 848.671875 1037.96875 "/>
+      <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 756.5625 1189.609375 L 718.515625 1258.398438 L 681.679688 1218.710938 Z M 756.5625 1189.609375 "/>
+      <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1444.53125 1230.859375 L 1303.828125 1216.25 L 1105.859375 1070.9375 Z M 1444.53125 1230.859375 "/>
+      <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 730.078125 998.125 L 737.1875 1067.539062 L 521.015625 862.539062 Z M 730.078125 998.125 "/>
+      <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1445.703125 1211.640625 L 1384.570312 1180.15625 L 1362.65625 1044.101562 Z M 1445.703125 1211.640625 "/>
+      <path fill="#b3e6ef" d="M 86.429688 94.785156 C 86.75 94.785156 101.570312 67.914062 101.570312 67.914062 L 73.390625 73.148438 L 86.429688 94.785156 "/>
+      <path fill="none" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 864.296875 1052.148438 C 867.5 1052.148438 1015.703125 1320.859375 1015.703125 1320.859375 L 733.90625 1268.515625 Z M 864.296875 1052.148438 "/>
+      <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1267.734375 1252.304688 L 1315.898438 1531.015625 L 1035 1325.9375 Z M 1267.734375 1252.304688 "/>
+      <path fill="#588bb5" d="M 92.820312 87.738281 L 106.863281 92.855469 L 128.308594 77.566406 L 102.914062 69.160156 L 92.820312 87.738281 "/>
+      <path fill="none" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 928.203125 1122.617188 L 1068.632812 1071.445312 L 1283.085938 1224.335938 L 1029.140625 1308.398438 Z M 928.203125 1122.617188 "/>
+      <path fill="#588bb5" d="M 131.261719 57.824219 L 150.371094 56.046875 L 150.371094 53.316406 L 132.828125 46.078125 L 131.261719 57.824219 "/>
+      <path fill="none" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1312.617188 1421.757812 L 1503.710938 1439.53125 L 1503.710938 1466.835938 L 1328.28125 1539.21875 Z M 1312.617188 1421.757812 "/>
+      <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1314.53125 1406.40625 L 1365.234375 1410.273438 L 1285.273438 1244.53125 Z M 1314.53125 1406.40625 "/>
+      <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1297.96875 1539.023438 L 851.40625 1539.0625 L 1243.398438 1500.039062 Z M 1297.96875 1539.023438 "/>
+    </g>
+  </g>
+  <text class="gv-core-t" x="280" y="261" text-anchor="start" letter-spacing="-0.4">iceoryx<tspan fill="var(--ix-ice, #2dd4e8)">2</tspan></text>
 
-  <rect x="380" y="333" width="50" height="13" fill="#9ca3af"/>
-  <text x="405" y="341" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">...</text>
+  <!-- Platform layer (shifted down to clear the taller core band) -->
+  <g transform="translate(0 28)">
+  <rect class="gv-plat" x="20" y="262" width="60" height="88" rx="6"/>
+  <text class="gv-plat-t" x="50" y="304" text-anchor="middle">Bare</text>
+  <text class="gv-plat-t" x="50" y="316" text-anchor="middle">Metal</text>
 
-  <!-- Connection Arrows -->
-  
-  <!-- Direct iceoryx2 apps to core -->
-  <line x1="50" y1="115" x2="50" y2="188" stroke="#6c7b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="100" y1="115" x2="100" y2="188" stroke="#6c7b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
-  
-  <!-- Tunnel app to tunnel middleware -->
-  <line x1="190" y1="115" x2="190" y2="133" stroke="#6c7b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <!-- Tunnel middleware to core -->
-  <line x1="190" y1="170" x2="190" y2="188" stroke="#6c7b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
-  
-  <!-- Gateway apps to gateway middleware -->
-  <line x1="287" y1="115" x2="287" y2="133" stroke="#6c7b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="332" y1="115" x2="332" y2="133" stroke="#6c7b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <!-- Gateway middleware to core -->
-  <line x1="310" y1="170" x2="310" y2="188" stroke="#6c7b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
-  
-  <!-- ROS apps to rmw middleware -->
-  <line x1="417" y1="115" x2="417" y2="133" stroke="#6c7b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="462" y1="115" x2="462" y2="133" stroke="#6c7b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <!-- RMW middleware to core -->
-  <line x1="440" y1="170" x2="440" y2="188" stroke="#6c7b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
-  
-  <!-- AUTOSAR app to core -->
-  <line x1="560" y1="115" x2="560" y2="188" stroke="#6c7b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
-  
+  <rect class="gv-region" x="90" y="262" width="350" height="45" rx="6"/>
+  <text class="gv-region-t" x="265" y="277" text-anchor="middle">Operating Systems</text>
+  <rect class="gv-pchip" x="100" y="284" width="45" height="16" rx="3"/>
+  <text class="gv-pchip-t" x="122" y="295" text-anchor="middle">Android</text>
+  <rect class="gv-pchip" x="150" y="284" width="45" height="16" rx="3"/>
+  <text class="gv-pchip-t" x="172" y="295" text-anchor="middle">Linux</text>
+  <rect class="gv-pchip" x="200" y="284" width="45" height="16" rx="3"/>
+  <text class="gv-pchip-t" x="222" y="295" text-anchor="middle">macOS</text>
+  <rect class="gv-pchip" x="250" y="284" width="45" height="16" rx="3"/>
+  <text class="gv-pchip-t" x="272" y="295" text-anchor="middle">QNX</text>
+  <rect class="gv-pchip" x="300" y="284" width="45" height="16" rx="3"/>
+  <text class="gv-pchip-t" x="322" y="295" text-anchor="middle">VxWorks</text>
+  <rect class="gv-pchip" x="350" y="284" width="45" height="16" rx="3"/>
+  <text class="gv-pchip-t" x="372" y="295" text-anchor="middle">Windows</text>
+  <rect class="gv-pchip" x="400" y="284" width="30" height="16" rx="3"/>
+  <text class="gv-pchip-t" x="415" y="295" text-anchor="middle">…</text>
+
+  <rect class="gv-plat" x="450" y="262" width="60" height="88" rx="6"/>
+  <text class="gv-plat-t" x="480" y="310" text-anchor="middle">GPU</text>
+  <rect class="gv-plat" x="520" y="262" width="60" height="88" rx="6"/>
+  <text class="gv-plat-t" x="550" y="310" text-anchor="middle">FPGA</text>
+
+  <rect class="gv-region" x="90" y="315" width="350" height="35" rx="6"/>
+  <text class="gv-region-t" x="265" y="328" text-anchor="middle">Hardware Architectures</text>
+  <rect class="gv-pchip" x="105" y="333" width="50" height="13" rx="3"/>
+  <text class="gv-pchip-t" x="130" y="342" text-anchor="middle">x86_64</text>
+  <rect class="gv-pchip" x="160" y="333" width="50" height="13" rx="3"/>
+  <text class="gv-pchip-t" x="185" y="342" text-anchor="middle">x86_32</text>
+  <rect class="gv-pchip" x="215" y="333" width="50" height="13" rx="3"/>
+  <text class="gv-pchip-t" x="240" y="342" text-anchor="middle">AArch64</text>
+  <rect class="gv-pchip" x="270" y="333" width="50" height="13" rx="3"/>
+  <text class="gv-pchip-t" x="295" y="342" text-anchor="middle">ARMv7</text>
+  <rect class="gv-pchip" x="325" y="333" width="50" height="13" rx="3"/>
+  <text class="gv-pchip-t" x="350" y="342" text-anchor="middle">RISC-V</text>
+  <rect class="gv-pchip" x="380" y="333" width="50" height="13" rx="3"/>
+  <text class="gv-pchip-t" x="405" y="342" text-anchor="middle">…</text>
+
+  </g>
+
+  <!-- Connections -->
+  <!-- direct iceoryx2 apps to core -->
+  <line class="gv-flow" x1="50"  y1="117" x2="50"  y2="187" marker-end="url(#gv-arrow)"/>
+  <line class="gv-flow" x1="100" y1="117" x2="100" y2="187" marker-end="url(#gv-arrow)"/>
+  <!-- tunnel app -> tunnel -> core -->
+  <line class="gv-flow" x1="190" y1="117" x2="190" y2="132" marker-end="url(#gv-arrow)"/>
+  <line class="gv-flow" x1="190" y1="172" x2="190" y2="187" marker-end="url(#gv-arrow)"/>
+  <!-- gateway apps -> gateway -> core -->
+  <line class="gv-flow" x1="287" y1="117" x2="287" y2="132" marker-end="url(#gv-arrow)"/>
+  <line class="gv-flow" x1="332" y1="117" x2="332" y2="132" marker-end="url(#gv-arrow)"/>
+  <line class="gv-flow" x1="310" y1="172" x2="310" y2="187" marker-end="url(#gv-arrow)"/>
+  <!-- ROS apps -> rmw -> core -->
+  <line class="gv-flow" x1="417" y1="117" x2="417" y2="132" marker-end="url(#gv-arrow)"/>
+  <line class="gv-flow" x1="462" y1="117" x2="462" y2="132" marker-end="url(#gv-arrow)"/>
+  <line class="gv-flow" x1="440" y1="172" x2="440" y2="187" marker-end="url(#gv-arrow)"/>
+  <!-- AUTOSAR app -> core -->
+  <line class="gv-flow" x1="560" y1="117" x2="560" y2="187" marker-end="url(#gv-arrow)"/>
 </svg>
