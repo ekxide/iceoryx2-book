@@ -15,6 +15,7 @@ extensions = [
     "myst_parser",
     "sphinx_design",
     "sphinx_multiversion",
+    "sphinxext.opengraph",
 ]
 
 myst_enable_extensions = [
@@ -68,6 +69,19 @@ linkcheck_request_headers = {
 html_theme = "furo"
 html_title = "The iceoryx2 Book"
 html_favicon = "_static/favicon.svg"
+html_baseurl = "https://ekxide.github.io/iceoryx2-book/"
+
+# -- Social previews (OpenGraph / Twitter) -----------------------------------
+ogp_site_url = html_baseurl
+ogp_site_name = "The iceoryx2 Book"
+ogp_image = html_baseurl + "_static/og-card.png"
+ogp_image_alt = "The iceoryx2 Book"
+ogp_type = "website"
+ogp_description_length = 200  # per-page description from the first paragraphs
+ogp_enable_meta_description = True
+ogp_custom_meta_tags = [
+    '<meta name="twitter:card" content="summary_large_image">',
+]
 
 # Brand theme. The `--ix-*` keys become CSS custom properties for theme.css;
 # defining them per light/dark here lets the custom layer re-theme across

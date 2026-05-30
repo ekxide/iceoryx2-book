@@ -16,6 +16,7 @@ exhale = "^0.3.7"
 sphinxcontrib-mermaid = "^1.0.0"
 sphinx-tippy = "^0.4.3"
 sphinx-design = "^0.6.1"
+sphinxext-opengraph = "^0.13.0"
 furo = "^2025.7.19"
 
 [tool.poetry.group.dev.dependencies]
