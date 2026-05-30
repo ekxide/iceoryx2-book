@@ -153,6 +153,7 @@ article > section:has(> .ix-hero) > h1:first-child {
 }
 .ix-hero__eyebrow .ix-hero__word { letter-spacing: 0.18em; }
 .ix-hero__eyebrow .ix-hero__two { color: var(--ix-ice-bright); }
+.ix-hero__title .ix-hero__two { color: var(--ix-ice); }
 .ix-hero__dot {
   width: 7px; height: 7px; border-radius: 50%;
   background: var(--ix-ice);
