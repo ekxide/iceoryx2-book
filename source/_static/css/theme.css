@@ -554,6 +554,8 @@ a.headerlink::after {
 .sd-card:hover .sd-card-title { color: var(--ix-ice); }
 /* octicons inside cards / content */
 .sd-octicon { color: var(--ix-ice); vertical-align: -0.12em; }
+/* GitHub mark in the brand's monochrome tone (black on light, white on dark) */
+.sd-octicon-mark-github { color: var(--ix-text); }
 
 .muted-card { opacity: 0.55; }
 
