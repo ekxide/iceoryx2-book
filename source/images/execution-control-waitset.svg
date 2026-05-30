@@ -1,155 +1,117 @@
-<svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 42 736 312" role="img" aria-label="Event multiplexing via waitset" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .ex-src     { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .ex-port    { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
+    .ex-d       { fill: none; stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.2; stroke-dasharray: 6 3.5; }
+    .ex-thread  { fill: none; stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.2; stroke-dasharray: 6 3.5; }
+    .ex-waitset { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
+    .ex-seg     { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.2; stroke-dasharray: 6 3.5; }
+    .ex-chip    { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .ex-evt     { fill: var(--ix-ice, #2dd4e8); }
+    .ex-evt2    { fill: var(--ix-blue, #5b8def); }
+    .ex-empty   { fill: none; stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.2; stroke-dasharray: 3.5 2.4; }
+    .ex-active  { fill: var(--ix-surface, #141d2d); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
+    .ex-diamond { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .ex-t       { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 13px; fill: var(--ix-text, #eaf3f7); }
+    .ex-bt      { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-text, #eaf3f7); }
+    .ex-bt-i    { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-text, #eaf3f7); }
+    .ex-sub     { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .ex-lbl     { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .ex-chip-t  { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .ex-cell-t  { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .ex-flow    { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
+    .ex-flow-d  { stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.75; fill: none; stroke-dasharray: 4.7 3.5; }
+  </style>
   <defs>
-    <style>
-      .custom-fonts {
-        font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      }
-    </style>
-    <marker id="arrowhead" markerWidth="6" markerHeight="4" 
-     refX="5" refY="2" orient="auto">
-      <polygon points="0 0, 6 2, 0 4" fill="#6c7b7f" />
+    <marker id="ex-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse" overflow="visible">
+      <path d="M1,1 L9,5 L1,9 Z" fill="var(--ix-muted, #bccbd6)"/>
     </marker>
-    <marker id="eventarrow" markerWidth="6" markerHeight="4" 
-     refX="5" refY="2" orient="auto">
-      <polygon points="0 0, 6 2, 0 4" fill="#9ca3af" />
+    <marker id="ex-arrow-d" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="userSpaceOnUse" overflow="visible">
+      <path d="M1,1 L8,4.5 L1,8 Z" fill="var(--ix-muted-2, #6b7d8c)"/>
     </marker>
-    <marker id="greenarrow" markerWidth="6" markerHeight="4" 
-     refX="5" refY="2" orient="auto">
-      <polygon points="0 0, 6 2, 0 4" fill="#6b7280" />
-    </marker>
-    <pattern id="waitPattern" patternUnits="userSpaceOnUse" width="3" height="3">
-      <circle cx="1.5" cy="1.5" r="0.8" fill="#9ca3af" opacity="0.3"/>
-    </pattern>
-    <pattern id="sleepPattern" patternUnits="userSpaceOnUse" width="4" height="4">
-      <circle cx="2" cy="2" r="1" fill="#9ca3af" opacity="0.2"/>
-    </pattern>
   </defs>
-  
-  <!-- Background -->
-  <rect width="800" height="450" fill="transparent"/>
-  
-  <!-- Event Sources Column -->
-  
-  <!-- Timer -->
-  <rect x="23" y="125" width="75" height="38" fill="#e5e7eb" stroke="#6c7b7f" stroke-width="2" />
-  <text x="60" y="139" text-anchor="middle" class="custom-fonts" font-size="9" font-weight="bold" fill="#374151">Interval Timer</text>
-  <text x="60" y="149" text-anchor="middle" class="custom-fonts" font-size="7" fill="#374151">10ms interval</text>
-  <text x="60" y="159" text-anchor="middle" class="custom-fonts" font-size="6" fill="#6b7280">TICK!</text>
-  
-  <!-- Listener Port -->
-  <rect x="23" y="185" width="75" height="38" fill="#e5e7eb" stroke="#6c7b7f" stroke-width="2" />
-  <text x="60" y="199" text-anchor="middle" class="custom-fonts" font-size="9" font-weight="bold" fill="#374151">Listener Port</text>
-  <text x="60" y="209" text-anchor="middle" class="custom-fonts" font-size="7" fill="#374151">Service: /sensors</text>
-  <rect x="41" y="213" width="38" height="6" fill="#6b7280"/>
-  <text x="60" y="218" text-anchor="middle" class="custom-fonts" font-size="6" fill="white">NEW DATA</text>
-  
-  <!-- File Descriptor -->
-  <rect x="23" y="245" width="75" height="38" fill="#f3f4f6" stroke="#9ca3af" stroke-width="2"/>
-  <text x="60" y="259" text-anchor="middle" class="custom-fonts" font-size="9" fill="#9ca3af">File Descriptor</text>
-  <text x="60" y="269" text-anchor="middle" class="custom-fonts" font-size="7" fill="#9ca3af">Socket fd: 7</text>
-  <text x="60" y="278" text-anchor="middle" class="custom-fonts" font-size="6" fill="#9ca3af">waiting...</text>
-  
-  <!-- Deadline Timer -->
-  <rect x="23" y="305" width="75" height="38" fill="#f3f4f6" stroke="#9ca3af" stroke-width="2"/>
-  <text x="60" y="319" text-anchor="middle" class="custom-fonts" font-size="9" fill="#9ca3af">Deadline Timer</text>
-  <text x="60" y="329" text-anchor="middle" class="custom-fonts" font-size="7" fill="#9ca3af">Timeout: 500ms</text>
-  <text x="60" y="338" text-anchor="middle" class="custom-fonts" font-size="6" fill="#9ca3af">not elapsed</text>
-  
-  <!-- Worker Thread Container -->
-  <rect x="130" y="70" width="620" height="300" fill="none" stroke="#6c7b7f" stroke-width="3" stroke-dasharray="8,8"/>
-  <text x="430" y="95" text-anchor="middle" class="custom-fonts" font-size="14" font-weight="bold" fill="#6c7b7f">Worker Thread</text>
-  
-  <!-- Waitset Core -->
-  <rect x="200" y="110" width="280" height="180" fill="#4b5563" stroke="#374151" stroke-width="2" />
-  <text x="340" y="130" text-anchor="middle" class="custom-fonts" font-size="14" font-weight="bold" fill="white">Waitset</text>
-  
-  <!-- Event queue inside Waitset -->
-  <rect x="215" y="145" width="250" height="50" fill="rgba(255,255,255,0.2)" stroke="white" stroke-width="1"/>
-  <text x="340" y="160" text-anchor="middle" class="custom-fonts" font-size="10" fill="white">Event Queue</text>
-  
-  <!-- Queued events -->
-  <rect x="225" y="170" width="60" height="15" fill="#6b7280" stroke="#6c7b7f" stroke-width="1"/>
-  <text x="255" y="180" text-anchor="middle" class="custom-fonts" font-size="8" fill="white">Timer Event</text>
-  
-  <rect x="295" y="170" width="60" height="15" fill="#6b7280" stroke="#6c7b7f" stroke-width="1"/>
-  <text x="325" y="180" text-anchor="middle" class="custom-fonts" font-size="8" fill="white">Data Event</text>
-  
-  <rect x="365" y="170" width="90" height="15" fill="url(#waitPattern)" stroke="#9ca3af" stroke-width="1" stroke-dasharray="2,2"/>
-  <text x="410" y="180" text-anchor="middle" class="custom-fonts" font-size="8" fill="white">empty slots...</text>
-  
-  <!-- Multiplexing mechanisms inside Waitset -->
-  <!-- Row 1 -->
-  <rect x="215" y="210" width="50" height="25" fill="#9ca3af" stroke="#6c7b7f"/>
-  <text x="240" y="225" text-anchor="middle" class="custom-fonts" font-size="8" fill="white">select</text>
-  
-  <rect x="270" y="210" width="50" height="25" fill="#9ca3af" stroke="#6c7b7f"/>
-  <text x="295" y="225" text-anchor="middle" class="custom-fonts" font-size="8" fill="white">epoll</text>
-  
-  <rect x="325" y="210" width="40" height="25" fill="#9ca3af" stroke="#6c7b7f"/>
-  <text x="345" y="225" text-anchor="middle" class="custom-fonts" font-size="8" fill="white">poll</text>
-  
-  <rect x="370" y="210" width="85" height="25" fill="#9ca3af" stroke="#6c7b7f"/>
-  <text x="412" y="225" text-anchor="middle" class="custom-fonts" font-size="8" fill="white">WSAPoll ...</text>
-  
-  <!-- Row 2 -->
-  <rect x="215" y="245" width="60" height="25" fill="#9ca3af" stroke="#6c7b7f"/>
-  <text x="245" y="260" text-anchor="middle" class="custom-fonts" font-size="8" fill="white">inotify</text>
-  
-  <rect x="280" y="245" width="60" height="25" fill="#9ca3af" stroke="#6c7b7f"/>
-  <text x="310" y="260" text-anchor="middle" class="custom-fonts" font-size="8" fill="white">knotify</text>
-  
-  <rect x="345" y="245" width="110" height="25" fill="#9ca3af" stroke="#6c7b7f"/>
-  <text x="400" y="260" text-anchor="middle" class="custom-fonts" font-size="8" fill="white">platform specific</text>
-  
-  <!-- Thread State Machine -->
-  
-  <!-- Sleep State -->
-  <rect x="570" y="100" width="120" height="50" fill="url(#sleepPattern)" stroke="#9ca3af" stroke-width="2" rx="8"/>
-  <text x="630" y="118" text-anchor="middle" class="custom-fonts" font-size="12" font-weight="bold" fill="#9ca3af">BLOCKED</text>
-  <text x="630" y="132" text-anchor="middle" class="custom-fonts" font-size="10" fill="#9ca3af">waitset.wait()</text>
-  <text x="630" y="144" text-anchor="middle" class="custom-fonts" font-size="8" fill="#9ca3af">sleeping...</text>
-  
-  <!-- Transition arrow 1: Wake up -->
-  <line x1="630" y1="150" x2="630" y2="188" stroke="#6b7280" stroke-width="4" marker-end="url(#greenarrow)"/>
-  <text x="650" y="168" font-size="10" class="custom-fonts" fill="#6b7280">wake</text>
-  
-  <!-- Process State -->
-  <rect x="570" y="190" width="120" height="50" fill="#374151" stroke="#6c7b7f" stroke-width="2" rx="8"/>
-  <text x="630" y="208" text-anchor="middle" class="custom-fonts" font-size="12" font-weight="bold" fill="white">ACTIVE</text>
-  <text x="630" y="222" text-anchor="middle" class="custom-fonts" font-size="10" fill="white">Process</text>
-  <text x="630" y="234" text-anchor="middle" class="custom-fonts" font-size="10" fill="white">Events</text>
-  
-  <!-- Transition arrow 2: To decision -->
-  <line x1="630" y1="240" x2="630" y2="280" stroke="#6c7b7f" stroke-width="3" marker-end="url(#arrowhead)"/>
-  <text x="650" y="263" font-size="10" class="custom-fonts" fill="#6c7b7f">done</text>
-  
-  <!-- Decision Diamond -->
-  <polygon points="630,285 655,310 630,335 605,310" fill="#f3f4f6" stroke="#6c7b7f" stroke-width="2"/>
-  <text x="630" y="308" text-anchor="middle" class="custom-fonts" font-size="7" fill="#374151">more</text>
-  <text x="630" y="315" text-anchor="middle" class="custom-fonts" font-size="7" fill="#374151">events?</text>
-  
-  <!-- Loop back arrow - events available -->
-  <line x1="655" y1="310" x2="720" y2="310" stroke="#6b7280" stroke-width="3"/>
-  <line x1="720" y1="310" x2="720" y2="215" stroke="#6b7280" stroke-width="3"/>
-  <line x1="720" y1="215" x2="690" y2="215" stroke="#6b7280" stroke-width="3" marker-end="url(#greenarrow)"/>
-  <text x="630" y="365" font-size="9" class="custom-fonts" fill="#6b7280" transform="rotate(-90 630 265)">yes</text>
-  
-  <!-- Sleep arrow - no events -->
-  <line x1="605" y1="310" x2="550" y2="310" stroke="#9ca3af" stroke-width="3"/>
-  <line x1="550" y1="310" x2="550" y2="125" stroke="#9ca3af" stroke-width="3"/>
-  <line x1="550" y1="125" x2="570" y2="125" stroke="#9ca3af" stroke-width="3" marker-end="url(#eventarrow)"/>
-  <text x="540" y="218" font-size="9" class="custom-fonts" fill="#9ca3af" transform="rotate(-90 540 218)">no</text>
-  
-  <!-- Wake signal from waitset to thread state -->
-  <line x1="480" y1="170" x2="540" y2="170" stroke="#6b7280" stroke-width="3" marker-end="url(#greenarrow)"/>
-  <text x="505" y="160" text-anchor="middle" class="custom-fonts" font-size="10" fill="#6b7280" >wake up</text>
-  
-  <!-- Event flow arrows - from external sources to waitset -->
-  <line x1="98" y1="144" x2="190" y2="144" stroke="#9ca3af" stroke-width="2" marker-end="url(#eventarrow)"/>
-  <text x="118" y="140" font-size="8" class="custom-fonts" fill="#6b7280">timer event</text>
-  
-  <line x1="98" y1="204" x2="190" y2="204" stroke="#9ca3af" stroke-width="2" marker-end="url(#eventarrow)"/>
-  <text x="118" y="200" font-size="8" class="custom-fonts" fill="#6b7280">data event</text>
-  
-</svg>
 
+  <!-- Worker thread boundary -->
+  <rect class="ex-thread" x="128" y="50" width="606" height="296" rx="14"/>
+  <text class="ex-t" x="431" y="76" text-anchor="middle">Worker Thread</text>
+
+  <!-- Event sources -->
+  <rect class="ex-port" x="4" y="100" width="104" height="52" rx="9"/>
+  <text class="ex-bt-i" x="56" y="122" text-anchor="middle">Interval Timer</text>
+  <text class="ex-sub" x="56" y="137" text-anchor="middle">10 ms · TICK!</text>
+
+  <rect class="ex-port" x="4" y="160" width="104" height="52" rx="9"/>
+  <text class="ex-bt-i" x="56" y="182" text-anchor="middle">Listener Port</text>
+  <text class="ex-sub" x="56" y="197" text-anchor="middle">/sensors · NEW DATA</text>
+
+  <g opacity="0.55">
+    <rect class="ex-d" x="4" y="220" width="104" height="52" rx="9"/>
+    <text class="ex-bt" x="56" y="242" text-anchor="middle">File Descriptor</text>
+    <text class="ex-sub" x="56" y="257" text-anchor="middle">fd: 7 · waiting</text>
+    <rect class="ex-d" x="4" y="280" width="104" height="52" rx="9"/>
+    <text class="ex-bt" x="56" y="302" text-anchor="middle">Deadline Timer</text>
+    <text class="ex-sub" x="56" y="317" text-anchor="middle">500 ms · pending</text>
+  </g>
+
+  <!-- Event flows to waitset -->
+  <line class="ex-flow" x1="112" y1="126" x2="184" y2="126" marker-end="url(#ex-arrow)"/>
+  <line class="ex-flow" x1="112" y1="186" x2="184" y2="186" marker-end="url(#ex-arrow)"/>
+
+  <!-- Waitset -->
+  <rect class="ex-waitset" x="190" y="96" width="276" height="228" rx="12"/>
+  <text class="ex-t" x="328" y="120" text-anchor="middle">Waitset</text>
+
+  <rect class="ex-seg" x="206" y="144" width="244" height="86" rx="6"/>
+  <text class="ex-lbl" x="328" y="162" text-anchor="middle">Event Queue</text>
+  <rect class="ex-evt"   x="218" y="180" width="58" height="20" rx="3"/>
+  <rect class="ex-evt"   x="282" y="180" width="58" height="20" rx="3"/>
+  <rect class="ex-empty" x="346" y="180" width="44" height="20" rx="3"/>
+  <rect class="ex-empty" x="396" y="180" width="44" height="20" rx="3"/>
+  <text class="ex-cell-t" x="247" y="216" text-anchor="middle">Timer</text>
+  <text class="ex-cell-t" x="311" y="216" text-anchor="middle">Data</text>
+  <text class="ex-cell-t" x="396" y="216" text-anchor="middle">empty slots</text>
+
+  <rect class="ex-chip" x="206" y="250" width="54" height="24" rx="5"/>
+  <text class="ex-chip-t" x="233" y="266" text-anchor="middle">select</text>
+  <rect class="ex-chip" x="264" y="250" width="48" height="24" rx="5"/>
+  <text class="ex-chip-t" x="288" y="266" text-anchor="middle">epoll</text>
+  <rect class="ex-chip" x="316" y="250" width="40" height="24" rx="5"/>
+  <text class="ex-chip-t" x="336" y="266" text-anchor="middle">poll</text>
+  <rect class="ex-chip" x="360" y="250" width="90" height="24" rx="5"/>
+  <text class="ex-chip-t" x="405" y="266" text-anchor="middle">WSAPoll …</text>
+  <rect class="ex-chip" x="206" y="284" width="60" height="24" rx="5"/>
+  <text class="ex-chip-t" x="236" y="300" text-anchor="middle">inotify</text>
+  <rect class="ex-chip" x="270" y="284" width="60" height="24" rx="5"/>
+  <text class="ex-chip-t" x="300" y="300" text-anchor="middle">kqueue</text>
+  <rect class="ex-chip" x="334" y="284" width="116" height="24" rx="5"/>
+  <text class="ex-chip-t" x="392" y="300" text-anchor="middle">platform specific</text>
+
+  <!-- wake-up signal -->
+  <line class="ex-flow" x1="466" y1="128" x2="552" y2="128" marker-end="url(#ex-arrow)"/>
+  <text class="ex-lbl" x="509" y="121" text-anchor="middle">wake up</text>
+
+  <!-- Thread state machine -->
+  <rect class="ex-d" x="556" y="108" width="120" height="46" rx="8"/>
+  <text class="ex-bt" x="616" y="128" text-anchor="middle">BLOCKED</text>
+  <text class="ex-sub" x="616" y="143" text-anchor="middle">waitset.wait()</text>
+
+  <rect class="ex-active" x="556" y="190" width="120" height="46" rx="8"/>
+  <text class="ex-bt" x="616" y="210" text-anchor="middle">ACTIVE</text>
+  <text class="ex-sub" x="616" y="225" text-anchor="middle">process events</text>
+
+  <polygon class="ex-diamond" points="616,266 648,294 616,322 584,294"/>
+  <text class="ex-sub" x="616" y="291" text-anchor="middle">more</text>
+  <text class="ex-sub" x="616" y="301" text-anchor="middle">events?</text>
+
+  <!-- transitions -->
+  <line class="ex-flow" x1="616" y1="156" x2="616" y2="188" marker-end="url(#ex-arrow)"/>
+  <text class="ex-lbl" x="632" y="176" text-anchor="start">wake</text>
+  <line class="ex-flow" x1="616" y1="236" x2="616" y2="264" marker-end="url(#ex-arrow)"/>
+  <text class="ex-lbl" x="632" y="254" text-anchor="start">done</text>
+  <!-- yes: loop back to ACTIVE -->
+  <path class="ex-flow" d="M648,294 H706 V213 H678" marker-end="url(#ex-arrow)"/>
+  <text class="ex-lbl" x="712" y="256" text-anchor="start">yes</text>
+  <!-- no: back to BLOCKED -->
+  <path class="ex-flow-d" d="M584,294 H536 V146 H554" marker-end="url(#ex-arrow-d)"/>
+  <text class="ex-lbl" x="530" y="220" text-anchor="end">no</text>
+</svg>

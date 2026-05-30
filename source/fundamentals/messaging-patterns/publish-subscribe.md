@@ -1,9 +1,8 @@
 # Publish-Subscribe
 
-```{figure} /images/publish-subscribe-pattern.svg
-:alt: publish-subscribe messaging pattern
-:align: center
+```{inline-svg} /images/publish-subscribe-pattern.svg
 :name: fig-publish-subscribe-communication
+:alt: publish-subscribe messaging pattern
 
 Publish-Subscribe Communication Model
 ```
@@ -27,10 +26,9 @@ required ([request-response](
 
 ## Mechanism
 
-```{figure} /images/publish-subscribe-mechanism.svg
-:alt: publish-subscribe messaging protocol
-:align: center
+```{inline-svg} /images/publish-subscribe-mechanism.svg
 :name: fig-publish-subscribe-mechanism
+:alt: publish-subscribe messaging protocol
 
 Publish-Subscribe over Shared Memory
 ```

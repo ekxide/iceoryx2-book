@@ -1,117 +1,82 @@
-<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <style>
-      .custom-fonts {
-        font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      }
-    </style>
-    <marker id="healthy_circle" markerWidth="3" markerHeight="3" 
-     refX="1.5" refY="1.5" orient="auto">
-      <circle cx="1.5" cy="1.5" r="0.8" fill="#6c7b7f" stroke="#374151" stroke-width="0.5"/>
-    </marker>
-    <marker id="failed_circle" markerWidth="3" markerHeight="3" 
-     refX="1.5" refY="1.5" orient="auto">
-      <circle cx="1.5" cy="1.5" r="0.8" fill="transparent" stroke="#4b5563" stroke-width="0.5"/>
-    </marker>
-    <marker id="monitoring_circle" markerWidth="3" markerHeight="3" 
-     refX="1.5" refY="1.5" orient="auto">
-      <circle cx="1.5" cy="1.5" r="0.8" fill="#9ca3af" stroke="#6c7b7f" stroke-width="0.5"/>
-    </marker>
-  </defs>
-  
-  <!-- Background -->
-  <rect width="600" height="450" fill="transparent"/>
-  
-  <!-- Healthy Node A -->
-  <rect x="75" y="60" width="90" height="60" fill="#4b5563" stroke="#374151" stroke-width="2" />
-  <text x="120" y="79" text-anchor="middle" class="custom-fonts" font-size="11" font-weight="bold" fill="white">Node A</text>
-  <text x="120" y="93" text-anchor="middle" class="custom-fonts" font-size="9" fill="white">Participant 1</text>
-  <text x="120" y="107" text-anchor="middle" class="custom-fonts" font-size="9" fill="white">Status: ALIVE</text>
-  
-  <!-- Healthy Node B -->
-  <rect x="255" y="60" width="90" height="60" fill="#4b5563" stroke="#374151" stroke-width="2" />
-  <text x="300" y="79" text-anchor="middle" class="custom-fonts" font-size="11" font-weight="bold" fill="white">Node B</text>
-  <text x="300" y="93" text-anchor="middle" class="custom-fonts" font-size="9" fill="white">Participant 2</text>
-  <text x="300" y="107" text-anchor="middle" class="custom-fonts" font-size="9" fill="white">Status: ALIVE</text>
-  
-  <!-- Failed Node C -->
-  <rect x="435" y="60" width="90" height="60" fill="transparent" stroke="#4b5563" stroke-width="2" stroke-dasharray="3,2" />
-  <text x="480" y="79" text-anchor="middle" class="custom-fonts" font-size="11" font-weight="bold" fill="#6c7b7f">Node C</text>
-  <text x="480" y="93" text-anchor="middle" class="custom-fonts" font-size="9" fill="#6c7b7f">Participant 3</text>
-  <text x="480" y="107" text-anchor="middle" class="custom-fonts" font-size="9" fill="#6c7b7f">Status: DEAD</text>
-  
-  <!-- Monitoring arrows between healthy nodes -->
-  <line x1="165" y1="83" x2="255" y2="83" stroke="#9ca3af" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#monitoring_circle)"/>
-  <line x1="255" y1="97" x2="165" y2="97" stroke="#9ca3af" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#monitoring_circle)"/>
-  
-  <!-- Monitoring arrows to failed node -->
-  <line x1="345" y1="83" x2="435" y2="83" stroke="#4b5563" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#failed_circle)"/>
-  <line x1="345" y1="97" x2="435" y2="97" stroke="#4b5563" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#failed_circle)"/>
-  
-  <!-- Services managed by nodes -->
-  <rect x="60" y="165" width="60" height="30" fill="#e5e7eb" stroke="#6c7b7f" stroke-width="2" />
-  <text x="90" y="183" text-anchor="middle" class="custom-fonts" font-size="9" font-weight="bold" fill="#374151">Service</text>
-  
-  <rect x="135" y="165" width="60" height="30" fill="#e5e7eb" stroke="#6c7b7f" stroke-width="2" />
-  <text x="165" y="183" text-anchor="middle" class="custom-fonts" font-size="9" font-weight="bold" fill="#374151">Service</text>
-  
-  <rect x="270" y="165" width="60" height="30" fill="#e5e7eb" stroke="#6c7b7f" stroke-width="2" />
-  <text x="300" y="183" text-anchor="middle" class="custom-fonts" font-size="9" font-weight="bold" fill="#374151">Service</text>
-  
-  <!-- Service from failed node -->
-  <rect x="450" y="165" width="60" height="30" fill="transparent" stroke="#4b5563" stroke-width="2" stroke-dasharray="3,2" />
-  <text x="480" y="183" text-anchor="middle" class="custom-fonts" font-size="9" fill="#6c7b7f">Service</text>
-  
-  <!-- Ports for Service 1 -->
-  <rect x="76" y="220" width="28" height="14" stroke="#6c7b7f" stroke-width="2" fill="#e5e7eb"/>
-  <text x="90" y="230" text-anchor="middle" class="custom-fonts" font-size="7" font-weight="bold" fill="#374151">Port</text>
-  
-  <!-- Ports for Service 2 -->
-  <rect x="151" y="220" width="28" height="14" stroke="#6c7b7f" stroke-width="2" fill="#e5e7eb"/>
-  <text x="165" y="230" text-anchor="middle" class="custom-fonts" font-size="7" font-weight="bold" fill="#374151">Port</text>
-  
-  <!-- Ports for Service 3 -->
-  <rect x="286" y="220" width="28" height="14" stroke="#6c7b7f" stroke-width="2" fill="#e5e7eb"/>
-  <text x="300" y="230" text-anchor="middle" class="custom-fonts" font-size="7" font-weight="bold" fill="#374151">Port</text>
-  
-  <!-- Port for failed service -->
-  <rect x="466" y="220" width="28" height="14" fill="transparent" stroke="#4b5563" stroke-width="2" stroke-dasharray="3,2"/>
-  <text x="480" y="230" text-anchor="middle" class="custom-fonts" font-size="7" font-weight="bold" fill="#6c7b7f">Port</text>
-  
-  <!-- Management connections from healthy nodes to their services -->
-  <line x1="105" y1="120" x2="90" y2="165" stroke="#6c7b7f" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#healthy_circle)"/>
-  <line x1="135" y1="120" x2="165" y2="165" stroke="#6c7b7f" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#healthy_circle)"/>
-  <line x1="300" y1="120" x2="300" y2="165" stroke="#6c7b7f" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#healthy_circle)"/>
-  
-  <!-- Port-to-Service connections -->
-  <line x1="90" y1="195" x2="90" y2="220" stroke="#6c7b7f" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#healthy_circle)"/>
-  <line x1="165" y1="195" x2="165" y2="220" stroke="#6c7b7f" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#healthy_circle)"/>
-  <line x1="300" y1="195" x2="300" y2="220" stroke="#6c7b7f" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#healthy_circle)"/>
+<svg viewBox="44 26 512 290" role="img" aria-label="Lifecycle management via nodes" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .nl-part   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .nl-part-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-text, #eaf3f7); }
+    .nl-node   { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .nl-svc    { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
+    .nl-port   { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
+    .nl-d      { fill: none; stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1; stroke-dasharray: 5 3; }
+    .nl-node-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-text, #eaf3f7); }
+    .nl-sub    { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .nl-alive  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 9px; fill: var(--ix-mint, #6ff0c7); }
+    .nl-svc-t  { font-family: var(--font-stack, sans-serif); font-size: 8.5px; fill: var(--ix-text, #eaf3f7); }
+    .nl-port-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 7.5px; fill: var(--ix-text, #eaf3f7); }
+    .nl-mon    { stroke: var(--ix-muted, #bccbd6); stroke-width: 1.5; stroke-dasharray: 4 3; fill: none; }
+    .nl-mgmt   { stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; stroke-dasharray: 4 3; fill: none; }
+    .nl-legend { fill: var(--ix-bg-2, #080d16); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .nl-leg-h  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 9px; fill: var(--ix-text, #eaf3f7); }
+    .nl-leg-t  { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+  </style>
 
-  <line x1="480" y1="120" x2="480" y2="165" stroke="#4b5563" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#failed_circle)"/>
-  <line x1="480" y1="195" x2="480" y2="220" stroke="#4b5563" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#failed_circle)"/>
-  
+  <!-- Peer-to-peer node monitoring (across participants) -->
+  <line class="nl-mon" x1="188" y1="79" x2="229" y2="79"/>
+  <line class="nl-mon" x1="371" y1="79" x2="412" y2="79"/>
+
+  <!-- Participant 1 (Node A, two services + ports) -->
+  <rect class="nl-part" x="50" y="32" width="134" height="160" rx="12"/>
+  <text class="nl-part-t" x="117" y="48" text-anchor="middle">Participant 1</text>
+  <line class="nl-mgmt" x1="91"  y1="100" x2="91"  y2="116"/>
+  <line class="nl-mgmt" x1="151" y1="100" x2="151" y2="116"/>
+  <line class="nl-mgmt" x1="91"  y1="146" x2="91"  y2="162"/>
+  <line class="nl-mgmt" x1="151" y1="146" x2="151" y2="162"/>
+  <rect class="nl-node" x="58" y="58" width="118" height="42" rx="10"/>
+  <text class="nl-node-t" x="117" y="78" text-anchor="middle">Node A</text>
+  <text class="nl-alive" x="117" y="92" text-anchor="middle">ALIVE</text>
+  <rect class="nl-svc" x="66"  y="116" width="50" height="30" rx="6"/>
+  <text class="nl-svc-t" x="91"  y="135" text-anchor="middle">Service</text>
+  <rect class="nl-svc" x="126" y="116" width="50" height="30" rx="6"/>
+  <text class="nl-svc-t" x="151" y="135" text-anchor="middle">Service</text>
+  <rect class="nl-port" x="78"  y="162" width="26" height="18" rx="4"/>
+  <text class="nl-port-t" x="91"  y="174" text-anchor="middle">Port</text>
+  <rect class="nl-port" x="138" y="162" width="26" height="18" rx="4"/>
+  <text class="nl-port-t" x="151" y="174" text-anchor="middle">Port</text>
+
+  <!-- Participant 2 (Node B, one service + port) -->
+  <rect class="nl-part" x="233" y="32" width="134" height="160" rx="12"/>
+  <text class="nl-part-t" x="300" y="48" text-anchor="middle">Participant 2</text>
+  <line class="nl-mgmt" x1="300" y1="100" x2="300" y2="116"/>
+  <line class="nl-mgmt" x1="300" y1="146" x2="300" y2="162"/>
+  <rect class="nl-node" x="241" y="58" width="118" height="42" rx="10"/>
+  <text class="nl-node-t" x="300" y="78" text-anchor="middle">Node B</text>
+  <text class="nl-alive" x="300" y="92" text-anchor="middle">ALIVE</text>
+  <rect class="nl-svc" x="275" y="116" width="50" height="30" rx="6"/>
+  <text class="nl-svc-t" x="300" y="135" text-anchor="middle">Service</text>
+  <rect class="nl-port" x="287" y="162" width="26" height="18" rx="4"/>
+  <text class="nl-port-t" x="300" y="174" text-anchor="middle">Port</text>
+
+  <!-- Participant 3 (dead node, reclaimed resources) -->
+  <g opacity="0.5">
+    <rect class="nl-part" x="416" y="32" width="134" height="160" rx="12"/>
+    <text class="nl-part-t" x="483" y="48" text-anchor="middle">Participant 3</text>
+    <line class="nl-mgmt" x1="483" y1="100" x2="483" y2="116"/>
+    <line class="nl-mgmt" x1="483" y1="146" x2="483" y2="162"/>
+    <rect class="nl-d" x="424" y="58" width="118" height="42" rx="10"/>
+    <text class="nl-node-t" x="483" y="78" text-anchor="middle">Node C</text>
+    <text class="nl-sub" x="483" y="92" text-anchor="middle">DEAD</text>
+    <rect class="nl-d" x="458" y="116" width="50" height="30" rx="6"/>
+    <text class="nl-svc-t" x="483" y="135" text-anchor="middle">Service</text>
+    <rect class="nl-d" x="470" y="162" width="26" height="18" rx="4"/>
+    <text class="nl-port-t" x="483" y="174" text-anchor="middle">Port</text>
+  </g>
+
   <!-- Legend -->
-  <rect x="38" y="265" width="525" height="90" fill="#f9fafb" stroke="#9ca3af" stroke-width="1" />
-  <text x="53" y="285" font-size="10" font-weight="bold" class="custom-fonts" fill="#6c7b7f">Legend:</text>
-  
-  <!-- Legend items -->
-  <line x1="53" y1="300" x2="75" y2="300" stroke="#9ca3af" stroke-width="2" stroke-dasharray="4,4"/>
-  <circle cx="77" cy="300" r="0.8" fill="#9ca3af" stroke="#6c7b7f" stroke-width="0.5"/>
-  <text x="85" y="304" font-size="8" class="custom-fonts" fill="#6c7b7f">Peer-to-peer monitoring</text>
-  
-  <line x1="225" y1="300" x2="247" y2="300" stroke="#6c7b7f" stroke-width="2" stroke-dasharray="4,4"/>
-  <circle cx="249" cy="300" r="0.8" fill="#6c7b7f" stroke="#374151" stroke-width="0.5"/>
-  <text x="257" y="304" font-size="8" class="custom-fonts" fill="#6c7b7f">Service/Port lifecycle management</text>
-  
-  <line x1="53" y1="315" x2="75" y2="315" stroke="#4b5563" stroke-width="2" stroke-dasharray="4,4"/>
-  <circle cx="77" cy="315" r="0.8" fill="transparent" stroke="#4b5563" stroke-width="0.5"/>
-  <text x="85" y="319" font-size="8" class="custom-fonts" fill="#6c7b7f">Failed node connections</text>
-  
-  <rect x="53" y="325" width="12" height="12" fill="#4b5563" stroke="#374151" stroke-width="1"/>
-  <text x="72" y="334" font-size="8" class="custom-fonts" fill="#6c7b7f">Alive node</text>
-  
-  <rect x="128" y="325" width="12" height="12" fill="transparent" stroke="#4b5563" stroke-width="1" stroke-dasharray="3,2"/>
-  <text x="147" y="334" font-size="8" class="custom-fonts" fill="#6c7b7f">Dead node</text>
-  
+  <text class="nl-leg-h" x="74" y="232" text-anchor="start">Legend</text>
+  <line class="nl-mon" x1="74" y1="251" x2="100" y2="251"/>
+  <text class="nl-leg-t" x="108" y="255" text-anchor="start">Peer-to-peer monitoring</text>
+  <line class="nl-mgmt" x1="74" y1="273" x2="100" y2="273"/>
+  <text class="nl-leg-t" x="108" y="277" text-anchor="start">Service / Port lifecycle management</text>
+  <rect class="nl-node" x="320" y="244" width="14" height="14" rx="3"/>
+  <text class="nl-leg-t" x="342" y="255" text-anchor="start">Alive node</text>
+  <rect class="nl-d" x="320" y="266" width="14" height="14" rx="3"/>
+  <text class="nl-leg-t" x="342" y="277" text-anchor="start">Dead node</text>
 </svg>

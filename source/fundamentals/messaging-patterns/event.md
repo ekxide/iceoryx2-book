@@ -1,9 +1,8 @@
 # Event
 
-```{figure} /images/event-pattern.svg
-:alt: event messaging pattern
-:align: center
+```{inline-svg} /images/event-pattern.svg
 :name: fig-event-communication
+:alt: event messaging pattern
 
 Event Communication Model
 ```
@@ -14,10 +13,9 @@ rather communicating to other participants that there is work to do.
 
 ## Mechanism
 
-```{figure} /images/event-mechanism.svg
-:alt: event messaging pattern
-:align: center
+```{inline-svg} /images/event-mechanism.svg
 :name: fig-event-mechanism
+:alt: event messaging pattern
 
 Events over Native Sleep/Wake-up Mechanisms
 ```

@@ -4,10 +4,9 @@
 clear separation of concerns and modular design. Each layer builds upon
 components provided by lower layers.
 
-```{figure} /images/layered-architecture.svg
-:alt: layered architecture of iceoryx2
-:align: center
+```{inline-svg} /images/layered-architecture.svg
 :name: fig-layered-architecture
+:alt: layered architecture of iceoryx2
 
 Software Layers in the Architecture of `iceoryx2`
 ```

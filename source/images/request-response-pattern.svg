@@ -1,77 +1,49 @@
-<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 600 140" role="img" aria-label="Request-response communication model" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .rr-box    { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .rr-port   { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
+    .rr-svc    { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
+    .rr-title  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
+    .rr-port-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-text, #eaf3f7); }
+    .rr-sub    { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .rr-svc-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 13px; fill: var(--ix-text, #eaf3f7); }
+    .rr-svc-s  { font-family: var(--font-stack, sans-serif); font-size: 9.5px; fill: var(--ix-muted, #bccbd6); }
+    .rr-label  { font-family: var(--font-stack, sans-serif); font-size: 9.5px; fill: var(--ix-muted, #bccbd6); }
+    .rr-flow   { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
+    .rr-flow-d { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; stroke-dasharray: 5 4; }
+  </style>
   <defs>
-    <style>
-      .custom-fonts {
-        font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      }
-    </style>
-    <marker id="arrowhead" markerWidth="5" markerHeight="3" 
-     refX="4" refY="1.5" orient="auto">
-      <polygon points="0 0, 5 1.5, 0 3" fill="#6c7b7f" />
+    <marker id="rr-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse" overflow="visible">
+      <path d="M1,1 L9,5 L1,9 Z" fill="var(--ix-muted, #bccbd6)"/>
     </marker>
   </defs>
-  
-  <!-- Background -->
-  <rect width="600" height="450" fill="transparent"/>
-  
+
+  <!-- Client -->
+  <rect class="rr-box" x="30" y="24" width="130" height="96" rx="12"/>
+  <text class="rr-title" x="95" y="50" text-anchor="middle">Participant</text>
+  <rect class="rr-port" x="44" y="66" width="102" height="40" rx="8"/>
+  <text class="rr-port-t" x="95" y="83" text-anchor="middle">Client Port</text>
+  <text class="rr-sub" x="95" y="98" text-anchor="middle">Make requests</text>
+
   <!-- Service -->
-  <circle cx="300" cy="225" r="38" fill="#4b5563" stroke="#374151" stroke-width="2" />
-  <text x="300" y="220" text-anchor="middle" class="custom-fonts" font-size="12" font-weight="bold" fill="white">Service</text>
-  <text x="300" y="237" text-anchor="middle" class="custom-fonts" font-size="9" fill="white">/calculation</text>
-  
-  <!-- Client Participant 1 -->
-  <rect x="60" y="108" width="113" height="75" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2" />
-  <text x="116" y="130" text-anchor="middle" class="custom-fonts" font-size="11" font-weight="bold" fill="#374151">Participant</text>
-  
-  <!-- Client Port 1 -->
-  <rect x="75" y="148" width="83" height="26" fill="#6b7280" stroke="#4b5563" stroke-width="2"/>
-  <text x="116" y="159" text-anchor="middle" class="custom-fonts" font-size="9" font-weight="bold" fill="white">Client Port</text>
-  <text x="116" y="168" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">Make requests</text>
-  
-  <!-- Client Participant 2 -->
-  <rect x="60" y="252" width="113" height="75" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2" />
-  <text x="116" y="274" text-anchor="middle" class="custom-fonts" font-size="11" font-weight="bold" fill="#374151">Participant</text>
-  
-  <!-- Client Port 2 -->
-  <rect x="75" y="292" width="83" height="26" fill="#6b7280" stroke="#4b5563" stroke-width="2"/>
-  <text x="116" y="303" text-anchor="middle" class="custom-fonts" font-size="9" font-weight="bold" fill="white">Client Port</text>
-  <text x="116" y="312" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">Make requests</text>
-  
-  <!-- Server Participant -->
-  <rect x="428" y="195" width="113" height="75" fill="#f9fafb" stroke="#6c7b7f" stroke-width="2" />
-  <text x="484" y="222" text-anchor="middle" class="custom-fonts" font-size="11" font-weight="bold" fill="#374151">Participant</text>
-  
-  <!-- Server Port -->
-  <rect x="443" y="235" width="83" height="26" fill="#6b7280" stroke="#4b5563" stroke-width="2"/>
-  <text x="484" y="246" text-anchor="middle" class="custom-fonts" font-size="9" font-weight="bold" fill="white">Server Port</text>
-  <text x="484" y="255" text-anchor="middle" class="custom-fonts" font-size="7" fill="white">Respond to requests</text>
-  
-  <!-- Request Arrows from Clients to Service -->
-  <line x1="173" y1="144" x2="262" y2="193" stroke="#6c7b7f" stroke-width="2.5" marker-end="url(#arrowhead)"/>
-  <line x1="173" y1="288" x2="262" y2="244" stroke="#6c7b7f" stroke-width="2.5" marker-end="url(#arrowhead)"/>
-  
-  <!-- Request Arrow -->
-  <line x1="338" y1="207" x2="425" y2="207" stroke="#6c7b7f" stroke-width="2.5" marker-end="url(#arrowhead)"/>
-  
-  <!-- Response Stream Arrows -->
-  <line x1="428" y1="243" x2="338" y2="243" stroke="#6c7b7f" stroke-width="2.5" marker-end="url(#arrowhead)"/>
-  <line x1="428" y1="252" x2="338" y2="252" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="4,4"/>
-  <line x1="428" y1="261" x2="338" y2="261" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="3,3"/>
-  
-  <!-- Response Stream Arrows (Service to Client 1) -->
-  <line x1="266" y1="207" x2="175" y2="162" stroke="#6c7b7f" stroke-width="2.5" marker-end="url(#arrowhead)"/>
-  <line x1="262" y1="216" x2="175" y2="171" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="4,4"/>
-  <line x1="262" y1="225" x2="175" y2="180" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="3,3"/>
-  
-  <!-- Response Stream Arrows (Service to Client 2) -->
-  <line x1="270" y1="252" x2="175" y2="297" stroke="#6c7b7f" stroke-width="2.5" marker-end="url(#arrowhead)"/>
-  <line x1="270" y1="261" x2="175" y2="306" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="4,4"/>
-  <line x1="270" y1="270" x2="175" y2="315" stroke="#6c7b7f" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="3,3"/>
+  <circle class="rr-svc" cx="300" cy="72" r="46"/>
+  <text class="rr-svc-t" x="300" y="68" text-anchor="middle">Service</text>
+  <text class="rr-svc-s" x="300" y="86" text-anchor="middle">/calculation</text>
 
-  <!-- Request label -->
-  <text x="383" y="198" text-anchor="middle" class="custom-fonts" font-size="9" fill="#6c7b7f">Request</text>
+  <!-- Server -->
+  <rect class="rr-box" x="440" y="24" width="130" height="96" rx="12"/>
+  <text class="rr-title" x="505" y="50" text-anchor="middle">Participant</text>
+  <rect class="rr-port" x="454" y="66" width="102" height="40" rx="8"/>
+  <text class="rr-port-t" x="505" y="83" text-anchor="middle">Server Port</text>
+  <text class="rr-sub" x="505" y="98" text-anchor="middle">Respond to requests</text>
 
-  <!-- Response Stream Label -->
-  <text x="383" y="288" text-anchor="middle" class="custom-fonts" font-size="9" fill="#6c7b7f">Streaming Response</text>
-  
+  <!-- Request lane (solid, →) -->
+  <line class="rr-flow" x1="166" y1="56" x2="251" y2="56" marker-end="url(#rr-arrow)"/>
+  <line class="rr-flow" x1="349" y1="56" x2="434" y2="56" marker-end="url(#rr-arrow)"/>
+  <text class="rr-label" x="393" y="44" text-anchor="middle">Request</text>
+
+  <!-- Streaming response lane (dashed, ←) -->
+  <line class="rr-flow-d" x1="434" y1="88" x2="349" y2="88" marker-end="url(#rr-arrow)"/>
+  <line class="rr-flow-d" x1="251" y1="88" x2="166" y2="88" marker-end="url(#rr-arrow)"/>
+  <text class="rr-label" x="391" y="106" text-anchor="middle">Streaming Responses</text>
 </svg>

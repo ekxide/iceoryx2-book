@@ -1,9 +1,8 @@
 # Cross-Language Support
 
-```{figure} /images/cross-language-support.svg
-:alt: cross-language communication over shared memory
-:align: center
+```{inline-svg} /images/cross-language-support.svg
 :name: fig-cross-language-support
+:alt: cross-language communication over shared memory
 
 Cross-Language Zero-Copy Communication
 ```
