@@ -14,10 +14,10 @@
     .ex-diamond { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
     .ex-t       { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 13px; fill: var(--ix-text, #eaf3f7); }
     .ex-bt      { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-text, #eaf3f7); }
-    .ex-bt-i    { font-family: var(--font-stack--monospace, monospace); font-weight: 600; font-size: 11px; fill: var(--ix-ice, #2dd4e8); }
+    .ex-bt-i    { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-text, #eaf3f7); }
     .ex-sub     { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
     .ex-lbl     { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
-    .ex-chip-t  { font-family: var(--font-stack--monospace, monospace); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .ex-chip-t  { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
     .ex-cell-t  { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
     .ex-flow    { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
     .ex-flow-d  { stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.75; fill: none; stroke-dasharray: 4.7 3.5; }

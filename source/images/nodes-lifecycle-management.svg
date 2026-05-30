@@ -6,11 +6,11 @@
     .nl-svc    { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
     .nl-port   { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
     .nl-d      { fill: none; stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1; stroke-dasharray: 5 3; }
-    .nl-node-t { font-family: var(--font-stack--monospace, monospace); font-weight: 600; font-size: 11px; fill: var(--ix-text, #eaf3f7); }
+    .nl-node-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-text, #eaf3f7); }
     .nl-sub    { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
     .nl-alive  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 9px; fill: var(--ix-mint, #6ff0c7); }
     .nl-svc-t  { font-family: var(--font-stack, sans-serif); font-size: 8.5px; fill: var(--ix-text, #eaf3f7); }
-    .nl-port-t { font-family: var(--font-stack--monospace, monospace); font-weight: 600; font-size: 7.5px; fill: var(--ix-ice, #2dd4e8); }
+    .nl-port-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 7.5px; fill: var(--ix-text, #eaf3f7); }
     .nl-mon    { stroke: var(--ix-muted, #bccbd6); stroke-width: 1.5; stroke-dasharray: 4 3; fill: none; }
     .nl-mgmt   { stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; stroke-dasharray: 4 3; fill: none; }
     .nl-legend { fill: var(--ix-bg-2, #080d16); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }

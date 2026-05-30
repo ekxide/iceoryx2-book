@@ -4,13 +4,13 @@
     .ev-box-s   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted, #bccbd6); stroke-width: 1; stroke-dasharray: 5 3; }
     .ev-port    { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
     .ev-title   { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
-    .ev-port-t  { font-family: var(--font-stack--monospace, monospace); font-weight: 600; font-size: 10px; fill: var(--ix-ice, #2dd4e8); }
+    .ev-port-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-text, #eaf3f7); }
     .ev-region  { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
     .ev-chip    { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
     .ev-region-t{ font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
-    .ev-chip-t  { font-family: var(--font-stack--monospace, monospace); font-size: 8.5px; fill: var(--ix-muted, #bccbd6); }
+    .ev-chip-t  { font-family: var(--font-stack, sans-serif); font-size: 8.5px; fill: var(--ix-muted, #bccbd6); }
     .ev-state   { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
-    .ev-state-a { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-ice, #2dd4e8); }
+    .ev-state-a { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-text, #eaf3f7); }
     .ev-label   { font-family: var(--font-stack, sans-serif); font-size: 9.5px; fill: var(--ix-muted, #bccbd6); }
     .ev-flow    { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
   </style>

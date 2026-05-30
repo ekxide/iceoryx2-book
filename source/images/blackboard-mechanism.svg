@@ -6,11 +6,11 @@
     .bb-seg     { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1; stroke-dasharray: 5 3; }
     .bb-cell    { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
     .bb-title   { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
-    .bb-port-t  { font-family: var(--font-stack--monospace, monospace); font-weight: 600; font-size: 10px; fill: var(--ix-ice, #2dd4e8); }
+    .bb-port-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-text, #eaf3f7); }
     .bb-region-t{ font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
     .bb-label   { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-muted, #bccbd6); }
-    .bb-key     { font-family: var(--font-stack--monospace, monospace); font-weight: 600; font-size: 9px; fill: var(--ix-ice, #2dd4e8); }
-    .bb-val     { font-family: var(--font-stack--monospace, monospace); font-weight: 600; font-size: 9px; fill: var(--ix-text, #eaf3f7); }
+    .bb-key     { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 9px; fill: var(--ix-text, #eaf3f7); }
+    .bb-val     { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 9px; fill: var(--ix-text, #eaf3f7); }
     .bb-arrlbl  { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
     .bb-flow    { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
   </style>

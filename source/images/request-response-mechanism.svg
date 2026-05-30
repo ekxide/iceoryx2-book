@@ -8,10 +8,10 @@
     .pm-held  { fill: var(--ix-blue, #5b8def); }
     .pm-free  { fill: none; stroke: var(--ix-muted, #bccbd6); stroke-width: 1.5; }
     .pm-title { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
-    .pm-port-t{ font-family: var(--font-stack--monospace, monospace); font-weight: 600; font-size: 10px; fill: var(--ix-ice, #2dd4e8); }
+    .pm-port-t{ font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-text, #eaf3f7); }
     .pm-sub   { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
     .pm-label { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-muted, #bccbd6); }
-    .pm-cell  { font-family: var(--font-stack--monospace, monospace); font-size: 8.5px; fill: var(--ix-muted, #bccbd6); }
+    .pm-cell  { font-family: var(--font-stack, sans-serif); font-size: 8.5px; fill: var(--ix-muted, #bccbd6); }
     .pm-leg   { font-family: var(--font-stack, sans-serif); font-size: 9.5px; fill: var(--ix-muted, #bccbd6); }
     .pm-flow  { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
   </style>

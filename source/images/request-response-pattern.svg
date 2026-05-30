@@ -4,10 +4,10 @@
     .rr-port   { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
     .rr-svc    { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
     .rr-title  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
-    .rr-port-t { font-family: var(--font-stack--monospace, monospace); font-weight: 600; font-size: 10px; fill: var(--ix-ice, #2dd4e8); }
+    .rr-port-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-text, #eaf3f7); }
     .rr-sub    { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
-    .rr-svc-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 13px; fill: var(--ix-ice, #2dd4e8); }
-    .rr-svc-s  { font-family: var(--font-stack--monospace, monospace); font-size: 9.5px; fill: var(--ix-muted, #bccbd6); }
+    .rr-svc-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 13px; fill: var(--ix-text, #eaf3f7); }
+    .rr-svc-s  { font-family: var(--font-stack, sans-serif); font-size: 9.5px; fill: var(--ix-muted, #bccbd6); }
     .rr-label  { font-family: var(--font-stack, sans-serif); font-size: 9.5px; fill: var(--ix-muted, #bccbd6); }
     .rr-flow   { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
     .rr-flow-d { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; stroke-dasharray: 5 4; }

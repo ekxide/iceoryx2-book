@@ -2,10 +2,10 @@
   <style>
     .rg-box   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
     .rg-box-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
-    .rg-role  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 9px; fill: var(--ix-ice, #2dd4e8); }
+    .rg-role  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 9px; fill: var(--ix-text, #eaf3f7); }
     .rg-svc   { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
     .rg-svc-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-text, #eaf3f7); }
-    .rg-svc-n { font-family: var(--font-stack--monospace, monospace); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .rg-svc-n { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
     .rg-flow  { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
   </style>
   <defs>
