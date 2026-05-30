@@ -3,15 +3,27 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Shared Memory" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ekxide.github.io/iceoryx2-book/fundamentals/shared-memory.html" />
+<meta property="og:site_name" content="The iceoryx2 Book" />
+<meta property="og:description" content="Shared memory is a memory region that multiple participants can access directly, enabling the exchange of data without copying between separate memory locations. Memory Regions Accessible to Commun..." />
+<meta property="og:image" content="https://ekxide.github.io/iceoryx2-book/_static/og-card.png" />
+<meta property="og:image:alt" content="The iceoryx2 Book" />
+<meta name="description" content="Shared memory is a memory region that multiple participants can access directly, enabling the exchange of data without copying between separate memory locations. Memory Regions Accessible to Commun..." />
+<meta name="twitter:card" content="summary_large_image">
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Communication Model" href="communication-model.html" /><link rel="prev" title="Layered Architecture" href="layered-architecture.html" />
+        <link rel="canonical" href="https://ekxide.github.io/iceoryx2-book/fundamentals/shared-memory.html" />
 
-    <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
+    <link rel="shortcut icon" href="../_static/favicon.svg"/><!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
         <title>Shared Memory - The iceoryx2 Book</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=40c8bed2" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=dbe86054" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/version-picker.css?v=2a4710d1" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=d05edee4" />
     
     
 
@@ -20,81 +32,186 @@
   body {
     --color-code-background: #f2f2f2;
   --color-code-foreground: #1e1e1e;
-  --color-brand-primary: #6c7b7f;
-  --color-brand-content: #6c7b7f;
-  --color-background-primary: #ffffff;
-  --color-background-secondary: #f9fafb;
-  --color-background-hover: #f3f4f6;
-  --color-background-border: #e5e7eb;
-  --color-foreground-primary: #1f2937;
-  --color-foreground-secondary: #6b7280;
-  --color-foreground-muted: #9ca3af;
-  --color-foreground-border: #e5e7eb;
-  --color-code-background: #f3f4f6;
-  --color-code-foreground: #1f2937;
-  --color-link: #6c7b7f;
-  --color-link-underline: #6c7b7f;
-  --color-link-underline--hover: #4b5563;
-  --color-sidebar-background: #f9fafb;
-  --color-sidebar-background-border: #e5e7eb;
-  --color-sidebar-item-background--hover: #f3f4f6;
-  --color-sidebar-link-text: #4b5563;
-  --color-sidebar-link-text--top-level: #1f2937;
-  --color-sidebar-caption-text: #6b7280;
+  --ix-bg: #f5f8fc;
+  --ix-bg-2: #e2eaf3;
+  --ix-surface: #fafcff;
+  --ix-surface-2: #f2f7fc;
+  --ix-line: rgba(15, 55, 90, 0.12);
+  --ix-line-soft: rgba(15, 55, 90, 0.06);
+  --ix-ice: #0a8aa0;
+  --ix-ice-bright: #0a93ab;
+  --ix-ice-deep: #0a7385;
+  --ix-blue: #3a66cf;
+  --ix-mint: #0e9b73;
+  --ix-text: #0c1825;
+  --ix-muted: #36475a;
+  --ix-muted-2: #586a80;
+  --ix-glow-1: rgba(10, 160, 185, 0.16);
+  --ix-glow: 0 0 40px rgba(10, 138, 160, 0.25);
+  --ix-drawer-bg: rgba(238, 243, 249, 0.72);
+  --ix-header-bg: rgba(247, 250, 253, 0.82);
+  --ix-shadow: 0 16px 40px -30px rgba(20, 50, 90, 0.25);
+  --ix-card-bg: #fafcff;
+  --ix-card-shadow: 0 22px 44px -26px rgba(20, 50, 90, 0.28);
+  --ix-card-hover-border: rgba(10, 138, 160, 0.40);
+  --ix-svg-panel: transparent;
+  --ix-svg-pad: 0;
+  --ix-code-bg: #eef3f9;
+  --ix-code-hl: rgba(10, 138, 160, 0.12);
+  --ix-selection-bg: rgba(10, 138, 160, 0.22);
+  --ix-selection-fg: #04222a;
+  --color-brand-primary: #0a8aa0;
+  --color-brand-content: #0a7d91;
+  --color-background-primary: #f5f8fc;
+  --color-background-secondary: #eef3f9;
+  --color-background-hover: #ffffff;
+  --color-background-hover--transparent: rgba(255,255,255,0);
+  --color-background-border: rgba(15, 55, 90, 0.12);
+  --color-foreground-primary: #0c1825;
+  --color-foreground-secondary: #46596b;
+  --color-foreground-muted: #586a80;
+  --color-foreground-border: rgba(15, 55, 90, 0.12);
+  --color-code-background: #ffffff;
+  --color-code-foreground: #33485a;
+  --color-link: #0a7d91;
+  --color-link--hover: #0a93ab;
+  --color-link-underline: rgba(10, 138, 160, 0.30);
+  --color-link-underline--hover: rgba(10, 138, 160, 0.7);
+  --color-sidebar-background: #eef3f9;
+  --color-sidebar-background-border: rgba(15, 55, 90, 0.10);
+  --color-sidebar-item-background--hover: rgba(10, 138, 160, 0.07);
+  --color-sidebar-link-text: #46596b;
+  --color-sidebar-link-text--top-level: #0c1825;
+  --color-sidebar-caption-text: #586a80;
+  --color-sidebar-search-border: rgba(15, 55, 90, 0.12);
+  --color-toc-item-text: #46596b;
+  --color-toc-item-text--active: #0a8aa0;
+  --color-admonition-background: #fafcff;
+  --color-highlight-on-target: rgba(10, 147, 171, 0.14);
   
   }
   @media not print {
     body[data-theme="dark"] {
       --color-code-background: #2b2b2b;
   --color-code-foreground: #f8f8f2;
-  --color-brand-primary: #9ca3af;
-  --color-brand-content: #9ca3af;
-  --color-background-primary: #1C1D1F;
-  --color-background-secondary: #252628;
-  --color-background-hover: #2a2c2f;
-  --color-background-border: #38393b;
-  --color-foreground-primary: #d2dbde;
-  --color-foreground-secondary: #859399;
-  --color-foreground-muted: #859399;
-  --color-foreground-border: #38393b;
-  --color-code-background: #2a2c2f;
-  --color-code-foreground: #d2dbde;
-  --color-link: #9ca3af;
-  --color-link-underline: #9ca3af;
-  --color-link-underline--hover: #d1d5db;
-  --color-sidebar-background: #252628;
-  --color-sidebar-background-border: #38393b;
-  --color-sidebar-item-background--hover: #2a2c2f;
-  --color-sidebar-link-text: #d2dbde;
-  --color-sidebar-link-text--top-level: #ffffff;
-  --color-sidebar-caption-text: #859399;
+  --ix-bg: #060910;
+  --ix-bg-2: #080d16;
+  --ix-surface: #141d2d;
+  --ix-surface-2: #1b2740;
+  --ix-line: rgba(150, 200, 230, 0.16);
+  --ix-line-soft: rgba(150, 200, 230, 0.06);
+  --ix-ice: #2dd4e8;
+  --ix-ice-bright: #7ff0ff;
+  --ix-ice-deep: #16b8d4;
+  --ix-blue: #5b8def;
+  --ix-mint: #6ff0c7;
+  --ix-text: #eaf3f7;
+  --ix-muted: #bccbd6;
+  --ix-muted-2: #6b7d8c;
+  --ix-glow-1: rgba(45, 212, 232, 0.30);
+  --ix-glow: 0 0 40px rgba(45, 212, 232, 0.35);
+  --ix-drawer-bg: rgba(8, 13, 22, 0.60);
+  --ix-header-bg: rgba(8, 13, 22, 0.82);
+  --ix-shadow: 0 18px 50px -34px rgba(0, 0, 0, 0.80);
+  --ix-card-bg: linear-gradient(180deg, #18222f, #121b29);
+  --ix-card-shadow: 0 24px 50px -28px rgba(0, 0, 0, 0.85);
+  --ix-card-hover-border: rgba(45, 212, 232, 0.40);
+  --ix-svg-panel: #f7fbfd;
+  --ix-svg-pad: 1rem;
+  --ix-code-bg: #0a111c;
+  --ix-code-hl: rgba(45, 212, 232, 0.12);
+  --ix-selection-bg: rgba(45, 212, 232, 0.28);
+  --ix-selection-fg: #ffffff;
+  --color-brand-primary: #2dd4e8;
+  --color-brand-content: #2dd4e8;
+  --color-background-primary: #060910;
+  --color-background-secondary: #080d16;
+  --color-background-hover: #0c1320;
+  --color-background-hover--transparent: rgba(12,19,32,0);
+  --color-background-border: rgba(150, 200, 230, 0.10);
+  --color-foreground-primary: #eaf3f7;
+  --color-foreground-secondary: #9fb1bf;
+  --color-foreground-muted: #6b7d8c;
+  --color-foreground-border: rgba(150, 200, 230, 0.10);
+  --color-code-background: #0a111c;
+  --color-code-foreground: #c5d4e0;
+  --color-link: #2dd4e8;
+  --color-link--hover: #7ff0ff;
+  --color-link-underline: rgba(45, 212, 232, 0.28);
+  --color-link-underline--hover: rgba(127, 240, 255, 0.8);
+  --color-sidebar-background: #080d16;
+  --color-sidebar-background-border: rgba(150, 200, 230, 0.08);
+  --color-sidebar-item-background--hover: rgba(45, 212, 232, 0.07);
+  --color-sidebar-link-text: #9fb1bf;
+  --color-sidebar-link-text--top-level: #eaf3f7;
+  --color-sidebar-caption-text: #6b7d8c;
+  --color-sidebar-search-border: rgba(150, 200, 230, 0.12);
+  --color-toc-item-text: #9fb1bf;
+  --color-toc-item-text--active: #2dd4e8;
+  --color-admonition-background: #0c1320;
+  --color-highlight-on-target: rgba(45, 212, 232, 0.16);
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
         --color-code-background: #2b2b2b;
   --color-code-foreground: #f8f8f2;
-  --color-brand-primary: #9ca3af;
-  --color-brand-content: #9ca3af;
-  --color-background-primary: #1C1D1F;
-  --color-background-secondary: #252628;
-  --color-background-hover: #2a2c2f;
-  --color-background-border: #38393b;
-  --color-foreground-primary: #d2dbde;
-  --color-foreground-secondary: #859399;
-  --color-foreground-muted: #859399;
-  --color-foreground-border: #38393b;
-  --color-code-background: #2a2c2f;
-  --color-code-foreground: #d2dbde;
-  --color-link: #9ca3af;
-  --color-link-underline: #9ca3af;
-  --color-link-underline--hover: #d1d5db;
-  --color-sidebar-background: #252628;
-  --color-sidebar-background-border: #38393b;
-  --color-sidebar-item-background--hover: #2a2c2f;
-  --color-sidebar-link-text: #d2dbde;
-  --color-sidebar-link-text--top-level: #ffffff;
-  --color-sidebar-caption-text: #859399;
+  --ix-bg: #060910;
+  --ix-bg-2: #080d16;
+  --ix-surface: #141d2d;
+  --ix-surface-2: #1b2740;
+  --ix-line: rgba(150, 200, 230, 0.16);
+  --ix-line-soft: rgba(150, 200, 230, 0.06);
+  --ix-ice: #2dd4e8;
+  --ix-ice-bright: #7ff0ff;
+  --ix-ice-deep: #16b8d4;
+  --ix-blue: #5b8def;
+  --ix-mint: #6ff0c7;
+  --ix-text: #eaf3f7;
+  --ix-muted: #bccbd6;
+  --ix-muted-2: #6b7d8c;
+  --ix-glow-1: rgba(45, 212, 232, 0.30);
+  --ix-glow: 0 0 40px rgba(45, 212, 232, 0.35);
+  --ix-drawer-bg: rgba(8, 13, 22, 0.60);
+  --ix-header-bg: rgba(8, 13, 22, 0.82);
+  --ix-shadow: 0 18px 50px -34px rgba(0, 0, 0, 0.80);
+  --ix-card-bg: linear-gradient(180deg, #18222f, #121b29);
+  --ix-card-shadow: 0 24px 50px -28px rgba(0, 0, 0, 0.85);
+  --ix-card-hover-border: rgba(45, 212, 232, 0.40);
+  --ix-svg-panel: #f7fbfd;
+  --ix-svg-pad: 1rem;
+  --ix-code-bg: #0a111c;
+  --ix-code-hl: rgba(45, 212, 232, 0.12);
+  --ix-selection-bg: rgba(45, 212, 232, 0.28);
+  --ix-selection-fg: #ffffff;
+  --color-brand-primary: #2dd4e8;
+  --color-brand-content: #2dd4e8;
+  --color-background-primary: #060910;
+  --color-background-secondary: #080d16;
+  --color-background-hover: #0c1320;
+  --color-background-hover--transparent: rgba(12,19,32,0);
+  --color-background-border: rgba(150, 200, 230, 0.10);
+  --color-foreground-primary: #eaf3f7;
+  --color-foreground-secondary: #9fb1bf;
+  --color-foreground-muted: #6b7d8c;
+  --color-foreground-border: rgba(150, 200, 230, 0.10);
+  --color-code-background: #0a111c;
+  --color-code-foreground: #c5d4e0;
+  --color-link: #2dd4e8;
+  --color-link--hover: #7ff0ff;
+  --color-link-underline: rgba(45, 212, 232, 0.28);
+  --color-link-underline--hover: rgba(127, 240, 255, 0.8);
+  --color-sidebar-background: #080d16;
+  --color-sidebar-background-border: rgba(150, 200, 230, 0.08);
+  --color-sidebar-item-background--hover: rgba(45, 212, 232, 0.07);
+  --color-sidebar-link-text: #9fb1bf;
+  --color-sidebar-link-text--top-level: #eaf3f7;
+  --color-sidebar-caption-text: #6b7d8c;
+  --color-sidebar-search-border: rgba(150, 200, 230, 0.12);
+  --color-toc-item-text: #9fb1bf;
+  --color-toc-item-text--active: #2dd4e8;
+  --color-admonition-background: #0c1320;
+  --color-highlight-on-target: rgba(45, 212, 232, 0.16);
   
       }
     }
@@ -252,10 +369,31 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
-  
-  <span class="sidebar-brand-text">The iceoryx2 Book</span>
-  
+      <div class="sidebar-sticky"><a class="sidebar-brand ix-brand" href="../index.html">
+  <span class="ix-brand__mark" aria-hidden="true">
+    <svg viewBox="48 41.8 106.5 76.2" width="40" height="29" focusable="false">
+      <g stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" vector-effect="non-scaling-stroke">
+        <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 848.671875 1037.96875 L 769.335938 1174.023438 L 749.492188 974.179688 Z M 848.671875 1037.96875 "/>
+        <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 756.5625 1189.609375 L 718.515625 1258.398438 L 681.679688 1218.710938 Z M 756.5625 1189.609375 "/>
+        <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1444.53125 1230.859375 L 1303.828125 1216.25 L 1105.859375 1070.9375 Z M 1444.53125 1230.859375 "/>
+        <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 730.078125 998.125 L 737.1875 1067.539062 L 521.015625 862.539062 Z M 730.078125 998.125 "/>
+        <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1445.703125 1211.640625 L 1384.570312 1180.15625 L 1362.65625 1044.101562 Z M 1445.703125 1211.640625 "/>
+        <path fill="#b3e6ef" d="M 86.429688 94.785156 C 86.75 94.785156 101.570312 67.914062 101.570312 67.914062 L 73.390625 73.148438 L 86.429688 94.785156 "/>
+        <path fill="none" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 864.296875 1052.148438 C 867.5 1052.148438 1015.703125 1320.859375 1015.703125 1320.859375 L 733.90625 1268.515625 Z M 864.296875 1052.148438 "/>
+        <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1267.734375 1252.304688 L 1315.898438 1531.015625 L 1035 1325.9375 Z M 1267.734375 1252.304688 "/>
+        <path fill="#588bb5" d="M 92.820312 87.738281 L 106.863281 92.855469 L 128.308594 77.566406 L 102.914062 69.160156 L 92.820312 87.738281 "/>
+        <path fill="none" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 928.203125 1122.617188 L 1068.632812 1071.445312 L 1283.085938 1224.335938 L 1029.140625 1308.398438 Z M 928.203125 1122.617188 "/>
+        <path fill="#588bb5" d="M 131.261719 57.824219 L 150.371094 56.046875 L 150.371094 53.316406 L 132.828125 46.078125 L 131.261719 57.824219 "/>
+        <path fill="none" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1312.617188 1421.757812 L 1503.710938 1439.53125 L 1503.710938 1466.835938 L 1328.28125 1539.21875 Z M 1312.617188 1421.757812 "/>
+        <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1314.53125 1406.40625 L 1365.234375 1410.273438 L 1285.273438 1244.53125 Z M 1314.53125 1406.40625 "/>
+        <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1297.96875 1539.023438 L 851.40625 1539.0625 L 1243.398438 1500.039062 Z M 1297.96875 1539.023438 "/>
+      </g>
+    </svg>
+  </span>
+  <span class="ix-brand__text">
+    <span class="ix-brand__word">iceoryx<span class="ix-brand__two">2</span></span>
+    <span class="ix-brand__tag">The Book</span>
+  </span>
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
@@ -358,14 +496,55 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="shared-memory">
-<h1>Shared Memory<a class="headerlink" href="#shared-memory" title="Link to this heading">#</a></h1>
+<h1>Shared Memory<a class="headerlink" href="#shared-memory" title="Link to this heading">¶</a></h1>
 <p>Shared memory is a memory region that multiple participants can access
 directly, enabling the exchange of data without copying between separate
 memory locations.</p>
-<figure class="align-center" id="fig-shared-memory-between-participants">
-<img alt="shared memory region between participants" src="../_images/shared-memory.svg" />
-<figcaption>
-<p><span class="caption-text">Memory Regions Accessible to Communicating Participants</span><a class="headerlink" href="#fig-shared-memory-between-participants" title="Link to this image">#</a></p>
+<figure class="ix-diagram align-default" id="fig-shared-memory-between-participants">
+<div class="ix-diagram__scroll"><svg viewBox="0 0 600 320" role="img" aria-label="Memory regions accessible to communicating participants" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .sm-phys     { fill: var(--ix-bg-2, #080d16); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .sm-priv     { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1; stroke-dasharray: 5 3; }
+    .sm-shared   { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
+    .sm-box      { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .sm-phys-t   { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-muted, #bccbd6); }
+    .sm-priv-t   { font-family: var(--font-stack, sans-serif); font-size: 10px; fill: var(--ix-muted, #bccbd6); }
+    .sm-shared-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-text, #eaf3f7); }
+    .sm-name     { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-text, #eaf3f7); }
+    .sm-label    { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .sm-flow     { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
+  </style>
+  <defs>
+    <marker id="sm-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse" overflow="visible">
+      <path d="M1,1 L9,5 L1,9 Z" fill="var(--ix-muted, #bccbd6)"/>
+    </marker>
+  </defs>
+
+  <!-- Physical memory -->
+  <rect class="sm-phys" x="210" y="20" width="180" height="280" rx="12"/>
+  <text class="sm-phys-t" x="300" y="40" text-anchor="middle">Physical Memory</text>
+  <rect class="sm-priv" x="228" y="58" width="144" height="56" rx="8"/>
+  <text class="sm-priv-t" x="300" y="90" text-anchor="middle">Participant Memory</text>
+  <rect class="sm-shared" x="228" y="132" width="144" height="76" rx="8"/>
+  <text class="sm-shared-t" x="300" y="166" text-anchor="middle">Shared Memory</text>
+  <text class="sm-shared-t" x="300" y="182" text-anchor="middle">Region</text>
+  <rect class="sm-priv" x="228" y="226" width="144" height="56" rx="8"/>
+  <text class="sm-priv-t" x="300" y="258" text-anchor="middle">Participant Memory</text>
+
+  <!-- Participants -->
+  <rect class="sm-box" x="60" y="148" width="80" height="44" rx="10"/>
+  <text class="sm-name" x="100" y="174" text-anchor="middle">Participant</text>
+  <rect class="sm-box" x="460" y="148" width="80" height="44" rx="10"/>
+  <text class="sm-name" x="500" y="174" text-anchor="middle">Participant</text>
+
+  <!-- Access -->
+  <line class="sm-flow" x1="148" y1="170" x2="222" y2="170" marker-start="url(#sm-arrow)" marker-end="url(#sm-arrow)"/>
+  <line class="sm-flow" x1="150" y1="156" x2="222" y2="106" marker-start="url(#sm-arrow)" marker-end="url(#sm-arrow)"/>
+  <line class="sm-flow" x1="452" y1="170" x2="378" y2="170" marker-start="url(#sm-arrow)" marker-end="url(#sm-arrow)"/>
+  <line class="sm-flow" x1="450" y1="184" x2="378" y2="234" marker-start="url(#sm-arrow)" marker-end="url(#sm-arrow)"/>
+</svg>
+</div><figcaption>
+<p><span class="caption-text">Memory Regions Accessible to Communicating Participants</span><a class="headerlink" href="#fig-shared-memory-between-participants" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>It can be implemented within a single process, where participants share the
@@ -375,7 +554,7 @@ memory segments are mapped into each participant’s virtual address space.</p>
 overhead, which essentially remains constant regardless of payload size,
 although caching behaviour may introduce some variance.</p>
 <section id="organization">
-<h2>Organization<a class="headerlink" href="#organization" title="Link to this heading">#</a></h2>
+<h2>Organization<a class="headerlink" href="#organization" title="Link to this heading">¶</a></h2>
 <p>In its basic, unstructured form, shared memory is not ergonomic to work with.
 It provides only a raw block of bytes with no built-in structure, type safety,
 or data organization. Developers must manually manage memory layout concerns
@@ -385,7 +564,7 @@ protocols for organizing and accessing data within the shared region.</p>
 enabling them to focus on the domain-specific challenges of their applications.</p>
 </section>
 <section id="synchronization">
-<h2>Synchronization<a class="headerlink" href="#synchronization" title="Link to this heading">#</a></h2>
+<h2>Synchronization<a class="headerlink" href="#synchronization" title="Link to this heading">¶</a></h2>
 <p>Shared memory requires careful use of synchronization mechanisms
 to coordinate access and ensure that data remains in a coherent state.
 Implementing and employing these synchronization mechanisms correctly can be
@@ -400,25 +579,170 @@ However, for applications with extreme safety constraints,
 not available open-source.</p>
 </section>
 <section id="zero-copy">
-<h2>Zero-copy<a class="headerlink" href="#zero-copy" title="Link to this heading">#</a></h2>
+<h2>Zero-copy<a class="headerlink" href="#zero-copy" title="Link to this heading">¶</a></h2>
 <p>Zero-copy communication is data exchange between participants without
 serialization or duplication of payload data in memory. The consumer accesses
 the payload data at the exact location and form that it is produced.</p>
 <p>While shared memory enables zero-copy communication, it requires an appropriate
 API that allows producers to write data directly into shared memory regions.</p>
-<figure class="align-center" id="fig-shared-memory-zero-copy-communication">
-<img alt="zero-copy communication" src="../_images/zero-copy-communication.svg" />
-<figcaption>
-<p><span class="caption-text">Participants Communicating over a Shared Memory Region</span><a class="headerlink" href="#fig-shared-memory-zero-copy-communication" title="Link to this image">#</a></p>
+<figure class="ix-diagram align-default" id="fig-shared-memory-zero-copy-communication">
+<div class="ix-diagram__scroll"><svg viewBox="0 0 600 208" role="img" aria-label="Participants communicating over a shared memory region" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .zc-phys     { fill: var(--ix-bg-2, #080d16); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .zc-shared   { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
+    .zc-box      { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .zc-phys-t   { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-muted, #bccbd6); }
+    .zc-shared-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-text, #eaf3f7); }
+    .zc-data     { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .zc-name     { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-text, #eaf3f7); }
+    .zc-label    { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .zc-total    { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
+    .zc-flow     { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
+  </style>
+  <defs>
+    <marker id="zc-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse" overflow="visible">
+      <path d="M1,1 L9,5 L1,9 Z" fill="var(--ix-muted, #bccbd6)"/>
+    </marker>
+  </defs>
+
+  <!-- Physical memory + shared region -->
+  <rect class="zc-phys" x="210" y="20" width="180" height="140" rx="12"/>
+  <text class="zc-phys-t" x="300" y="40" text-anchor="middle">Physical Memory</text>
+  <rect class="zc-shared" x="228" y="66" width="144" height="68" rx="8"/>
+  <text class="zc-shared-t" x="300" y="94" text-anchor="middle">Shared Memory Region</text>
+  <text class="zc-data" x="300" y="116" text-anchor="middle">Original Data (100 MB)</text>
+
+  <!-- Publisher -->
+  <rect class="zc-box" x="44" y="80" width="80" height="40" rx="10"/>
+  <text class="zc-name" x="84" y="104" text-anchor="middle">Participant</text>
+
+  <!-- Subscribers -->
+  <rect class="zc-box" x="476" y="34" width="80" height="40" rx="10"/>
+  <text class="zc-name" x="516" y="58" text-anchor="middle">Participant</text>
+  <rect class="zc-box" x="476" y="80" width="80" height="40" rx="10"/>
+  <text class="zc-name" x="516" y="104" text-anchor="middle">Participant</text>
+  <rect class="zc-box" x="476" y="126" width="80" height="40" rx="10"/>
+  <text class="zc-name" x="516" y="150" text-anchor="middle">Participant</text>
+
+  <!-- Flow (even gaps: ~10px clear of each component) -->
+  <line class="zc-flow" x1="134" y1="100" x2="200" y2="100" marker-end="url(#zc-arrow)"/>
+  <text class="zc-label" x="167" y="94" text-anchor="middle">write</text>
+  <line class="zc-flow" x1="400" y1="86" x2="466" y2="58" marker-end="url(#zc-arrow)"/>
+  <line class="zc-flow" x1="400" y1="100" x2="466" y2="100" marker-end="url(#zc-arrow)"/>
+  <line class="zc-flow" x1="400" y1="114" x2="466" y2="142" marker-end="url(#zc-arrow)"/>
+  <text class="zc-label" x="433" y="92" text-anchor="middle">read</text>
+
+  <!-- Total -->
+  <text class="zc-total" x="300" y="192" text-anchor="middle">Total Memory: ~100 MB</text>
+</svg>
+</div><figcaption>
+<p><span class="caption-text">Participants Communicating over a Shared Memory Region</span><a class="headerlink" href="#fig-shared-memory-zero-copy-communication" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>This contrasts with alternative communication mechanisms, which can involve
 serialization and multiple copies along the communication path between
 participants.</p>
-<figure class="align-center" id="fig-network-stack-communication-single-host">
-<img alt="communication over network stack" src="../_images/network-stack-communication.svg" />
-<figcaption>
-<p><span class="caption-text">Participants Communicating over the Network Stack</span><a class="headerlink" href="#fig-network-stack-communication-single-host" title="Link to this image">#</a></p>
+<figure class="ix-diagram align-default" id="fig-network-stack-communication-single-host">
+<div class="ix-diagram__scroll"><svg viewBox="0 0 600 500" role="img" aria-label="Participants communicating over the network stack" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .ns-phys    { fill: var(--ix-bg-2, #080d16); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .ns-priv    { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1; stroke-dasharray: 5 3; }
+    .ns-kernel  { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .ns-box     { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .ns-bar-o   { fill: rgba(45,212,232,0.18); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
+    .ns-bar-c   { fill: rgba(91,141,239,0.18); stroke: var(--ix-blue, #5b8def); stroke-width: 1; }
+    .ns-phys-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-muted, #bccbd6); }
+    .ns-priv-t  { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .ns-kernel-t{ font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-text, #eaf3f7); }
+    .ns-bar-t   { font-family: var(--font-stack, sans-serif); font-size: 8px; fill: var(--ix-text, #eaf3f7); }
+    .ns-name    { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-text, #eaf3f7); }
+    .ns-label   { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .ns-total   { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
+    .ns-flow    { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
+  </style>
+  <defs>
+    <marker id="ns-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse" overflow="visible">
+      <path d="M1,1 L9,5 L1,9 Z" fill="var(--ix-muted, #bccbd6)"/>
+    </marker>
+  </defs>
+
+  <!-- Physical memory -->
+  <rect class="ns-phys" x="188" y="14" width="224" height="451" rx="12"/>
+  <text class="ns-phys-t" x="300" y="34" text-anchor="middle">Physical Memory</text>
+
+  <!-- Publisher buffer -->
+  <rect class="ns-priv" x="218" y="48" width="164" height="74" rx="8"/>
+  <text class="ns-priv-t" x="300" y="64" text-anchor="middle">Participant Memory</text>
+  <rect class="ns-bar-o" x="230" y="72" width="140" height="16" rx="3"/>
+  <text class="ns-bar-t" x="300" y="83" text-anchor="middle">Original Data (100 MB)</text>
+  <rect class="ns-bar-c" x="230" y="94" width="140" height="16" rx="3"/>
+  <text class="ns-bar-t" x="300" y="105" text-anchor="middle">Serialized Data (~100 MB)</text>
+
+  <!-- Network stack -->
+  <rect class="ns-kernel" x="218" y="136" width="164" height="51" rx="8"/>
+  <text class="ns-kernel-t" x="300" y="152" text-anchor="middle">Network Stack</text>
+  <rect class="ns-bar-c" x="230" y="160" width="140" height="16" rx="3"/>
+  <text class="ns-bar-t" x="300" y="171" text-anchor="middle">Buffered Data (~100 MB)</text>
+
+  <!-- Subscriber buffers -->
+  <rect class="ns-priv" x="218" y="201" width="164" height="74" rx="8"/>
+  <text class="ns-priv-t" x="300" y="217" text-anchor="middle">Participant Memory</text>
+  <rect class="ns-bar-c" x="230" y="225" width="140" height="16" rx="3"/>
+  <text class="ns-bar-t" x="300" y="236" text-anchor="middle">Received Data (~100 MB)</text>
+  <rect class="ns-bar-c" x="230" y="247" width="140" height="16" rx="3"/>
+  <text class="ns-bar-t" x="300" y="258" text-anchor="middle">Deserialized Data (100 MB)</text>
+
+  <rect class="ns-priv" x="218" y="289" width="164" height="74" rx="8"/>
+  <text class="ns-priv-t" x="300" y="305" text-anchor="middle">Participant Memory</text>
+  <rect class="ns-bar-c" x="230" y="313" width="140" height="16" rx="3"/>
+  <text class="ns-bar-t" x="300" y="324" text-anchor="middle">Received Data (~100 MB)</text>
+  <rect class="ns-bar-c" x="230" y="335" width="140" height="16" rx="3"/>
+  <text class="ns-bar-t" x="300" y="346" text-anchor="middle">Deserialized Data (100 MB)</text>
+
+  <rect class="ns-priv" x="218" y="377" width="164" height="74" rx="8"/>
+  <text class="ns-priv-t" x="300" y="393" text-anchor="middle">Participant Memory</text>
+  <rect class="ns-bar-c" x="230" y="401" width="140" height="16" rx="3"/>
+  <text class="ns-bar-t" x="300" y="412" text-anchor="middle">Received Data (~100 MB)</text>
+  <rect class="ns-bar-c" x="230" y="423" width="140" height="16" rx="3"/>
+  <text class="ns-bar-t" x="300" y="434" text-anchor="middle">Deserialized Data (100 MB)</text>
+
+  <!-- Publisher -->
+  <rect class="ns-box" x="48" y="67" width="92" height="36" rx="10"/>
+  <text class="ns-name" x="94" y="89" text-anchor="middle">Participant</text>
+
+  <!-- Subscribers -->
+  <rect class="ns-box" x="460" y="220" width="92" height="36" rx="10"/>
+  <text class="ns-name" x="506" y="242" text-anchor="middle">Participant</text>
+  <rect class="ns-box" x="460" y="308" width="92" height="36" rx="10"/>
+  <text class="ns-name" x="506" y="330" text-anchor="middle">Participant</text>
+  <rect class="ns-box" x="460" y="396" width="92" height="36" rx="10"/>
+  <text class="ns-name" x="506" y="418" text-anchor="middle">Participant</text>
+
+  <!-- Flow -->
+  <line class="ns-flow" x1="140" y1="85" x2="216" y2="85" marker-end="url(#ns-arrow)"/>
+  <text class="ns-label" x="178" y="79" text-anchor="middle">write</text>
+  <line class="ns-flow" x1="300" y1="124" x2="300" y2="134" marker-end="url(#ns-arrow)"/>
+  <text class="ns-label" x="314" y="132" text-anchor="start">copy</text>
+
+  <!-- branch bus -->
+  <line class="ns-flow" x1="218" y1="161" x2="198" y2="161"/>
+  <line class="ns-flow" x1="198" y1="161" x2="198" y2="414"/>
+  <line class="ns-flow" x1="198" y1="238" x2="216" y2="238" marker-end="url(#ns-arrow)"/>
+  <line class="ns-flow" x1="198" y1="326" x2="216" y2="326" marker-end="url(#ns-arrow)"/>
+  <line class="ns-flow" x1="198" y1="414" x2="216" y2="414" marker-end="url(#ns-arrow)"/>
+  <text class="ns-label" x="178" y="291" text-anchor="end">copy</text>
+
+  <!-- reads -->
+  <line class="ns-flow" x1="384" y1="238" x2="458" y2="238" marker-end="url(#ns-arrow)"/>
+  <line class="ns-flow" x1="384" y1="326" x2="458" y2="326" marker-end="url(#ns-arrow)"/>
+  <line class="ns-flow" x1="384" y1="414" x2="458" y2="414" marker-end="url(#ns-arrow)"/>
+  <text class="ns-label" x="421" y="232" text-anchor="middle">read</text>
+
+  <!-- Total -->
+  <text class="ns-total" x="300" y="485" text-anchor="middle">Total Memory: ~900 MB</text>
+</svg>
+</div><figcaption>
+<p><span class="caption-text">Participants Communicating over the Network Stack</span><a class="headerlink" href="#fig-network-stack-communication-single-host" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>Consider communication via the network stack, which is a common approach taken
@@ -435,7 +759,7 @@ communication, which results in more overhead and thus communication latency.</p
 overhead, improving performance especially for large data transfers.</p>
 </section>
 <section id="further-reading">
-<h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading">#</a></h2>
+<h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading">¶</a></h2>
 <div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
 <div class="sd-row sd-row-cols-1 sd-row-cols-xs-1 sd-row-cols-sm-1 sd-row-cols-md-2 sd-row-cols-lg-3 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
 <div class="sd-col sd-d-flex-row docutils">
@@ -548,5 +872,9 @@ with shared memory.</p>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/atmosphere.js?v=5add3646"></script>
+    <script src="../_static/js/version-picker.js?v=1ee9b7b8"></script>
+    <script src="../_static/js/external-links.js?v=e6578c9f"></script>
+    <script src="../_static/js/theme-transitions.js?v=6bb2fd5c"></script>
     </body>
 </html>

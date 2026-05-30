@@ -3,15 +3,27 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Execution Control" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ekxide.github.io/iceoryx2-book/fundamentals/execution-control.html" />
+<meta property="og:site_name" content="The iceoryx2 Book" />
+<meta property="og:description" content="With iceoryx2, developers have complete control over the execution of their applications. There are no background threads; all house-keeping operations are carried out in the application threads. T..." />
+<meta property="og:image" content="https://ekxide.github.io/iceoryx2-book/_static/og-card.png" />
+<meta property="og:image:alt" content="The iceoryx2 Book" />
+<meta name="description" content="With iceoryx2, developers have complete control over the execution of their applications. There are no background threads; all house-keeping operations are carried out in the application threads. T..." />
+<meta name="twitter:card" content="summary_large_image">
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Cross-Language Support" href="cross-language-support.html" /><link rel="prev" title="Blackboard" href="messaging-patterns/blackboard.html" />
+        <link rel="canonical" href="https://ekxide.github.io/iceoryx2-book/fundamentals/execution-control.html" />
 
-    <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
+    <link rel="shortcut icon" href="../_static/favicon.svg"/><!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
         <title>Execution Control - The iceoryx2 Book</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=40c8bed2" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=dbe86054" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/version-picker.css?v=2a4710d1" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=d05edee4" />
     
     
 
@@ -20,81 +32,186 @@
   body {
     --color-code-background: #f2f2f2;
   --color-code-foreground: #1e1e1e;
-  --color-brand-primary: #6c7b7f;
-  --color-brand-content: #6c7b7f;
-  --color-background-primary: #ffffff;
-  --color-background-secondary: #f9fafb;
-  --color-background-hover: #f3f4f6;
-  --color-background-border: #e5e7eb;
-  --color-foreground-primary: #1f2937;
-  --color-foreground-secondary: #6b7280;
-  --color-foreground-muted: #9ca3af;
-  --color-foreground-border: #e5e7eb;
-  --color-code-background: #f3f4f6;
-  --color-code-foreground: #1f2937;
-  --color-link: #6c7b7f;
-  --color-link-underline: #6c7b7f;
-  --color-link-underline--hover: #4b5563;
-  --color-sidebar-background: #f9fafb;
-  --color-sidebar-background-border: #e5e7eb;
-  --color-sidebar-item-background--hover: #f3f4f6;
-  --color-sidebar-link-text: #4b5563;
-  --color-sidebar-link-text--top-level: #1f2937;
-  --color-sidebar-caption-text: #6b7280;
+  --ix-bg: #f5f8fc;
+  --ix-bg-2: #e2eaf3;
+  --ix-surface: #fafcff;
+  --ix-surface-2: #f2f7fc;
+  --ix-line: rgba(15, 55, 90, 0.12);
+  --ix-line-soft: rgba(15, 55, 90, 0.06);
+  --ix-ice: #0a8aa0;
+  --ix-ice-bright: #0a93ab;
+  --ix-ice-deep: #0a7385;
+  --ix-blue: #3a66cf;
+  --ix-mint: #0e9b73;
+  --ix-text: #0c1825;
+  --ix-muted: #36475a;
+  --ix-muted-2: #586a80;
+  --ix-glow-1: rgba(10, 160, 185, 0.16);
+  --ix-glow: 0 0 40px rgba(10, 138, 160, 0.25);
+  --ix-drawer-bg: rgba(238, 243, 249, 0.72);
+  --ix-header-bg: rgba(247, 250, 253, 0.82);
+  --ix-shadow: 0 16px 40px -30px rgba(20, 50, 90, 0.25);
+  --ix-card-bg: #fafcff;
+  --ix-card-shadow: 0 22px 44px -26px rgba(20, 50, 90, 0.28);
+  --ix-card-hover-border: rgba(10, 138, 160, 0.40);
+  --ix-svg-panel: transparent;
+  --ix-svg-pad: 0;
+  --ix-code-bg: #eef3f9;
+  --ix-code-hl: rgba(10, 138, 160, 0.12);
+  --ix-selection-bg: rgba(10, 138, 160, 0.22);
+  --ix-selection-fg: #04222a;
+  --color-brand-primary: #0a8aa0;
+  --color-brand-content: #0a7d91;
+  --color-background-primary: #f5f8fc;
+  --color-background-secondary: #eef3f9;
+  --color-background-hover: #ffffff;
+  --color-background-hover--transparent: rgba(255,255,255,0);
+  --color-background-border: rgba(15, 55, 90, 0.12);
+  --color-foreground-primary: #0c1825;
+  --color-foreground-secondary: #46596b;
+  --color-foreground-muted: #586a80;
+  --color-foreground-border: rgba(15, 55, 90, 0.12);
+  --color-code-background: #ffffff;
+  --color-code-foreground: #33485a;
+  --color-link: #0a7d91;
+  --color-link--hover: #0a93ab;
+  --color-link-underline: rgba(10, 138, 160, 0.30);
+  --color-link-underline--hover: rgba(10, 138, 160, 0.7);
+  --color-sidebar-background: #eef3f9;
+  --color-sidebar-background-border: rgba(15, 55, 90, 0.10);
+  --color-sidebar-item-background--hover: rgba(10, 138, 160, 0.07);
+  --color-sidebar-link-text: #46596b;
+  --color-sidebar-link-text--top-level: #0c1825;
+  --color-sidebar-caption-text: #586a80;
+  --color-sidebar-search-border: rgba(15, 55, 90, 0.12);
+  --color-toc-item-text: #46596b;
+  --color-toc-item-text--active: #0a8aa0;
+  --color-admonition-background: #fafcff;
+  --color-highlight-on-target: rgba(10, 147, 171, 0.14);
   
   }
   @media not print {
     body[data-theme="dark"] {
       --color-code-background: #2b2b2b;
   --color-code-foreground: #f8f8f2;
-  --color-brand-primary: #9ca3af;
-  --color-brand-content: #9ca3af;
-  --color-background-primary: #1C1D1F;
-  --color-background-secondary: #252628;
-  --color-background-hover: #2a2c2f;
-  --color-background-border: #38393b;
-  --color-foreground-primary: #d2dbde;
-  --color-foreground-secondary: #859399;
-  --color-foreground-muted: #859399;
-  --color-foreground-border: #38393b;
-  --color-code-background: #2a2c2f;
-  --color-code-foreground: #d2dbde;
-  --color-link: #9ca3af;
-  --color-link-underline: #9ca3af;
-  --color-link-underline--hover: #d1d5db;
-  --color-sidebar-background: #252628;
-  --color-sidebar-background-border: #38393b;
-  --color-sidebar-item-background--hover: #2a2c2f;
-  --color-sidebar-link-text: #d2dbde;
-  --color-sidebar-link-text--top-level: #ffffff;
-  --color-sidebar-caption-text: #859399;
+  --ix-bg: #060910;
+  --ix-bg-2: #080d16;
+  --ix-surface: #141d2d;
+  --ix-surface-2: #1b2740;
+  --ix-line: rgba(150, 200, 230, 0.16);
+  --ix-line-soft: rgba(150, 200, 230, 0.06);
+  --ix-ice: #2dd4e8;
+  --ix-ice-bright: #7ff0ff;
+  --ix-ice-deep: #16b8d4;
+  --ix-blue: #5b8def;
+  --ix-mint: #6ff0c7;
+  --ix-text: #eaf3f7;
+  --ix-muted: #bccbd6;
+  --ix-muted-2: #6b7d8c;
+  --ix-glow-1: rgba(45, 212, 232, 0.30);
+  --ix-glow: 0 0 40px rgba(45, 212, 232, 0.35);
+  --ix-drawer-bg: rgba(8, 13, 22, 0.60);
+  --ix-header-bg: rgba(8, 13, 22, 0.82);
+  --ix-shadow: 0 18px 50px -34px rgba(0, 0, 0, 0.80);
+  --ix-card-bg: linear-gradient(180deg, #18222f, #121b29);
+  --ix-card-shadow: 0 24px 50px -28px rgba(0, 0, 0, 0.85);
+  --ix-card-hover-border: rgba(45, 212, 232, 0.40);
+  --ix-svg-panel: #f7fbfd;
+  --ix-svg-pad: 1rem;
+  --ix-code-bg: #0a111c;
+  --ix-code-hl: rgba(45, 212, 232, 0.12);
+  --ix-selection-bg: rgba(45, 212, 232, 0.28);
+  --ix-selection-fg: #ffffff;
+  --color-brand-primary: #2dd4e8;
+  --color-brand-content: #2dd4e8;
+  --color-background-primary: #060910;
+  --color-background-secondary: #080d16;
+  --color-background-hover: #0c1320;
+  --color-background-hover--transparent: rgba(12,19,32,0);
+  --color-background-border: rgba(150, 200, 230, 0.10);
+  --color-foreground-primary: #eaf3f7;
+  --color-foreground-secondary: #9fb1bf;
+  --color-foreground-muted: #6b7d8c;
+  --color-foreground-border: rgba(150, 200, 230, 0.10);
+  --color-code-background: #0a111c;
+  --color-code-foreground: #c5d4e0;
+  --color-link: #2dd4e8;
+  --color-link--hover: #7ff0ff;
+  --color-link-underline: rgba(45, 212, 232, 0.28);
+  --color-link-underline--hover: rgba(127, 240, 255, 0.8);
+  --color-sidebar-background: #080d16;
+  --color-sidebar-background-border: rgba(150, 200, 230, 0.08);
+  --color-sidebar-item-background--hover: rgba(45, 212, 232, 0.07);
+  --color-sidebar-link-text: #9fb1bf;
+  --color-sidebar-link-text--top-level: #eaf3f7;
+  --color-sidebar-caption-text: #6b7d8c;
+  --color-sidebar-search-border: rgba(150, 200, 230, 0.12);
+  --color-toc-item-text: #9fb1bf;
+  --color-toc-item-text--active: #2dd4e8;
+  --color-admonition-background: #0c1320;
+  --color-highlight-on-target: rgba(45, 212, 232, 0.16);
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
         --color-code-background: #2b2b2b;
   --color-code-foreground: #f8f8f2;
-  --color-brand-primary: #9ca3af;
-  --color-brand-content: #9ca3af;
-  --color-background-primary: #1C1D1F;
-  --color-background-secondary: #252628;
-  --color-background-hover: #2a2c2f;
-  --color-background-border: #38393b;
-  --color-foreground-primary: #d2dbde;
-  --color-foreground-secondary: #859399;
-  --color-foreground-muted: #859399;
-  --color-foreground-border: #38393b;
-  --color-code-background: #2a2c2f;
-  --color-code-foreground: #d2dbde;
-  --color-link: #9ca3af;
-  --color-link-underline: #9ca3af;
-  --color-link-underline--hover: #d1d5db;
-  --color-sidebar-background: #252628;
-  --color-sidebar-background-border: #38393b;
-  --color-sidebar-item-background--hover: #2a2c2f;
-  --color-sidebar-link-text: #d2dbde;
-  --color-sidebar-link-text--top-level: #ffffff;
-  --color-sidebar-caption-text: #859399;
+  --ix-bg: #060910;
+  --ix-bg-2: #080d16;
+  --ix-surface: #141d2d;
+  --ix-surface-2: #1b2740;
+  --ix-line: rgba(150, 200, 230, 0.16);
+  --ix-line-soft: rgba(150, 200, 230, 0.06);
+  --ix-ice: #2dd4e8;
+  --ix-ice-bright: #7ff0ff;
+  --ix-ice-deep: #16b8d4;
+  --ix-blue: #5b8def;
+  --ix-mint: #6ff0c7;
+  --ix-text: #eaf3f7;
+  --ix-muted: #bccbd6;
+  --ix-muted-2: #6b7d8c;
+  --ix-glow-1: rgba(45, 212, 232, 0.30);
+  --ix-glow: 0 0 40px rgba(45, 212, 232, 0.35);
+  --ix-drawer-bg: rgba(8, 13, 22, 0.60);
+  --ix-header-bg: rgba(8, 13, 22, 0.82);
+  --ix-shadow: 0 18px 50px -34px rgba(0, 0, 0, 0.80);
+  --ix-card-bg: linear-gradient(180deg, #18222f, #121b29);
+  --ix-card-shadow: 0 24px 50px -28px rgba(0, 0, 0, 0.85);
+  --ix-card-hover-border: rgba(45, 212, 232, 0.40);
+  --ix-svg-panel: #f7fbfd;
+  --ix-svg-pad: 1rem;
+  --ix-code-bg: #0a111c;
+  --ix-code-hl: rgba(45, 212, 232, 0.12);
+  --ix-selection-bg: rgba(45, 212, 232, 0.28);
+  --ix-selection-fg: #ffffff;
+  --color-brand-primary: #2dd4e8;
+  --color-brand-content: #2dd4e8;
+  --color-background-primary: #060910;
+  --color-background-secondary: #080d16;
+  --color-background-hover: #0c1320;
+  --color-background-hover--transparent: rgba(12,19,32,0);
+  --color-background-border: rgba(150, 200, 230, 0.10);
+  --color-foreground-primary: #eaf3f7;
+  --color-foreground-secondary: #9fb1bf;
+  --color-foreground-muted: #6b7d8c;
+  --color-foreground-border: rgba(150, 200, 230, 0.10);
+  --color-code-background: #0a111c;
+  --color-code-foreground: #c5d4e0;
+  --color-link: #2dd4e8;
+  --color-link--hover: #7ff0ff;
+  --color-link-underline: rgba(45, 212, 232, 0.28);
+  --color-link-underline--hover: rgba(127, 240, 255, 0.8);
+  --color-sidebar-background: #080d16;
+  --color-sidebar-background-border: rgba(150, 200, 230, 0.08);
+  --color-sidebar-item-background--hover: rgba(45, 212, 232, 0.07);
+  --color-sidebar-link-text: #9fb1bf;
+  --color-sidebar-link-text--top-level: #eaf3f7;
+  --color-sidebar-caption-text: #6b7d8c;
+  --color-sidebar-search-border: rgba(150, 200, 230, 0.12);
+  --color-toc-item-text: #9fb1bf;
+  --color-toc-item-text--active: #2dd4e8;
+  --color-admonition-background: #0c1320;
+  --color-highlight-on-target: rgba(45, 212, 232, 0.16);
   
       }
     }
@@ -252,10 +369,31 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
-  
-  <span class="sidebar-brand-text">The iceoryx2 Book</span>
-  
+      <div class="sidebar-sticky"><a class="sidebar-brand ix-brand" href="../index.html">
+  <span class="ix-brand__mark" aria-hidden="true">
+    <svg viewBox="48 41.8 106.5 76.2" width="40" height="29" focusable="false">
+      <g stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" vector-effect="non-scaling-stroke">
+        <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 848.671875 1037.96875 L 769.335938 1174.023438 L 749.492188 974.179688 Z M 848.671875 1037.96875 "/>
+        <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 756.5625 1189.609375 L 718.515625 1258.398438 L 681.679688 1218.710938 Z M 756.5625 1189.609375 "/>
+        <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1444.53125 1230.859375 L 1303.828125 1216.25 L 1105.859375 1070.9375 Z M 1444.53125 1230.859375 "/>
+        <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 730.078125 998.125 L 737.1875 1067.539062 L 521.015625 862.539062 Z M 730.078125 998.125 "/>
+        <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1445.703125 1211.640625 L 1384.570312 1180.15625 L 1362.65625 1044.101562 Z M 1445.703125 1211.640625 "/>
+        <path fill="#b3e6ef" d="M 86.429688 94.785156 C 86.75 94.785156 101.570312 67.914062 101.570312 67.914062 L 73.390625 73.148438 L 86.429688 94.785156 "/>
+        <path fill="none" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 864.296875 1052.148438 C 867.5 1052.148438 1015.703125 1320.859375 1015.703125 1320.859375 L 733.90625 1268.515625 Z M 864.296875 1052.148438 "/>
+        <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1267.734375 1252.304688 L 1315.898438 1531.015625 L 1035 1325.9375 Z M 1267.734375 1252.304688 "/>
+        <path fill="#588bb5" d="M 92.820312 87.738281 L 106.863281 92.855469 L 128.308594 77.566406 L 102.914062 69.160156 L 92.820312 87.738281 "/>
+        <path fill="none" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 928.203125 1122.617188 L 1068.632812 1071.445312 L 1283.085938 1224.335938 L 1029.140625 1308.398438 Z M 928.203125 1122.617188 "/>
+        <path fill="#588bb5" d="M 131.261719 57.824219 L 150.371094 56.046875 L 150.371094 53.316406 L 132.828125 46.078125 L 131.261719 57.824219 "/>
+        <path fill="none" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1312.617188 1421.757812 L 1503.710938 1439.53125 L 1503.710938 1466.835938 L 1328.28125 1539.21875 Z M 1312.617188 1421.757812 "/>
+        <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1314.53125 1406.40625 L 1365.234375 1410.273438 L 1285.273438 1244.53125 Z M 1314.53125 1406.40625 "/>
+        <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1297.96875 1539.023438 L 851.40625 1539.0625 L 1243.398438 1500.039062 Z M 1297.96875 1539.023438 "/>
+      </g>
+    </svg>
+  </span>
+  <span class="ix-brand__text">
+    <span class="ix-brand__word">iceoryx<span class="ix-brand__two">2</span></span>
+    <span class="ix-brand__tag">The Book</span>
+  </span>
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
@@ -358,7 +496,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="execution-control">
-<h1>Execution Control<a class="headerlink" href="#execution-control" title="Link to this heading">#</a></h1>
+<h1>Execution Control<a class="headerlink" href="#execution-control" title="Link to this heading">¶</a></h1>
 <p>With <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>, developers have complete control over the execution of their
 applications.</p>
 <p>There are no background threads; all house-keeping operations are carried out
@@ -370,13 +508,129 @@ house-keeping functions when more control is required.</p>
 determinism is paramount. It enables predictable resource usage, precise timing
 control, and lends itself to real-time analysis and certification processes.</p>
 <section id="waitset">
-<h2>Waitset<a class="headerlink" href="#waitset" title="Link to this heading">#</a></h2>
+<h2>Waitset<a class="headerlink" href="#waitset" title="Link to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">Waitset</span></code> is an optional component that facilitates the setup of reactive
 processing loops in user threads.</p>
-<figure class="align-center" id="fig-execution-control-with-waitset">
-<img alt="execution control via waitset" src="../_images/execution-control-waitset.svg" />
-<figcaption>
-<p><span class="caption-text">Event Multiplexing via Waitset</span><a class="headerlink" href="#fig-execution-control-with-waitset" title="Link to this image">#</a></p>
+<figure class="ix-diagram align-default" id="fig-execution-control-with-waitset">
+<div class="ix-diagram__scroll"><svg viewBox="0 42 736 312" role="img" aria-label="Event multiplexing via waitset" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .ex-src     { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .ex-port    { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
+    .ex-d       { fill: none; stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.2; stroke-dasharray: 6 3.5; }
+    .ex-thread  { fill: none; stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.2; stroke-dasharray: 6 3.5; }
+    .ex-waitset { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
+    .ex-seg     { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.2; stroke-dasharray: 6 3.5; }
+    .ex-chip    { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .ex-evt     { fill: var(--ix-ice, #2dd4e8); }
+    .ex-evt2    { fill: var(--ix-blue, #5b8def); }
+    .ex-empty   { fill: none; stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.2; stroke-dasharray: 3.5 2.4; }
+    .ex-active  { fill: var(--ix-surface, #141d2d); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
+    .ex-diamond { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .ex-t       { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 13px; fill: var(--ix-text, #eaf3f7); }
+    .ex-bt      { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-text, #eaf3f7); }
+    .ex-bt-i    { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-text, #eaf3f7); }
+    .ex-sub     { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .ex-lbl     { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .ex-chip-t  { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .ex-cell-t  { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .ex-flow    { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
+    .ex-flow-d  { stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.75; fill: none; stroke-dasharray: 4.7 3.5; }
+  </style>
+  <defs>
+    <marker id="ex-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse" overflow="visible">
+      <path d="M1,1 L9,5 L1,9 Z" fill="var(--ix-muted, #bccbd6)"/>
+    </marker>
+    <marker id="ex-arrow-d" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="userSpaceOnUse" overflow="visible">
+      <path d="M1,1 L8,4.5 L1,8 Z" fill="var(--ix-muted-2, #6b7d8c)"/>
+    </marker>
+  </defs>
+
+  <!-- Worker thread boundary -->
+  <rect class="ex-thread" x="128" y="50" width="606" height="296" rx="14"/>
+  <text class="ex-t" x="431" y="76" text-anchor="middle">Worker Thread</text>
+
+  <!-- Event sources -->
+  <rect class="ex-port" x="4" y="100" width="104" height="52" rx="9"/>
+  <text class="ex-bt-i" x="56" y="122" text-anchor="middle">Interval Timer</text>
+  <text class="ex-sub" x="56" y="137" text-anchor="middle">10 ms · TICK!</text>
+
+  <rect class="ex-port" x="4" y="160" width="104" height="52" rx="9"/>
+  <text class="ex-bt-i" x="56" y="182" text-anchor="middle">Listener Port</text>
+  <text class="ex-sub" x="56" y="197" text-anchor="middle">/sensors · NEW DATA</text>
+
+  <g opacity="0.55">
+    <rect class="ex-d" x="4" y="220" width="104" height="52" rx="9"/>
+    <text class="ex-bt" x="56" y="242" text-anchor="middle">File Descriptor</text>
+    <text class="ex-sub" x="56" y="257" text-anchor="middle">fd: 7 · waiting</text>
+    <rect class="ex-d" x="4" y="280" width="104" height="52" rx="9"/>
+    <text class="ex-bt" x="56" y="302" text-anchor="middle">Deadline Timer</text>
+    <text class="ex-sub" x="56" y="317" text-anchor="middle">500 ms · pending</text>
+  </g>
+
+  <!-- Event flows to waitset -->
+  <line class="ex-flow" x1="112" y1="126" x2="184" y2="126" marker-end="url(#ex-arrow)"/>
+  <line class="ex-flow" x1="112" y1="186" x2="184" y2="186" marker-end="url(#ex-arrow)"/>
+
+  <!-- Waitset -->
+  <rect class="ex-waitset" x="190" y="96" width="276" height="228" rx="12"/>
+  <text class="ex-t" x="328" y="120" text-anchor="middle">Waitset</text>
+
+  <rect class="ex-seg" x="206" y="144" width="244" height="86" rx="6"/>
+  <text class="ex-lbl" x="328" y="162" text-anchor="middle">Event Queue</text>
+  <rect class="ex-evt"   x="218" y="180" width="58" height="20" rx="3"/>
+  <rect class="ex-evt"   x="282" y="180" width="58" height="20" rx="3"/>
+  <rect class="ex-empty" x="346" y="180" width="44" height="20" rx="3"/>
+  <rect class="ex-empty" x="396" y="180" width="44" height="20" rx="3"/>
+  <text class="ex-cell-t" x="247" y="216" text-anchor="middle">Timer</text>
+  <text class="ex-cell-t" x="311" y="216" text-anchor="middle">Data</text>
+  <text class="ex-cell-t" x="396" y="216" text-anchor="middle">empty slots</text>
+
+  <rect class="ex-chip" x="206" y="250" width="54" height="24" rx="5"/>
+  <text class="ex-chip-t" x="233" y="266" text-anchor="middle">select</text>
+  <rect class="ex-chip" x="264" y="250" width="48" height="24" rx="5"/>
+  <text class="ex-chip-t" x="288" y="266" text-anchor="middle">epoll</text>
+  <rect class="ex-chip" x="316" y="250" width="40" height="24" rx="5"/>
+  <text class="ex-chip-t" x="336" y="266" text-anchor="middle">poll</text>
+  <rect class="ex-chip" x="360" y="250" width="90" height="24" rx="5"/>
+  <text class="ex-chip-t" x="405" y="266" text-anchor="middle">WSAPoll …</text>
+  <rect class="ex-chip" x="206" y="284" width="60" height="24" rx="5"/>
+  <text class="ex-chip-t" x="236" y="300" text-anchor="middle">inotify</text>
+  <rect class="ex-chip" x="270" y="284" width="60" height="24" rx="5"/>
+  <text class="ex-chip-t" x="300" y="300" text-anchor="middle">kqueue</text>
+  <rect class="ex-chip" x="334" y="284" width="116" height="24" rx="5"/>
+  <text class="ex-chip-t" x="392" y="300" text-anchor="middle">platform specific</text>
+
+  <!-- wake-up signal -->
+  <line class="ex-flow" x1="466" y1="128" x2="552" y2="128" marker-end="url(#ex-arrow)"/>
+  <text class="ex-lbl" x="509" y="121" text-anchor="middle">wake up</text>
+
+  <!-- Thread state machine -->
+  <rect class="ex-d" x="556" y="108" width="120" height="46" rx="8"/>
+  <text class="ex-bt" x="616" y="128" text-anchor="middle">BLOCKED</text>
+  <text class="ex-sub" x="616" y="143" text-anchor="middle">waitset.wait()</text>
+
+  <rect class="ex-active" x="556" y="190" width="120" height="46" rx="8"/>
+  <text class="ex-bt" x="616" y="210" text-anchor="middle">ACTIVE</text>
+  <text class="ex-sub" x="616" y="225" text-anchor="middle">process events</text>
+
+  <polygon class="ex-diamond" points="616,266 648,294 616,322 584,294"/>
+  <text class="ex-sub" x="616" y="291" text-anchor="middle">more</text>
+  <text class="ex-sub" x="616" y="301" text-anchor="middle">events?</text>
+
+  <!-- transitions -->
+  <line class="ex-flow" x1="616" y1="156" x2="616" y2="188" marker-end="url(#ex-arrow)"/>
+  <text class="ex-lbl" x="632" y="176" text-anchor="start">wake</text>
+  <line class="ex-flow" x1="616" y1="236" x2="616" y2="264" marker-end="url(#ex-arrow)"/>
+  <text class="ex-lbl" x="632" y="254" text-anchor="start">done</text>
+  <!-- yes: loop back to ACTIVE -->
+  <path class="ex-flow" d="M648,294 H706 V213 H678" marker-end="url(#ex-arrow)"/>
+  <text class="ex-lbl" x="712" y="256" text-anchor="start">yes</text>
+  <!-- no: back to BLOCKED -->
+  <path class="ex-flow-d" d="M584,294 H536 V146 H554" marker-end="url(#ex-arrow-d)"/>
+  <text class="ex-lbl" x="530" y="220" text-anchor="end">no</text>
+</svg>
+</div><figcaption>
+<p><span class="caption-text">Event Multiplexing via Waitset</span><a class="headerlink" href="#fig-execution-control-with-waitset" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>Various event sources (depending on the platform) can be attached to the
@@ -396,7 +650,7 @@ facilities.</p>
 </ol>
 </section>
 <section id="further-reading">
-<h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading">#</a></h2>
+<h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading">¶</a></h2>
 <div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
 <div class="sd-row sd-row-cols-1 sd-row-cols-xs-1 sd-row-cols-sm-1 sd-row-cols-md-2 sd-row-cols-lg-3 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
 <div class="sd-col sd-d-flex-row docutils">
@@ -505,5 +759,9 @@ Example: Event Multiplexing (Rust)</div>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/atmosphere.js?v=5add3646"></script>
+    <script src="../_static/js/version-picker.js?v=1ee9b7b8"></script>
+    <script src="../_static/js/external-links.js?v=e6578c9f"></script>
+    <script src="../_static/js/theme-transitions.js?v=6bb2fd5c"></script>
     </body>
 </html>

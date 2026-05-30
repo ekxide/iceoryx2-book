@@ -5,10 +5,9 @@ boundaries by leveraging popular network communication middlewares and
 libraries. They can be run in separate processes, thereby isolating network
 communication from safety-critical code.
 
-```{figure} /images/gateways-and-tunnels.svg
-:alt: gateways and tunnels
-:align: center
+```{inline-svg} /images/gateways-and-tunnels.svg
 :name: fig-gateways-and-tunnels
+:alt: gateways and tunnels
 
 Host-to-host Communication
 ```

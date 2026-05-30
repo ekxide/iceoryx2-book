@@ -3,15 +3,25 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="The iceoryx2 Book" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ekxide.github.io/iceoryx2-book/index.html" />
+<meta property="og:site_name" content="The iceoryx2 Book" />
+<meta property="og:image" content="https://ekxide.github.io/iceoryx2-book/_static/og-card.png" />
+<meta property="og:image:alt" content="The iceoryx2 Book" />
+<meta name="twitter:card" content="summary_large_image">
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Introduction" href="introduction.html" />
+        <link rel="canonical" href="https://ekxide.github.io/iceoryx2-book/index.html" />
 
-    <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
+    <link rel="shortcut icon" href="_static/favicon.svg"/><!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
         <title>The iceoryx2 Book</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=40c8bed2" />
+    <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=dbe86054" />
+    <link rel="stylesheet" type="text/css" href="_static/css/version-picker.css?v=2a4710d1" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=d05edee4" />
     
     
 
@@ -20,81 +30,186 @@
   body {
     --color-code-background: #f2f2f2;
   --color-code-foreground: #1e1e1e;
-  --color-brand-primary: #6c7b7f;
-  --color-brand-content: #6c7b7f;
-  --color-background-primary: #ffffff;
-  --color-background-secondary: #f9fafb;
-  --color-background-hover: #f3f4f6;
-  --color-background-border: #e5e7eb;
-  --color-foreground-primary: #1f2937;
-  --color-foreground-secondary: #6b7280;
-  --color-foreground-muted: #9ca3af;
-  --color-foreground-border: #e5e7eb;
-  --color-code-background: #f3f4f6;
-  --color-code-foreground: #1f2937;
-  --color-link: #6c7b7f;
-  --color-link-underline: #6c7b7f;
-  --color-link-underline--hover: #4b5563;
-  --color-sidebar-background: #f9fafb;
-  --color-sidebar-background-border: #e5e7eb;
-  --color-sidebar-item-background--hover: #f3f4f6;
-  --color-sidebar-link-text: #4b5563;
-  --color-sidebar-link-text--top-level: #1f2937;
-  --color-sidebar-caption-text: #6b7280;
+  --ix-bg: #f5f8fc;
+  --ix-bg-2: #e2eaf3;
+  --ix-surface: #fafcff;
+  --ix-surface-2: #f2f7fc;
+  --ix-line: rgba(15, 55, 90, 0.12);
+  --ix-line-soft: rgba(15, 55, 90, 0.06);
+  --ix-ice: #0a8aa0;
+  --ix-ice-bright: #0a93ab;
+  --ix-ice-deep: #0a7385;
+  --ix-blue: #3a66cf;
+  --ix-mint: #0e9b73;
+  --ix-text: #0c1825;
+  --ix-muted: #36475a;
+  --ix-muted-2: #586a80;
+  --ix-glow-1: rgba(10, 160, 185, 0.16);
+  --ix-glow: 0 0 40px rgba(10, 138, 160, 0.25);
+  --ix-drawer-bg: rgba(238, 243, 249, 0.72);
+  --ix-header-bg: rgba(247, 250, 253, 0.82);
+  --ix-shadow: 0 16px 40px -30px rgba(20, 50, 90, 0.25);
+  --ix-card-bg: #fafcff;
+  --ix-card-shadow: 0 22px 44px -26px rgba(20, 50, 90, 0.28);
+  --ix-card-hover-border: rgba(10, 138, 160, 0.40);
+  --ix-svg-panel: transparent;
+  --ix-svg-pad: 0;
+  --ix-code-bg: #eef3f9;
+  --ix-code-hl: rgba(10, 138, 160, 0.12);
+  --ix-selection-bg: rgba(10, 138, 160, 0.22);
+  --ix-selection-fg: #04222a;
+  --color-brand-primary: #0a8aa0;
+  --color-brand-content: #0a7d91;
+  --color-background-primary: #f5f8fc;
+  --color-background-secondary: #eef3f9;
+  --color-background-hover: #ffffff;
+  --color-background-hover--transparent: rgba(255,255,255,0);
+  --color-background-border: rgba(15, 55, 90, 0.12);
+  --color-foreground-primary: #0c1825;
+  --color-foreground-secondary: #46596b;
+  --color-foreground-muted: #586a80;
+  --color-foreground-border: rgba(15, 55, 90, 0.12);
+  --color-code-background: #ffffff;
+  --color-code-foreground: #33485a;
+  --color-link: #0a7d91;
+  --color-link--hover: #0a93ab;
+  --color-link-underline: rgba(10, 138, 160, 0.30);
+  --color-link-underline--hover: rgba(10, 138, 160, 0.7);
+  --color-sidebar-background: #eef3f9;
+  --color-sidebar-background-border: rgba(15, 55, 90, 0.10);
+  --color-sidebar-item-background--hover: rgba(10, 138, 160, 0.07);
+  --color-sidebar-link-text: #46596b;
+  --color-sidebar-link-text--top-level: #0c1825;
+  --color-sidebar-caption-text: #586a80;
+  --color-sidebar-search-border: rgba(15, 55, 90, 0.12);
+  --color-toc-item-text: #46596b;
+  --color-toc-item-text--active: #0a8aa0;
+  --color-admonition-background: #fafcff;
+  --color-highlight-on-target: rgba(10, 147, 171, 0.14);
   
   }
   @media not print {
     body[data-theme="dark"] {
       --color-code-background: #2b2b2b;
   --color-code-foreground: #f8f8f2;
-  --color-brand-primary: #9ca3af;
-  --color-brand-content: #9ca3af;
-  --color-background-primary: #1C1D1F;
-  --color-background-secondary: #252628;
-  --color-background-hover: #2a2c2f;
-  --color-background-border: #38393b;
-  --color-foreground-primary: #d2dbde;
-  --color-foreground-secondary: #859399;
-  --color-foreground-muted: #859399;
-  --color-foreground-border: #38393b;
-  --color-code-background: #2a2c2f;
-  --color-code-foreground: #d2dbde;
-  --color-link: #9ca3af;
-  --color-link-underline: #9ca3af;
-  --color-link-underline--hover: #d1d5db;
-  --color-sidebar-background: #252628;
-  --color-sidebar-background-border: #38393b;
-  --color-sidebar-item-background--hover: #2a2c2f;
-  --color-sidebar-link-text: #d2dbde;
-  --color-sidebar-link-text--top-level: #ffffff;
-  --color-sidebar-caption-text: #859399;
+  --ix-bg: #060910;
+  --ix-bg-2: #080d16;
+  --ix-surface: #141d2d;
+  --ix-surface-2: #1b2740;
+  --ix-line: rgba(150, 200, 230, 0.16);
+  --ix-line-soft: rgba(150, 200, 230, 0.06);
+  --ix-ice: #2dd4e8;
+  --ix-ice-bright: #7ff0ff;
+  --ix-ice-deep: #16b8d4;
+  --ix-blue: #5b8def;
+  --ix-mint: #6ff0c7;
+  --ix-text: #eaf3f7;
+  --ix-muted: #bccbd6;
+  --ix-muted-2: #6b7d8c;
+  --ix-glow-1: rgba(45, 212, 232, 0.30);
+  --ix-glow: 0 0 40px rgba(45, 212, 232, 0.35);
+  --ix-drawer-bg: rgba(8, 13, 22, 0.60);
+  --ix-header-bg: rgba(8, 13, 22, 0.82);
+  --ix-shadow: 0 18px 50px -34px rgba(0, 0, 0, 0.80);
+  --ix-card-bg: linear-gradient(180deg, #18222f, #121b29);
+  --ix-card-shadow: 0 24px 50px -28px rgba(0, 0, 0, 0.85);
+  --ix-card-hover-border: rgba(45, 212, 232, 0.40);
+  --ix-svg-panel: #f7fbfd;
+  --ix-svg-pad: 1rem;
+  --ix-code-bg: #0a111c;
+  --ix-code-hl: rgba(45, 212, 232, 0.12);
+  --ix-selection-bg: rgba(45, 212, 232, 0.28);
+  --ix-selection-fg: #ffffff;
+  --color-brand-primary: #2dd4e8;
+  --color-brand-content: #2dd4e8;
+  --color-background-primary: #060910;
+  --color-background-secondary: #080d16;
+  --color-background-hover: #0c1320;
+  --color-background-hover--transparent: rgba(12,19,32,0);
+  --color-background-border: rgba(150, 200, 230, 0.10);
+  --color-foreground-primary: #eaf3f7;
+  --color-foreground-secondary: #9fb1bf;
+  --color-foreground-muted: #6b7d8c;
+  --color-foreground-border: rgba(150, 200, 230, 0.10);
+  --color-code-background: #0a111c;
+  --color-code-foreground: #c5d4e0;
+  --color-link: #2dd4e8;
+  --color-link--hover: #7ff0ff;
+  --color-link-underline: rgba(45, 212, 232, 0.28);
+  --color-link-underline--hover: rgba(127, 240, 255, 0.8);
+  --color-sidebar-background: #080d16;
+  --color-sidebar-background-border: rgba(150, 200, 230, 0.08);
+  --color-sidebar-item-background--hover: rgba(45, 212, 232, 0.07);
+  --color-sidebar-link-text: #9fb1bf;
+  --color-sidebar-link-text--top-level: #eaf3f7;
+  --color-sidebar-caption-text: #6b7d8c;
+  --color-sidebar-search-border: rgba(150, 200, 230, 0.12);
+  --color-toc-item-text: #9fb1bf;
+  --color-toc-item-text--active: #2dd4e8;
+  --color-admonition-background: #0c1320;
+  --color-highlight-on-target: rgba(45, 212, 232, 0.16);
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
         --color-code-background: #2b2b2b;
   --color-code-foreground: #f8f8f2;
-  --color-brand-primary: #9ca3af;
-  --color-brand-content: #9ca3af;
-  --color-background-primary: #1C1D1F;
-  --color-background-secondary: #252628;
-  --color-background-hover: #2a2c2f;
-  --color-background-border: #38393b;
-  --color-foreground-primary: #d2dbde;
-  --color-foreground-secondary: #859399;
-  --color-foreground-muted: #859399;
-  --color-foreground-border: #38393b;
-  --color-code-background: #2a2c2f;
-  --color-code-foreground: #d2dbde;
-  --color-link: #9ca3af;
-  --color-link-underline: #9ca3af;
-  --color-link-underline--hover: #d1d5db;
-  --color-sidebar-background: #252628;
-  --color-sidebar-background-border: #38393b;
-  --color-sidebar-item-background--hover: #2a2c2f;
-  --color-sidebar-link-text: #d2dbde;
-  --color-sidebar-link-text--top-level: #ffffff;
-  --color-sidebar-caption-text: #859399;
+  --ix-bg: #060910;
+  --ix-bg-2: #080d16;
+  --ix-surface: #141d2d;
+  --ix-surface-2: #1b2740;
+  --ix-line: rgba(150, 200, 230, 0.16);
+  --ix-line-soft: rgba(150, 200, 230, 0.06);
+  --ix-ice: #2dd4e8;
+  --ix-ice-bright: #7ff0ff;
+  --ix-ice-deep: #16b8d4;
+  --ix-blue: #5b8def;
+  --ix-mint: #6ff0c7;
+  --ix-text: #eaf3f7;
+  --ix-muted: #bccbd6;
+  --ix-muted-2: #6b7d8c;
+  --ix-glow-1: rgba(45, 212, 232, 0.30);
+  --ix-glow: 0 0 40px rgba(45, 212, 232, 0.35);
+  --ix-drawer-bg: rgba(8, 13, 22, 0.60);
+  --ix-header-bg: rgba(8, 13, 22, 0.82);
+  --ix-shadow: 0 18px 50px -34px rgba(0, 0, 0, 0.80);
+  --ix-card-bg: linear-gradient(180deg, #18222f, #121b29);
+  --ix-card-shadow: 0 24px 50px -28px rgba(0, 0, 0, 0.85);
+  --ix-card-hover-border: rgba(45, 212, 232, 0.40);
+  --ix-svg-panel: #f7fbfd;
+  --ix-svg-pad: 1rem;
+  --ix-code-bg: #0a111c;
+  --ix-code-hl: rgba(45, 212, 232, 0.12);
+  --ix-selection-bg: rgba(45, 212, 232, 0.28);
+  --ix-selection-fg: #ffffff;
+  --color-brand-primary: #2dd4e8;
+  --color-brand-content: #2dd4e8;
+  --color-background-primary: #060910;
+  --color-background-secondary: #080d16;
+  --color-background-hover: #0c1320;
+  --color-background-hover--transparent: rgba(12,19,32,0);
+  --color-background-border: rgba(150, 200, 230, 0.10);
+  --color-foreground-primary: #eaf3f7;
+  --color-foreground-secondary: #9fb1bf;
+  --color-foreground-muted: #6b7d8c;
+  --color-foreground-border: rgba(150, 200, 230, 0.10);
+  --color-code-background: #0a111c;
+  --color-code-foreground: #c5d4e0;
+  --color-link: #2dd4e8;
+  --color-link--hover: #7ff0ff;
+  --color-link-underline: rgba(45, 212, 232, 0.28);
+  --color-link-underline--hover: rgba(127, 240, 255, 0.8);
+  --color-sidebar-background: #080d16;
+  --color-sidebar-background-border: rgba(150, 200, 230, 0.08);
+  --color-sidebar-item-background--hover: rgba(45, 212, 232, 0.07);
+  --color-sidebar-link-text: #9fb1bf;
+  --color-sidebar-link-text--top-level: #eaf3f7;
+  --color-sidebar-caption-text: #6b7d8c;
+  --color-sidebar-search-border: rgba(150, 200, 230, 0.12);
+  --color-toc-item-text: #9fb1bf;
+  --color-toc-item-text--active: #2dd4e8;
+  --color-admonition-background: #0c1320;
+  --color-highlight-on-target: rgba(45, 212, 232, 0.16);
   
       }
     }
@@ -252,10 +367,31 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
-  
-  <span class="sidebar-brand-text">The iceoryx2 Book</span>
-  
+      <div class="sidebar-sticky"><a class="sidebar-brand ix-brand" href="#">
+  <span class="ix-brand__mark" aria-hidden="true">
+    <svg viewBox="48 41.8 106.5 76.2" width="40" height="29" focusable="false">
+      <g stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" vector-effect="non-scaling-stroke">
+        <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 848.671875 1037.96875 L 769.335938 1174.023438 L 749.492188 974.179688 Z M 848.671875 1037.96875 "/>
+        <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 756.5625 1189.609375 L 718.515625 1258.398438 L 681.679688 1218.710938 Z M 756.5625 1189.609375 "/>
+        <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1444.53125 1230.859375 L 1303.828125 1216.25 L 1105.859375 1070.9375 Z M 1444.53125 1230.859375 "/>
+        <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 730.078125 998.125 L 737.1875 1067.539062 L 521.015625 862.539062 Z M 730.078125 998.125 "/>
+        <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1445.703125 1211.640625 L 1384.570312 1180.15625 L 1362.65625 1044.101562 Z M 1445.703125 1211.640625 "/>
+        <path fill="#b3e6ef" d="M 86.429688 94.785156 C 86.75 94.785156 101.570312 67.914062 101.570312 67.914062 L 73.390625 73.148438 L 86.429688 94.785156 "/>
+        <path fill="none" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 864.296875 1052.148438 C 867.5 1052.148438 1015.703125 1320.859375 1015.703125 1320.859375 L 733.90625 1268.515625 Z M 864.296875 1052.148438 "/>
+        <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1267.734375 1252.304688 L 1315.898438 1531.015625 L 1035 1325.9375 Z M 1267.734375 1252.304688 "/>
+        <path fill="#588bb5" d="M 92.820312 87.738281 L 106.863281 92.855469 L 128.308594 77.566406 L 102.914062 69.160156 L 92.820312 87.738281 "/>
+        <path fill="none" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 928.203125 1122.617188 L 1068.632812 1071.445312 L 1283.085938 1224.335938 L 1029.140625 1308.398438 Z M 928.203125 1122.617188 "/>
+        <path fill="#588bb5" d="M 131.261719 57.824219 L 150.371094 56.046875 L 150.371094 53.316406 L 132.828125 46.078125 L 131.261719 57.824219 "/>
+        <path fill="none" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1312.617188 1421.757812 L 1503.710938 1439.53125 L 1503.710938 1466.835938 L 1328.28125 1539.21875 Z M 1312.617188 1421.757812 "/>
+        <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1314.53125 1406.40625 L 1365.234375 1410.273438 L 1285.273438 1244.53125 Z M 1314.53125 1406.40625 "/>
+        <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1297.96875 1539.023438 L 851.40625 1539.0625 L 1243.398438 1500.039062 Z M 1297.96875 1539.023438 "/>
+      </g>
+    </svg>
+  </span>
+  <span class="ix-brand__text">
+    <span class="ix-brand__word">iceoryx<span class="ix-brand__two">2</span></span>
+    <span class="ix-brand__tag">The Book</span>
+  </span>
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
@@ -358,158 +494,71 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="the-iceoryx2-book">
-<h1>The iceoryx2 Book<a class="headerlink" href="#the-iceoryx2-book" title="Link to this heading">#</a></h1>
-<img alt="iceoryx logo" class="hidden" src="_images/iceoryx-logo-01.png" />
-<img alt="iceoryx logo" class="hidden" src="_images/iceoryx-logo-02.png" />
-<img alt="ekxide logo" class="hidden" src="_images/ekxide-black-no-frame.png" />
-<img alt="ekxide logo" class="hidden" src="_images/ekxide-white-no-frame.png" />
-<style>
-.hidden { display: none; }
+<h1>The iceoryx2 Book<a class="headerlink" href="#the-iceoryx2-book" title="Link to this heading">¶</a></h1>
+<div class="ix-hero">
+  <div class="ix-hero__mark" aria-hidden="true">
+    <svg viewBox="48 41.8 106.5 76.2" width="118" height="84" focusable="false">
+      <g stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" vector-effect="non-scaling-stroke">
+        <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 848.671875 1037.96875 L 769.335938 1174.023438 L 749.492188 974.179688 Z M 848.671875 1037.96875 "/>
+        <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 756.5625 1189.609375 L 718.515625 1258.398438 L 681.679688 1218.710938 Z M 756.5625 1189.609375 "/>
+        <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1444.53125 1230.859375 L 1303.828125 1216.25 L 1105.859375 1070.9375 Z M 1444.53125 1230.859375 "/>
+        <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 730.078125 998.125 L 737.1875 1067.539062 L 521.015625 862.539062 Z M 730.078125 998.125 "/>
+        <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1445.703125 1211.640625 L 1384.570312 1180.15625 L 1362.65625 1044.101562 Z M 1445.703125 1211.640625 "/>
+        <path fill="#b3e6ef" d="M 86.429688 94.785156 C 86.75 94.785156 101.570312 67.914062 101.570312 67.914062 L 73.390625 73.148438 L 86.429688 94.785156 "/>
+        <path fill="none" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 864.296875 1052.148438 C 867.5 1052.148438 1015.703125 1320.859375 1015.703125 1320.859375 L 733.90625 1268.515625 Z M 864.296875 1052.148438 "/>
+        <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1267.734375 1252.304688 L 1315.898438 1531.015625 L 1035 1325.9375 Z M 1267.734375 1252.304688 "/>
+        <path fill="#588bb5" d="M 92.820312 87.738281 L 106.863281 92.855469 L 128.308594 77.566406 L 102.914062 69.160156 L 92.820312 87.738281 "/>
+        <path fill="none" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 928.203125 1122.617188 L 1068.632812 1071.445312 L 1283.085938 1224.335938 L 1029.140625 1308.398438 Z M 928.203125 1122.617188 "/>
+        <path fill="#588bb5" d="M 131.261719 57.824219 L 150.371094 56.046875 L 150.371094 53.316406 L 132.828125 46.078125 L 131.261719 57.824219 "/>
+        <path fill="none" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1312.617188 1421.757812 L 1503.710938 1439.53125 L 1503.710938 1466.835938 L 1328.28125 1539.21875 Z M 1312.617188 1421.757812 "/>
+        <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1314.53125 1406.40625 L 1365.234375 1410.273438 L 1285.273438 1244.53125 Z M 1314.53125 1406.40625 "/>
+        <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1297.96875 1539.023438 L 851.40625 1539.0625 L 1243.398438 1500.039062 Z M 1297.96875 1539.023438 "/>
+      </g>
+    </svg>
+  </div>
+  <p class="ix-hero__eyebrow"><span class="ix-hero__dot"></span>The <span class="ix-hero__word">iceoryx<span class="ix-hero__two">2</span></span> Book</p>
+  <h1 class="ix-hero__title">The guide to iceoryx2.</h1>
+  <p class="ix-hero__lead">Fundamentals, tutorials, and how-tos for building
+  zero-copy systems with <code class="ix-hero__code">iceoryx2</code>.</p>
+  <div class="ix-hero__cta">
+    <a class="ix-btn ix-btn--primary" href="getting-started/quickstart.html">
+      Get started
+      <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <a class="ix-btn ix-btn--ghost" href="https://github.com/eclipse-iceoryx/iceoryx2" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.74 1.27 3.4.97.11-.76.41-1.27.74-1.56-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.25 5.68.42.36.8 1.08.8 2.18v3.23c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+      View on GitHub
+    </a>
+  </div>
+</div>
 
-.logo-container {
-    position: relative;
-    text-align: center;
-    margin: 20px 0;
-}
-
-.logo-light, .logo-dark {
-    display: block;
-    margin: 0 auto;
-}
-
-.ekxide-light, .ekxide-dark {
-    display: block;
-}
-
-.logo-dark, .ekxide-dark {
-    display: none;
-}
-
-@media (prefers-color-scheme: dark) {
-    .logo-light, .ekxide-light { display: none; }
-    .logo-dark, .ekxide-dark { display: block; }
-}
-
-html[data-theme="dark"] .logo-light,
-html[data-theme="dark"] .ekxide-light,
-[data-theme="dark"] .logo-light,
-[data-theme="dark"] .ekxide-light {
-    display: none !important;
-}
-
-html[data-theme="dark"] .logo-dark,
-html[data-theme="dark"] .ekxide-dark,
-[data-theme="dark"] .logo-dark,
-[data-theme="dark"] .ekxide-dark {
-    display: block !important;
-}
-
-html[data-theme="light"] .logo-light,
-html[data-theme="light"] .ekxide-light,
-[data-theme="light"] .logo-light,
-[data-theme="light"] .ekxide-light {
-    display: block !important;
-}
-
-html[data-theme="light"] .logo-dark,
-html[data-theme="light"] .ekxide-dark,
-[data-theme="light"] .logo-dark,
-[data-theme="light"] .ekxide-dark {
-    display: none !important;
-}
-</style>
-
-<div class="logo-container">
-    <!-- Light theme logos -->
-    <img src="_images/iceoryx-logo-01.png"
-         alt="iceoryx logo"
-         class="logo-light"
-         style="max-width: 50%; height: auto;">
-    <img src="_images/ekxide-black-no-frame.png"
-         alt="ekxide logo"
-         class="ekxide-light"
-         style="position: absolute;
-                bottom: 30px;
-                right: 120px;
-                width: 10%;
-                height: auto;">
-
-    <!-- Dark theme logos -->
-    <img src="_images/iceoryx-logo-02.png"
-         alt="iceoryx logo"
-         class="logo-dark"
-         style="max-width: 50%; height: auto;">
-    <img src="_images/ekxide-white-no-frame.png"
-         alt="ekxide logo"
-         class="ekxide-dark"
-         style="position: absolute;
-                bottom: 30px;
-                right: 120px;
-                width: 10%;
-                height: auto;">
-</div><p>Welcome to the <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> book! Brought to you with ♡ by the developers at
-<a class="reference external" href="http://ekxide.io">ekxide IO</a>.</p>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">User Manual</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-</ul>
+<section class="ix-maintainer" aria-label="Maintained by ekxide">
+  <div class="ix-maintainer__inner">
+    <div class="ix-maintainer__brand">
+      <span class="ix-maintainer__label">Built &amp; maintained by</span>
+      <a class="ix-maintainer__logo" href="https://ekxide.io/" target="_blank" rel="noopener" aria-label="ekxide">
+        <img class="ix-maintainer__logo-img only-light" src="_static/ekxide-light.svg" alt="ekxide" width="73" height="30" />
+        <img class="ix-maintainer__logo-img only-dark" src="_static/ekxide-dark.svg" alt="ekxide" width="73" height="30" />
+      </a>
+    </div>
+    <a class="ix-btn ix-btn--ghost ix-btn--sm" href="https://ekxide.io/" target="_blank" rel="noopener">
+      Get in touch
+      <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</section><div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="getting-started/index.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html">Quickstart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting-started/robot-nervous-system/index.html">A Robot Nervous System</a></li>
-</ul>
-</li>
-</ul>
 </div>
 <div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="fundamentals/index.html">Fundamentals</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="fundamentals/layered-architecture.html">Layered Architecture</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fundamentals/shared-memory.html">Shared Memory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fundamentals/communication-model.html">Communication Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fundamentals/messaging-patterns/index.html">Messaging Patterns</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fundamentals/execution-control.html">Execution Control</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fundamentals/cross-language-support.html">Cross-Language Support</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fundamentals/gateways-and-tunnels.html">Gateways and Tunnels</a></li>
-</ul>
-</li>
-</ul>
 </div>
 <div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/index.html">Tutorials</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/execution-control-patterns.html">Execution Control Patterns</a></li>
-</ul>
-</li>
-</ul>
 </div>
 <div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="how-to/index.html">How To</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="how-to/build-for-nostd-targets.html">Build for <code class="docutils literal notranslate"><span class="pre">no_std</span></code> targets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="how-to/configure-the-logging-backend.html">Configure the logging backend</a></li>
-<li class="toctree-l2"><a class="reference internal" href="how-to/customize-the-platform-abstraction.html">Customize the platform abstraction</a></li>
-</ul>
-</li>
-</ul>
 </div>
 <div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
-</ul>
 </div>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference external" href="https://eclipse-iceoryx.github.io/iceoryx2">Overview</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://docs.rs/iceoryx2/latest">Rust</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://eclipse-iceoryx.github.io/iceoryx2/python/latest">Python</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://eclipse-iceoryx.github.io/iceoryx2/cxx/latest">C++</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://eclipse-iceoryx.github.io/iceoryx2/c/latest">C</a></li>
-</ul>
 </div>
 </section>
 
@@ -557,5 +606,9 @@ html[data-theme="light"] .ekxide-dark,
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="_static/js/atmosphere.js?v=5add3646"></script>
+    <script src="_static/js/version-picker.js?v=1ee9b7b8"></script>
+    <script src="_static/js/external-links.js?v=e6578c9f"></script>
+    <script src="_static/js/theme-transitions.js?v=6bb2fd5c"></script>
     </body>
 </html>

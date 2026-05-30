@@ -2,9 +2,8 @@
 
 ## Nodes
 
-```{figure} /images/nodes-lifecycle-management.svg
+```{inline-svg} /images/nodes-lifecycle-management.svg
 :alt: nodes lifecycle management
-:align: center
 
 Lifecycle Management via Nodes
 ```
@@ -21,10 +20,9 @@ Generally, each participant is represented by single node.
 
 ## Services
 
-```{figure} /images/service-orientation.svg
-:alt: service oriented nature of iceoryx2
-:align: center
+```{inline-svg} /images/service-orientation.svg
 :name: fig-service-oriented-communication-model
+:alt: service oriented nature of iceoryx2
 
 Service-oriented Communication Graph
 ```

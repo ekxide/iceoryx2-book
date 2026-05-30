@@ -9,10 +9,9 @@ As Larry starts driving, the user expects status updates - position, speed,
 progress. At some point the user may even cancel the trip, or Larry himself may
 have to abort if he encounters, say, a canyon.
 
-```{figure} /images/robot-nervous-system-request-response-sequence.svg
-:alt: Request-Response Sequence Diagram between App and Larry Autopilot
-:align: center
+```{inline-svg} /images/robot-nervous-system-request-response-sequence.svg
 :name: fig-wiring-a-robot-brain-request-response-sequence
+:alt: Request-Response Sequence Diagram between App and Larry Autopilot
 
 Request-Response interactions between App and Larry Autopilot
 ```

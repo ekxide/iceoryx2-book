@@ -1,9 +1,8 @@
 # Blackboard
 
-```{figure} /images/blackboard-pattern.svg
-:alt: blackboard messaging pattern
-:align: center
+```{inline-svg} /images/blackboard-pattern.svg
 :name: fig-blackboard-communication
+:alt: blackboard messaging pattern
 
 Blackboard Communication Model
 ```
@@ -27,10 +26,9 @@ communication is required ([request-response](
 
 ## Mechanism
 
-```{figure} /images/blackboard-mechanism.svg
-:alt: blackboard messaging pattern
-:align: center
+```{inline-svg} /images/blackboard-mechanism.svg
 :name: fig-blackboard-mechanism
+:alt: blackboard messaging pattern
 
 Blackboard in Shared Memory
 ```
