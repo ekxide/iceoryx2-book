@@ -202,7 +202,6 @@ html_theme_options = {
     },
 }
 html_static_path = ["_static"]
-html_permalinks_icon = "#"
 html_css_files = [
     "css/theme.css",
     "css/version-picker.css",

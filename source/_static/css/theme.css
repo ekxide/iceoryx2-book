@@ -434,6 +434,24 @@ code.literal, .rst-content code:not(.xref) {
 /* copy button */
 .highlight button.copybtn { border-radius: 7px; }
 
+/* heading anchor — a sleek link icon (replaces the default "#") */
+a.headerlink {
+  font-size: 0;                 /* hide the "#" glyph; the icon is drawn via ::after */
+  margin-left: 0.45rem;
+  vertical-align: middle;
+  line-height: 0;
+  text-decoration: none;
+}
+a.headerlink::after {
+  content: "";
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  background-color: var(--ix-ice);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='2.25'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M10%2013a5%205%200%200%200%207.54.54l3-3a5%205%200%200%200-7.07-7.07l-1.72%201.71'/%3E%3Cpath%20d='M14%2011a5%205%200%200%200-7.54-.54l-3%203a5%205%200%200%200%207.07%207.07l1.71-1.71'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='2.25'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M10%2013a5%205%200%200%200%207.54.54l3-3a5%205%200%200%200-7.07-7.07l-1.72%201.71'/%3E%3Cpath%20d='M14%2011a5%205%200%200%200-7.54-.54l-3%203a5%205%200%200%200%207.07%207.07l1.71-1.71'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
 /* --- brand syntax palette ----------------------------------------------
    Replaces Furo's Pygments token colors (which lean orange/amber) with the
    iceoryx palette. Uses --ix-* vars so one rule set themes light + dark;
