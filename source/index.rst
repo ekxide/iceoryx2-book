@@ -1,6 +1,10 @@
 The iceoryx2 Book
 =================
 
+.. meta::
+   :description: The iceoryx2 Book — fundamentals, tutorials, and how-tos for building safe, reliable and performant zero-copy systems with iceoryx2.
+   :property=og:description: The iceoryx2 Book — fundamentals, tutorials, and how-tos for building safe, reliable and performant zero-copy systems with iceoryx2.
+
 .. raw:: html
 
    <div class="ix-hero">
