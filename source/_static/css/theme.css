@@ -655,7 +655,6 @@ figcaption, .caption-text {
 @media (max-width: 720px) {
   #fig-grand-vision .ix-diagram__scroll,
   #fig-execution-control-with-waitset .ix-diagram__scroll,
-  #fig-network-stack-communication-single-host .ix-diagram__scroll,
   #fig-gateways-and-tunnels .ix-diagram__scroll,
   #fig-wiring-a-robot-brain-request-response-sequence .ix-diagram__scroll {
     overflow-x: auto;
@@ -663,7 +662,6 @@ figcaption, .caption-text {
   }
   #fig-grand-vision svg,
   #fig-execution-control-with-waitset svg { min-width: 680px; }
-  #fig-network-stack-communication-single-host svg,
   #fig-gateways-and-tunnels svg,
   #fig-wiring-a-robot-brain-request-response-sequence svg { min-width: 560px; }
 }
