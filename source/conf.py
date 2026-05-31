@@ -74,7 +74,8 @@ html_baseurl = "https://ekxide.github.io/iceoryx2-book/"
 # -- Social previews (OpenGraph / Twitter) -----------------------------------
 ogp_site_url = html_baseurl
 ogp_site_name = "The iceoryx2 Book"
-ogp_image = html_baseurl + "_static/og-card.png"
+# _static is deployed per-version, not at the version-less root.
+ogp_image = html_baseurl + "main/_static/og-card.png"
 ogp_image_alt = "The iceoryx2 Book"
 ogp_type = "website"
 ogp_description_length = 200  # per-page description from the first paragraphs
