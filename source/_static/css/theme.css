@@ -94,7 +94,7 @@ h4:hover a.headerlink, h5:hover a.headerlink, h6:hover a.headerlink { opacity: 1
 a.headerlink:hover { color: var(--ix-ice); -webkit-text-fill-color: var(--ix-ice); }
 
 /* body links: no permanent underline, ice underline grows on hover */
-article a:not(.sd-btn):not(.headerlink):not(.sidebar-brand):not(.ix-btn) {
+article a:not(.sd-btn):not(.headerlink):not(.sidebar-brand):not(.ix-btn):not(.ix-colophon__item) {
   text-decoration: none;
   background-image: linear-gradient(var(--ix-ice), var(--ix-ice));
   background-size: 0% 1.5px;
@@ -102,7 +102,7 @@ article a:not(.sd-btn):not(.headerlink):not(.sidebar-brand):not(.ix-btn) {
   background-position: 0 100%;
   transition: background-size 0.25s ease, color 0.2s;
 }
-article a:not(.sd-btn):not(.headerlink):not(.sidebar-brand):not(.ix-btn):hover {
+article a:not(.sd-btn):not(.headerlink):not(.sidebar-brand):not(.ix-btn):not(.ix-colophon__item):hover {
   color: var(--ix-ice-bright);
   background-size: 100% 1.5px;
 }
@@ -244,44 +244,65 @@ article > section:has(> .ix-hero) > h1:first-child {
 }
 @media (prefers-reduced-motion: reduce) {
   .ix-hero, .ix-hero__mark, .ix-hero__eyebrow, .ix-hero__title,
-  .ix-hero__lead, .ix-hero__cta, .ix-maintainer__inner { animation: none; }
+  .ix-hero__lead, .ix-hero__cta, .ix-colophon { animation: none; }
 }
 
 .ix-btn--sm { padding: 0.5rem 1rem; font-size: 0.9rem; }
 
 /* =================================================================
-   Maintainer card
+   Colophon — slim credits bar (maintainer / project affiliation)
    ================================================================= */
-.ix-maintainer {
-  margin: clamp(0.5rem, 1.5vh, 1.25rem) auto 0;
-  text-align: left;
-  animation: ix-rise 0.7s cubic-bezier(.2,.8,.2,1) 0.28s both;
-}
-.ix-maintainer__inner {
+.ix-colophon {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 1rem 1.5rem;
-  padding: clamp(0.9rem, 2vw, 1.25rem) clamp(1.3rem, 3vw, 2rem);
-  border: 1px solid var(--ix-line);
-  border-radius: var(--ix-radius);
-  background: var(--ix-card-bg);
+  justify-content: center;
+  gap: 0.85rem 1.6rem;
+  max-width: 760px;
+  margin: clamp(1.5rem, 4vh, 3rem) auto 0;
+  padding-top: clamp(1.2rem, 3vh, 2rem);
+  border-top: 1px solid var(--ix-line);
+  animation: ix-rise 0.7s cubic-bezier(.2,.8,.2,1) 0.28s both;
 }
-.ix-maintainer__brand { display: flex; align-items: center; gap: 0.9rem; }
-.ix-maintainer__label {
+/* gap clears the logo's safe zone; hover affordance stays on the label so the
+   logo itself is never faded */
+.ix-colophon__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+}
+.ix-colophon__label {
   font-family: var(--font-stack--monospace);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ix-muted-2);
   white-space: nowrap;
+  /* ice underline grows under the label only, so it never crosses the logo */
+  background-image: linear-gradient(var(--ix-ice), var(--ix-ice));
+  background-size: 0% 1.5px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.25s ease, color 0.2s;
 }
-.ix-maintainer__logo { display: inline-flex; align-items: center; transition: opacity 0.2s; }
-.ix-maintainer__logo:hover { opacity: 0.8; }
-.ix-maintainer__logo-img { height: 26px; width: auto; display: block; }
-.ix-maintainer .ix-btn { flex: none; margin-left: auto; }
+.ix-colophon__item:hover .ix-colophon__label {
+  color: var(--ix-text);
+  background-size: 100% 1.5px;
+}
+.ix-colophon__logo-img { height: 22px; width: auto; display: block; }
+.ix-colophon__logo-img--ef { height: 26px; }
+.ix-colophon__sep { width: 1px; align-self: stretch; min-height: 1.4em; background: var(--ix-line); }
 @media (max-width: 620px) {
-  .ix-maintainer .ix-btn { width: 100%; justify-content: center; }
+  .ix-colophon__sep { display: none; }
+}
+
+/* open-source / license line, kept flush under the copyright with the gap
+   falling before the "Made with" credit */
+.ix-trademark {
+  margin-bottom: 0.6rem;
+  font-size: 0.75rem;
+  color: var(--ix-muted-2);
 }
 
 /* =================================================================
@@ -633,7 +654,7 @@ figcaption, .caption-text {
 }
 /* SVG diagrams get a soft panel in dark mode for legibility (vars collapse to
    none in light); logos are excluded so they don't sit on a white box */
-.content img[src$=".svg"]:not(.ix-maintainer__logo-img) {
+.content img[src$=".svg"]:not(.ix-colophon__logo-img) {
   background: var(--ix-svg-panel);
   border-radius: var(--ix-radius-sm);
   padding: var(--ix-svg-pad);

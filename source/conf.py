@@ -2,7 +2,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'the iceoryx2 book'
-copyright = '2025, ekxide.io'
+copyright = '2026 Eclipse Foundation'
 author = 'ekxide developers'
 
 # -- General configuration ---------------------------------------------------
