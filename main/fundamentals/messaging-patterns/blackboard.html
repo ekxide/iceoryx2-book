@@ -8,7 +8,7 @@
 <meta property="og:url" content="https://ekxide.github.io/iceoryx2-book/fundamentals/messaging-patterns/blackboard.html" />
 <meta property="og:site_name" content="The iceoryx2 Book" />
 <meta property="og:description" content="Blackboard Communication Model, An unidirectional messaging pattern based on a shared-memory key-value repository which can be modified by (for now) one writer and read by many readers. Updates and..." />
-<meta property="og:image" content="https://ekxide.github.io/iceoryx2-book/_static/og-card.png" />
+<meta property="og:image" content="https://ekxide.github.io/iceoryx2-book/main/_static/og-card.png" />
 <meta property="og:image:alt" content="The iceoryx2 Book" />
 <meta name="description" content="Blackboard Communication Model, An unidirectional messaging pattern based on a shared-memory key-value repository which can be modified by (for now) one writer and read by many readers. Updates and..." />
 <meta name="twitter:card" content="summary_large_image">
@@ -21,7 +21,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=8b268d44" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=8a7e02cd" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/version-picker.css?v=2a4710d1" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=d05edee4" />
     
@@ -500,7 +500,7 @@
 <figure class="ix-diagram align-default" id="fig-blackboard-communication">
 <div class="ix-diagram__scroll"><svg viewBox="0 0 560 296" role="img" aria-label="Blackboard communication model" xmlns="http://www.w3.org/2000/svg">
   <style>
-    .bb-box   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .bb-box   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; }
     .bb-port  { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
     .bb-svc   { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
     .bb-title { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
@@ -568,7 +568,7 @@ communication is required (<a class="reference internal" href="request-response.
 <figure class="ix-diagram align-default" id="fig-blackboard-mechanism">
 <div class="ix-diagram__scroll"><svg viewBox="0 0 600 432" role="img" aria-label="Blackboard in shared memory" xmlns="http://www.w3.org/2000/svg">
   <style>
-    .bb-box     { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .bb-box     { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; }
     .bb-port    { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
     .bb-region  { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
     .bb-seg     { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1; stroke-dasharray: 5 3; }
@@ -685,43 +685,39 @@ Example: Blackboard Service with Notification (Rust)</div>
       </div>
       <footer>
         
-        <div class="related-pages">
-          <a class="next-page" href="../execution-control.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">Execution Control</div>
-              </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="request-response.html">
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-              <div class="page-info">
-                <div class="context">
-                  <span>Previous</span>
-                </div>
-                
-                <div class="title">Request-Response</div>
-                
-              </div>
-            </a>
-        </div>
-        <div class="bottom-of-page">
-          <div class="left-details">
-            <div class="copyright">
-                Copyright &#169; 2025, ekxide.io
-            </div>
-            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
-            
-            <a href="https://github.com/pradyunsg/furo">Furo</a>
-            
-          </div>
-          <div class="right-details">
-            
-          </div>
-        </div>
+<div class="related-pages">
+  <a class="next-page" href="../execution-control.html">
+      <div class="page-info">
+        <div class="context"><span>Next</span></div>
+        <div class="title">Execution Control</div>
+      </div>
+      <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+    </a>
+  <a class="prev-page" href="request-response.html">
+      <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+      <div class="page-info">
+        <div class="context"><span>Previous</span></div>
         
+        <div class="title">Request-Response</div>
+        
+      </div>
+    </a>
+</div>
+<div class="bottom-of-page">
+  <div class="left-details">
+    <div class="copyright">
+        Copyright &#169; 2026 Eclipse Foundation
+    </div>
+    <div class="ix-trademark">Eclipse iceoryx&trade; is free, open source software, licensed under Apache 2.0.</div>
+    
+    Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    <a href="https://github.com/pradyunsg/furo">Furo</a>
+  </div>
+  <div class="right-details">
+    
+  </div>
+</div>
+
       </footer>
     </div>
     <aside class="toc-drawer">

@@ -8,7 +8,7 @@
 <meta property="og:url" content="https://ekxide.github.io/iceoryx2-book/fundamentals/communication-model.html" />
 <meta property="og:site_name" content="The iceoryx2 Book" />
 <meta property="og:description" content="Nodes: Lifecycle Management via Nodes, Nodes are the entry-point for participants to interact with the iceoryx2 system. They provide the mechanisms for creating services and their ports, and managi..." />
-<meta property="og:image" content="https://ekxide.github.io/iceoryx2-book/_static/og-card.png" />
+<meta property="og:image" content="https://ekxide.github.io/iceoryx2-book/main/_static/og-card.png" />
 <meta property="og:image:alt" content="The iceoryx2 Book" />
 <meta name="description" content="Nodes: Lifecycle Management via Nodes, Nodes are the entry-point for participants to interact with the iceoryx2 system. They provide the mechanisms for creating services and their ports, and managi..." />
 <meta name="twitter:card" content="summary_large_image">
@@ -21,7 +21,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=8b268d44" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=8a7e02cd" />
     <link rel="stylesheet" type="text/css" href="../_static/css/version-picker.css?v=2a4710d1" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=d05edee4" />
     
@@ -502,7 +502,7 @@
 <figure class="ix-diagram align-default" id="id1">
 <div class="ix-diagram__scroll"><svg viewBox="44 26 512 290" role="img" aria-label="Lifecycle management via nodes" xmlns="http://www.w3.org/2000/svg">
   <style>
-    .nl-part   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .nl-part   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; }
     .nl-part-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-text, #eaf3f7); }
     .nl-node   { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
     .nl-svc    { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
@@ -601,7 +601,7 @@ become permanently lost due to failed participants.</p>
   <style>
     .so-svc   { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
     .so-svc-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
-    .so-box   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .so-box   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; }
     .so-name  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 9px; fill: var(--ix-text, #eaf3f7); }
     .so-flow  { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
   </style>
@@ -706,43 +706,39 @@ Explore Quality-of-Service Properties</div>
       </div>
       <footer>
         
-        <div class="related-pages">
-          <a class="next-page" href="messaging-patterns/index.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">Messaging Patterns</div>
-              </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="shared-memory.html">
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-              <div class="page-info">
-                <div class="context">
-                  <span>Previous</span>
-                </div>
-                
-                <div class="title">Shared Memory</div>
-                
-              </div>
-            </a>
-        </div>
-        <div class="bottom-of-page">
-          <div class="left-details">
-            <div class="copyright">
-                Copyright &#169; 2025, ekxide.io
-            </div>
-            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
-            
-            <a href="https://github.com/pradyunsg/furo">Furo</a>
-            
-          </div>
-          <div class="right-details">
-            
-          </div>
-        </div>
+<div class="related-pages">
+  <a class="next-page" href="messaging-patterns/index.html">
+      <div class="page-info">
+        <div class="context"><span>Next</span></div>
+        <div class="title">Messaging Patterns</div>
+      </div>
+      <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+    </a>
+  <a class="prev-page" href="shared-memory.html">
+      <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+      <div class="page-info">
+        <div class="context"><span>Previous</span></div>
         
+        <div class="title">Shared Memory</div>
+        
+      </div>
+    </a>
+</div>
+<div class="bottom-of-page">
+  <div class="left-details">
+    <div class="copyright">
+        Copyright &#169; 2026 Eclipse Foundation
+    </div>
+    <div class="ix-trademark">Eclipse iceoryx&trade; is free, open source software, licensed under Apache 2.0.</div>
+    
+    Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    <a href="https://github.com/pradyunsg/furo">Furo</a>
+  </div>
+  <div class="right-details">
+    
+  </div>
+</div>
+
       </footer>
     </div>
     <aside class="toc-drawer">
