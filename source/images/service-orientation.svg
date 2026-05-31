@@ -2,7 +2,7 @@
   <style>
     .so-svc   { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
     .so-svc-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
-    .so-box   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; }
+    .so-box   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1.5; }
     .so-name  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 9px; fill: var(--ix-text, #eaf3f7); }
     .so-flow  { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
   </style>

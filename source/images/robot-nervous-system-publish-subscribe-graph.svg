@@ -1,6 +1,6 @@
 <svg viewBox="30 64 540 178" role="img" aria-label="Communication graph of the Ultrasonic Sensor and Emergency Brake participants" xmlns="http://www.w3.org/2000/svg">
   <style>
-    .rg-box   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; }
+    .rg-box   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1.5; }
     .rg-box-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
     .rg-role  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 9px; fill: var(--ix-text, #eaf3f7); }
     .rg-svc   { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }

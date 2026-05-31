@@ -1,6 +1,6 @@
 <svg viewBox="22 8 556 244" role="img" aria-label="Request-response sequence between the App and Larry Autopilot" xmlns="http://www.w3.org/2000/svg">
   <style>
-    .rs-box   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; }
+    .rs-box   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1.5; }
     .rs-box-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
     .rs-sub   { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
     .rs-life  { stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1; stroke-dasharray: 4 4; fill: none; }

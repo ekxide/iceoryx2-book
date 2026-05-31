@@ -1,6 +1,6 @@
 <svg viewBox="-22 0 644 320" role="img" aria-label="Publish-subscribe over shared memory" xmlns="http://www.w3.org/2000/svg">
   <style>
-    .pm-box   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; }
+    .pm-box   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1.5; }
     .pm-port  { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
     .pm-smr   { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
     .pm-seg   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1; stroke-dasharray: 5 3; }

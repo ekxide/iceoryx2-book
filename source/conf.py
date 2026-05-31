@@ -100,6 +100,8 @@ html_theme_options = {
         "ix-surface-2": "#f2f7fc",
         "ix-line": "rgba(15, 55, 90, 0.12)",
         "ix-line-soft": "rgba(15, 55, 90, 0.06)",
+        # box outline: soft slate (light), hairline (dark)
+        "ix-box-line": "rgba(15, 55, 90, 0.28)",
         "ix-ice": "#0a8aa0",
         "ix-ice-bright": "#0a93ab",
         "ix-ice-deep": "#0a7385",
@@ -162,6 +164,7 @@ html_theme_options = {
         "ix-surface-2": "#1b2740",
         "ix-line": "rgba(150, 200, 230, 0.16)",
         "ix-line-soft": "rgba(150, 200, 230, 0.06)",
+        "ix-box-line": "var(--ix-line)",
         "ix-ice": "#2dd4e8",
         "ix-ice-bright": "#7ff0ff",
         "ix-ice-deep": "#16b8d4",
