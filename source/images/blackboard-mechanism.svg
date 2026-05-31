@@ -1,6 +1,6 @@
 <svg viewBox="0 0 600 432" role="img" aria-label="Blackboard in shared memory" xmlns="http://www.w3.org/2000/svg">
   <style>
-    .bb-box     { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; }
+    .bb-box     { fill: var(--ix-surface, #141d2d); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1.5; }
     .bb-port    { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
     .bb-region  { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
     .bb-seg     { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1; stroke-dasharray: 5 3; }

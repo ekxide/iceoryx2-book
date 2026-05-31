@@ -2,7 +2,7 @@
   <style>
     .gt-host   { fill: none; stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1; stroke-dasharray: 5 3; }
     .gt-host-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
-    .gt-part   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; }
+    .gt-part   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1.5; }
     .gt-part-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 9px; fill: var(--ix-text, #eaf3f7); }
     .gt-comp   { fill: rgba(91,141,239,0.14); stroke: var(--ix-blue, #5b8def); stroke-width: 1.25; }
     .gt-comp-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 9px; fill: var(--ix-blue, #5b8def); }
