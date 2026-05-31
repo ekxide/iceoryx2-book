@@ -38,6 +38,7 @@
   --ix-surface-2: #f2f7fc;
   --ix-line: rgba(15, 55, 90, 0.12);
   --ix-line-soft: rgba(15, 55, 90, 0.06);
+  --ix-box-line: rgba(15, 55, 90, 0.28);
   --ix-ice: #0a8aa0;
   --ix-ice-bright: #0a93ab;
   --ix-ice-deep: #0a7385;
@@ -100,6 +101,7 @@
   --ix-surface-2: #1b2740;
   --ix-line: rgba(150, 200, 230, 0.16);
   --ix-line-soft: rgba(150, 200, 230, 0.06);
+  --ix-box-line: var(--ix-line);
   --ix-ice: #2dd4e8;
   --ix-ice-bright: #7ff0ff;
   --ix-ice-deep: #16b8d4;
@@ -162,6 +164,7 @@
   --ix-surface-2: #1b2740;
   --ix-line: rgba(150, 200, 230, 0.16);
   --ix-line-soft: rgba(150, 200, 230, 0.06);
+  --ix-box-line: var(--ix-line);
   --ix-ice: #2dd4e8;
   --ix-ice-bright: #7ff0ff;
   --ix-ice-deep: #16b8d4;
@@ -503,7 +506,7 @@ components provided by lower layers.</p>
 <figure class="ix-diagram align-default" id="fig-layered-architecture">
 <div class="ix-diagram__scroll"><svg viewBox="0 0 640 470" role="img" aria-label="Layered architecture of iceoryx2" xmlns="http://www.w3.org/2000/svg">
   <style>
-    .ix-arch-box { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; }
+    .ix-arch-box { fill: var(--ix-surface, #141d2d); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1.5; }
     .ix-arch-os  { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
     .ix-arch-code{ fill: var(--ix-code-bg, #0a111c); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
     .ix-arch-t   { font-family: var(--font-stack--monospace, monospace); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }

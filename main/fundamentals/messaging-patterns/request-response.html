@@ -38,6 +38,7 @@
   --ix-surface-2: #f2f7fc;
   --ix-line: rgba(15, 55, 90, 0.12);
   --ix-line-soft: rgba(15, 55, 90, 0.06);
+  --ix-box-line: rgba(15, 55, 90, 0.28);
   --ix-ice: #0a8aa0;
   --ix-ice-bright: #0a93ab;
   --ix-ice-deep: #0a7385;
@@ -100,6 +101,7 @@
   --ix-surface-2: #1b2740;
   --ix-line: rgba(150, 200, 230, 0.16);
   --ix-line-soft: rgba(150, 200, 230, 0.06);
+  --ix-box-line: var(--ix-line);
   --ix-ice: #2dd4e8;
   --ix-ice-bright: #7ff0ff;
   --ix-ice-deep: #16b8d4;
@@ -162,6 +164,7 @@
   --ix-surface-2: #1b2740;
   --ix-line: rgba(150, 200, 230, 0.16);
   --ix-line-soft: rgba(150, 200, 230, 0.06);
+  --ix-box-line: var(--ix-line);
   --ix-ice: #2dd4e8;
   --ix-ice-bright: #7ff0ff;
   --ix-ice-deep: #16b8d4;
@@ -500,7 +503,7 @@
 <figure class="ix-diagram align-default" id="fig-request-response-communication">
 <div class="ix-diagram__scroll"><svg viewBox="0 0 600 140" role="img" aria-label="Request-response communication model" xmlns="http://www.w3.org/2000/svg">
   <style>
-    .rr-box    { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; }
+    .rr-box    { fill: var(--ix-surface, #141d2d); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1.5; }
     .rr-port   { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
     .rr-svc    { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
     .rr-title  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
@@ -566,7 +569,7 @@ when data needs to persist for multiple consumers (<a class="reference internal"
 <figure class="ix-diagram align-default" id="fig-request-response-mechanism">
 <div class="ix-diagram__scroll"><svg viewBox="0 0 600 552" role="img" aria-label="Request-response over shared memory" xmlns="http://www.w3.org/2000/svg">
   <style>
-    .pm-box   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; }
+    .pm-box   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1.5; }
     .pm-port  { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
     .pm-smr   { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
     .pm-seg   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1; stroke-dasharray: 5 3; }

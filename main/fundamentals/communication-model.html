@@ -38,6 +38,7 @@
   --ix-surface-2: #f2f7fc;
   --ix-line: rgba(15, 55, 90, 0.12);
   --ix-line-soft: rgba(15, 55, 90, 0.06);
+  --ix-box-line: rgba(15, 55, 90, 0.28);
   --ix-ice: #0a8aa0;
   --ix-ice-bright: #0a93ab;
   --ix-ice-deep: #0a7385;
@@ -100,6 +101,7 @@
   --ix-surface-2: #1b2740;
   --ix-line: rgba(150, 200, 230, 0.16);
   --ix-line-soft: rgba(150, 200, 230, 0.06);
+  --ix-box-line: var(--ix-line);
   --ix-ice: #2dd4e8;
   --ix-ice-bright: #7ff0ff;
   --ix-ice-deep: #16b8d4;
@@ -162,6 +164,7 @@
   --ix-surface-2: #1b2740;
   --ix-line: rgba(150, 200, 230, 0.16);
   --ix-line-soft: rgba(150, 200, 230, 0.06);
+  --ix-box-line: var(--ix-line);
   --ix-ice: #2dd4e8;
   --ix-ice-bright: #7ff0ff;
   --ix-ice-deep: #16b8d4;
@@ -502,7 +505,7 @@
 <figure class="ix-diagram align-default" id="id1">
 <div class="ix-diagram__scroll"><svg viewBox="44 26 512 290" role="img" aria-label="Lifecycle management via nodes" xmlns="http://www.w3.org/2000/svg">
   <style>
-    .nl-part   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; }
+    .nl-part   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1.5; }
     .nl-part-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-text, #eaf3f7); }
     .nl-node   { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
     .nl-svc    { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
@@ -601,7 +604,7 @@ become permanently lost due to failed participants.</p>
   <style>
     .so-svc   { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
     .so-svc-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-text, #eaf3f7); }
-    .so-box   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; }
+    .so-box   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1.5; }
     .so-name  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 9px; fill: var(--ix-text, #eaf3f7); }
     .so-flow  { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
   </style>
