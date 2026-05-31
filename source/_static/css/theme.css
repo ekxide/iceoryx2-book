@@ -196,6 +196,7 @@ article > section:has(> .ix-hero) > h1:first-child {
   animation: ix-rise 0.7s cubic-bezier(.2,.8,.2,1) 0.2s both;
 }
 .ix-btn {
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
