@@ -3,7 +3,7 @@
     .ns-phys    { fill: var(--ix-bg-2, #080d16); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
     .ns-priv    { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1; stroke-dasharray: 5 3; }
     .ns-kernel  { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
-    .ns-box     { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .ns-box     { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; }
     .ns-bar-o   { fill: rgba(45,212,232,0.18); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
     .ns-bar-c   { fill: rgba(91,141,239,0.18); stroke: var(--ix-blue, #5b8def); stroke-width: 1; }
     .ns-phys-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-muted, #bccbd6); }

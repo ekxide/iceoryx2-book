@@ -2,7 +2,7 @@
   <style>
     .zc-phys     { fill: var(--ix-bg-2, #080d16); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
     .zc-shared   { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
-    .zc-box      { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .zc-box      { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; }
     .zc-phys-t   { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 12px; fill: var(--ix-muted, #bccbd6); }
     .zc-shared-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-text, #eaf3f7); }
     .zc-data     { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }

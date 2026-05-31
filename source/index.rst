@@ -44,21 +44,21 @@ The iceoryx2 Book
      </div>
    </div>
 
-   <section class="ix-maintainer" aria-label="Maintained by ekxide">
-     <div class="ix-maintainer__inner">
-       <div class="ix-maintainer__brand">
-         <span class="ix-maintainer__label">Built &amp; maintained by</span>
-         <a class="ix-maintainer__logo" href="https://ekxide.io/" target="_blank" rel="noopener" aria-label="ekxide">
-           <img class="ix-maintainer__logo-img only-light" src="_static/ekxide-light.svg" alt="ekxide" width="73" height="30" />
-           <img class="ix-maintainer__logo-img only-dark" src="_static/ekxide-dark.svg" alt="ekxide" width="73" height="30" />
-         </a>
-       </div>
-       <a class="ix-btn ix-btn--ghost ix-btn--sm" href="https://ekxide.io/" target="_blank" rel="noopener">
-         Get in touch
-         <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
-       </a>
-     </div>
-   </section>
+   <div class="ix-colophon">
+     <a class="ix-colophon__item" href="https://projects.eclipse.org/projects/technology.iceoryx" target="_blank" rel="noopener" aria-label="An Eclipse Foundation project">
+       <img class="ix-colophon__logo-img ix-colophon__logo-img--ef only-light" src="_static/eclipse-foundation-color.svg" alt="Eclipse Foundation" width="106" height="34" />
+       <img class="ix-colophon__logo-img ix-colophon__logo-img--ef only-dark" src="_static/eclipse-foundation-white-orange.svg" alt="Eclipse Foundation" width="106" height="34" />
+       <span class="ix-colophon__label">An Eclipse Foundation project</span>
+     </a>
+
+     <span class="ix-colophon__sep" aria-hidden="true"></span>
+
+     <a class="ix-colophon__item" href="https://ekxide.io/" target="_blank" rel="noopener" aria-label="Built and maintained by ekxide">
+       <span class="ix-colophon__label">Built &amp; maintained by</span>
+       <img class="ix-colophon__logo-img only-light" src="_static/ekxide-light.svg" alt="ekxide" width="73" height="30" />
+       <img class="ix-colophon__logo-img only-dark" src="_static/ekxide-dark.svg" alt="ekxide" width="73" height="30" />
+     </a>
+   </div>
 
 .. toctree::
    :hidden:

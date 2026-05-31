@@ -1,6 +1,6 @@
 <svg viewBox="44 26 512 290" role="img" aria-label="Lifecycle management via nodes" xmlns="http://www.w3.org/2000/svg">
   <style>
-    .nl-part   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .nl-part   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; }
     .nl-part-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-text, #eaf3f7); }
     .nl-node   { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
     .nl-svc    { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1; }
