@@ -304,12 +304,11 @@ run, allowing you to plan for and minimize unpredictability.
 
 ## Switching the mechanism
 
-Let's say that at a later point in the development of the application, it is
-decided that a different mechanism should be used for cross-host communication.
-Perhaps you would like to optimize for communication over the internet by
-using `MQTT`, or it is decided that these applications will be deployed into
-isolated hypervisor partitions on a single host, for which there are other
-options.
+Let's say that later in development you decide a different mechanism should
+carry the cross-host communication. Perhaps you want to reach the dashboard
+over the internet by integrating with existing MQTT infrastructure, or you
+need to bridge co-processors on a single board that each keep their own memory
+and can only communicate over a cross-chip API.
 
 All that is required, is to switch out the chosen backend when creating the
 tunnel. In our examples above, we have been using Zenoh, so the tunnels were
