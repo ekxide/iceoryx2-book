@@ -33,4 +33,5 @@ Throughout this tutorial, the following topics will be covered:
    event-driven-communication
    request-response
    blackboard
+   cross-host-communication
    command-line-tools-and-debugging

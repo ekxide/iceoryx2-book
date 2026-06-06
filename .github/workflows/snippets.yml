@@ -6,36 +6,87 @@ on:
     tags: [ 'v*' ]
     paths:
       - 'snippets/**'
+      - '.clang-format'
       - '.github/workflows/snippets.yml'
   pull_request:
     branches: [ main ]
     paths:
       - 'snippets/**'
+      - '.clang-format'
       - '.github/workflows/snippets.yml'
   workflow_dispatch:
 
+concurrency:
+  group: snippets-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  check:
-    name: check
+  snippets:
+    name: snippets
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: snippets
+    env:
+      # The C/C++/Python compile checks link the iceoryx2 language bindings,
+      # built from this checkout of the iceoryx2 sources.
+      IOX2_SRC: ${{ github.workspace }}/iceoryx2
     steps:
       - uses: actions/checkout@v4
+
+      - name: Check out iceoryx2
+        uses: actions/checkout@v4
+        with:
+          repository: eclipse-iceoryx/iceoryx2
+          path: iceoryx2
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y cmake
+
+      - name: Install just
+        uses: extractions/setup-just@v2
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
-          components: clippy
+          components: rustfmt, clippy
 
       - name: Cache cargo artifacts
         uses: Swatinem/rust-cache@v2
         with:
-          workspaces: snippets
+          workspaces: |
+            snippets
+            iceoryx2
 
-      - name: cargo check
-        run: cargo check --workspace --all-targets
+      - name: Install clang-format
+        run: pipx install "clang-format==22.1.3"
 
-      - name: cargo clippy
-        run: cargo clippy --workspace --all-targets -- -D warnings
+      - name: Install Poetry
+        run: pipx install poetry
+
+      # 1. Formatting
+      - name: Check Rust formatting (rustfmt)
+        run: just format-rust-check
+
+      - name: Check C/C++ formatting (clang-format)
+        run: just format-c-cxx-check
+
+      # 2. Build
+      - name: Build iceoryx2 C/C++ bindings
+        run: just build-c-cxx-bindings
+
+      - name: Build iceoryx2 Python bindings
+        run: just build-python-bindings
+
+      - name: Compile Rust snippets
+        run: just compile-rust
+
+      - name: Compile C++ snippets
+        run: just compile-cxx
+
+      - name: Compile C snippets
+        run: just compile-c
+
+      - name: Compile Python snippets
+        run: just compile-python
+
+      # 3. Static analysis
+      - name: Static analysis
+        run: just clippy-rust

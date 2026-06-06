@@ -46,7 +46,7 @@ A trading process that consumes a stream of price ticks from a market data
 feed has no fixed schedule. Ticks arrive whenever the market sends them,
 and the consumer must react with the smallest possible delay.
 
-```{literalinclude} ../../snippets/execution-control-patterns/src/bin/market_data_consumer.rs
+```{literalinclude} ../../snippets/execution-control-patterns/rust/src/bin/market_data_consumer.rs
 :language: rust
 :start-after: // snippet:start
 :end-before: // snippet:end
@@ -78,7 +78,7 @@ This cruise control application reads the vehicle's current speed, computes a
 throttle command, and sends it to the actuator at a fixed rate. The control
 math depends on a stable loop period.
 
-```{literalinclude} ../../snippets/execution-control-patterns/src/bin/cruise_control.rs
+```{literalinclude} ../../snippets/execution-control-patterns/rust/src/bin/cruise_control.rs
 :language: rust
 :start-after: // snippet:start
 :end-before: // snippet:end
@@ -125,7 +125,7 @@ The event-data recorder does not need to wake on publish of every sample.
 This would introduce overhead when no real work needs to be done. Instead,
 a single event service signals when the work should be done.
 
-```{literalinclude} ../../snippets/execution-control-patterns/src/bin/event_data_recorder.rs
+```{literalinclude} ../../snippets/execution-control-patterns/rust/src/bin/event_data_recorder.rs
 :language: rust
 :start-after: // snippet:start
 :end-before: // snippet:end
@@ -177,7 +177,7 @@ emergency-stop input that can interrupt either of them. Multiplexing these
 on a single `WaitSet` lets the supervisor sleep between events and react
 to whichever one fires next.
 
-```{literalinclude} ../../snippets/execution-control-patterns/src/bin/vehicle_supervisor.rs
+```{literalinclude} ../../snippets/execution-control-patterns/rust/src/bin/vehicle_supervisor.rs
 :language: rust
 :start-after: // snippet:start
 :end-before: // snippet:end

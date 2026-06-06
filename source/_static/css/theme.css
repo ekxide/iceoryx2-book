@@ -449,10 +449,15 @@ html.ix-theme-switching *::after { transition: none !important; }
   font-size: 0.86rem;
   line-height: 1.7;
   padding: 1.1rem 1.25rem;
+  /* keep code literal: render "!=", "->", "==" as typed, not as ligatures */
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
 }
 /* inline code */
 code.literal, .rst-content code:not(.xref) {
   font-family: var(--font-stack--monospace);
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
   font-size: 0.86em;
   border-radius: 6px;
   border: 1px solid var(--ix-line);
