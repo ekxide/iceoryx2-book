@@ -233,8 +233,8 @@ and Python applications must use the tunnel from a separate process with the
 
 Running the tunnel as its own process is convenient, but it's not the only
 option. The tunnel is a library, and it spawns no threads of its own so you
-have full control over when and where to run it — it can be executed as part
-of a dedicated time slice in a timing-based architecture, or on a separate
+have full control over when and where to run it — it can be executed within a
+dedicated time slot of a time-triggered architecture, or on a separate
 thread that you control, pinned to a specific core so as not to interfere
 with application execution.
 
