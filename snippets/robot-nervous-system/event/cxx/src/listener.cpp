@@ -38,8 +38,7 @@ auto main() -> int {
     // snippet:end react
 
     // snippet:start wait-loop
-    while (listener.blocking_wait(react_to_event).has_value()) {
-    }
+    while (listener.blocking_wait(react_to_event).has_value()) {}
     // snippet:end wait-loop
 
     return 0;
