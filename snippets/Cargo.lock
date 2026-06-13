@@ -185,7 +185,7 @@ dependencies = [
 
 [[package]]
 name = "blackboard"
-version = "0.1.0"
+version = "0.0.0"
 dependencies = [
  "iceoryx2",
  "iceoryx2-bb-container",
@@ -388,7 +388,7 @@ dependencies = [
 
 [[package]]
 name = "cross-host-communication"
-version = "0.1.0"
+version = "0.0.0"
 dependencies = [
  "iceoryx2",
  "iceoryx2-integrations-zenoh-tunnel-backend",
@@ -632,14 +632,14 @@ checksum = "877a4ace8713b0bcf2a4e7eec82529c029f1d0619886d18145fea96c3ffe5c0f"
 
 [[package]]
 name = "event"
-version = "0.1.0"
+version = "0.0.0"
 dependencies = [
  "iceoryx2",
 ]
 
 [[package]]
 name = "event-driven-communication"
-version = "0.1.0"
+version = "0.0.0"
 dependencies = [
  "iceoryx2",
 ]
@@ -657,7 +657,7 @@ dependencies = [
 
 [[package]]
 name = "execution-control-patterns"
-version = "0.1.0"
+version = "0.0.0"
 dependencies = [
  "iceoryx2",
 ]
@@ -2171,7 +2171,7 @@ dependencies = [
 
 [[package]]
 name = "publish-subscribe"
-version = "0.1.0"
+version = "0.0.0"
 dependencies = [
  "iceoryx2",
 ]
@@ -2389,7 +2389,7 @@ checksum = "dc897dd8d9e8bd1ed8cdad82b5966c3e0ecae09fb1907d58efaa013543185d0a"
 
 [[package]]
 name = "request-response"
-version = "0.1.0"
+version = "0.0.0"
 dependencies = [
  "iceoryx2",
 ]
