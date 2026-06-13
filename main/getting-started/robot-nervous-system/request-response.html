@@ -576,8 +576,10 @@ side can end the stream at any time if it’s no longer interested.</p>
 <input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-0">
 RUST</label><div class="sd-tab-content docutils">
-<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">Position</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">position</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="kt">f32</span><span class="p">;</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="cp">#[derive(Debug, ZeroCopySend)]</span>
+<span class="cp">#[repr(C)]</span>
+<span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">Position</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">position</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="kt">f32</span><span class="p">;</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -586,6 +588,7 @@ RUST</label><div class="sd-tab-content docutils">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="python" for="sd-tab-item-1">
 PYTHON</label><div class="sd-tab-content docutils">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">ctypes</span>
+
 
 <span class="k">class</span><span class="w"> </span><span class="nc">Position</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
     <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
@@ -618,9 +621,11 @@ C</label><div class="sd-tab-content docutils">
 <input checked="checked" id="sd-tab-item-4" name="sd-tab-set-1" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-4">
 RUST</label><div class="sd-tab-content docutils">
-<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">current_position</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="kt">f32</span><span class="p">;</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span>
-<span class="w">    </span><span class="n">speed</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="kt">f32</span><span class="p">;</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="cp">#[derive(Debug, ZeroCopySend)]</span>
+<span class="cp">#[repr(C)]</span>
+<span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">position</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="kt">f32</span><span class="p">;</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">speed</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="kt">f32</span><span class="p">;</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -680,28 +685,19 @@ PYTHON</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-10" name="sd-tab-set-2" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-10">
 C++</label><div class="sd-tab-content docutils">
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;iceoryx2.hpp&quot;</span>
-
-<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">iox2</span><span class="p">;</span>
-
-<span class="k">auto</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">().</span><span class="n">create</span><span class="o">&lt;</span><span class="n">ServiceType</span><span class="o">::</span><span class="n">Ipc</span><span class="o">&gt;</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">().</span><span class="n">create</span><span class="o">&lt;</span><span class="n">ServiceType</span><span class="o">::</span><span class="n">Ipc</span><span class="o">&gt;</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
 <input id="sd-tab-item-11" name="sd-tab-set-2" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-11">
 C</label><div class="sd-tab-content docutils">
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;iox2/iceoryx2.h&quot;</span>
-
-<span class="n">iox2_node_builder_h</span><span class="w"> </span><span class="n">node_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_builder_new</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">iox2_node_builder_h</span><span class="w"> </span><span class="n">node_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_builder_new</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
 <span class="n">iox2_node_h</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_builder_create</span><span class="p">(</span><span class="n">node_builder</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">iox2_service_type_e_IPC</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">node</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Could not create node!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
-
-<span class="c1">// do not forget to release the resources later</span>
-<span class="n">iox2_node_drop</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -712,7 +708,7 @@ C</label><div class="sd-tab-content docutils">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-12">
 RUST</label><div class="sd-tab-content docutils">
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
-<span class="w">    </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;autopilot&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;autopilot&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
 <span class="w">    </span><span class="p">.</span><span class="n">request_response</span><span class="p">::</span><span class="o">&lt;</span><span class="n">Position</span><span class="p">,</span><span class="w"> </span><span class="n">State</span><span class="o">&gt;</span><span class="p">()</span>
 <span class="w">    </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 </pre></div>
@@ -742,24 +738,19 @@ C++</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-15" name="sd-tab-set-3" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-15">
 C</label><div class="sd-tab-content docutils">
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create service name</span>
-<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">service_name_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;autopilot&quot;</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">service_name_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;autopilot&quot;</span><span class="p">;</span>
 <span class="n">iox2_service_name_h</span><span class="w"> </span><span class="n">service_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_name_new</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_value</span><span class="p">,</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">service_name_value</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">service_name</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create service name!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="c1">// Create service builder</span>
 <span class="n">iox2_service_name_ptr</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_cast_service_name_ptr</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
-<span class="n">iox2_service_builder_h</span><span class="w"> </span><span class="n">service_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node_handle</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="p">);</span>
+<span class="n">iox2_service_builder_h</span><span class="w"> </span><span class="n">service_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="p">);</span>
 <span class="n">iox2_service_builder_request_response_h</span><span class="w"> </span><span class="n">service_builder_request_response</span><span class="w"> </span><span class="o">=</span>
 <span class="w">    </span><span class="n">iox2_service_builder_request_response</span><span class="p">(</span><span class="n">service_builder</span><span class="p">);</span>
 
-<span class="c1">// Set request and response type details</span>
 <span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">request_type_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Position&quot;</span><span class="p">;</span>
-<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">response_type_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;State&quot;</span><span class="p">;</span>
-
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_builder_request_response_set_request_payload_type_details</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service_builder_request_response</span><span class="p">,</span>
 <span class="w">                                                                           </span><span class="n">iox2_type_variant_e_FIXED_SIZE</span><span class="p">,</span>
 <span class="w">                                                                           </span><span class="n">request_type_name</span><span class="p">,</span>
@@ -771,6 +762,7 @@ C</label><div class="sd-tab-content docutils">
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
 
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">response_type_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;State&quot;</span><span class="p">;</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_builder_request_response_set_response_payload_type_details</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service_builder_request_response</span><span class="p">,</span>
 <span class="w">                                                                            </span><span class="n">iox2_type_variant_e_FIXED_SIZE</span><span class="p">,</span>
 <span class="w">                                                                            </span><span class="n">response_type_name</span><span class="p">,</span>
@@ -782,17 +774,12 @@ C</label><div class="sd-tab-content docutils">
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="c1">// Create service</span>
 <span class="n">iox2_port_factory_request_response_h</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_builder_request_response_open_or_create</span><span class="p">(</span><span class="n">service_builder_request_response</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">service</span><span class="p">)</span>
 <span class="w">    </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create service!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
-
-<span class="c1">// do not forget to release the resources later</span>
-<span class="n">iox2_port_factory_request_response_drop</span><span class="p">(</span><span class="n">service</span><span class="p">);</span>
-<span class="n">iox2_service_name_drop</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -830,9 +817,6 @@ C</label><div class="sd-tab-content docutils">
 <span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create client!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
-
-<span class="c1">// do not forget to release the resources later</span>
-<span class="n">iox2_client_drop</span><span class="p">(</span><span class="n">client</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -856,10 +840,10 @@ RUST</label><div class="sd-tab-content docutils">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="python" for="sd-tab-item-21">
 PYTHON</label><div class="sd-tab-content docutils">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">request</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">loan_uninit</span><span class="p">()</span>
-<span class="n">p</span> <span class="o">=</span> <span class="n">Position</span><span class="p">()</span>
-<span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">123.456</span>
-<span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">789.1</span>
-<span class="n">request</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">write_payload</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="n">position</span> <span class="o">=</span> <span class="n">Position</span><span class="p">()</span>
+<span class="n">position</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">123.456</span>
+<span class="n">position</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">789.1</span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">write_payload</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
 <span class="n">pending_response</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -868,29 +852,26 @@ PYTHON</label><div class="sd-tab-content docutils">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-22">
 C++</label><div class="sd-tab-content docutils">
 <div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">loan_uninit</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
-<span class="k">auto</span><span class="w"> </span><span class="n">initialized_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="n">write_payload</span><span class="p">(</span><span class="n">Position</span><span class="w"> </span><span class="p">{{</span><span class="mf">123.456</span><span class="p">,</span><span class="w"> </span><span class="mf">789.1</span><span class="p">}});</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">initialized_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="n">write_payload</span><span class="p">(</span><span class="n">Position</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mf">123.456F</span><span class="p">,</span><span class="w"> </span><span class="mf">789.1F</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">});</span><span class="w"> </span><span class="c1">// NOLINT</span>
 
-<span class="n">pending_response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">initialized_request</span><span class="p">)).</span><span class="n">value</span><span class="p">();</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">pending_response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">initialized_request</span><span class="p">)).</span><span class="n">value</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
 <input id="sd-tab-item-23" name="sd-tab-set-5" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-23">
 C</label><div class="sd-tab-content docutils">
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// Loan request sample</span>
-<span class="n">iox2_request_mut_h</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">iox2_request_mut_h</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_client_loan_slice_uninit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">client</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to loan request</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="c1">// Write payload</span>
-<span class="k">struct</span><span class="w"> </span><span class="nc">Position</span><span class="o">*</span><span class="w"> </span><span class="n">payload</span><span class="p">;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Position</span><span class="o">*</span><span class="w"> </span><span class="n">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 <span class="n">iox2_request_mut_payload_mut</span><span class="p">(</span><span class="o">&amp;</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="o">**</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="n">payload</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
-<span class="n">payload</span><span class="o">-&gt;</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">123.456</span><span class="p">;</span>
-<span class="n">payload</span><span class="o">-&gt;</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">789.1</span><span class="p">;</span>
+<span class="n">payload</span><span class="o">-&gt;</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">123.456F</span><span class="p">;</span><span class="w"> </span><span class="c1">// NOLINT</span>
+<span class="n">payload</span><span class="o">-&gt;</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">789.1F</span><span class="p">;</span><span class="w">   </span><span class="c1">// NOLINT</span>
 
-<span class="c1">// Send request</span>
 <span class="n">iox2_pending_response_h</span><span class="w"> </span><span class="n">pending_response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_request_mut_send</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">pending_response</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to send request</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
@@ -911,11 +892,11 @@ C</label><div class="sd-tab-content docutils">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-24">
 RUST</label><div class="sd-tab-content docutils">
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">Duration</span><span class="p">::</span><span class="n">from_millis</span><span class="p">(</span><span class="mi">100</span><span class="p">)).</span><span class="n">is_ok</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">position</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pending_response</span><span class="p">.</span><span class="n">receive</span><span class="p">()</span><span class="o">?</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">show_larry_position_in_app</span><span class="p">(</span><span class="n">position</span><span class="p">);</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pending_response</span><span class="p">.</span><span class="n">receive</span><span class="p">()</span><span class="o">?</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">show_larry_position_in_app</span><span class="p">(</span><span class="o">&amp;</span><span class="n">response</span><span class="p">);</span>
 
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">pending_response</span><span class="p">.</span><span class="n">is_connected</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">is_at_destination</span><span class="p">(</span><span class="n">position</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">is_at_destination</span><span class="p">(</span><span class="o">&amp;</span><span class="n">response</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">show_larry_arrived_popup_in_app</span><span class="p">();</span>
 <span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">show_larry_encountered_obstacle_in_app</span><span class="p">();</span>
@@ -924,7 +905,9 @@ RUST</label><div class="sd-tab-content docutils">
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">user_has_pressed_stop_button</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// dropping the pending response cancels the stream</span>
 <span class="w">        </span><span class="nb">drop</span><span class="p">(</span><span class="n">pending_response</span><span class="p">);</span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -938,17 +921,20 @@ PYTHON</label><div class="sd-tab-content docutils">
         <span class="n">node</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">iox2</span><span class="o">.</span><span class="n">Duration</span><span class="o">.</span><span class="n">from_millis</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
 
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">position</span> <span class="o">=</span> <span class="n">pending_response</span><span class="o">.</span><span class="n">receive</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">pending_response</span><span class="o">.</span><span class="n">is_connected</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">is_at_destination</span><span class="p">(</span><span class="n">position</span><span class="p">):</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">pending_response</span><span class="o">.</span><span class="n">receive</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">response</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            <span class="n">show_larry_position_in_app</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">pending_response</span><span class="o">.</span><span class="n">is_connected</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">is_at_destination</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
                     <span class="n">show_larry_arrived_popup_in_app</span><span class="p">()</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">show_larry_encountered_obstacle_in_app</span><span class="p">()</span>
 
-            <span class="k">if</span> <span class="n">position</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">show_larry_position_in_app</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">break</span>
+        <span class="k">if</span> <span class="n">user_has_pressed_stop_button</span><span class="p">():</span>
+            <span class="k">break</span>
 
 <span class="k">except</span> <span class="n">iox2</span><span class="o">.</span><span class="n">NodeWaitFailure</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exit&quot;</span><span class="p">)</span>
@@ -959,21 +945,24 @@ PYTHON</label><div class="sd-tab-content docutils">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-26">
 C++</label><div class="sd-tab-content docutils">
 <div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">iox2</span><span class="o">::</span><span class="n">bb</span><span class="o">::</span><span class="n">Duration</span><span class="o">::</span><span class="n">from_millis</span><span class="p">(</span><span class="mi">100</span><span class="p">)).</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="nb">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pending_response</span><span class="p">.</span><span class="n">receive</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">position</span><span class="p">.</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">show_larry_position_in_app</span><span class="p">(</span><span class="n">position</span><span class="p">.</span><span class="n">value</span><span class="p">())</span>
-<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">break</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pending_response</span><span class="p">.</span><span class="n">receive</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">show_larry_position_in_app</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">value</span><span class="p">());</span>
 
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">pending_response</span><span class="p">.</span><span class="n">is_connected</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_at_destination</span><span class="p">(</span><span class="n">position</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_at_destination</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">value</span><span class="p">()))</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">show_larry_arrived_popup_in_app</span><span class="p">();</span>
 <span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">show_larry_encountered_obstacle_in_app</span><span class="p">();</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pending_response</span><span class="p">.</span><span class="n">receive</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">user_has_pressed_stop_button</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// dropping the pending response cancels the stream</span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -982,33 +971,45 @@ C++</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-27" name="sd-tab-set-6" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-27">
 C</label><div class="sd-tab-content docutils">
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node_handle</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">10000000</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">iox2_response_h</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100000000</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">iox2_response_h</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 <span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="nb">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_pending_response_receive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pending_response</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">position</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_pending_response_receive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pending_response</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">response</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to receive response</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
 <span class="w">            </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">response</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
 
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="o">!</span><span class="n">iox2_pending_response_is_connected</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pending_response</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_at_destination</span><span class="p">(</span><span class="n">position</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">State</span><span class="o">*</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">        </span><span class="n">iox2_response_payload</span><span class="p">(</span><span class="o">&amp;</span><span class="n">response</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="o">**</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="w">        </span><span class="n">show_larry_position_in_app</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">iox2_pending_response_is_connected</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pending_response</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_at_destination</span><span class="p">(</span><span class="n">state</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">show_larry_arrived_popup_in_app</span><span class="p">();</span>
 <span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">show_larry_encountered_obstacle_in_app</span><span class="p">();</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">response</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">break</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">iox2_response_drop</span><span class="p">(</span><span class="n">response</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 
-<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">State</span><span class="o">*</span><span class="w"> </span><span class="n">position_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
-<span class="w">        </span><span class="n">iox2_response_payload</span><span class="p">(</span><span class="o">&amp;</span><span class="n">response</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="o">**</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="n">position_data</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
-<span class="w">        </span><span class="n">show_larry_arrived_popup_in_app</span><span class="p">(</span><span class="n">position_data</span><span class="p">);</span>
-<span class="w">        </span><span class="n">iox2_response_drop</span><span class="p">(</span><span class="n">position</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">user_has_pressed_stop_button</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// dropping the pending response cancels the stream</span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
+
+<span class="c1">// release every handle once the loop exits</span>
+<span class="n">iox2_pending_response_drop</span><span class="p">(</span><span class="n">pending_response</span><span class="p">);</span>
+<span class="n">iox2_client_drop</span><span class="p">(</span><span class="n">client</span><span class="p">);</span>
+<span class="n">iox2_port_factory_request_response_drop</span><span class="p">(</span><span class="n">service</span><span class="p">);</span>
+<span class="n">iox2_service_name_drop</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
+<span class="n">iox2_node_drop</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -1025,7 +1026,7 @@ RUST</label><div class="sd-tab-content docutils">
 
 <span class="kd">let</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">::</span><span class="n">new</span><span class="p">().</span><span class="n">create</span><span class="p">::</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="o">&gt;</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
-<span class="w">    </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;autopilot&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;autopilot&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
 <span class="w">    </span><span class="p">.</span><span class="n">request_response</span><span class="p">::</span><span class="o">&lt;</span><span class="n">Position</span><span class="p">,</span><span class="w"> </span><span class="n">State</span><span class="o">&gt;</span><span class="p">()</span>
 <span class="w">    </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 
@@ -1036,7 +1037,9 @@ RUST</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-29" name="sd-tab-set-7" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="python" for="sd-tab-item-29">
 PYTHON</label><div class="sd-tab-content docutils">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">node</span> <span class="o">=</span> <span class="n">iox2</span><span class="o">.</span><span class="n">NodeBuilder</span><span class="o">.</span><span class="n">new</span><span class="p">()</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">iox2</span><span class="o">.</span><span class="n">ServiceType</span><span class="o">.</span><span class="n">Ipc</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">iceoryx2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">iox2</span>
+
+<span class="n">node</span> <span class="o">=</span> <span class="n">iox2</span><span class="o">.</span><span class="n">NodeBuilder</span><span class="o">.</span><span class="n">new</span><span class="p">()</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">iox2</span><span class="o">.</span><span class="n">ServiceType</span><span class="o">.</span><span class="n">Ipc</span><span class="p">)</span>
 
 <span class="n">service</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">node</span><span class="o">.</span><span class="n">service_builder</span><span class="p">(</span><span class="n">iox2</span><span class="o">.</span><span class="n">ServiceName</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;autopilot&quot;</span><span class="p">))</span>
@@ -1065,15 +1068,13 @@ C++</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-31" name="sd-tab-set-7" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-31">
 C</label><div class="sd-tab-content docutils">
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create new node</span>
-<span class="n">iox2_node_builder_h</span><span class="w"> </span><span class="n">node_builder_handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_builder_new</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
-<span class="n">iox2_node_h</span><span class="w"> </span><span class="n">node_handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
-<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_builder_create</span><span class="p">(</span><span class="n">node_builder_handle</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">iox2_service_type_e_IPC</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">node_handle</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">iox2_node_builder_h</span><span class="w"> </span><span class="n">node_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_builder_new</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+<span class="n">iox2_node_h</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_builder_create</span><span class="p">(</span><span class="n">node_builder</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">iox2_service_type_e_IPC</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">node</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Could not create node!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="c1">// Create service name</span>
 <span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">service_name_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;autopilot&quot;</span><span class="p">;</span>
 <span class="n">iox2_service_name_h</span><span class="w"> </span><span class="n">service_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_name_new</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_value</span><span class="p">,</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">service_name_value</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">service_name</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1081,16 +1082,12 @@ C</label><div class="sd-tab-content docutils">
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="c1">// Create service builder</span>
 <span class="n">iox2_service_name_ptr</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_cast_service_name_ptr</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
-<span class="n">iox2_service_builder_h</span><span class="w"> </span><span class="n">service_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node_handle</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="p">);</span>
+<span class="n">iox2_service_builder_h</span><span class="w"> </span><span class="n">service_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="p">);</span>
 <span class="n">iox2_service_builder_request_response_h</span><span class="w"> </span><span class="n">service_builder_request_response</span><span class="w"> </span><span class="o">=</span>
 <span class="w">    </span><span class="n">iox2_service_builder_request_response</span><span class="p">(</span><span class="n">service_builder</span><span class="p">);</span>
 
-<span class="c1">// Set request and response type details</span>
 <span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">request_type_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Position&quot;</span><span class="p">;</span>
-<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">response_type_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;State&quot;</span><span class="p">;</span>
-
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_builder_request_response_set_request_payload_type_details</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service_builder_request_response</span><span class="p">,</span>
 <span class="w">                                                                           </span><span class="n">iox2_type_variant_e_FIXED_SIZE</span><span class="p">,</span>
 <span class="w">                                                                           </span><span class="n">request_type_name</span><span class="p">,</span>
@@ -1102,6 +1099,7 @@ C</label><div class="sd-tab-content docutils">
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
 
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">response_type_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;State&quot;</span><span class="p">;</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_builder_request_response_set_response_payload_type_details</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service_builder_request_response</span><span class="p">,</span>
 <span class="w">                                                                            </span><span class="n">iox2_type_variant_e_FIXED_SIZE</span><span class="p">,</span>
 <span class="w">                                                                            </span><span class="n">response_type_name</span><span class="p">,</span>
@@ -1113,7 +1111,6 @@ C</label><div class="sd-tab-content docutils">
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="c1">// Create service</span>
 <span class="n">iox2_port_factory_request_response_h</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_builder_request_response_open_or_create</span><span class="p">(</span><span class="n">service_builder_request_response</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">service</span><span class="p">)</span>
 <span class="w">    </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1121,7 +1118,6 @@ C</label><div class="sd-tab-content docutils">
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="c1">// Create server</span>
 <span class="n">iox2_port_factory_server_builder_h</span><span class="w"> </span><span class="n">server_builder</span><span class="w"> </span><span class="o">=</span>
 <span class="w">    </span><span class="n">iox2_port_factory_request_response_server_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
 <span class="n">iox2_server_h</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
@@ -1129,12 +1125,6 @@ C</label><div class="sd-tab-content docutils">
 <span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create server!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
-
-<span class="c1">// do not forget to release the resources later</span>
-<span class="n">iox2_server_drop</span><span class="p">(</span><span class="n">server</span><span class="p">);</span>
-<span class="n">iox2_port_factory_request_response_drop</span><span class="p">(</span><span class="n">service</span><span class="p">);</span>
-<span class="n">iox2_service_name_drop</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
-<span class="n">iox2_node_drop</span><span class="p">(</span><span class="n">node_handle</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -1159,16 +1149,14 @@ RUST</label><div class="sd-tab-content docutils">
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">current_request</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">active_request</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">current_request</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">active_request</span><span class="p">.</span><span class="n">take</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">current_request</span><span class="p">.</span><span class="n">is_connected</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">active_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">None</span><span class="p">;</span>
 <span class="w">            </span><span class="n">stop_driving</span><span class="p">();</span>
-<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">arrived_at_destination</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">active_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">None</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">arrived_at_destination</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_request</span><span class="p">.</span><span class="n">loan_uninit</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 <span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="n">write_payload</span><span class="p">(</span><span class="n">get_current_state</span><span class="p">());</span>
 <span class="w">            </span><span class="n">response</span><span class="p">.</span><span class="n">send</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="w">            </span><span class="n">active_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">current_request</span><span class="p">);</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
@@ -1178,20 +1166,21 @@ RUST</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-33" name="sd-tab-set-8" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="python" for="sd-tab-item-33">
 PYTHON</label><div class="sd-tab-content docutils">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">active_request</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="n">node</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">iox2</span><span class="o">.</span><span class="n">Duration</span><span class="o">.</span><span class="n">from_millis</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+
         <span class="k">if</span> <span class="n">active_request</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">active_request</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="n">receive</span><span class="p">()</span>
-
             <span class="k">if</span> <span class="n">active_request</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">drive_to_position</span><span class="p">(</span><span class="n">active_request</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">active_request</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">active_request</span><span class="o">.</span><span class="n">is_connected</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">active_request</span><span class="o">.</span><span class="n">is_connected</span><span class="p">():</span>
                 <span class="n">stop_driving</span><span class="p">()</span>
                 <span class="n">active_request</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="k">else</span> <span class="k">if</span> <span class="n">arrived_at_destination</span><span class="p">():</span>
+            <span class="k">elif</span> <span class="n">arrived_at_destination</span><span class="p">():</span>
                 <span class="n">active_request</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">response</span> <span class="o">=</span> <span class="n">active_request</span><span class="o">.</span><span class="n">loan_uninit</span><span class="p">()</span>
@@ -1208,19 +1197,19 @@ PYTHON</label><div class="sd-tab-content docutils">
 C++</label><div class="sd-tab-content docutils">
 <div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">active_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">server</span><span class="p">.</span><span class="n">receive</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
 <span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">iox2</span><span class="o">::</span><span class="n">bb</span><span class="o">::</span><span class="n">Duration</span><span class="o">::</span><span class="n">from_millis</span><span class="p">(</span><span class="mi">100</span><span class="p">)).</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="o">!</span><span class="n">active_request</span><span class="p">.</span><span class="n">has_value</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">active_request</span><span class="p">.</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">active_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">server</span><span class="p">.</span><span class="n">receive</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">active_request</span><span class="p">.</span><span class="n">has_value</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">drive_to_position</span><span class="p">(</span><span class="n">active_request</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">active_request</span><span class="p">.</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">drive_to_position</span><span class="p">(</span><span class="n">active_request</span><span class="p">.</span><span class="n">value</span><span class="p">());</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">active_request</span><span class="p">.</span><span class="n">has_value</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="o">!</span><span class="n">active_request</span><span class="o">-&gt;</span><span class="n">is_connected</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">active_request</span><span class="p">.</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">active_request</span><span class="o">-&gt;</span><span class="n">is_connected</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">stop_driving</span><span class="p">();</span>
-<span class="w">            </span><span class="n">active_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2</span><span class="o">::</span><span class="n">bb</span><span class="o">::</span><span class="n">NULLOPT</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">arrived_at_destination</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">active_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2</span><span class="o">::</span><span class="n">bb</span><span class="o">::</span><span class="n">NULLOPT</span><span class="p">;</span>
+<span class="w">            </span><span class="n">active_request</span><span class="p">.</span><span class="n">reset</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">arrived_at_destination</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">active_request</span><span class="p">.</span><span class="n">reset</span><span class="p">();</span>
 <span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="k">auto</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">active_request</span><span class="o">-&gt;</span><span class="n">loan_uninit</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
 <span class="w">            </span><span class="k">auto</span><span class="w"> </span><span class="n">initialized_response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="n">write_payload</span><span class="p">(</span><span class="n">get_current_state</span><span class="p">());</span>
@@ -1235,41 +1224,52 @@ C++</label><div class="sd-tab-content docutils">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-35">
 C</label><div class="sd-tab-content docutils">
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">iox2_active_request_h</span><span class="w"> </span><span class="n">active_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
-<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node_handle</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">10000000</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">active_request</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100000000</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">active_request</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_server_receive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">server</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">active_request</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to receive request</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
 <span class="w">            </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="w">        </span><span class="p">}</span>
 
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">active_request</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">drive_to_position</span><span class="p">(</span><span class="n">active_request</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">active_request</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">Position</span><span class="o">*</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">            </span><span class="n">iox2_active_request_payload</span><span class="p">(</span><span class="o">&amp;</span><span class="n">active_request</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="o">**</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="w">            </span><span class="n">drive_to_position</span><span class="p">(</span><span class="n">position</span><span class="p">);</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">active_request</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="o">!</span><span class="n">iox2_active_request_is_connected</span><span class="p">(</span><span class="o">&amp;</span><span class="n">active_request</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">active_request</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">iox2_active_request_is_connected</span><span class="p">(</span><span class="o">&amp;</span><span class="n">active_request</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">stop_driving</span><span class="p">();</span>
 <span class="w">            </span><span class="n">iox2_active_request_drop</span><span class="p">(</span><span class="n">active_request</span><span class="p">);</span>
-<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">arrived_at_destination</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">active_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">arrived_at_destination</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">iox2_active_request_drop</span><span class="p">(</span><span class="n">active_request</span><span class="p">);</span>
+<span class="w">            </span><span class="n">active_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 <span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">iox2_response_mut_h</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_active_request_loan_slice_uninit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">active_request</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">response</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to loan response sample</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">                </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to loan response</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
 <span class="w">                </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="w">            </span><span class="p">}</span>
 
-<span class="w">            </span><span class="k">struct</span><span class="w"> </span><span class="nc">TransmissionData</span><span class="o">*</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">            </span><span class="k">struct</span><span class="w"> </span><span class="nc">State</span><span class="o">*</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 <span class="w">            </span><span class="n">iox2_response_mut_payload_mut</span><span class="p">(</span><span class="o">&amp;</span><span class="n">response</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="o">**</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
 <span class="w">            </span><span class="n">get_current_state</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_response_mut_send</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to send additional response</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">                </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to send response</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
 <span class="w">                </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
+
+<span class="c1">// release every handle once the loop exits</span>
+<span class="n">iox2_server_drop</span><span class="p">(</span><span class="n">server</span><span class="p">);</span>
+<span class="n">iox2_port_factory_request_response_drop</span><span class="p">(</span><span class="n">service</span><span class="p">);</span>
+<span class="n">iox2_service_name_drop</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
+<span class="n">iox2_node_drop</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -1336,7 +1336,7 @@ canyons (in theory).</p>
     <div class="copyright">
         Copyright &#169; 2026 Eclipse Foundation
     </div>
-    <div class="ix-trademark">Eclipse iceoryx&trade; is free, open source software, licensed under Apache 2.0.</div>
+    <div class="ix-trademark">Eclipse iceoryx&trade; is free, open source software, licensed under Apache 2.0 or MIT.</div>
     
     Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and
     <a href="https://github.com/pradyunsg/furo">Furo</a>

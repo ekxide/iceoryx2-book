@@ -134,11 +134,12 @@ a single event service signals when the work should be done.
 
 Each pubsub service is configured with a large `subscriber_max_buffer_size`,
 so the recorder accumulates a lookback window without dropping samples
-between triggers. When a trigger arrives, `try_wait_all` drains any
-further triggers queued behind it, so several sensors signalling the
-same incident produce one upload rather than several near-empty ones.
+between triggers. A single `timed_wait` blocks for the trigger and
+drains any further triggers queued behind it, so several sensors
+signalling the same incident produce one upload rather than several
+near-empty ones.
 Draining each subscriber to exhaustion then captures the full pre-event
-window. The one-second timeout on `timed_wait_one` ensures the outer
+window. The one-second timeout on `timed_wait` ensures the outer
 `node.wait(Duration::ZERO)` runs at least once per second, so the
 recorder can notice `SIGTERM`/`SIGINT` and shut down cleanly even when
 no triggers are arriving.
@@ -189,7 +190,7 @@ Each attachment type maps to one of the patterns covered earlier:
 is the emergency-stop wake-up, and `attach_deadline` combines both.
 The supervisor receives ordinary speed updates as notifications, and
 the deadline fires only if the speed sensor goes silent past the budget.
-Each notification branch must drain its listener with `try_wait_all`
+Each notification branch must drain its listener with `try_wait`
 before returning. While unread notifications remain, the `WaitSet`
 treats the source as still ready and re-enters the callback
 immediately, so a branch that doesn't drain spins the thread.

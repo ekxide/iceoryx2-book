@@ -581,27 +581,22 @@ PYTHON</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-2">
 C++</label><div class="sd-tab-content docutils">
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;iceoryx2.hpp&quot;</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">iox2</span><span class="p">;</span>
 
-<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">iox2</span><span class="p">;</span>
-
-<span class="k">auto</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">()</span>
-<span class="w">    </span><span class="p">.</span><span class="n">name</span><span class="p">(</span><span class="n">NodeName</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="s">&quot;UltraSonicSensor&quot;</span><span class="p">).</span><span class="n">value</span><span class="p">()</span>
-<span class="w">    </span><span class="p">.</span><span class="n">create</span><span class="o">&lt;</span><span class="n">ServiceType</span><span class="o">::</span><span class="n">Ipc</span><span class="o">&gt;</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">().</span><span class="n">name</span><span class="p">(</span><span class="n">NodeName</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="s">&quot;UltraSonicSensor&quot;</span><span class="p">).</span><span class="n">value</span><span class="p">()).</span><span class="n">create</span><span class="o">&lt;</span><span class="n">ServiceType</span><span class="o">::</span><span class="n">Ipc</span><span class="o">&gt;</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
 <input id="sd-tab-item-3" name="sd-tab-set-0" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-3">
 C</label><div class="sd-tab-content docutils">
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;iox2/iceoryx2.h&quot;</span>
-
-<span class="n">iox2_node_builder_h</span><span class="w"> </span><span class="n">node_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_builder_new</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">iox2_node_builder_h</span><span class="w"> </span><span class="n">node_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_builder_new</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
 
 <span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">node_name_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;UltraSonicSensor&quot;</span><span class="p">;</span>
 <span class="n">iox2_node_name_h</span><span class="w"> </span><span class="n">node_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_name_new</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">node_name_value</span><span class="p">,</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">node_name_value</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">node_name</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to set node name!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="n">iox2_node_name_ptr</span><span class="w"> </span><span class="n">node_name_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_cast_node_name_ptr</span><span class="p">(</span><span class="n">node_name</span><span class="p">);</span>
@@ -612,10 +607,6 @@ C</label><div class="sd-tab-content docutils">
 <span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Could not create node!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
-
-<span class="c1">// do not forget to release the resources later</span>
-<span class="n">iox2_node_name_drop</span><span class="p">(</span><span class="n">node_name</span><span class="p">);</span>
-<span class="n">iox2_node_drop</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -632,8 +623,10 @@ meaning:</p>
 <input checked="checked" id="sd-tab-item-4" name="sd-tab-set-1" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-4">
 RUST</label><div class="sd-tab-content docutils">
-<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="cp">#[derive(Debug, ZeroCopySend)]</span><span class="w">  </span><span class="c1">// every payload must implement ZeroCopySend</span>
-<span class="cp">#[repr(C)]</span><span class="w">                      </span><span class="c1">// ensures consistent and well-defined layout</span>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">iceoryx2</span><span class="p">::</span><span class="n">prelude</span><span class="p">::</span><span class="o">*</span><span class="p">;</span>
+
+<span class="cp">#[derive(Debug, ZeroCopySend)]</span><span class="w"> </span><span class="c1">// every payload must implement ZeroCopySend</span>
+<span class="cp">#[repr(C)]</span><span class="w"> </span><span class="c1">// ensures a consistent and well-defined layout</span>
 <span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">Distance</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">distance_in_meters</span><span class="p">:</span><span class="w"> </span><span class="kt">f64</span><span class="p">,</span>
 <span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">some_other_property</span><span class="p">:</span><span class="w"> </span><span class="kt">f32</span><span class="p">,</span>
@@ -646,15 +639,18 @@ RUST</label><div class="sd-tab-content docutils">
 PYTHON</label><div class="sd-tab-content docutils">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">ctypes</span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">TransmissionData</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Distance</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
     <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="s2">&quot;distance_in_meters&quot;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">),</span>
         <span class="p">(</span><span class="s2">&quot;some_other_property&quot;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
     <span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Distance </span><span class="se">{{</span><span class="s2"> distance_in_meters: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">distance_in_meters</span><span class="si">}</span><span class="s2">, some_other_property: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">some_other_property</span><span class="si">}</span><span class="s2"> </span><span class="se">}}</span><span class="s2">&quot;</span>
-
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Distance </span><span class="se">{{</span><span class="s2"> distance_in_meters: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">distance_in_meters</span><span class="si">}</span><span class="s2">, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;some_other_property: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">some_other_property</span><span class="si">}</span><span class="s2"> </span><span class="se">}}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -667,7 +663,7 @@ C++</label><div class="sd-tab-content docutils">
 <span class="p">};</span>
 
 <span class="kr">inline</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span><span class="o">&amp;</span><span class="w"> </span><span class="n">stream</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Distance</span><span class="o">&amp;</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span><span class="o">&amp;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">stream</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Distance { distance_in_meters: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="n">distance_in_meters</span>
+<span class="w">    </span><span class="n">stream</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Distance { distance_in_meters: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="n">distance_in_meters</span><span class="p">;</span>
 <span class="w">    </span><span class="n">stream</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;, some_other_property: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="n">some_other_property</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; }&quot;</span><span class="p">;</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">stream</span><span class="p">;</span>
 <span class="p">}</span>
@@ -728,12 +724,10 @@ C</label><div class="sd-tab-content docutils">
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="c1">// create service builder</span>
 <span class="n">iox2_service_name_ptr</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_cast_service_name_ptr</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
-<span class="n">iox2_service_builder_h</span><span class="w"> </span><span class="n">service_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node_handle</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="p">);</span>
+<span class="n">iox2_service_builder_h</span><span class="w"> </span><span class="n">service_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="p">);</span>
 <span class="n">iox2_service_builder_pub_sub_h</span><span class="w"> </span><span class="n">service_builder_pub_sub</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_service_builder_pub_sub</span><span class="p">(</span><span class="n">service_builder</span><span class="p">);</span>
 
-<span class="c1">// set pub sub payload type</span>
 <span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">payload_type_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Distance&quot;</span><span class="p">;</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_builder_pub_sub_set_payload_type_details</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service_builder_pub_sub</span><span class="p">,</span>
 <span class="w">                                                          </span><span class="n">iox2_type_variant_e_FIXED_SIZE</span><span class="p">,</span>
@@ -746,16 +740,11 @@ C</label><div class="sd-tab-content docutils">
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="c1">// create service</span>
 <span class="n">iox2_port_factory_pub_sub_h</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_builder_pub_sub_open_or_create</span><span class="p">(</span><span class="n">service_builder_pub_sub</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">service</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create service!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
-
-<span class="c1">// do not forget to release the resources later</span>
-<span class="n">iox2_service_name_drop</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
-<span class="n">iox2_port_factory_pub_sub_drop</span><span class="p">(</span><span class="n">service</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -791,23 +780,30 @@ C</label><div class="sd-tab-content docutils">
 <span class="n">iox2_publisher_h</span><span class="w"> </span><span class="n">publisher</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_port_factory_publisher_builder_create</span><span class="p">(</span><span class="n">publisher_builder</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">publisher</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create publisher!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="k">goto</span><span class="w"> </span><span class="n">drop_service</span><span class="p">;</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
-
-<span class="c1">// do not forget to release the resources later</span>
-<span class="n">iox2_publisher_drop</span><span class="p">(</span><span class="n">publisher</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 </div>
 <p>Larry isn’t exactly Formula 1 material, so publishing every 100 ms is plenty. We
-set up a loop, wait 100 ms, read the sensor, and send the data:</p>
+set up a loop that waits 100 ms, reads the sensor, and sends the data. To fully
+benefit from zero-copy, we don’t allocate or clone data; instead we loan an
+uninitialized sample from the publisher’s memory pool, fill it, and then send
+it:</p>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-16" name="sd-tab-set-4" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-16">
 RUST</label><div class="sd-tab-content docutils">
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">Duration</span><span class="p">::</span><span class="n">from_millis</span><span class="p">(</span><span class="mi">100</span><span class="p">)).</span><span class="n">is_ok</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="c1">// acquire sensor reading and send it</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">publisher</span><span class="p">.</span><span class="n">loan_uninit</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample</span><span class="p">.</span><span class="n">write_payload</span><span class="p">(</span><span class="n">Distance</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">distance_in_meters</span><span class="p">:</span><span class="w"> </span><span class="nc">get_ultra_sonic_sensor_distance</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">some_other_property</span><span class="p">:</span><span class="w"> </span><span class="mf">42.0</span><span class="p">,</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="w">    </span><span class="n">sample</span><span class="p">.</span><span class="n">send</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -818,7 +814,13 @@ PYTHON</label><div class="sd-tab-content docutils">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="n">node</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">iox2</span><span class="o">.</span><span class="n">Duration</span><span class="o">.</span><span class="n">from_millis</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
-        <span class="c1"># acquire sensor reading and send it</span>
+
+        <span class="n">sample</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">.</span><span class="n">loan_uninit</span><span class="p">()</span>
+        <span class="n">distance</span> <span class="o">=</span> <span class="n">get_ultra_sonic_sensor_distance</span><span class="p">()</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">write_payload</span><span class="p">(</span>
+            <span class="n">Distance</span><span class="p">(</span><span class="n">distance_in_meters</span><span class="o">=</span><span class="n">distance</span><span class="p">,</span> <span class="n">some_other_property</span><span class="o">=</span><span class="mf">42.0</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">sample</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
 
 <span class="k">except</span> <span class="n">iox2</span><span class="o">.</span><span class="n">NodeWaitFailure</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exit&quot;</span><span class="p">)</span>
@@ -829,7 +831,11 @@ PYTHON</label><div class="sd-tab-content docutils">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-18">
 C++</label><div class="sd-tab-content docutils">
 <div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">iox2</span><span class="o">::</span><span class="n">bb</span><span class="o">::</span><span class="n">Duration</span><span class="o">::</span><span class="n">from_millis</span><span class="p">(</span><span class="mi">100</span><span class="p">)).</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="c1">// acquire sensor reading and send it</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">publisher</span><span class="p">.</span><span class="n">loan_uninit</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
+
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">initialized_sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample</span><span class="p">.</span><span class="n">write_payload</span><span class="p">(</span><span class="n">Distance</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">get_ultra_sonic_sensor_distance</span><span class="p">(),</span><span class="w"> </span><span class="mf">42.0</span><span class="w"> </span><span class="p">});</span><span class="w"> </span><span class="c1">// NOLINT</span>
+
+<span class="w">    </span><span class="n">send</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">initialized_sample</span><span class="p">)).</span><span class="n">value</span><span class="p">();</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -837,78 +843,30 @@ C++</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-19" name="sd-tab-set-4" type="radio">
 <label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-19">
 C</label><div class="sd-tab-content docutils">
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node_handle</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">10000000</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="c1">// acquire sensor reading and send it</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>To fully benefit from zero-copy, we don’t allocate or clone data. Instead, we
-loan an uninitialized sample from the publisher’s memory pool, fill it, and then
-send it:</p>
-<div class="sd-tab-set docutils">
-<input checked="checked" id="sd-tab-item-20" name="sd-tab-set-5" type="radio">
-<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-20">
-RUST</label><div class="sd-tab-content docutils">
-<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">publisher</span><span class="p">.</span><span class="n">loan_uninit</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">10000000</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">iox2_sample_mut_h</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_publisher_loan_slice_uninit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">publisher</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sample</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to loan sample</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 
-<span class="kd">let</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample</span><span class="p">.</span><span class="n">write_payload</span><span class="p">(</span><span class="n">Distance</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">distance_in_meters</span><span class="p">:</span><span class="w"> </span><span class="nc">get_ultra_sonic_sensor_distance</span><span class="p">(),</span>
-<span class="w">    </span><span class="n">some_other_property</span><span class="p">:</span><span class="w"> </span><span class="mf">42.0</span><span class="p">,</span>
-<span class="p">});</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">Distance</span><span class="o">*</span><span class="w"> </span><span class="n">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="n">iox2_sample_mut_payload_mut</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sample</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="o">**</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="n">payload</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="w">    </span><span class="n">payload</span><span class="o">-&gt;</span><span class="n">distance_in_meters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_ultra_sonic_sensor_distance</span><span class="p">();</span>
+<span class="w">    </span><span class="n">payload</span><span class="o">-&gt;</span><span class="n">some_other_property</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">42.0F</span><span class="p">;</span><span class="w"> </span><span class="c1">// NOLINT</span>
 
-<span class="n">sample</span><span class="p">.</span><span class="n">send</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-<input id="sd-tab-item-21" name="sd-tab-set-5" type="radio">
-<label class="sd-tab-label" data-sync-group="code" data-sync-id="python" for="sd-tab-item-21">
-PYTHON</label><div class="sd-tab-content docutils">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sample</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">.</span><span class="n">loan_uninit</span><span class="p">()</span>
-
-<span class="n">d</span> <span class="o">=</span> <span class="n">get_ultra_sonic_sensor_distance</span><span class="p">()</span>
-<span class="n">sample</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">write_payload</span><span class="p">(</span>
-    <span class="n">Distance</span><span class="p">(</span><span class="n">distance_in_meters</span><span class="o">=</span><span class="n">d</span><span class="p">,</span> <span class="n">some_other_property</span><span class="o">=</span><span class="mf">42.0</span><span class="p">)</span>
-<span class="p">)</span>
-
-<span class="n">sample</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<input id="sd-tab-item-22" name="sd-tab-set-5" type="radio">
-<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-22">
-C++</label><div class="sd-tab-content docutils">
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">publisher</span><span class="p">.</span><span class="n">loan_uninit</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
-
-<span class="k">auto</span><span class="w"> </span><span class="n">initialized_sample</span><span class="w"> </span><span class="o">=</span>
-<span class="w">  </span><span class="n">sample</span><span class="p">.</span><span class="n">write_payload</span><span class="p">(</span><span class="n">Distance</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">get_ultra_sonic_sensor_distance</span><span class="p">(),</span><span class="w"> </span><span class="mf">42.0</span><span class="w"> </span><span class="p">});</span>
-
-<span class="n">send</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">initialized_sample</span><span class="p">)).</span><span class="n">value</span><span class="p">();</span>
-</pre></div>
-</div>
-</div>
-<input id="sd-tab-item-23" name="sd-tab-set-5" type="radio">
-<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-23">
-C</label><div class="sd-tab-content docutils">
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// loan sample</span>
-<span class="n">iox2_sample_mut_h</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
-<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_publisher_loan_slice_uninit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">publisher</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sample</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to loan sample</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_sample_mut_send</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to send sample</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 
-<span class="c1">// write payload</span>
-<span class="k">struct</span><span class="w"> </span><span class="nc">Distance</span><span class="o">*</span><span class="w"> </span><span class="n">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
-<span class="n">iox2_sample_mut_payload_mut</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sample</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="o">**</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="n">payload</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
-<span class="n">payload</span><span class="o">-&gt;</span><span class="n">distance_in_meters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_ultra_sonic_sensor_distance</span><span class="p">();</span>
-<span class="n">payload</span><span class="o">-&gt;</span><span class="n">some_other_property</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">42.0</span><span class="p">;</span>
-
-<span class="c1">// send sample</span>
-<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_sample_mut_send</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to send sample</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="c1">// release every handle once the loop exits</span>
+<span class="n">iox2_publisher_drop</span><span class="p">(</span><span class="n">publisher</span><span class="p">);</span>
+<span class="n">iox2_port_factory_pub_sub_drop</span><span class="p">(</span><span class="n">service</span><span class="p">);</span>
+<span class="n">iox2_service_name_drop</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
+<span class="n">iox2_node_name_drop</span><span class="p">(</span><span class="n">node_name</span><span class="p">);</span>
+<span class="n">iox2_node_drop</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -923,8 +881,8 @@ sample is safe to send.</p>
 <p>The subscriber setup starts the same: create a node, open the
 <code class="docutils literal notranslate"><span class="pre">&quot;distance_to_obstacle&quot;</span></code> service, and specify the payload type.</p>
 <div class="sd-tab-set docutils">
-<input checked="checked" id="sd-tab-item-24" name="sd-tab-set-6" type="radio">
-<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-24">
+<input checked="checked" id="sd-tab-item-20" name="sd-tab-set-5" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-20">
 RUST</label><div class="sd-tab-content docutils">
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">iceoryx2</span><span class="p">::</span><span class="n">prelude</span><span class="p">::</span><span class="o">*</span><span class="p">;</span>
 
@@ -937,8 +895,8 @@ RUST</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 </div>
-<input id="sd-tab-item-25" name="sd-tab-set-6" type="radio">
-<label class="sd-tab-label" data-sync-group="code" data-sync-id="python" for="sd-tab-item-25">
+<input id="sd-tab-item-21" name="sd-tab-set-5" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="python" for="sd-tab-item-21">
 PYTHON</label><div class="sd-tab-content docutils">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">iceoryx2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">iox2</span>
 
@@ -952,12 +910,10 @@ PYTHON</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 </div>
-<input id="sd-tab-item-26" name="sd-tab-set-6" type="radio">
-<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-26">
+<input id="sd-tab-item-22" name="sd-tab-set-5" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-22">
 C++</label><div class="sd-tab-content docutils">
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;iox2/iceoryx2.hpp&quot;</span>
-
-<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">iox2</span><span class="p">;</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">iox2</span><span class="p">;</span>
 
 <span class="k">auto</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">().</span><span class="n">create</span><span class="o">&lt;</span><span class="n">ServiceType</span><span class="o">::</span><span class="n">Ipc</span><span class="o">&gt;</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
 
@@ -968,20 +924,16 @@ C++</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 </div>
-<input id="sd-tab-item-27" name="sd-tab-set-6" type="radio">
-<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-27">
+<input id="sd-tab-item-23" name="sd-tab-set-5" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-23">
 C</label><div class="sd-tab-content docutils">
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;iox2/iceoryx2.h&quot;</span>
-
-<span class="c1">// create new node</span>
-<span class="n">iox2_node_builder_h</span><span class="w"> </span><span class="n">node_builder_handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_builder_new</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
-<span class="n">iox2_node_h</span><span class="w"> </span><span class="n">node_handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
-<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_builder_create</span><span class="p">(</span><span class="n">node_builder_handle</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">iox2_service_type_e_IPC</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">node_handle</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">iox2_node_builder_h</span><span class="w"> </span><span class="n">node_builder_handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_builder_new</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+<span class="n">iox2_node_h</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_builder_create</span><span class="p">(</span><span class="n">node_builder_handle</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">iox2_service_type_e_IPC</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">node</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Could not create node!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="c1">// create service name</span>
 <span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">service_name_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;distance_to_obstacle&quot;</span><span class="p">;</span>
 <span class="n">iox2_service_name_h</span><span class="w"> </span><span class="n">service_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_name_new</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_value</span><span class="p">,</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">service_name_value</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">service_name</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -989,12 +941,10 @@ C</label><div class="sd-tab-content docutils">
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="c1">// create service builder</span>
 <span class="n">iox2_service_name_ptr</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_cast_service_name_ptr</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
-<span class="n">iox2_service_builder_h</span><span class="w"> </span><span class="n">service_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node_handle</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="p">);</span>
+<span class="n">iox2_service_builder_h</span><span class="w"> </span><span class="n">service_builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_node_service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">service_name_ptr</span><span class="p">);</span>
 <span class="n">iox2_service_builder_pub_sub_h</span><span class="w"> </span><span class="n">service_builder_pub_sub</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iox2_service_builder_pub_sub</span><span class="p">(</span><span class="n">service_builder</span><span class="p">);</span>
 
-<span class="c1">// set pub sub payload type</span>
 <span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">payload_type_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Distance&quot;</span><span class="p">;</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_builder_pub_sub_set_payload_type_details</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service_builder_pub_sub</span><span class="p">,</span>
 <span class="w">                                                          </span><span class="n">iox2_type_variant_e_FIXED_SIZE</span><span class="p">,</span>
@@ -1007,46 +957,40 @@ C</label><div class="sd-tab-content docutils">
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="c1">// create service</span>
 <span class="n">iox2_port_factory_pub_sub_h</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_service_builder_pub_sub_open_or_create</span><span class="p">(</span><span class="n">service_builder_pub_sub</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">service</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create service!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
-
-<span class="c1">// do not forget to release the resources later</span>
-<span class="n">iox2_port_factory_pub_sub_drop</span><span class="p">(</span><span class="n">service</span><span class="p">);</span>
-<span class="n">iox2_service_name_drop</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
-<span class="n">iox2_node_drop</span><span class="p">(</span><span class="n">node_handle</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 </div>
 <p>Now we create the subscriber side:</p>
 <div class="sd-tab-set docutils">
-<input checked="checked" id="sd-tab-item-28" name="sd-tab-set-7" type="radio">
-<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-28">
+<input checked="checked" id="sd-tab-item-24" name="sd-tab-set-6" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-24">
 RUST</label><div class="sd-tab-content docutils">
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">subscriber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="n">subscriber_builder</span><span class="p">().</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
-<input id="sd-tab-item-29" name="sd-tab-set-7" type="radio">
-<label class="sd-tab-label" data-sync-group="code" data-sync-id="python" for="sd-tab-item-29">
+<input id="sd-tab-item-25" name="sd-tab-set-6" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="python" for="sd-tab-item-25">
 PYTHON</label><div class="sd-tab-content docutils">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">subscriber</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">subscriber_builder</span><span class="p">()</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<input id="sd-tab-item-30" name="sd-tab-set-7" type="radio">
-<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-30">
+<input id="sd-tab-item-26" name="sd-tab-set-6" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-26">
 C++</label><div class="sd-tab-content docutils">
 <div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">subscriber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="n">subscriber_builder</span><span class="p">().</span><span class="n">create</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
-<input id="sd-tab-item-31" name="sd-tab-set-7" type="radio">
-<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-31">
+<input id="sd-tab-item-27" name="sd-tab-set-6" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-27">
 C</label><div class="sd-tab-content docutils">
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">iox2_port_factory_subscriber_builder_h</span><span class="w"> </span><span class="n">subscriber_builder</span><span class="w"> </span><span class="o">=</span>
 <span class="w">    </span><span class="n">iox2_port_factory_pub_sub_subscriber_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">service</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
@@ -1055,9 +999,6 @@ C</label><div class="sd-tab-content docutils">
 <span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to create subscriber!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
 <span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
 <span class="p">}</span>
-
-<span class="c1">// do not forget to release the resources later</span>
-<span class="n">iox2_subscriber_drop</span><span class="p">(</span><span class="n">subscriber</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -1065,8 +1006,8 @@ C</label><div class="sd-tab-content docutils">
 <p>Since the publisher sends updates every 100 ms, we loop at the same pace and
 check for new data. If we receive something, we print it:</p>
 <div class="sd-tab-set docutils">
-<input checked="checked" id="sd-tab-item-32" name="sd-tab-set-8" type="radio">
-<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-32">
+<input checked="checked" id="sd-tab-item-28" name="sd-tab-set-7" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="rust" for="sd-tab-item-28">
 RUST</label><div class="sd-tab-content docutils">
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">Duration</span><span class="p">::</span><span class="n">from_millis</span><span class="p">(</span><span class="mi">100</span><span class="p">)).</span><span class="n">is_ok</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subscriber</span><span class="p">.</span><span class="n">receive</span><span class="p">()</span><span class="o">?</span><span class="w"> </span><span class="p">{</span>
@@ -1076,8 +1017,8 @@ RUST</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 </div>
-<input id="sd-tab-item-33" name="sd-tab-set-8" type="radio">
-<label class="sd-tab-label" data-sync-group="code" data-sync-id="python" for="sd-tab-item-33">
+<input id="sd-tab-item-29" name="sd-tab-set-7" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="python" for="sd-tab-item-29">
 PYTHON</label><div class="sd-tab-content docutils">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -1095,8 +1036,8 @@ PYTHON</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 </div>
-<input id="sd-tab-item-34" name="sd-tab-set-8" type="radio">
-<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-34">
+<input id="sd-tab-item-30" name="sd-tab-set-7" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c++" for="sd-tab-item-30">
 C++</label><div class="sd-tab-content docutils">
 <div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">iox2</span><span class="o">::</span><span class="n">bb</span><span class="o">::</span><span class="n">Duration</span><span class="o">::</span><span class="n">from_millis</span><span class="p">(</span><span class="mi">100</span><span class="p">)).</span><span class="n">has_value</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subscriber</span><span class="p">.</span><span class="n">receive</span><span class="p">().</span><span class="n">value</span><span class="p">();</span>
@@ -1108,11 +1049,10 @@ C++</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 </div>
-<input id="sd-tab-item-35" name="sd-tab-set-8" type="radio">
-<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-35">
+<input id="sd-tab-item-31" name="sd-tab-set-7" type="radio">
+<label class="sd-tab-label" data-sync-group="code" data-sync-id="c" for="sd-tab-item-31">
 C</label><div class="sd-tab-content docutils">
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node_handle</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">10000000</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="c1">// receive sample</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_node_wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">10000000</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">iox2_sample_h</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iox2_subscriber_receive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">subscriber</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sample</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IOX2_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to receive sample</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
@@ -1125,10 +1065,16 @@ C</label><div class="sd-tab-content docutils">
 
 <span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;received: Distance { .distance_in_meters: %f, .some_other_property: %f }</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="n">payload</span><span class="o">-&gt;</span><span class="n">distance_in_meters</span><span class="p">,</span>
-<span class="w">               </span><span class="n">payload</span><span class="o">-&gt;</span><span class="n">some_other_property</span><span class="p">);</span>
+<span class="w">               </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="w"> </span><span class="n">payload</span><span class="o">-&gt;</span><span class="n">some_other_property</span><span class="p">);</span>
 <span class="w">        </span><span class="n">iox2_sample_drop</span><span class="p">(</span><span class="n">sample</span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
+
+<span class="c1">// release every handle once the loop exits</span>
+<span class="n">iox2_subscriber_drop</span><span class="p">(</span><span class="n">subscriber</span><span class="p">);</span>
+<span class="n">iox2_port_factory_pub_sub_drop</span><span class="p">(</span><span class="n">service</span><span class="p">);</span>
+<span class="n">iox2_service_name_drop</span><span class="p">(</span><span class="n">service_name</span><span class="p">);</span>
+<span class="n">iox2_node_drop</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -1194,7 +1140,7 @@ hit the emergency brake before smashing into a wall.</p>
     <div class="copyright">
         Copyright &#169; 2026 Eclipse Foundation
     </div>
-    <div class="ix-trademark">Eclipse iceoryx&trade; is free, open source software, licensed under Apache 2.0.</div>
+    <div class="ix-trademark">Eclipse iceoryx&trade; is free, open source software, licensed under Apache 2.0 or MIT.</div>
     
     Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and
     <a href="https://github.com/pradyunsg/furo">Furo</a>
