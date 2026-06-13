@@ -30,8 +30,8 @@ fn main() -> Result<(), Box<dyn core::error::Error>> {
     let _position_guard = waitset.attach_notification(&position_listener)?;
 
     waitset.wait_and_process(|_| {
-        let _ = battery_listener.try_wait_all(|_| {});
-        let _ = position_listener.try_wait_all(|_| {});
+        let _ = battery_listener.try_wait(|_| {});
+        let _ = position_listener.try_wait(|_| {});
         let _ = tunnel.discover();
         let _ = tunnel.propagate();
 

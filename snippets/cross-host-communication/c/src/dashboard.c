@@ -20,19 +20,23 @@ struct CallbackContext {
     iox2_subscriber_h_ref position_subscriber;
 };
 
+// no-op callback: draining only needs to clear the queue, not inspect events
+static void drain_event(const iox2_event_id_t* event_id, uint64_t count, void* context) {
+    (void) event_id;
+    (void) count;
+    (void) context;
+}
+
 // called whenever a listener attached to the WaitSet has received an event
 static iox2_callback_progression_e on_event(iox2_waitset_attachment_id_h attachment_id, void* context) {
     struct CallbackContext* ctx = (struct CallbackContext*) context;
 
-    iox2_event_id_t event_id;
-    bool has_received_event = false;
+    uint64_t number_of_notifications = 0;
 
     if (iox2_waitset_attachment_id_has_event_from(&attachment_id, ctx->battery_guard)) {
         // drain every pending notification, otherwise the WaitSet wakes
         // again immediately and spins
-        do {
-            iox2_listener_try_wait_one(ctx->battery_listener, &event_id, &has_received_event);
-        } while (has_received_event);
+        iox2_listener_try_wait(ctx->battery_listener, &number_of_notifications, drain_event, NULL);
 
         iox2_sample_h battery_sample = NULL;
         while (iox2_subscriber_receive(ctx->battery_subscriber, NULL, &battery_sample) == IOX2_OK
@@ -46,9 +50,7 @@ static iox2_callback_progression_e on_event(iox2_waitset_attachment_id_h attachm
     } else if (iox2_waitset_attachment_id_has_event_from(&attachment_id, ctx->position_guard)) {
         // drain every pending notification, otherwise the WaitSet wakes
         // again immediately and spins
-        do {
-            iox2_listener_try_wait_one(ctx->position_listener, &event_id, &has_received_event);
-        } while (has_received_event);
+        iox2_listener_try_wait(ctx->position_listener, &number_of_notifications, drain_event, NULL);
 
         iox2_sample_h position_sample = NULL;
         while (iox2_subscriber_receive(ctx->position_subscriber, NULL, &position_sample) == IOX2_OK

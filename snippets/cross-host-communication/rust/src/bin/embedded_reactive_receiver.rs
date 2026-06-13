@@ -10,7 +10,7 @@ fn main() -> Result<(), Box<dyn core::error::Error>> {
         .reactive()
         .create()?;
 
-    while listener.blocking_wait_all(|_| {}).is_ok() {
+    while listener.blocking_wait(|_| {}).is_ok() {
         tunnel.discover()?;
         tunnel.propagate()?;
     }

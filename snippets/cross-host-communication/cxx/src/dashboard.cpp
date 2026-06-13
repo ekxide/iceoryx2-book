@@ -48,7 +48,7 @@ auto main() -> int {
         if (attachment_id.has_event_from(battery_guard)) {
             // drain every pending notification, otherwise the WaitSet wakes
             // again immediately and spins
-            battery_listener.try_wait_all([](auto) { }).value();
+            battery_listener.try_wait([](auto) { }).value();
             auto battery = battery_subscriber.receive().value();
             while (battery.has_value()) {
                 std::cout << "battery: " << battery->payload().charge_percent << "%" << std::endl;
@@ -57,7 +57,7 @@ auto main() -> int {
         } else if (attachment_id.has_event_from(position_guard)) {
             // drain every pending notification, otherwise the WaitSet wakes
             // again immediately and spins
-            position_listener.try_wait_all([](auto) { }).value();
+            position_listener.try_wait([](auto) { }).value();
             auto position = position_subscriber.receive().value();
             while (position.has_value()) {
                 std::cout << "position: (" << position->payload().x << ", " << position->payload().y << ")"

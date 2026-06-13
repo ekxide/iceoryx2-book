@@ -54,7 +54,7 @@ try:
             if attachment_id.has_event_from(battery_guard):
                 # drain every pending notification, otherwise the WaitSet wakes
                 # again immediately and spins
-                battery_listener.try_wait_all()
+                battery_listener.try_wait()
                 sample = battery_subscriber.receive()
                 while sample is not None:
                     print("battery:", sample.payload().contents.charge_percent, "%")
@@ -62,7 +62,7 @@ try:
             elif attachment_id.has_event_from(position_guard):
                 # drain every pending notification, otherwise the WaitSet wakes
                 # again immediately and spins
-                position_listener.try_wait_all()
+                position_listener.try_wait()
                 sample = position_subscriber.receive()
                 while sample is not None:
                     position = sample.payload().contents

@@ -41,14 +41,14 @@ fn main() -> Result<(), Box<dyn core::error::Error>> {
         if attachment_id.has_event_from(&battery_guard) {
             // drain every pending notification, otherwise the WaitSet wakes
             // again immediately and spins
-            battery_listener.try_wait_all(|_| {}).unwrap();
+            battery_listener.try_wait(|_| {}).unwrap();
             while let Ok(Some(sample)) = battery_subscriber.receive() {
                 println!("battery: {}%", sample.charge_percent);
             }
         } else if attachment_id.has_event_from(&position_guard) {
             // drain every pending notification, otherwise the WaitSet wakes
             // again immediately and spins
-            position_listener.try_wait_all(|_| {}).unwrap();
+            position_listener.try_wait(|_| {}).unwrap();
             while let Ok(Some(sample)) = position_subscriber.receive() {
                 println!("position: ({}, {})", sample.x, sample.y);
             }
