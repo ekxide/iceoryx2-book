@@ -4,4 +4,5 @@ members = [
     "execution-control-patterns/rust",
     "cross-host-communication/rust",
     "robot-nervous-system/publish-subscribe/rust",
+    "robot-nervous-system/event/rust",
 ]
