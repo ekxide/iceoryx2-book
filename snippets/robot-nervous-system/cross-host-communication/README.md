@@ -30,7 +30,7 @@ cargo run -p cross-host-communication --bin larry_telemetry
 ```sh
 just build-c-cxx-bindings
 just build-cxx-snippets
-cd snippets/cross-host-communication/cxx/build
+cd snippets/robot-nervous-system/cross-host-communication/cxx/build
 ./dashboard
 ./larry_telemetry
 ```
@@ -40,7 +40,7 @@ cd snippets/cross-host-communication/cxx/build
 ```sh
 just build-c-cxx-bindings
 just build-c-snippets
-cd snippets/cross-host-communication/c/build
+cd snippets/robot-nervous-system/cross-host-communication/c/build
 ./dashboard
 ./larry_telemetry
 ```
@@ -50,7 +50,7 @@ cd snippets/cross-host-communication/c/build
 ```sh
 just build-python-bindings
 source "$(poetry --project ../iceoryx2/iceoryx2-ffi/python env info --path)/bin/activate"
-cd snippets/cross-host-communication/python
+cd snippets/robot-nervous-system/cross-host-communication/python
 python -u dashboard.py
 python -u larry_telemetry.py
 ```
