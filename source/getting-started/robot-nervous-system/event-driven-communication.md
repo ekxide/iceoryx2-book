@@ -272,9 +272,8 @@ is covered in a separate tutorial.
 ```{grid-item}
 **{octicon}`code` Python**
 
-Functionality available but needs an example.  
-Want to contribute?  
-{octicon}`mark-github` [Create Pull Request](https://github.com/eclipse-iceoryx/iceoryx2/pulls)
+{octicon}`mark-github` [Minimal Event-Driven Publisher](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/event_based_communication/publisher.py)  
+{octicon}`mark-github` [Minimal Event-Driven Subscriber](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/examples/python/event_based_communication/subscriber.py)
 ```
 
 ```{grid-item}
