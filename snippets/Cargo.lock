@@ -630,6 +630,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "event-driven-communication"
+version = "0.1.0"
+dependencies = [
+ "iceoryx2",
+]
+
+[[package]]
 name = "event-listener"
 version = "5.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"

@@ -5,4 +5,5 @@ members = [
     "cross-host-communication/rust",
     "robot-nervous-system/publish-subscribe/rust",
     "robot-nervous-system/event/rust",
+    "robot-nervous-system/event-driven-communication/rust",
 ]
