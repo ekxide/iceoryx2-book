@@ -3,5 +3,15 @@ name = "event-driven-communication"
 edition = "2021"
 publish = false
 
+# Unique bin names so the output files don't collide with the publish-subscribe
+# crate's publisher/subscriber bins in the shared workspace target directory.
+[[bin]]
+name = "event_driven_publisher"
+path = "src/bin/publisher.rs"
+
+[[bin]]
+name = "event_driven_subscriber"
+path = "src/bin/subscriber.rs"
+
 [dependencies]
 iceoryx2 = { git = "https://github.com/eclipse-iceoryx/iceoryx2", branch = "main" }
