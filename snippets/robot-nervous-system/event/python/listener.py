@@ -28,15 +28,21 @@ listener = event.listener_builder().create()
 battery_is_low = iox2.EventId.new(1)
 wall_was_hit = iox2.EventId.new(0)
 
+
+# snippet:start react
+def react_to_event(event) -> None:
+    if event.id == battery_is_low:
+        activate_battery_warning_light()
+    if event.id == wall_was_hit:
+        go_into_parking_position()
+# snippet:end react
+
+
 # snippet:start wait-loop
 try:
     while True:
         for event in listener.blocking_wait():
-            if event.id == battery_is_low:
-                activate_battery_warning_light()
-            if event.id == wall_was_hit:
-                go_into_parking_position()
-
+            react_to_event(event)
 except iox2.ListenerWaitError:
     print("exit")
 # snippet:end wait-loop

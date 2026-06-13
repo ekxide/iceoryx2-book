@@ -226,8 +226,40 @@ Now we create the listener port:
 ```
 ````
 
+Each event maps to an action. We wrap that in a small handler:
+
+````{tab-set-code}
+```{literalinclude} ../../../snippets/robot-nervous-system/event/rust/src/bin/listener.rs
+:language: rust
+:start-after: snippet:start react
+:end-before: snippet:end react
+:dedent:
+```
+
+```{literalinclude} ../../../snippets/robot-nervous-system/event/python/listener.py
+:language: python
+:start-after: snippet:start react
+:end-before: snippet:end react
+:dedent:
+```
+
+```{literalinclude} ../../../snippets/robot-nervous-system/event/cxx/src/listener.cpp
+:language: c++
+:start-after: snippet:start react
+:end-before: snippet:end react
+:dedent:
+```
+
+```{literalinclude} ../../../snippets/robot-nervous-system/event/c/src/listener.c
+:language: c
+:start-after: snippet:start react
+:end-before: snippet:end react
+:dedent:
+```
+````
+
 This participant doesn’t need to poll. It just blocks until an event arrives,
-then checks which one it was:
+then runs the handler for each pending notification:
 
 ````{tab-set-code}
 ```{literalinclude} ../../../snippets/robot-nervous-system/event/rust/src/bin/listener.rs

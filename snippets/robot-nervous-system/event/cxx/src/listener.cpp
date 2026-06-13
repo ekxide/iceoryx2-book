@@ -23,21 +23,22 @@ auto main() -> int {
     auto listener = service.listener_builder().create().value();
     // snippet:end listener
 
-    const auto wall_was_hit = EventId(0);
     const auto battery_is_low = EventId(1);
+    const auto wall_was_hit = EventId(0);
+
+    // snippet:start react
+    auto react_to_event = [&](auto event) {
+        if (event.id() == battery_is_low) {
+            activate_battery_warning_light();
+        }
+        if (event.id() == wall_was_hit) {
+            go_into_parking_position();
+        }
+    };
+    // snippet:end react
 
     // snippet:start wait-loop
-    while (listener
-               .blocking_wait([&](auto event) {
-                   if (event.id() == battery_is_low) {
-                       activate_battery_warning_light();
-                   }
-
-                   if (event.id() == wall_was_hit) {
-                       go_into_parking_position();
-                   }
-               })
-               .has_value()) {
+    while (listener.blocking_wait(react_to_event).has_value()) {
     }
     // snippet:end wait-loop
 

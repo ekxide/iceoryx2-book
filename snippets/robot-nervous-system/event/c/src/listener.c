@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+static const iox2_event_id_t battery_is_low = { .value = 1 };
+static const iox2_event_id_t wall_was_hit = { .value = 0 };
+
 // stand-ins for the health-monitor's reactions
 static void activate_battery_warning_light(void) {
 }
@@ -12,22 +15,18 @@ static void activate_battery_warning_light(void) {
 static void go_into_parking_position(void) {
 }
 
-// the event IDs the listener reacts to, passed to the wait callback as context
-struct reaction_targets {
-    iox2_event_id_t battery_is_low;
-    iox2_event_id_t wall_was_hit;
-};
-
+// snippet:start react
 static void react_to_event(const iox2_event_id_t* event_id, uint64_t count, void* context) {
     (void) count;
-    struct reaction_targets* targets = (struct reaction_targets*) context;
-    if (event_id->value == targets->battery_is_low.value) {
+    (void) context;
+    if (event_id->value == battery_is_low.value) {
         activate_battery_warning_light();
     }
-    if (event_id->value == targets->wall_was_hit.value) {
+    if (event_id->value == wall_was_hit.value) {
         go_into_parking_position();
     }
 }
+// snippet:end react
 
 int main(void) {
     // snippet:start node-and-service
@@ -64,14 +63,10 @@ int main(void) {
     }
     // snippet:end listener
 
-    iox2_event_id_t wall_was_hit = { .value = 0 };
-    iox2_event_id_t battery_is_low = { .value = 1 };
-    struct reaction_targets targets = { battery_is_low, wall_was_hit };
-
     // snippet:start wait-loop
     uint64_t number_of_notifications = 0;
     while (iox2_node_wait(&node, 0, 0) == IOX2_OK) {
-        if (iox2_listener_blocking_wait(&listener, &number_of_notifications, react_to_event, &targets) != IOX2_OK) {
+        if (iox2_listener_blocking_wait(&listener, &number_of_notifications, react_to_event, NULL) != IOX2_OK) {
             printf("Unable to wait for notification!\n");
             exit(-1);
         }

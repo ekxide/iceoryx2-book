@@ -22,18 +22,19 @@ fn main() -> Result<(), Box<dyn core::error::Error>> {
     let battery_is_low = EventId::new(1);
     let wall_was_hit = EventId::new(0);
 
+    // snippet:start react
+    let react_to_event = |event: EventActivation| {
+        if event.id == battery_is_low {
+            activate_battery_warning_light();
+        }
+        if event.id == wall_was_hit {
+            go_into_parking_position();
+        }
+    };
+    // snippet:end react
+
     // snippet:start wait-loop
-    while listener
-        .blocking_wait(|event| {
-            if event.id == battery_is_low {
-                activate_battery_warning_light();
-            }
-            if event.id == wall_was_hit {
-                go_into_parking_position();
-            }
-        })
-        .is_ok()
-    {}
+    while listener.blocking_wait(react_to_event).is_ok() {}
     // snippet:end wait-loop
 
     Ok(())
