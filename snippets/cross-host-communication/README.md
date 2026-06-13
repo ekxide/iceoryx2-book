@@ -29,7 +29,7 @@ cargo run -p cross-host-communication --bin larry_telemetry
 
 ```sh
 just build-c-cxx-bindings
-just compile-cxx
+just build-cxx-snippets
 cd snippets/cross-host-communication/cxx/build
 ./dashboard
 ./larry_telemetry
@@ -39,7 +39,7 @@ cd snippets/cross-host-communication/cxx/build
 
 ```sh
 just build-c-cxx-bindings
-just compile-c
+just build-c-snippets
 cd snippets/cross-host-communication/c/build
 ./dashboard
 ./larry_telemetry
