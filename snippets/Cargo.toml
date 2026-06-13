@@ -6,4 +6,5 @@ members = [
     "robot-nervous-system/publish-subscribe/rust",
     "robot-nervous-system/event/rust",
     "robot-nervous-system/event-driven-communication/rust",
+    "robot-nervous-system/request-response/rust",
 ]
