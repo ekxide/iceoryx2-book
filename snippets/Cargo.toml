@@ -3,4 +3,5 @@ resolver = "2"
 members = [
     "execution-control-patterns/rust",
     "cross-host-communication/rust",
+    "robot-nervous-system/publish-subscribe/rust",
 ]
