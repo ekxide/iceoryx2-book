@@ -63,8 +63,7 @@ fn main() -> Result<(), Box<dyn core::error::Error>> {
     let trigger = trigger_service.listener_builder().create()?;
 
     while node.wait(Duration::ZERO).is_ok() {
-        if trigger.timed_wait_one(Duration::from_secs(1))?.is_some() {
-            trigger.try_wait_all(|_id| {})?;
+        if trigger.timed_wait(|_| {}, Duration::from_secs(1))? > 0 {
             while let Some(sample) = wheel_speed.receive()? {
                 // append to upload bundle
             }

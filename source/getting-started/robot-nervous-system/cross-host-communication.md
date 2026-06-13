@@ -43,28 +43,28 @@ As in previous articles in this series, the data flowing through Larry are
 defined as `ZeroCopySend` structs:
 
 ````{tab-set-code}
-```{literalinclude} ../../../snippets/cross-host-communication/rust/src/telemetry_data.rs
+```{literalinclude} ../../../snippets/robot-nervous-system/cross-host-communication/rust/src/telemetry_data.rs
 :language: rust
 :start-after: snippet:start
 :end-before: snippet:end
 :dedent:
 ```
 
-```{literalinclude} ../../../snippets/cross-host-communication/python/telemetry_data.py
+```{literalinclude} ../../../snippets/robot-nervous-system/cross-host-communication/python/telemetry_data.py
 :language: python
 :start-after: snippet:start
 :end-before: snippet:end
 :dedent:
 ```
 
-```{literalinclude} ../../../snippets/cross-host-communication/cxx/src/telemetry_data.hpp
+```{literalinclude} ../../../snippets/robot-nervous-system/cross-host-communication/cxx/src/telemetry_data.hpp
 :language: c++
 :start-after: snippet:start
 :end-before: snippet:end
 :dedent:
 ```
 
-```{literalinclude} ../../../snippets/cross-host-communication/c/src/telemetry_data.h
+```{literalinclude} ../../../snippets/robot-nervous-system/cross-host-communication/c/src/telemetry_data.h
 :language: c
 :start-after: snippet:start
 :end-before: snippet:end
@@ -88,28 +88,28 @@ We set Larry up to send a notification on a corresponding event service along
 with every sample that is published:
 
 ````{tab-set-code}
-```{literalinclude} ../../../snippets/cross-host-communication/rust/src/bin/larry_telemetry.rs
+```{literalinclude} ../../../snippets/robot-nervous-system/cross-host-communication/rust/src/bin/larry_telemetry.rs
 :language: rust
 :start-after: snippet:start
 :end-before: snippet:end
 :dedent:
 ```
 
-```{literalinclude} ../../../snippets/cross-host-communication/python/larry_telemetry.py
+```{literalinclude} ../../../snippets/robot-nervous-system/cross-host-communication/python/larry_telemetry.py
 :language: python
 :start-after: snippet:start
 :end-before: snippet:end
 :dedent:
 ```
 
-```{literalinclude} ../../../snippets/cross-host-communication/cxx/src/larry_telemetry.cpp
+```{literalinclude} ../../../snippets/robot-nervous-system/cross-host-communication/cxx/src/larry_telemetry.cpp
 :language: c++
 :start-after: snippet:start
 :end-before: snippet:end
 :dedent:
 ```
 
-```{literalinclude} ../../../snippets/cross-host-communication/c/src/larry_telemetry.c
+```{literalinclude} ../../../snippets/robot-nervous-system/cross-host-communication/c/src/larry_telemetry.c
 :language: c
 :start-after: snippet:start
 :end-before: snippet:end
@@ -123,28 +123,28 @@ A [`WaitSet`](/fundamentals/execution-control.md#waitset) is used to react
 to events from both listeners in a single thread.
 
 ````{tab-set-code}
-```{literalinclude} ../../../snippets/cross-host-communication/rust/src/bin/dashboard.rs
+```{literalinclude} ../../../snippets/robot-nervous-system/cross-host-communication/rust/src/bin/dashboard.rs
 :language: rust
 :start-after: snippet:start
 :end-before: snippet:end
 :dedent:
 ```
 
-```{literalinclude} ../../../snippets/cross-host-communication/python/dashboard.py
+```{literalinclude} ../../../snippets/robot-nervous-system/cross-host-communication/python/dashboard.py
 :language: python
 :start-after: snippet:start
 :end-before: snippet:end
 :dedent:
 ```
 
-```{literalinclude} ../../../snippets/cross-host-communication/cxx/src/dashboard.cpp
+```{literalinclude} ../../../snippets/robot-nervous-system/cross-host-communication/cxx/src/dashboard.cpp
 :language: c++
 :start-after: snippet:start
 :end-before: snippet:end
 :dedent:
 ```
 
-```{literalinclude} ../../../snippets/cross-host-communication/c/src/dashboard.c
+```{literalinclude} ../../../snippets/robot-nervous-system/cross-host-communication/c/src/dashboard.c
 :language: c
 :start-after: snippet:start
 :end-before: snippet:end
@@ -251,7 +251,7 @@ here we again use the `ZenohBackend`, but any other implementation can be
 dropped in, even your own. Specifying `polled()` in the build returns a tunnel
 that can be manually driven:
 
-```{literalinclude} ../../../snippets/cross-host-communication/rust/src/bin/embedded_polled.rs
+```{literalinclude} ../../../snippets/robot-nervous-system/cross-host-communication/rust/src/bin/embedded_polled.rs
 :language: rust
 :start-after: snippet:start
 :end-before: snippet:end
@@ -276,7 +276,7 @@ created in polling mode. Listeners are created for the services notified with
 each publish, and a [`WaitSet`](/fundamentals/execution-control.md#waitset) is
 set up to react to notifications from both of them in a single thread:
 
-```{literalinclude} ../../../snippets/cross-host-communication/rust/src/bin/embedded_reactive_sender.rs
+```{literalinclude} ../../../snippets/robot-nervous-system/cross-host-communication/rust/src/bin/embedded_reactive_sender.rs
 :language: rust
 :start-after: snippet:start
 :end-before: snippet:end
@@ -290,7 +290,7 @@ specified on creation.
 No [`WaitSet`](/fundamentals/execution-control.md#waitset) is needed here,
 since there is only one listener to wait on:
 
-```{literalinclude} ../../../snippets/cross-host-communication/rust/src/bin/embedded_reactive_receiver.rs
+```{literalinclude} ../../../snippets/robot-nervous-system/cross-host-communication/rust/src/bin/embedded_reactive_receiver.rs
 :language: rust
 :start-after: snippet:start
 :end-before: snippet:end

@@ -1,6 +1,5 @@
 [package]
 name = "execution-control-patterns"
-version = "0.1.0"
 edition = "2021"
 publish = false
 

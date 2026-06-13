@@ -2,8 +2,8 @@
 # project's example code. clang-format has no separate "C" language — both the
 # C (.c/.h) and C++ (.cpp/.hpp) snippets are formatted by this single config.
 #
-# Format the snippets with:
-#   clang-format -i snippets/cross-host-communication/{c,cxx}/src/*
+# Format the snippets with e.g.:
+#   clang-format -i snippets/robot-nervous-system/cross-host-communication/{c,cxx}/src/*
 ---
 Language:        Cpp
 # BasedOnStyle:  LLVM
@@ -15,7 +15,7 @@ AlignEscapedNewlinesLeft: false
 AlignOperands:   true
 AlignTrailingComments: true
 AllowAllParametersOfDeclarationOnNextLine: true
-AllowShortBlocksOnASingleLine: false
+AllowShortBlocksOnASingleLine: Empty
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortEnumsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: None
@@ -82,7 +82,7 @@ SpaceBeforeInheritanceColon: true
 SpaceBeforeParens: ControlStatements
 SpaceBeforeRangeBasedForLoopColon: true
 SpaceBeforeSquareBrackets: false
-SpaceInEmptyBlock: true
+SpaceInEmptyBlock: false
 SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 1
 SpacesInAngles: false

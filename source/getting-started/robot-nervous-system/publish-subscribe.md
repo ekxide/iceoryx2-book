@@ -22,57 +22,32 @@ point (like a process or thread) and acts as a factory for services. To keep
 things sane when debugging later, we’ll give this node a name:
 
 ````{tab-set-code}
-```{code-block} rust
-use iceoryx2::prelude::*;
-
-let node = NodeBuilder::new()
-    .name(&"UltraSonicSensor".try_into()?)
-    .create::<ipc::Service>()?;
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/rust/src/bin/publisher.rs
+:language: rust
+:start-after: snippet:start node
+:end-before: snippet:end node
+:dedent:
 ```
 
-```{code-block} python
-import iceoryx2 as iox2
-
-node = (
-    iox2.NodeBuilder.new()
-    .name(iox2.NodeName.new("UltraSonicSensor"))
-    .create(iox2.ServiceType.Ipc)
-)
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/python/publisher.py
+:language: python
+:start-after: snippet:start node
+:end-before: snippet:end node
+:dedent:
 ```
 
-```{code-block} c++
-#include "iceoryx2.hpp"
-
-using namespace iox2;
-
-auto node = NodeBuilder()
-    .name(NodeName::create("UltraSonicSensor").value()
-    .create<ServiceType::Ipc>().value();
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/cxx/src/publisher.cpp
+:language: c++
+:start-after: snippet:start node
+:end-before: snippet:end node
+:dedent:
 ```
 
-```{code-block} c
-#include "iox2/iceoryx2.h"
-
-iox2_node_builder_h node_builder = iox2_node_builder_new(NULL);
-
-const char* node_name_value = "UltraSonicSensor";
-iox2_node_name_h node_name = NULL;
-if (iox2_node_name_new(NULL, node_name_value, strlen(node_name_value), &node_name) != IOX2_OK) {
-    printf("Unable to set node name!\n");
-}
-
-iox2_node_name_ptr node_name_ptr = iox2_cast_node_name_ptr(node_name);
-iox2_node_builder_set_name(&node_builder, node_name_ptr);
-
-iox2_node_h node = NULL;
-if (iox2_node_builder_create(node_builder, NULL, iox2_service_type_e_IPC, &node) != IOX2_OK) {
-    printf("Could not create node!\n");
-    exit(-1);
-}
-
-// do not forget to release the resources later
-iox2_node_name_drop(node_name);
-iox2_node_drop(node);
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/c/src/publisher.c
+:language: c
+:start-after: snippet:start node
+:end-before: snippet:end node
+:dedent:
 ```
 ````
 
@@ -85,232 +60,132 @@ meaning:
 * identical memory representation
 
 ````{tab-set-code}
-```{code-block} rust
-#[derive(Debug, ZeroCopySend)]  // every payload must implement ZeroCopySend
-#[repr(C)]                      // ensures consistent and well-defined layout
-pub struct Distance {
-    pub distance_in_meters: f64,
-    pub some_other_property: f32,
-}
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/rust/src/distance.rs
+:language: rust
+:start-after: snippet:start payload
+:end-before: snippet:end payload
+:dedent:
 ```
 
-```{code-block} python
-import ctypes
-
-class TransmissionData(ctypes.Structure):
-    _fields_ = [
-        ("distance_in_meters", ctypes.c_double),
-        ("some_other_property", ctypes.c_float),
-    ]
-
-    def __str__(self) -> str:
-    return f"Distance {{ distance_in_meters: {self.distance_in_meters}, some_other_property: {self.some_other_property} }}"
-
-
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/python/distance.py
+:language: python
+:start-after: snippet:start payload
+:end-before: snippet:end payload
+:dedent:
 ```
 
-```{code-block} c++
-struct Distance {
-    double distance_in_meters;
-    float some_other_property;
-};
-
-inline auto operator<<(std::ostream& stream, const Distance& value) -> std::ostream& {
-    stream << "Distance { distance_in_meters: " << value.distance_in_meters
-    stream << ", some_other_property: " << value.some_other_property << " }";
-    return stream;
-}
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/cxx/src/distance.hpp
+:language: c++
+:start-after: snippet:start payload
+:end-before: snippet:end payload
+:dedent:
 ```
 
-```{code-block} c
-struct Distance {
-    double distance_in_meters;
-    float some_other_property;
-};
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/c/src/distance.h
+:language: c
+:start-after: snippet:start payload
+:end-before: snippet:end payload
+:dedent:
 ```
 ````
 
 With the payload defined, we can set up the service:
 
 ````{tab-set-code}
-```{code-block} rust
-let service = node
-    .service_builder(&"distance_to_obstacle".try_into()?)
-    .publish_subscribe::<Distance>()
-    .open_or_create()?;
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/rust/src/bin/publisher.rs
+:language: rust
+:start-after: snippet:start service
+:end-before: snippet:end service
+:dedent:
 ```
 
-```{code-block} python
-service = (
-    node.service_builder(iox2.ServiceName.new("distance_to_obstacle"))
-    .publish_subscribe(Distance)
-    .open_or_create()
-)
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/python/publisher.py
+:language: python
+:start-after: snippet:start service
+:end-before: snippet:end service
+:dedent:
 ```
 
-```{code-block} c++
-auto service = node.service_builder(ServiceName::create("distance_to_obstacle").value())
-                   .publish_subscribe<Distance>()
-                   .open_or_create()
-                   .value();
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/cxx/src/publisher.cpp
+:language: c++
+:start-after: snippet:start service
+:end-before: snippet:end service
+:dedent:
 ```
 
-```{code-block} c
-const char* service_name_value = "distance_to_obstacle";
-iox2_service_name_h service_name = NULL;
-if (iox2_service_name_new(NULL, service_name_value, strlen(service_name_value), &service_name) != IOX2_OK) {
-    printf("Unable to create service name!\n");
-    exit(-1);
-}
-
-// create service builder
-iox2_service_name_ptr service_name_ptr = iox2_cast_service_name_ptr(service_name);
-iox2_service_builder_h service_builder = iox2_node_service_builder(&node_handle, NULL, service_name_ptr);
-iox2_service_builder_pub_sub_h service_builder_pub_sub = iox2_service_builder_pub_sub(service_builder);
-
-// set pub sub payload type
-const char* payload_type_name = "Distance";
-if (iox2_service_builder_pub_sub_set_payload_type_details(&service_builder_pub_sub,
-                                                          iox2_type_variant_e_FIXED_SIZE,
-                                                          payload_type_name,
-                                                          strlen(payload_type_name),
-                                                          sizeof(struct Distance),
-                                                          alignof(struct Distance))
-    != IOX2_OK) {
-    printf("Unable to set type details\n");
-    exit(-1);
-}
-
-// create service
-iox2_port_factory_pub_sub_h service = NULL;
-if (iox2_service_builder_pub_sub_open_or_create(service_builder_pub_sub, NULL, &service) != IOX2_OK) {
-    printf("Unable to create service!\n");
-    exit(-1);
-}
-
-// do not forget to release the resources later
-iox2_service_name_drop(service_name);
-iox2_port_factory_pub_sub_drop(service);
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/c/src/publisher.c
+:language: c
+:start-after: snippet:start service
+:end-before: snippet:end service
+:dedent:
 ```
 ````
 
 Now we create our publisher:
 
 ````{tab-set-code}
-```{code-block} rust
-let publisher = service.publisher_builder().create()?;
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/rust/src/bin/publisher.rs
+:language: rust
+:start-after: snippet:start publisher
+:end-before: snippet:end publisher
+:dedent:
 ```
 
-```{code-block} python
-publisher = service.publisher_builder().create()
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/python/publisher.py
+:language: python
+:start-after: snippet:start publisher
+:end-before: snippet:end publisher
+:dedent:
 ```
 
-```{code-block} c++
-auto publisher = service.publisher_builder().create().value();
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/cxx/src/publisher.cpp
+:language: c++
+:start-after: snippet:start publisher
+:end-before: snippet:end publisher
+:dedent:
 ```
 
-```{code-block} c
-iox2_port_factory_publisher_builder_h publisher_builder =
-    iox2_port_factory_pub_sub_publisher_builder(&service, NULL);
-iox2_publisher_h publisher = NULL;
-if (iox2_port_factory_publisher_builder_create(publisher_builder, NULL, &publisher) != IOX2_OK) {
-    printf("Unable to create publisher!\n");
-    goto drop_service;
-}
-
-// do not forget to release the resources later
-iox2_publisher_drop(publisher);
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/c/src/publisher.c
+:language: c
+:start-after: snippet:start publisher
+:end-before: snippet:end publisher
+:dedent:
 ```
 ````
 
 Larry isn’t exactly Formula 1 material, so publishing every 100 ms is plenty. We
-set up a loop, wait 100 ms, read the sensor, and send the data:
+set up a loop that waits 100 ms, reads the sensor, and sends the data. To fully
+benefit from zero-copy, we don’t allocate or clone data; instead we loan an
+uninitialized sample from the publisher’s memory pool, fill it, and then send
+it:
 
 ````{tab-set-code}
-```{code-block} rust
-while node.wait(Duration::from_millis(100)).is_ok() {
-    // acquire sensor reading and send it
-}
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/rust/src/bin/publisher.rs
+:language: rust
+:start-after: snippet:start publish-loop
+:end-before: snippet:end publish-loop
+:dedent:
 ```
 
-```{code-block} python
-try:
-    while True:
-        node.wait(iox2.Duration.from_millis(100))
-        # acquire sensor reading and send it
-
-except iox2.NodeWaitFailure:
-    print("exit")
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/python/publisher.py
+:language: python
+:start-after: snippet:start publish-loop
+:end-before: snippet:end publish-loop
+:dedent:
 ```
 
-```{code-block} c++
-while (node.wait(iox2::bb::Duration::from_millis(100)).has_value()) {
-    // acquire sensor reading and send it
-}
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/cxx/src/publisher.cpp
+:language: c++
+:start-after: snippet:start publish-loop
+:end-before: snippet:end publish-loop
+:dedent:
 ```
 
-```{code-block} c
-while (iox2_node_wait(&node_handle, 0, 10000000) == IOX2_OK) {
-    // acquire sensor reading and send it
-}
-```
-````
-
-To fully benefit from zero-copy, we don’t allocate or clone data. Instead, we
-loan an uninitialized sample from the publisher’s memory pool, fill it, and then
-send it:
-
-````{tab-set-code}
-```{code-block} rust
-let sample = publisher.loan_uninit()?;
-
-let sample = sample.write_payload(Distance {
-    distance_in_meters: get_ultra_sonic_sensor_distance(),
-    some_other_property: 42.0,
-});
-
-sample.send()?;
-```
-
-```{code-block} python
-sample = publisher.loan_uninit()
-
-d = get_ultra_sonic_sensor_distance()
-sample = sample.write_payload(
-    Distance(distance_in_meters=d, some_other_property=42.0)
-)
-
-sample.send()
-```
-
-```{code-block} c++
-auto sample = publisher.loan_uninit().value();
-
-auto initialized_sample =
-  sample.write_payload(Distance { get_ultra_sonic_sensor_distance(), 42.0 });
-
-send(std::move(initialized_sample)).value();
-```
-
-```{code-block} c
-// loan sample
-iox2_sample_mut_h sample = NULL;
-if (iox2_publisher_loan_slice_uninit(&publisher, NULL, &sample, 1) != IOX2_OK) {
-    printf("Failed to loan sample\n");
-    exit(-1);
-}
-
-// write payload
-struct Distance* payload = NULL;
-iox2_sample_mut_payload_mut(&sample, (void**) &payload, NULL);
-payload->distance_in_meters = get_ultra_sonic_sensor_distance();
-payload->some_other_property = 42.0;
-
-// send sample
-if (iox2_sample_mut_send(sample, NULL) != IOX2_OK) {
-    printf("Failed to send sample\n");
-    exit(-1);
-}
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/c/src/publisher.c
+:language: c
+:start-after: snippet:start publish-loop
+:end-before: snippet:end publish-loop
+:dedent:
 ```
 ````
 
@@ -325,119 +200,64 @@ The subscriber setup starts the same: create a node, open the
 `"distance_to_obstacle"` service, and specify the payload type.
 
 ````{tab-set-code}
-```{code-block} rust
-use iceoryx2::prelude::*;
-
-let node = NodeBuilder::new().create::<ipc::Service>()?;
-
-let service = node
-    .service_builder(&"distance_to_obstacle".try_into()?)
-    .publish_subscribe::<Distance>()
-    .open_or_create()?;
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/rust/src/bin/subscriber.rs
+:language: rust
+:start-after: snippet:start node-and-service
+:end-before: snippet:end node-and-service
+:dedent:
 ```
 
-```{code-block} python
-import iceoryx2 as iox2
-
-node = iox2.NodeBuilder.new().create(iox2.ServiceType.Ipc)
-
-service = (
-    node.service_builder(iox2.ServiceName.new("distance_to_obstacle"))
-    .publish_subscribe(Distance)
-    .open_or_create()
-)
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/python/subscriber.py
+:language: python
+:start-after: snippet:start node-and-service
+:end-before: snippet:end node-and-service
+:dedent:
 ```
 
-```{code-block} c++
-#include "iox2/iceoryx2.hpp"
-
-using namespace iox2;
-
-auto node = NodeBuilder().create<ServiceType::Ipc>().value();
-
-auto service = node.service_builder(ServiceName::create("distance_to_obstacle").value())
-                   .publish_subscribe<Distance>()
-                   .open_or_create()
-                   .value();
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/cxx/src/subscriber.cpp
+:language: c++
+:start-after: snippet:start node-and-service
+:end-before: snippet:end node-and-service
+:dedent:
 ```
 
-```{code-block} c
-#include "iox2/iceoryx2.h"
-
-// create new node
-iox2_node_builder_h node_builder_handle = iox2_node_builder_new(NULL);
-iox2_node_h node_handle = NULL;
-if (iox2_node_builder_create(node_builder_handle, NULL, iox2_service_type_e_IPC, &node_handle) != IOX2_OK) {
-    printf("Could not create node!\n");
-    exit(-1);
-}
-
-// create service name
-const char* service_name_value = "distance_to_obstacle";
-iox2_service_name_h service_name = NULL;
-if (iox2_service_name_new(NULL, service_name_value, strlen(service_name_value), &service_name) != IOX2_OK) {
-    printf("Unable to create service name!\n");
-    exit(-1);
-}
-
-// create service builder
-iox2_service_name_ptr service_name_ptr = iox2_cast_service_name_ptr(service_name);
-iox2_service_builder_h service_builder = iox2_node_service_builder(&node_handle, NULL, service_name_ptr);
-iox2_service_builder_pub_sub_h service_builder_pub_sub = iox2_service_builder_pub_sub(service_builder);
-
-// set pub sub payload type
-const char* payload_type_name = "Distance";
-if (iox2_service_builder_pub_sub_set_payload_type_details(&service_builder_pub_sub,
-                                                          iox2_type_variant_e_FIXED_SIZE,
-                                                          payload_type_name,
-                                                          strlen(payload_type_name),
-                                                          sizeof(struct Distance),
-                                                          alignof(struct Distance))
-    != IOX2_OK) {
-    printf("Unable to set type details\n");
-    exit(-1);
-}
-
-// create service
-iox2_port_factory_pub_sub_h service = NULL;
-if (iox2_service_builder_pub_sub_open_or_create(service_builder_pub_sub, NULL, &service) != IOX2_OK) {
-    printf("Unable to create service!\n");
-    exit(-1);
-}
-
-// do not forget to release the resources later
-iox2_port_factory_pub_sub_drop(service);
-iox2_service_name_drop(service_name);
-iox2_node_drop(node_handle);
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/c/src/subscriber.c
+:language: c
+:start-after: snippet:start node-and-service
+:end-before: snippet:end node-and-service
+:dedent:
 ```
 ````
 
 Now we create the subscriber side:
 
 ````{tab-set-code}
-```{code-block} rust
-let subscriber = service.subscriber_builder().create()?;
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/rust/src/bin/subscriber.rs
+:language: rust
+:start-after: snippet:start subscriber
+:end-before: snippet:end subscriber
+:dedent:
 ```
 
-```{code-block} python
-subscriber = service.subscriber_builder().create()
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/python/subscriber.py
+:language: python
+:start-after: snippet:start subscriber
+:end-before: snippet:end subscriber
+:dedent:
 ```
 
-```{code-block} c++
-auto subscriber = service.subscriber_builder().create().value();
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/cxx/src/subscriber.cpp
+:language: c++
+:start-after: snippet:start subscriber
+:end-before: snippet:end subscriber
+:dedent:
 ```
 
-```{code-block} c
-iox2_port_factory_subscriber_builder_h subscriber_builder =
-    iox2_port_factory_pub_sub_subscriber_builder(&service, NULL);
-iox2_subscriber_h subscriber = NULL;
-if (iox2_port_factory_subscriber_builder_create(subscriber_builder, NULL, &subscriber) != IOX2_OK) {
-    printf("Unable to create subscriber!\n");
-    exit(-1);
-}
-
-// do not forget to release the resources later
-iox2_subscriber_drop(subscriber);
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/c/src/subscriber.c
+:language: c
+:start-after: snippet:start subscriber
+:end-before: snippet:end subscriber
+:dedent:
 ```
 ````
 
@@ -445,59 +265,32 @@ Since the publisher sends updates every 100 ms, we loop at the same pace and
 check for new data. If we receive something, we print it:
 
 ````{tab-set-code}
-```{code-block} rust
-while node.wait(Duration::from_millis(100)).is_ok() {
-    while let Some(sample) = subscriber.receive()? {
-        println!("received distance {:?}", sample.payload());
-    }
-}
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/rust/src/bin/subscriber.rs
+:language: rust
+:start-after: snippet:start receive-loop
+:end-before: snippet:end receive-loop
+:dedent:
 ```
 
-```{code-block} python
-try:
-    while True:
-        node.wait(iox2.Duration.from_millis(100))
-        while True:
-            sample = subscriber.receive()
-            if sample is not None:
-                data = sample.payload()
-                print("received distance:", data.contents)
-            else:
-                break
-
-except iox2.NodeWaitFailure:
-    print("exit")
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/python/subscriber.py
+:language: python
+:start-after: snippet:start receive-loop
+:end-before: snippet:end receive-loop
+:dedent:
 ```
 
-```{code-block} c++
-while (node.wait(iox2::bb::Duration::from_millis(100)).has_value()) {
-    auto sample = subscriber.receive().value();
-    while (sample.has_value()) {
-        std::cout << "received distance: " << sample->payload() << std::endl;
-        sample = subscriber.receive().value();
-    }
-}
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/cxx/src/subscriber.cpp
+:language: c++
+:start-after: snippet:start receive-loop
+:end-before: snippet:end receive-loop
+:dedent:
 ```
 
-```{code-block} c
-while (iox2_node_wait(&node_handle, 0, 10000000) == IOX2_OK) {
-    // receive sample
-    iox2_sample_h sample = NULL;
-    if (iox2_subscriber_receive(&subscriber, NULL, &sample) != IOX2_OK) {
-        printf("Failed to receive sample\n");
-        exit(-1);
-    }
-
-    if (sample != NULL) {
-        struct Distance* payload = NULL;
-        iox2_sample_payload(&sample, (const void**) &payload, NULL);
-
-        printf("received: Distance { .distance_in_meters: %f, .some_other_property: %f }\n",
-               payload->distance_in_meters,
-               payload->some_other_property);
-        iox2_sample_drop(sample);
-    }
-}
+```{literalinclude} ../../../snippets/robot-nervous-system/publish-subscribe/c/src/subscriber.c
+:language: c
+:start-after: snippet:start receive-loop
+:end-before: snippet:end receive-loop
+:dedent:
 ```
 ````
 

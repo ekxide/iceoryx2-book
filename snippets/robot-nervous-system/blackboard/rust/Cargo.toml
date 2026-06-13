@@ -1,0 +1,8 @@
+[package]
+name = "blackboard"
+edition = "2021"
+publish = false
+
+[dependencies]
+iceoryx2 = { git = "https://github.com/eclipse-iceoryx/iceoryx2", branch = "main" }
+iceoryx2-bb-container = { git = "https://github.com/eclipse-iceoryx/iceoryx2", branch = "main" }

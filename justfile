@@ -28,14 +28,14 @@ build-python-bindings:
 # ---------------------------------------------------------------------------
 
 # Rust: compiles (cargo check).
-compile-rust:
+build-rust-snippets:
     cd snippets && cargo check --workspace --all-targets
 
 # C++: every example's cxx/ project compiles against the installed bindings.
-compile-cxx:
+build-cxx-snippets:
     #!/usr/bin/env sh
     set -e
-    for dir in snippets/*/cxx; do
+    for dir in $(find snippets -type d -name cxx -not -path '*/build/*'); do
         [ -f "$dir/CMakeLists.txt" ] || continue
         echo ">> $dir"
         cmake -S "$dir" -B "$dir/build" -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH={{install_prefix}}
@@ -43,10 +43,10 @@ compile-cxx:
     done
 
 # C: every example's c/ project compiles against the installed bindings.
-compile-c:
+build-c-snippets:
     #!/usr/bin/env sh
     set -e
-    for dir in snippets/*/c; do
+    for dir in $(find snippets -type d -name c -not -path '*/build/*'); do
         [ -f "$dir/CMakeLists.txt" ] || continue
         echo ">> $dir"
         cmake -S "$dir" -B "$dir/build" -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH={{install_prefix}}
@@ -54,10 +54,10 @@ compile-c:
     done
 
 # Python: every example's python/ scripts are syntactically valid (py_compile).
-compile-python:
+build-python-snippets:
     #!/usr/bin/env sh
     set -e
-    for dir in snippets/*/python; do
+    for dir in $(find snippets -type d -name python -not -path '*/build/*'); do
         ls "$dir"/*.py >/dev/null 2>&1 || continue
         echo ">> $dir"
         ( cd "$dir" && poetry --project {{iox2_src}}/iceoryx2-ffi/python run python -m py_compile *.py )
@@ -99,4 +99,4 @@ format-c-cxx-check:
 
 # C/C++/Python compile checks need the bindings built first (build-*-bindings).
 # Run every check: formatting, lint, and compile for each language.
-check-all: format-rust-check format-c-cxx-check clippy-rust compile-rust compile-cxx compile-c compile-python
+check-all: format-rust-check format-c-cxx-check clippy-rust build-rust-snippets build-cxx-snippets build-c-snippets build-python-snippets

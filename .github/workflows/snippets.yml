@@ -76,16 +76,16 @@ jobs:
         run: just build-python-bindings
 
       - name: Compile Rust snippets
-        run: just compile-rust
+        run: just build-rust-snippets
 
       - name: Compile C++ snippets
-        run: just compile-cxx
+        run: just build-cxx-snippets
 
       - name: Compile C snippets
-        run: just compile-c
+        run: just build-c-snippets
 
       - name: Compile Python snippets
-        run: just compile-python
+        run: just build-python-snippets
 
       # 3. Static analysis
       - name: Static analysis
