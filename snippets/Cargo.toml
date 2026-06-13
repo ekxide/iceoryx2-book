@@ -7,4 +7,5 @@ members = [
     "robot-nervous-system/event/rust",
     "robot-nervous-system/event-driven-communication/rust",
     "robot-nervous-system/request-response/rust",
+    "robot-nervous-system/blackboard/rust",
 ]

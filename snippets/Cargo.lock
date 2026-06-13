@@ -184,6 +184,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "blackboard"
+version = "0.1.0"
+dependencies = [
+ "iceoryx2",
+ "iceoryx2-bb-container",
+]
+
+[[package]]
 name = "block-buffer"
 version = "0.10.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
