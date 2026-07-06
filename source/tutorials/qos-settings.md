@@ -8,12 +8,31 @@ Remember Larry, our imaginary robot, that helped us to get familiar with iceoryx
 
 ## All or Latest Data?
 
-- see Event-Driven Communication article
-- example ultrasonic sensor starts before emergency brake; the latter needs the most recent three samples to compute position, relative speed, accelaration
-- explain how subscriber_max_buffer_size, history_size, subscriber_max_borrowed_samples interact
-- example for not losing any data...
-- overflow behavior? will be refactored...
-- req/res equivalents
+### Pub-Sub
+
+- subscriber needs to hold three samples to compute position, relative speed, accelaration:
+  - subscriber_max_borrowed_samples: defines how many samples a subscriber can borrow at most in parallel
+- subscriber needs the last three samples whenever it connects, could start after sensor participant:
+  - subscriber_max_buffer_size: defines how many samples a subscriber can store in its internal buffer
+  - history_size: defines the maximum history size a subscriber can request on connection
+  - if overflow is not enabled: history_size <= subscriber_max_buffer_size
+
+- there could be other subscribers to the same service with less requirements. that's why one can set buffer_size and history_request on subscriber port creation allowing to **lower** expectations on buffer size and history for this specific subscriber
+  - buffer_size: a subscriber can decrease the service's subscriber_max_buffer_size (buffer_size <= subscriber_max_buffer_size)
+  - history_request: defines the amount of requested history samples (history_request <= service's history_size; history_request <= buffer_size)
+
+- overflow behavior (will be refactored soon):
+  - enabled: subscriber receives the most recent samples. i.e. when subscriber buffer is full, the oldest sample will be discarded and the most recent one is received
+  - disabled: the subscriber receives as many samples as fit in its buffer. samples that are sent after the buffer is full, will be discarded on subscriber side. if you don't want to lose data, disable overflow and choose buffer size accordingly
+
+- example: subscriber with buffer size 10 and history size 4. a publisher sends 10 samples before the subscriber connects. the subscriber receives the most recent 4 samples when it connects. after receiving, the publisher sends 10 more samples without the connected subscriber receiving them. when:
+  - overflow is enabled: the subscriber receives the 10 most recent samples; all other samples are discarded
+  - overflow is disabled: the subscriber receives 6 samples; the 4 most recent samples are discarded
+
+### Req-Res
+
+- max_response_buffer_size: defines how many responses fit in the client's buffer per request; important when a response stream is expected
+- overflow behavior for requests and responses (will be refactored soon)
 
 ## Get Notified
 
@@ -97,3 +116,5 @@ TODO:
 - link to this tutorial from other "Further Reading" sections
 - check if previous tutorial shows this tutorial at "Next"
 - provide code snippets
+- degradation_handler?
+- link to default settings?
