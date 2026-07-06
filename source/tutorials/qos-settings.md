@@ -25,8 +25,63 @@ Remember Larry, our imaginary robot, that helped us to get familiar with iceoryx
 
 ## Reduce Memory Consumption
 
-Targeting safety-critical systems, iceoryx2 assumes worst-case scenarios for determining memory allocation. Qos play a crucial role in these calculations - using smaller numbers in various settings can reduce the memory consumption significantly ...
-Describe how publisher, client and server data segments can be shrinked.
+Targeting safety-critical systems, iceoryx2 assumes worst-case scenarios for determining memory allocation. Various qos settings play a crucial role in these calculations - using smaller numbers can reduce the memory consumption significantly.
+
+- reduce size of payload segment in shm (link to Fundamentals/Shared Memory?)
+- relevant for pub-sub (publisher, link to Fundamentals/Messaging Patterns/ Publsih-Subscribe?) and req-res (client, server, link to Fundamentals/Messaging Patterns/Request-Response?)
+
+### Pub-Sub
+
+**Publisher payload segment:**
+
+1. Service settings:
+
+- max_subscribers: defines how many subscribers a publish-subscribe service supports
+- subscriber_max_buffer_size: defines how many samples a subscriber can store in its internal buffer
+- subscriber_max_borrowed_samples: defines how many samples a subscriber can borrow at most in parallel
+- history_size: defines the maximum history size a subscriber can request on connection
+
+2. Publisher port settings:
+
+- max_loaned_samples: defines how many SampleMuts this specific publisher can loan in parallel
+- override_sample_preallocation: see port_factory/publisher.rs
+
+### Req-Res
+
+**Client payload segment:**
+
+1. Service settings:
+
+- max_servers: defines how many servers a request-response service supports
+- max_loaned_requests: defines how may requests a client can loan in parallel (in total for all servers)
+- max_active_requests_per_client: defines how many active requests (= objects used to send answers to a
+  request that was received earlier from a client) a server can hold in parallel
+
+2. Port settings:
+
+- client: max_active_requests: max amount of active requests this specific client can send
+- client: override_request_preallocation: see port_factory/client.rs
+
+**Server payload segment:**
+
+1. Service settings:
+
+- max_clients: defines how many clients a request-response service supports
+- max_active_requests_per_client: defines how many active requests (= objects used to send answers to a
+  request that was received earlier from a client) a server can hold in parallel
+
+=> max_clients * 2 * max_active_requests_per_client = number of active requests in total for all clients (worst case)
+
+- max_borrowed_responses_per_pending_response: max borrowed responses a client can hold in parallel per pending
+  response (= objects used by the clients to receive responses for earlier sent requests)
+- max_response_buffer_size: defines how many responses fit in the client's buffer per request; important when a
+  response stream is expected
+
+2. Port settings:
+
+- server: max_loaned_responses_per_request: defines how many responses this specific server can loan in parallel per
+  active request
+- server: override_response_preallocation: see port_factory/server.rs
 
 ## Specify Alignment
 
@@ -41,3 +96,4 @@ TODO:
 - change qos link in Fundamentals/Communication Model
 - link to this tutorial from other "Further Reading" sections
 - check if previous tutorial shows this tutorial at "Next"
+- provide code snippets
