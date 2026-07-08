@@ -36,11 +36,24 @@ Remember Larry, our imaginary robot, that helped us to get familiar with iceoryx
 
 ## Get Notified
 
-- get notified on certain events
-- need to wake up a function with no additional input/need several inputs and you don't want to be interrupted until all of them have arrived
-- example emergency brake system: it does not need every single distance sample from the ultrasonic sensor; only care when the object is close enough + approaching
-- notifier_dead_event, so that emergency brake can switch to a safe state (ensures the system can respond effectively to crashes by notifying the corresponding listeners) (see Event-Driven Communication example)
-- others...
+Service settings:
+
+- deadline: defines how long a listener has to wait at most until a signal will be received; there must be a notification emitted by any notifier after at least the deadline; defines the maximum allowed time between two consecutive notifications. if a notification is not sent after the defined time, every listener that is attached to a waitset will be notified
+- disable_deadline: disable the deadline property of the service (may set by config); notifiers can signal notifications at any rate
+- max_nodes: defines how many nodes the service does support; defines indirectly how many processes can open the service at the same time
+- event_id_max_value: defines the maximum supported event id value; (an increased value can have a significant performance impact on some configurations that use a bitset as event tracking mechanism)
+- max_notifiers: defines how many notifiers an event service supports
+- max_listeners: defines how many listeners an event service supports
+- notifier_created_event: optional event id that is emitted when a new notifier was created; defines the event that shall be emitted by every newly created notifier
+- disable_notifier_created_event: disable the above
+- notifier_dropped_event: optional event id that is emitted when a notifier is dropped; defines the event that shall be emitted by every notifier before it is dropped
+- disable_notifier_dropped_event: disables the above
+- notifier_dead_event: optional event id that is emitted when a notifier is identified as dead (e.g. allowing the emergency brake to switch to a safe state when the sensor participant is identified as dead)
+- disable_notifier_dead_event: disables the above
+
+Notifier port settings:
+
+- notifier port setting default_event_id: sets a default event id for this notifier that is used in notify() (all listeners connected to the service with the default event id are notified <-> notify_with_custom_event_id(EventId))
 
 ## Reduce Memory Consumption
 
@@ -104,7 +117,20 @@ Targeting safety-critical systems, iceoryx2 assumes worst-case scenarios for det
 
 ## Specify Alignment
 
-- for specialized use cases, like SIMD or FPGA, one can define custom alignments for the service payload
+- some libraries (especially SIMD-related code) require stricter alignment than
+the type used for communication provides
+- in those cases, one can increase the payload alignment:
+
+  Pub-Sub:
+
+  - payload_alignment: defines the alignment of the payload for the service. if the provided alignment is greater than the payload type's alignment, the latter is used.
+
+  Req-Res:
+  - request_payload_alignment: overrides the alignment of the request payload
+  - response_payload_alignment: overrides the alignment of the response payload
+
+- to be able to connect to a service, the payload alignment must be identical in all participants since the communication is always strongly typed
+
 
 ## Further Reading
 
