@@ -1,0 +1,1 @@
+# Plain Struct as Payload
