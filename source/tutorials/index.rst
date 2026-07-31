@@ -8,3 +8,4 @@ and competency with ``iceoryx2``'s features and patterns.
    :maxdepth: 1
 
    execution-control-patterns
+   gateway-to-ros-2/index

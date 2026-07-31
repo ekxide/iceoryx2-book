@@ -3,7 +3,7 @@ A Robot Nervous System
 
 .. admonition:: Learning Objectives
 
-   This series of articles will show your how to utilize various features of
+   This series of articles will show you how to utilize various features of
    ``iceoryx2`` to bring up a non-trivial system.
 
 
