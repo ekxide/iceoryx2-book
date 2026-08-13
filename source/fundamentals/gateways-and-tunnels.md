@@ -47,12 +47,12 @@ Get familiar with the components involved with establishing communication.
 Build an intuition for what shared memory communication entails.
 ```
 
-```{grid-item-card} Explore the Tunnel Implementation
-:link: https://github.com/eclipse-iceoryx/iceoryx2/tree/main/iceoryx2-tunnel
+```{grid-item-card} Explore the Gateway Implementation
+:link: https://github.com/eclipse-iceoryx/iceoryx2/tree/main/iceoryx2-gateway
 :link-type: url
 :shadow: none
 
-Analyse the tunnel implementation and the available communication mechanisms.
+Analyse the gateway implementation and the available communication mechanisms.
 ```
 
 ````

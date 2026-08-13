@@ -5,5 +5,5 @@ publish = false
 
 [dependencies]
 iceoryx2 = { git = "https://github.com/eclipse-iceoryx/iceoryx2", branch = "main" }
-iceoryx2-services-tunnel = { git = "https://github.com/eclipse-iceoryx/iceoryx2", branch = "main" }
-iceoryx2-integrations-zenoh-tunnel-backend = { git = "https://github.com/eclipse-iceoryx/iceoryx2", branch = "main" }
+iceoryx2-gateway = { git = "https://github.com/eclipse-iceoryx/iceoryx2", branch = "main" }
+iceoryx2-integrations-zenoh-gateway-backend = { git = "https://github.com/eclipse-iceoryx/iceoryx2", branch = "main" }

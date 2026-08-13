@@ -1,23 +1,23 @@
 fn main() -> Result<(), Box<dyn core::error::Error>> {
     // snippet:start
     use iceoryx2::prelude::*;
-    use iceoryx2_integrations_zenoh_tunnel_backend::ZenohBackend;
-    use iceoryx2_services_tunnel::Tunnel;
+    use iceoryx2_gateway::Gateway;
+    use iceoryx2_integrations_zenoh_gateway_backend::ZenohBackend;
 
-    let mut tunnel = Tunnel::<ipc::Service, ZenohBackend<ipc::Service>>::new()
+    let mut gateway = Gateway::<ipc::Service, ZenohBackend<ipc::Service>>::new()
         .polled()
         .create()?;
 
     // wake whenever Larry publishes locally, so freshly produced samples are
     // pushed out promptly
-    let battery_listener = tunnel
+    let battery_listener = gateway
         .node()
         .service_builder(&"larry/battery".try_into()?)
         .event()
         .open_or_create()?
         .listener_builder()
         .create()?;
-    let position_listener = tunnel
+    let position_listener = gateway
         .node()
         .service_builder(&"larry/position".try_into()?)
         .event()
@@ -32,8 +32,8 @@ fn main() -> Result<(), Box<dyn core::error::Error>> {
     waitset.wait_and_process(|_| {
         let _ = battery_listener.try_wait(|_| {});
         let _ = position_listener.try_wait(|_| {});
-        let _ = tunnel.discover();
-        let _ = tunnel.propagate();
+        let _ = gateway.discover();
+        let _ = gateway.propagate();
 
         CallbackProgression::Continue
     })?;
