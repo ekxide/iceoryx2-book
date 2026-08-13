@@ -1,4 +1,4 @@
-"""Tunnel snippet payload types."""
+"""Cross-host communication payload types."""
 
 # snippet:start
 import ctypes

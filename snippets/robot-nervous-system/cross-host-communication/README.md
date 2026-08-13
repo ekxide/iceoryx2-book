@@ -4,8 +4,8 @@
    notifies on each.
 * `dashboard` — wakes on those notifications via a `WaitSet` and prints the data.
 * Rust only: `embedded_polled`, `embedded_reactive_sender`,
-  `embedded_reactive_receiver` — drive the tunnel in-process
-  (need a peer tunnel; cross-host).
+  `embedded_reactive_receiver` drive the gateway in-process
+  (need a peer gateway; cross-host).
 
 Run `dashboard` and `larry_telemetry` on the same host (two terminals, any
 order) to verify they communicate over shared memory. Expected, once per second:
