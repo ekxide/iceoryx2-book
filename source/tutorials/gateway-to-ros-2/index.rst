@@ -53,7 +53,7 @@ best is a case-by-case design decision:
 .. toctree::
    :maxdepth: 1
 
-   working-with-the-gateway
+   gateway-basics
    plain-struct-as-payload
    flatbuffer-as-payload
    cdr-bytes-as-payload
