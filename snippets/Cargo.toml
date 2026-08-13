@@ -2,6 +2,7 @@
 resolver = "2"
 members = [
     "execution-control-patterns/rust",
+    "gateway-to-ros-2/gateway-basics/rust",
     "robot-nervous-system/cross-host-communication/rust",
     "robot-nervous-system/publish-subscribe/rust",
     "robot-nervous-system/event/rust",

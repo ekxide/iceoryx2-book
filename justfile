@@ -2,6 +2,7 @@
 
 iox2_src := env_var_or_default("IOX2_SRC", justfile_directory() / ".." / "iceoryx2")
 install_prefix := iox2_src / "target" / "ff" / "cc" / "install"
+ros2_ws := justfile_directory() / "snippets" / "gateway-to-ros-2" / "ws"
 
 default:
     @just --list
@@ -53,6 +54,23 @@ build-c-snippets:
         cmake --build "$dir/build" --config Release
     done
 
+# ROS 2: the gateway-to-ros-2 colcon packages compile (requires a sourced ROS 2
+# environment plus the colcon-cargo, colcon-ros-cargo, vcstool and
+# cargo-ament-build tools).
+build-ros2-snippets:
+    #!/usr/bin/env bash
+    set -eo pipefail
+    if [ -z "${ROS_DISTRO:-}" ]; then
+        echo "Error: no sourced ROS 2 environment" >&2
+        echo "  Source your ROS 2 setup first, e.g.: source /opt/ros/jazzy/setup.bash" >&2
+        exit 1
+    fi
+    cd "{{ros2_ws}}"
+    vcs import --skip-existing src < "${ROS_DISTRO}.repos"
+    colcon build --packages-up-to std_msgs geometry_msgs rosidl_generator_rs
+    source install/setup.bash
+    colcon build --packages-select twist_limiter chatter_relay
+
 # Python: every example's python/ scripts are syntactically valid (py_compile).
 build-python-snippets:
     #!/usr/bin/env sh
@@ -82,6 +100,13 @@ format-rust:
 # Rust: verify rustfmt formatting without modifying files (used by CI).
 format-rust-check:
     cd snippets && cargo fmt --all --check
+
+# ROS 2: verify rustfmt formatting of the colcon packages, which are not
+# members of the snippets cargo workspace (used by CI).
+format-ros2-snippets-check:
+    find {{ros2_ws}}/src/twist_limiter {{ros2_ws}}/src/chatter_relay \
+        \( -name build -o -name target \) -prune -o -type f -name '*.rs' \
+        -print0 | xargs -0 rustfmt --edition 2024 --check
 
 # C/C++: reformat in place with clang-format (all examples, per the root .clang-format).
 format-c-cxx:

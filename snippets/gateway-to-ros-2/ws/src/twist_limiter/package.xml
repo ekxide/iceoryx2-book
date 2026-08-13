@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package format="3">
+    <name>twist_limiter</name>
+    <version>0.1.0</version>
+    <description>Velocity commands limited in iceoryx2</description>
+    <maintainer email="you@example.com">you</maintainer>
+    <license>Apache 2.0</license>
+
+    <depend>geometry_msgs</depend>
+
+    <export>
+        <build_type>ament_cargo</build_type>
+    </export>
+</package>

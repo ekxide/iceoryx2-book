@@ -217,18 +217,11 @@ We also need to point the linker at the install spaces of the sourced
 environment because the generated crates link against the C libraries of their
 message package, which `cargo` has no way to locate on its own:
 
-```{code-block} rust
+```{literalinclude} ../../../snippets/gateway-to-ros-2/ws/src/twist_limiter/build.rs
 :caption: src/twist_limiter/build.rs
-
-fn main() {
-    let prefix_path = std::env::var("AMENT_PREFIX_PATH")
-        .expect("AMENT_PREFIX_PATH not set - source the ROS 2 workspace before building");
-    for prefix in prefix_path.split(':') {
-        let lib = format!("{prefix}/lib");
-        println!("cargo:rustc-link-search=native={lib}");
-        println!("cargo:rustc-link-arg=-Wl,-rpath,{lib}");
-    }
-}
+:language: rust
+:start-after: snippet:start build-script
+:end-before: snippet:end build-script
 ```
 
 Now that everything is in place, let's create a basic placeholder binary to
@@ -241,14 +234,11 @@ counterpart in the `rmw` module matches the layout of the equivalent C struct.
 Payloads in shared memory are read as raw bytes across processes, so the
 `rmw` variant must be used:
 
-```{code-block} rust
+```{literalinclude} ../../../snippets/gateway-to-ros-2/ws/src/twist_limiter/src/bin/placeholder.rs
 :caption: src/twist_limiter/src/main.rs
-
-use geometry_msgs::msg::rmw::Twist;
-
-fn main() {
-    println!("{:?}", Twist::default());
-}
+:language: rust
+:start-after: snippet:start placeholder
+:end-before: snippet:end placeholder
 ```
 
 Build the package after sourcing the install space so that the generated
@@ -282,21 +272,11 @@ the ROS 2 type name, as described in [Application Configuration](
 /tutorials/gateway-to-ros-2/gateway-basics.md#application-configuration).
 This name is exposed in the generate Rust message crate:
 
-```{code-block} rust
+```{literalinclude} ../../../snippets/gateway-to-ros-2/ws/src/twist_limiter/src/main.rs
 :caption: src/twist_limiter/src/main.rs
-
-use iceoryx2::prelude::*;
-use rosidl_runtime_rs::{Message, RmwMessage};
-
-#[derive(Debug, Default, Clone)]
-#[repr(transparent)]
-pub struct Twist(pub geometry_msgs::msg::rmw::Twist);
-
-unsafe impl ZeroCopySend for Twist {
-    unsafe fn type_name() -> &'static str {
-        <<geometry_msgs::msg::Twist as Message>::RmwMsg as RmwMessage>::TYPE_NAME
-    }
-}
+:language: rust
+:start-after: snippet:start payload
+:end-before: snippet:end payload
 ```
 
 Replacing the placeholder `main`, the application itself is hardly any
@@ -304,62 +284,11 @@ different from a regular publish-subscribe application. The only thing
 ROS-specific is the `RosHeader` type declared as the user header on both
 services:
 
-```{code-block} rust
+```{literalinclude} ../../../snippets/gateway-to-ros-2/ws/src/twist_limiter/src/main.rs
 :caption: src/twist_limiter/src/main.rs
-
-use core::time::Duration;
-
-use iceoryx2::prelude::*;
-use iceoryx2_integrations_ros2_interop::RosHeader;
-
-const CYCLE_TIME: Duration = Duration::from_millis(100);
-const MAX_VELOCITY_M_PER_S: f64 = 1.0;
-
-fn limit(twist: &Twist) -> Twist {
-    let mut limited = twist.clone();
-    limited.0.linear.x = limited
-        .0
-        .linear
-        .x
-        .clamp(-MAX_VELOCITY_M_PER_S, MAX_VELOCITY_M_PER_S);
-    limited
-}
-
-fn main() -> Result<(), Box<dyn core::error::Error>> {
-    set_log_level_from_env_or(LogLevel::Info);
-
-    let node = NodeBuilder::new().create::<ipc::Service>()?;
-
-    let cmd_vel = node
-        .service_builder(&"CmdVel".try_into()?)
-        .publish_subscribe::<Twist>()
-        // IMPORTANT: Must use this user header if crossing ROS 2 boundary.
-        .user_header::<RosHeader>()
-        .open_or_create()?;
-    let subscriber = cmd_vel.subscriber_builder().create()?;
-
-    let cmd_vel_limited = node
-        .service_builder(&"CmdVelLimited".try_into()?)
-        .publish_subscribe::<Twist>()
-        // IMPORTANT: Must use this user header if crossing ROS 2 boundary.
-        .user_header::<RosHeader>()
-        .open_or_create()?;
-    let publisher = cmd_vel_limited.publisher_builder().create()?;
-
-    while node.wait(CYCLE_TIME).is_ok() {
-        while let Some(sample) = subscriber.receive()? {
-            let limited = limit(sample.payload());
-            publisher.loan_uninit()?.write_payload(limited).send()?;
-
-            coutln!(
-                "limited cmd_vel (sequence {})",
-                sample.user_header().sequence_number
-            );
-        }
-    }
-
-    Ok(())
-}
+:language: rust
+:start-after: snippet:start limiter
+:end-before: snippet:end limiter
 ```
 
 The limiting is just a basic clamp on the velocity. This same shape however

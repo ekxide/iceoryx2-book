@@ -1,0 +1,8 @@
+[package]
+name = "gateway-basics"
+edition = "2021"
+publish = false
+
+[dependencies]
+iceoryx2 = { git = "https://github.com/eclipse-iceoryx/iceoryx2", branch = "main" }
+iceoryx2-integrations-ros2-interop = { git = "https://github.com/eclipse-iceoryx/iceoryx2", branch = "main" }

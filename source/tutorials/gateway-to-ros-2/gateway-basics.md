@@ -116,15 +116,11 @@ There are only two things that applications interfacing with the ROS 2 gateway
 must do. First, the `RosHeader` type must be specified as the user header on
 the `iceoryx2` service:
 
-```rust
-use iceoryx2_integrations_ros2_interop::RosHeader;
-
-let service = node
-    .service_builder(&"CmdVel".try_into()?)
-    .publish_subscribe::<Payload>()
-    // IMPORTANT: Must use this user header if crossing ROS 2 boundary.
-    .user_header::<RosHeader>()
-    .open_or_create()?;
+```{literalinclude} ../../../snippets/gateway-to-ros-2/gateway-basics/rust/src/main.rs
+:language: rust
+:start-after: snippet:start user-header
+:end-before: snippet:end user-header
+:dedent:
 ```
 
 The gateway populates this header with the DDS GUID, source timestamp and
@@ -140,13 +136,10 @@ they contradict.
 The type name is specified on the payload type when implementing
 `ZeroCopySend` on payload types:
 
-```rust
-#[derive(ZeroCopySend)]
-#[type_name("std_msgs/msg/Float64")]
-#[repr(C)]
-pub struct Payload {
-    pub data: f64,
-}
+```{literalinclude} ../../../snippets/gateway-to-ros-2/gateway-basics/rust/src/main.rs
+:language: rust
+:start-after: snippet:start payload
+:end-before: snippet:end payload
 ```
 
 Typically this is set on generated ROS 2 types for Rust by wrapping them
