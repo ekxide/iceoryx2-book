@@ -116,7 +116,7 @@ There are only two things that applications interfacing with the ROS 2 gateway
 must do. First, the `RosHeader` type must be specified as the user header on
 the `iceoryx2` service:
 
-```{literalinclude} ../../../snippets/gateway-to-ros-2/gateway-basics/rust/src/main.rs
+```{literalinclude} ../../../snippets/gateway-to-ros-2/ws/src/gateway_basics/src/main.rs
 :language: rust
 :start-after: snippet:start user-header
 :end-before: snippet:end user-header
@@ -136,7 +136,7 @@ they contradict.
 The type name is specified on the payload type when implementing
 `ZeroCopySend` on payload types:
 
-```{literalinclude} ../../../snippets/gateway-to-ros-2/gateway-basics/rust/src/main.rs
+```{literalinclude} ../../../snippets/gateway-to-ros-2/ws/src/gateway_basics/src/main.rs
 :language: rust
 :start-after: snippet:start payload
 :end-before: snippet:end payload
@@ -145,18 +145,10 @@ The type name is specified on the payload type when implementing
 Typically this is set on generated ROS 2 types for Rust by wrapping them
 in a new type:
 
-```rust
-use rosidl_runtime_rs::{Message, RmwMessage};
-
-#[derive(Debug, Default, Clone)]
-#[repr(transparent)]
-pub struct Float64(pub std_msgs::msg::rmw::Float64);
-
-unsafe impl ZeroCopySend for Float64 {
-    unsafe fn type_name() -> &'static str {
-        <<std_msgs::msg::Float64 as Message>::RmwMsg as RmwMessage>::TYPE_NAME
-    }
-}
+```{literalinclude} ../../../snippets/gateway-to-ros-2/ws/src/gateway_basics/src/main.rs
+:language: rust
+:start-after: snippet:start wrapped-payload
+:end-before: snippet:end wrapped-payload
 ```
 
 Delegating to the generated `TYPE_NAME` constant is preferred over hardcoding

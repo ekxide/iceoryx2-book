@@ -69,7 +69,7 @@ build-ros2-snippets:
     vcs import --skip-existing src < "${ROS_DISTRO}.repos"
     colcon build --packages-up-to std_msgs geometry_msgs rosidl_generator_rs
     source install/setup.bash
-    colcon build --packages-select twist_limiter chatter_relay
+    colcon build --packages-select twist_limiter chatter_relay gateway_basics
 
 # Python: every example's python/ scripts are syntactically valid (py_compile).
 build-python-snippets:
@@ -105,6 +105,7 @@ format-rust-check:
 # members of the snippets cargo workspace (used by CI).
 format-ros2-snippets-check:
     find {{ros2_ws}}/src/twist_limiter {{ros2_ws}}/src/chatter_relay \
+        {{ros2_ws}}/src/gateway_basics \
         \( -name build -o -name target \) -prune -o -type f -name '*.rs' \
         -print0 | xargs -0 rustfmt --edition 2024 --check
 
