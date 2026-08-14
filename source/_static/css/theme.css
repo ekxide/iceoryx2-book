@@ -667,6 +667,81 @@ figcaption, .caption-text {
 
 /* mermaid diagrams */
 .mermaid { display: flex; justify-content: center; }
+.mermaid svg { max-width: 100%; height: auto; }
+
+/* a diagram between paragraphs needs room either side */
+.mermaid,
+figure:has(> .mermaid) { margin-block: 2.75rem; }
+figure:has(> .mermaid) > .mermaid { margin-block: 0 0.85rem; }
+
+/* participants */
+.mermaid .node rect,
+.mermaid .node polygon {
+  fill: var(--ix-surface) !important;
+  stroke: var(--ix-box-line) !important;
+  stroke-width: 1.5px !important;
+  rx: 6px; ry: 6px;
+}
+.mermaid .nodeLabel,
+.mermaid .nodeLabel p {
+  color: var(--ix-text) !important;
+  font-family: var(--font-stack) !important;
+  font-weight: 600;
+}
+
+/* non-iceoryx2 participants sit back, as .gt-app does */
+.mermaid .node.external rect {
+  fill: var(--ix-surface-2) !important;
+  stroke: var(--ix-line) !important;
+}
+.mermaid .node.external .nodeLabel p {
+  color: var(--ix-muted) !important;
+  font-family: var(--font-stack--monospace) !important;
+  font-weight: 400;
+}
+
+/* gateways and tunnels carry the blue accent, as .gt-comp does */
+.mermaid .node.gateway rect {
+  fill: color-mix(in srgb, var(--ix-blue) 14%, transparent) !important;
+  stroke: var(--ix-blue) !important;
+}
+.mermaid .node.gateway .nodeLabel p { color: var(--ix-blue) !important; }
+
+/* boundary containers */
+.mermaid .cluster rect {
+  fill: none !important;
+  stroke: var(--ix-muted-2) !important;
+  stroke-width: 1px !important;
+  stroke-dasharray: 5 3 !important;
+  rx: 12px; ry: 12px;
+}
+.mermaid .cluster-label .nodeLabel p {
+  color: var(--ix-text) !important;
+  font-weight: 600;
+}
+
+/* flows */
+.mermaid .flowchart-link,
+.mermaid .edgePath .path {
+  stroke: var(--ix-muted) !important;
+  stroke-width: 1.5px !important;
+}
+.mermaid .marker,
+.mermaid marker path {
+  fill: var(--ix-muted) !important;
+  stroke: var(--ix-muted) !important;
+}
+/* label sits on the line, so it needs the page behind it rather than
+   mermaid's default grey slab */
+.mermaid .edgeLabel,
+.mermaid .edgeLabel rect,
+.mermaid .edgeLabel p,
+.mermaid .labelBkg {
+  background-color: var(--ix-bg) !important;
+  fill: var(--ix-bg) !important;
+  opacity: 1 !important;
+}
+.mermaid .edgeLabel p { color: var(--ix-muted) !important; }
 
 /* inline themed diagrams (SVG reads --ix-* vars, so it themes with the page) */
 .ix-diagram { margin: 1.8rem auto; max-width: 640px; text-align: center; }

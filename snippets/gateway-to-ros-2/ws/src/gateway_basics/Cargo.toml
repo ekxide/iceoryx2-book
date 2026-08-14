@@ -1,0 +1,14 @@
+# The articles show placeholder versions for the iceoryx2 dependencies; the
+# compile checks build against the latest iceoryx2 sources.
+[workspace]
+
+[package]
+name = "gateway_basics"
+edition = "2024"
+publish = false
+
+[dependencies]
+iceoryx2 = { git = "https://github.com/eclipse-iceoryx/iceoryx2", branch = "main" }
+iceoryx2-integrations-ros2-interop = { git = "https://github.com/eclipse-iceoryx/iceoryx2", branch = "main" }
+rosidl_runtime_rs = { version = "0.6" }
+std_msgs = { version = "*" }
