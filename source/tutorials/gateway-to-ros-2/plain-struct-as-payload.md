@@ -13,13 +13,17 @@ If a definition does not contain any bounded or dynamic fields, the generated
 native types are completely self-contained and can thus be placed in shared
 memory.
 
-```{hint}
-Bounded and dynamic fields in ROS 2 message definitions generate types that
-utilize the heap.
+```text
+float64 scalar            # fixed-width basic type, shared-memory compatible
+float64[3] fixed_array    # fixed-size array, shared-memory compatible
+float64[<=8] bounded      # bounded sequence, heap-backed
+float64[] dynamic         # dynamic sequence, heap-backed
+string text               # dynamic string, heap-backed
 ```
 
-For ROS 2 topics that use such message types, a convenient approach is to let
-the gateway (de)serialize messages as they cross the boundary between
+For ROS 2 topics whose message definitions are free of bounded and dynamic
+fields, a convenient approach is to let the gateway's `PlainStruct`
+translator (de)serialize messages to CDR as they cross the boundary between
 ROS 2 and `iceoryx2`, and store the plain struct directly in shared memory
 to be consumed by `iceoryx2` applications. The (de)serialization is done once
 after which the payload is shared without copies.
@@ -237,9 +241,10 @@ confirm the build works and that the generated messages are accessible.
 The generated crates contain [two variants of each message](
 https://docs.rs/rosidl_runtime_rs/latest/rosidl_runtime_rs/trait.Message.html).
 The idiomatic `geometry_msgs::msg::Twist` uses native Rust types, while its
-counterpart in the `rmw` module matches the layout of the equivalent C struct.
-Payloads in shared memory are read as raw bytes across processes, so the
-`rmw` variant must be used:
+counterpart in the `rmw` module is `#[repr(C)]` and matches the layout of
+the equivalent C struct. Payloads in shared memory are read as raw bytes
+across processes, which requires this consistent layout, so the `rmw` variant
+must be used:
 
 ```{code-block} rust
 :caption: src/twist_limiter/src/main.rs

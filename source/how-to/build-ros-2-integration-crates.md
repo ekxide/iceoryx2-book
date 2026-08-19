@@ -33,6 +33,13 @@ your message types at runtime, so the same workspace must be sourced before
 running any of the binaries.
 ```
 
+This builds every crate in the integrations workspace, the ROS 2 gateway
+among them. To verify the build was successful, try running the gateway CLI:
+
+```console
+cargo run --manifest-path integrations/ros2/Cargo.toml --bin iox2-gateway-ros2 -- --help
+```
+
 ## Building the examples
 
 The examples are native `iceoryx2` applications packaged as ROS 2

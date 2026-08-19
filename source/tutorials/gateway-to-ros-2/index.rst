@@ -14,8 +14,9 @@ years building a prototype in ROS 2, and it is finally complete. Functionally,
 it works.
 
 But it is not yet perfect. Responsiveness could be snappier. Communication
-latency has become a bottleneck, especially for larger payloads. Or safety
-certification has reared its head as a barrier to production.
+latency has become a bottleneck, CPU load is high, expecially when
+communicating larger payloads. Or safety certification has reared its head as
+a barrier to production.
 
 With ``iceoryx2`` it is possible to address these issues, but the ROS 2
 stack need not be completely discarded in all cases. The ROS 2 gateway

@@ -53,14 +53,14 @@ ros2://topics/{NAMESPACE}/{TOPIC}  <->  /{NAMESPACE}/{TOPIC}
      (iceoryx2 service name)             (ROS 2 topic name)
 ```
 
-The topics can be filitered by explicitly specifying allowed topics. When this
+The topics can be filtered by explicitly specifying allowed topics. When this
 `--allow` is used, only those specified topics will be bridged:
 
 ```console
 iox2 gateway ros2 --allow "/cmd_vel" --allow "/sensors/*"
 ```
 
-The gateway will attempt to dynamically load typesupport for discovered topcis,
+The gateway will attempt to dynamically load typesupport for discovered topics,
 skipping those it is unable to load. This approach is only recommended as a
 starting point when first configuring the system.
 
@@ -95,12 +95,15 @@ This approach is recommended once the shape of a system is understood.
 ### Translation
 
 `Passthrough` moves payload bytes across the boundary unmodified and is the
-default. Interpreting the bytes is left to the applications on either side.
+default. In the case of ROS 2 these bytes must be the CDR-serialization of
+types layout-compatible with the ROS 2 message definition of the destination
+topic. It is left to the application to ensure this contract is upheld.
 
 `PlainStruct` (de)serializes payloads at the boundary using the ROS 2
-typesupport libraries, so that plain structs are placed in shared memory.
-Only self-contained types that can be placed in shared memory are admitted.
-It is selected on launch:
+typesupport libraries. The `iceoryx2` applications work directly with the
+plain struct in shared memory, while the gateway converts to and from the
+CDR bytes that ROS 2 expects. Only self-contained types that can be stored
+directly in shared memory are supported. It is selected on launch:
 
 ```console
 iox2 gateway ros2 --translator PlainStruct
@@ -127,8 +130,10 @@ let service = node
     .open_or_create()?;
 ```
 
-The gateway populates this header with the DDS GUID, source timestamp and
-the per-writer sequence number.
+When ingesting messages from ROS 2, the gateway fills this header with the
+origin of the message, which subscribers may use to identify the remote
+writer or detect message loss. Publishing applications can leave it at its
+default.
 
 Second, the payload type name of a bridged service must be the ROS 2 type
 name of the paired topic, for example `geometry_msgs/msg/Twist`. The gateway
@@ -137,7 +142,7 @@ to plain structs, the payload's size and alignment are additionally verified
 against the layout of the ROS 2 type, and the service is not bridged when
 they contradict.
 
-The type name is specified on the payload type when implementing
+The type name can be specified on the payload type when implementing
 `ZeroCopySend` on payload types:
 
 ```rust
@@ -149,8 +154,8 @@ pub struct Payload {
 }
 ```
 
-Typically this is set on generated ROS 2 types for Rust by wrapping them
-in a new type:
+For ROS 2 types generated for Rust this is typically set by wrapping them
+in a new type and implementing te trait:
 
 ```rust
 use rosidl_runtime_rs::{Message, RmwMessage};
@@ -175,8 +180,8 @@ silently prevents the service from being bridged.
 The gateway discovers matching services and topics and propagates pending
 samples whenever it wakes. How it wakes is configurable.
 
-By default, the gateway polls every 100 milliseconds. The rate is set with
-`--poll`:
+By default, the gateway polls every 100 milliseconds. A different polling
+rate (in milliseconds) can be set with `--poll`:
 
 ```console
 iox2 gateway ros2 --poll 10
