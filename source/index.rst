@@ -62,10 +62,10 @@ The iceoryx2 Book
 
 .. toctree::
    :hidden:
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: User Manual
 
-   introduction
+   introduction/index
 
 .. toctree::
    :hidden:
