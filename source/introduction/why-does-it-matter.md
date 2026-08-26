@@ -74,7 +74,7 @@ Understand the mechanism that eliminates payload copies.
 :link-type: doc
 :shadow: none
 
-Understand how iceoryx2 avoids forcing communication and execution together.
+Understand how `iceoryx2` avoids forcing communication and execution together.
 ```
 
 ```{grid-item-card} iceoryx2 Performance Benchmarks
