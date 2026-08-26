@@ -1,0 +1,60 @@
+<svg viewBox="0 0 760 460" role="img" aria-label="Producers write payloads into shared memory and consumers receive lightweight references" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .zc-box   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1.5; }
+    .zc-producer { stroke: var(--ix-ice, #2dd4e8); }
+    .zc-consumer { stroke: var(--ix-mint, #6ff0c7); }
+    .zc-plane { fill: var(--ix-surface, #141d2d); stroke: var(--ix-blue, #5b8def); stroke-width: 1.5; }
+    .zc-slot  { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .zc-live  { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-blue, #5b8def); stroke-width: 2; }
+    .zc-write { fill: none; stroke: var(--ix-ice, #2dd4e8); stroke-width: 2.5; }
+    .zc-ref   { fill: none; stroke: var(--ix-mint, #6ff0c7); stroke-width: 2; }
+    .zc-name  { font-family: var(--font-stack, sans-serif); font-size: 12px; font-weight: 600; fill: var(--ix-text, #eaf3f7); }
+    .zc-label { font-family: var(--font-stack, sans-serif); font-size: 10px; fill: var(--ix-muted, #bccbd6); }
+    .zc-mono  { font-family: var(--font-stack, sans-serif); font-size: 10px; font-weight: 600; letter-spacing: 1.3px; fill: var(--ix-blue, #5b8def); }
+  </style>
+  <defs>
+    <marker id="zc-write-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse" overflow="visible"><path d="M1 1 8 4.5 1 8Z" fill="var(--ix-ice, #2dd4e8)"/></marker>
+    <marker id="zc-ref-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse" overflow="visible"><path d="M1 1 8 4.5 1 8Z" fill="var(--ix-mint, #6ff0c7)"/></marker>
+  </defs>
+
+  <!-- Producers -->
+  <rect class="zc-box zc-producer" x="120" y="26" width="150" height="54" rx="11"/>
+  <text class="zc-name" x="195" y="58" text-anchor="middle">Producer A</text>
+  <rect class="zc-box zc-producer" x="490" y="26" width="150" height="54" rx="11"/>
+  <text class="zc-name" x="565" y="58" text-anchor="middle">Producer B</text>
+
+  <!-- Shared memory -->
+  <rect class="zc-plane" x="94" y="138" width="572" height="132" rx="15"/>
+  <text class="zc-mono" x="380" y="163" text-anchor="middle">SHARED MEMORY</text>
+  <g>
+    <rect class="zc-slot" x="118" y="183" width="62" height="58" rx="6"/>
+    <rect class="zc-live" x="193" y="183" width="62" height="58" rx="6"/>
+    <rect class="zc-slot" x="268" y="183" width="62" height="58" rx="6"/>
+    <rect class="zc-slot" x="343" y="183" width="62" height="58" rx="6"/>
+    <rect class="zc-slot" x="418" y="183" width="62" height="58" rx="6"/>
+    <rect class="zc-live" x="493" y="183" width="62" height="58" rx="6"/>
+    <rect class="zc-slot" x="568" y="183" width="62" height="58" rx="6"/>
+    <text class="zc-label" x="224" y="208" text-anchor="middle">payload</text><text class="zc-label" x="224" y="224" text-anchor="middle">A</text>
+    <text class="zc-label" x="524" y="208" text-anchor="middle">payload</text><text class="zc-label" x="524" y="224" text-anchor="middle">B</text>
+  </g>
+
+  <!-- Exactly one payload write from each producer. -->
+  <path class="zc-write" d="M195 80 V116 Q195 126 205 126 H224 V178" marker-end="url(#zc-write-arrow)"/>
+  <path class="zc-write" d="M565 80 V116 Q565 126 555 126 H524 V178" marker-end="url(#zc-write-arrow)"/>
+
+  <!-- References fan out; the payload remains in shared memory. -->
+  <path class="zc-ref" d="M224 246 V306 Q224 320 210 320 H95 V346" marker-end="url(#zc-ref-arrow)"/>
+  <path class="zc-ref" d="M224 246 V306 Q224 320 238 320 H285 V346" marker-end="url(#zc-ref-arrow)"/>
+  <path class="zc-ref" d="M524 246 V306 Q524 320 510 320 H475 V346" marker-end="url(#zc-ref-arrow)"/>
+  <path class="zc-ref" d="M524 246 V306 Q524 320 538 320 H665 V346" marker-end="url(#zc-ref-arrow)"/>
+
+  <rect class="zc-box zc-consumer" x="20" y="350" width="150" height="54" rx="11"/><text class="zc-name" x="95" y="382" text-anchor="middle">Consumer C</text>
+  <rect class="zc-box zc-consumer" x="210" y="350" width="150" height="54" rx="11"/><text class="zc-name" x="285" y="382" text-anchor="middle">Consumer D</text>
+  <rect class="zc-box zc-consumer" x="400" y="350" width="150" height="54" rx="11"/><text class="zc-name" x="475" y="382" text-anchor="middle">Consumer E</text>
+  <rect class="zc-box zc-consumer" x="590" y="350" width="150" height="54" rx="11"/><text class="zc-name" x="665" y="382" text-anchor="middle">Consumer F</text>
+
+  <g transform="translate(130 430)">
+    <circle cx="5" cy="5" r="4" fill="var(--ix-ice, #2dd4e8)"/><text class="zc-label" x="16" y="9">payload written in place</text>
+    <circle cx="260" cy="5" r="4" fill="var(--ix-mint, #6ff0c7)"/><text class="zc-label" x="271" y="9">lightweight reference sharing</text>
+  </g>
+</svg>
