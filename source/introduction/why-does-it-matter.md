@@ -16,7 +16,7 @@ On POSIX systems, processes operate in separate virtual address spaces. Moving d
 
 Depending on the communication mechanism, a single transfer can involve serialization and deserialization, multiple data copies, system calls, user-kernel transitions, and context switches.
 
-```{inline-svg} /images/sdv-posix-comm.svg
+```{inline-svg} /images/posix-comm.svg
 :alt: POSIX IPC
 
 Typical Inter-Process Communication on POSIX
