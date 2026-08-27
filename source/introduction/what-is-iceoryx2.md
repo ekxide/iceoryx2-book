@@ -40,9 +40,9 @@ This allows the same communication concepts and APIs to be used across developme
 
 ## Expanding the Local Data Plane
 
-The zero-copy data plane focuses on efficient local communication, but many systems also need to communicate beyond a single machine or integrate with existing type systems.
+The zero-copy data plane focuses on efficient local communication, but many systems also need to communicate beyond a single machine or integrate with existing data models and IDLs.
 
-For this, `iceoryx2` provides extension points that allow integration with IDLs and type systems, as well as communication beyond a single machine through tunnels and gateways with pluggable network protocols.
+For this, `iceoryx2` provides extension points for integration with external data models and IDLs, as well as communication beyond a single machine through tunnels and gateways with pluggable network protocols.
 
 This allows `iceoryx2` to remain a lean local data plane while integrating into larger distributed and heterogeneous system architectures.
 

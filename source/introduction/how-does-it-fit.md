@@ -26,7 +26,7 @@ As message sizes or message rates increase, this overhead can lead to higher CPU
 
 ## Communication Middleware
 
-Communication middleware can provide standardized APIs, service discovery, type systems, quality-of-service settings, and network communication as part of one integrated solution.
+Communication middleware can provide standardized APIs, service discovery, IDLs, quality-of-service settings, and network communication as part of one integrated solution.
 
 This can be a good choice when these concepts match the architecture of the system. Many such solutions also provide shared-memory transports to improve local IPC performance.
 
@@ -48,13 +48,13 @@ It can be integrated into existing communication stacks or frameworks as the zer
 
 It can also serve as the foundation for custom communication architectures. The IDLs, network protocols, and other technologies that best fit the use case can be selected independently, while `iceoryx2` handles the architecturally important task of efficient and deterministic local data movement.
 
-```{inline-svg} /images/iceoryx2-architecture-layers.svg
+```{inline-svg} /images/full-stack-layers.svg
 :alt: iceoryx2 in different software architectures
 
 iceoryx2 as a Flexible Zero-Copy Data Plane
 ```
 
-`iceoryx2` itself provides flexible mechanisms and extension points for combining the local data plane with external data models, IDLs, type systems, and network protocols through gateways and tunnels.
+`iceoryx2` itself provides flexible mechanisms and extension points for combining the local data plane with external data models, IDLs, and network protocols through gateways and tunnels.
 
 This allows `iceoryx2` to optimize an existing stack or serve as a building block for a custom architecture without imposing a framework or ecosystem.
 

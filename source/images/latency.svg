@@ -6,7 +6,7 @@
     .lt-grid { stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; stroke-dasharray: 3 5; }
     .lt-tick { font-family: var(--font-stack, sans-serif); font-size: 17px; fill: var(--ix-muted-2, #6b7d8c); }
     .lt-label { font-family: var(--font-stack, sans-serif); font-size: 20px; font-weight: 600; fill: var(--ix-muted, #bccbd6); }
-    .lt-key { font-family: var(--font-stack, sans-serif); font-size: 15px; font-weight: 600; fill: var(--ix-text, #eaf3f7); }
+    .lt-key { font-family: var(--font-stack, sans-serif); font-size: 20px; font-weight: 600; fill: var(--ix-text, #eaf3f7); }
     .lt-series { fill: none; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
     .lt-iox2 { stroke: var(--ix-ice, #2dd4e8); }
     .lt-iox { stroke: var(--ix-blue, #5b8def); }
