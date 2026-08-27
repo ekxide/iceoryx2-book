@@ -139,6 +139,15 @@ article > section:has(> .ix-hero) > h1:first-child {
   height: auto;
   margin: 0 auto;
 }
+/* Three source polygons are already in viewBox coordinates while the others
+   carry a 0.1 scale transform. Apply vector-effect to the paths themselves
+   (it is not inherited from the parent group) so every facet has one equally
+   thin outline. */
+.ix-hero__mark path,
+.ix-brand__mark path {
+  vector-effect: non-scaling-stroke;
+  stroke-width: 0.6;
+}
 .ix-hero__eyebrow {
   display: inline-flex;
   align-items: center;
