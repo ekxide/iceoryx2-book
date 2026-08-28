@@ -30,8 +30,8 @@ The iceoryx2 Book
      <p class="ix-hero__lead">Fundamentals, tutorials, and how-tos for building
      safe, reliable and performant zero-copy systems with <code class="ix-hero__code">iceoryx2</code>.</p>
      <div class="ix-hero__cta">
-       <a class="ix-btn ix-btn--ghost ix-btn--arrow" href="introduction/index.html">
-         Introduction
+       <a class="ix-btn ix-btn--ghost ix-btn--arrow" href="overview/index.html">
+         Overview
          <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
        </a>
        <a class="ix-btn ix-btn--ghost ix-btn--arrow" href="getting-started/quickstart.html">
@@ -77,7 +77,7 @@ The iceoryx2 Book
    :maxdepth: 2
    :caption: User Manual
 
-   introduction/index
+   overview/index
 
 .. toctree::
    :hidden:

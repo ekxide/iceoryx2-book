@@ -14,7 +14,7 @@ model, or ecosystem. It focuses on moving data efficiently between software
 components while leaving the surrounding system architecture under your
 control.
 
-## True Zero-Copy Communication
+### True Zero-Copy Communication
 
 For inter-process communication (IPC) on the same system, `iceoryx2` uses
 **true zero-copy communication based on shared memory**.
@@ -35,7 +35,7 @@ True Zero-Copy Communication
 mechanism, including discovery, message delivery, memory ownership, and
 synchronization.
 
-## Messaging Patterns
+### Messaging Patterns
 
 In data-intensive systems such as physical AI, communication and execution
 need to be orchestrated together. `iceoryx2` separates **data flow from
@@ -52,7 +52,7 @@ This separation of data flow and control flow, together with the provided
 communication mechanisms, allows fine-grained control over when execution
 happens and which data is made available.
 
-## Language Bindings and Operating Systems
+### Language Bindings and Operating Systems
 
 `iceoryx2` is implemented in Rust and provides additional language bindings
 for C, C++, Python, and C#. Applications written in different languages can
@@ -70,7 +70,7 @@ experimentally or with a more limited level of continuous testing.
 This allows the same communication concepts and APIs to be used across
 development machines and embedded production targets.
 
-## Expanding the Local Data Plane
+## Data Plane Extensions
 
 The zero-copy data plane focuses on efficient local communication, but many
 systems also need to communicate beyond a single machine or integrate with

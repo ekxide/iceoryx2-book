@@ -13,7 +13,7 @@ software frameworks.
 
 They solve different problems and come with different trade-offs.
 
-## Operating-System Mechanisms
+### Operating-System Mechanisms
 
 Operating systems provide inter-process communication (IPC) mechanisms such
 as sockets, pipes, or message queues that give applications a high degree of
@@ -28,7 +28,7 @@ the number of components and communication requirements increase. Adding
 shared memory later as a performance optimization can increase this
 complexity further.
 
-## Network Communication Protocols
+### Network Communication Protocols
 
 Network protocols are designed to exchange data between machines and provide
 features such as addressing, connection management, serialization, and
@@ -42,7 +42,7 @@ for local data exchange.
 As message sizes or message rates increase, this overhead can lead to higher
 CPU utilization, increasing latency, and less predictable timing.
 
-## Communication Middleware
+### Communication Middleware
 
 Communication middleware can provide standardized APIs, service discovery,
 IDLs, quality-of-service settings, and network communication as part of one
@@ -56,7 +56,7 @@ The trade-off is that the architecture can become coupled to that
 middleware's data model, communication semantics, network protocol, and
 execution concepts.
 
-## Larger Frameworks
+### Larger Frameworks
 
 Larger frameworks go beyond communication and may also define application
 lifecycle, execution, diagnostics, tooling, and other parts of the software

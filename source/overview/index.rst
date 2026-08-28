@@ -1,7 +1,7 @@
-Introduction
-============
+Overview
+========
 
-These introductory articles explain what ``iceoryx2`` is, why a zero-copy data plane matters in modern data-intensive systems, and where ``iceoryx2`` fits into a broader software architecture.
+These overview articles explain what ``iceoryx2`` is, why a zero-copy data plane matters in modern data-intensive systems, and where ``iceoryx2`` fits into a broader software architecture.
 
 They are intended to build the mental model before diving into APIs, messaging patterns, and implementation details.
 

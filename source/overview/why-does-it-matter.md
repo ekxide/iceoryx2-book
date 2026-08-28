@@ -16,7 +16,7 @@ This is especially relevant for physical AI and other embedded systems,
 where large data volumes have to be processed with limited CPU and within
 strict latency bounds.
 
-## Large Payloads Make Copies Expensive
+### Large Payloads Make Copies Expensive
 
 On POSIX systems, processes operate in separate virtual address spaces.
 Moving data from one process to another therefore usually requires help from
@@ -47,7 +47,7 @@ The result is:
 * additional memory-bandwidth pressure
 * less compute available for the actual workload
 
-## Message Rate Matters Too
+### Message Rate Matters Too
 
 Payload size is only one dimension of communication overhead.
 
