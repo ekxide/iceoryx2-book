@@ -1,6 +1,6 @@
 # Why Does It Matter?
 
-## Data Movement Becomes Part of the Workload
+## Data Movement Is Part of the Workload
 
 Modern data-intensive systems are built from many software components that
 continuously exchange data.

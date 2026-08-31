@@ -1,17 +1,13 @@
 # How Does It Fit?
 
-## Different Approaches Solve Different Problems
+## Common Approaches to Local Communication
 
-There are many ways to exchange data between software components. The right
-choice depends on whether communication happens locally or across a network,
-which communication semantics are required, and how much of the surrounding
-architecture the communication technology should define.
+There are many ways to exchange data between software components on the same
+machine. Common approaches range from basic operating-system mechanisms to
+network communication protocols, feature-rich communication middleware, and
+larger software frameworks.
 
-Common approaches range from basic operating-system mechanisms to network
-communication protocols, feature-rich communication middleware, and larger
-software frameworks.
-
-They solve different problems and come with different trade-offs.
+Each approach comes with different strengths and trade-offs.
 
 ### Operating-System Mechanisms
 
@@ -65,24 +61,28 @@ architecture.
 This can significantly accelerate development when the framework matches the
 intended system.
 
-At the same time, adopting a framework means adopting more architectural
-decisions with it and usually creates stronger coupling to a specific
-ecosystem.
+At the same time, adopting a framework means adopting its architectural
+decisions and usually creates stronger coupling to its specific ecosystem.
 
 ## A Flexible Foundation for Your Architecture
 
-`iceoryx2` can be used in different architectural roles depending on the
-needs of the system.
+The approaches above either leave much of the communication infrastructure
+to the application, optimize primarily for distributed communication, or
+provide more functionality at the cost of stronger architectural coupling.
+`iceoryx2` is designed to provide the hard parts of efficient and
+deterministic local data movement while leaving the surrounding architecture
+open.
+
+This makes `iceoryx2` useful in two architectural roles.
 
 It can be integrated into existing communication stacks or frameworks as the
-zero-copy data plane, for example to optimize communication between
-processes without replacing the higher-level concepts already in use.
+zero-copy data plane, for example to optimize communication between processes
+without replacing the higher-level concepts already in use.
 
 It can also serve as the foundation for custom communication architectures.
-The IDLs, network protocols, and other technologies that best fit the use
-case can be selected independently, while `iceoryx2` handles the
-architecturally important task of efficient and deterministic local data
-movement.
+The IDLs, network protocols, and other technologies that best fit the use case
+can be selected independently, while `iceoryx2` handles the architecturally
+important task of efficient and deterministic local data movement.
 
 ```{inline-svg} /images/full-stack-layers.svg
 :alt: iceoryx2 in different software architectures
@@ -91,8 +91,8 @@ iceoryx2 as a Flexible Zero-Copy Data Plane
 ```
 
 `iceoryx2` itself provides flexible mechanisms and extension points for
-combining the local data plane with external data models, IDLs, and network
-protocols through gateways and tunnels.
+integrating external data models and IDLs, as well as gateways and tunnels
+for connecting the local data plane to different network protocols.
 
 This allows `iceoryx2` to optimize an existing stack or serve as a building
 block for a custom architecture without imposing a framework or ecosystem.

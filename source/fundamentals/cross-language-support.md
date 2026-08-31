@@ -31,7 +31,7 @@ handle composite types, arrays, and nested structures in incompatible ways,
 making direct memory sharing more difficult.
 
 To address these challenges, a collection of generic cross-language compatible
-data structures called "relocatable data types" are currently in development.
+data structures called "relocatable data types" are provided.
 These structures will provide standardized, safe primitives and containers
 specifically designed for cross-language communication via shared memory
 to tackle the complexity of manual memory layout management.

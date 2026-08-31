@@ -12,7 +12,7 @@ systems.
 The iceoryx2 zero-copy data plane across heterogeneous systems
 ```
 
-## Run Across More Platforms
+## Additional Platforms
 
 Modern systems combine different operating systems, programming languages,
 and processor architectures.
@@ -28,7 +28,7 @@ Applications should be able to use the same communication concepts across
 these environments instead of introducing a different communication
 technology for every platform.
 
-## Extend Zero-Copy Beyond POSIX Processes
+## Zero-Copy Beyond POSIX Processes
 
 Shared memory provides efficient zero-copy communication between processes
 that can access the same memory.
@@ -47,7 +47,7 @@ The underlying memory mechanism may change, and in some cases a copy may be
 unavoidable, but applications should continue to use the same `iceoryx2`
 communication model.
 
-## Stay Open to the Technologies Around It
+## A Data Plane Easy to Extend
 
 `iceoryx2` is intended to remain a data plane rather than grow into a
 framework that defines the complete software stack.

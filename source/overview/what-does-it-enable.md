@@ -37,7 +37,7 @@ consumed, and where execution takes place.
 The result is stable low latency with minimal jitter and communication
 behavior that is easier to reason about under real-time constraints.
 
-## Move Toward Mission-Critical Deployment
+## A Path Toward Mission-Critical Deployment
 
 `iceoryx2` is designed for demanding embedded environments where predictable
 resource usage and explicit control over system behavior matter.
