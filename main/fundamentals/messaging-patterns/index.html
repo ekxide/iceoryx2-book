@@ -21,7 +21,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=2534aa84" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=498097ac" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/version-picker.css?v=2a4710d1" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=d05edee4" />
     
@@ -47,6 +47,7 @@
   --ix-text: #0c1825;
   --ix-muted: #36475a;
   --ix-muted-2: #586a80;
+  --ix-status-funding: #708197;
   --ix-glow-1: rgba(10, 160, 185, 0.16);
   --ix-glow: 0 0 40px rgba(10, 138, 160, 0.25);
   --ix-drawer-bg: rgba(238, 243, 249, 0.72);
@@ -110,6 +111,7 @@
   --ix-text: #eaf3f7;
   --ix-muted: #bccbd6;
   --ix-muted-2: #6b7d8c;
+  --ix-status-funding: #6b7d8c;
   --ix-glow-1: rgba(45, 212, 232, 0.30);
   --ix-glow: 0 0 40px rgba(45, 212, 232, 0.35);
   --ix-drawer-bg: rgba(8, 13, 22, 0.60);
@@ -173,6 +175,7 @@
   --ix-text: #eaf3f7;
   --ix-muted: #bccbd6;
   --ix-muted-2: #6b7d8c;
+  --ix-status-funding: #6b7d8c;
   --ix-glow-1: rgba(45, 212, 232, 0.30);
   --ix-glow: 0 0 40px rgba(45, 212, 232, 0.35);
   --ix-drawer-bg: rgba(8, 13, 22, 0.60);
@@ -375,21 +378,18 @@
       <div class="sidebar-sticky"><a class="sidebar-brand ix-brand" href="../../index.html">
   <span class="ix-brand__mark" aria-hidden="true">
     <svg viewBox="48 41.8 106.5 76.2" width="40" height="29" focusable="false">
-      <g stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" vector-effect="non-scaling-stroke">
-        <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 848.671875 1037.96875 L 769.335938 1174.023438 L 749.492188 974.179688 Z M 848.671875 1037.96875 "/>
-        <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 756.5625 1189.609375 L 718.515625 1258.398438 L 681.679688 1218.710938 Z M 756.5625 1189.609375 "/>
-        <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1444.53125 1230.859375 L 1303.828125 1216.25 L 1105.859375 1070.9375 Z M 1444.53125 1230.859375 "/>
-        <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 730.078125 998.125 L 737.1875 1067.539062 L 521.015625 862.539062 Z M 730.078125 998.125 "/>
-        <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1445.703125 1211.640625 L 1384.570312 1180.15625 L 1362.65625 1044.101562 Z M 1445.703125 1211.640625 "/>
+      <g stroke="currentColor" stroke-width="0.6" stroke-linejoin="round">
+        <path fill="#588bb5" d="M84.8672 96.2031 L76.9336 82.5977 L74.9492 102.582 Z"/>
+        <path fill="#588bb5" d="M75.6563 81.0391 L71.8516 74.1602 L68.168 78.1289 Z"/>
+        <path fill="#b3e6ef" d="M144.4531 76.9141 L130.3828 78.375 L110.5859 92.9063 Z"/>
+        <path fill="#b3e6ef" d="M73.0078 100.1875 L73.7188 93.2461 L52.1016 113.7461 Z"/>
+        <path fill="#588bb5" d="M144.5703 78.8359 L138.457 81.9844 L136.2656 95.5898 Z"/>
         <path fill="#b3e6ef" d="M 86.429688 94.785156 C 86.75 94.785156 101.570312 67.914062 101.570312 67.914062 L 73.390625 73.148438 L 86.429688 94.785156 "/>
-        <path fill="none" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 864.296875 1052.148438 C 867.5 1052.148438 1015.703125 1320.859375 1015.703125 1320.859375 L 733.90625 1268.515625 Z M 864.296875 1052.148438 "/>
-        <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1267.734375 1252.304688 L 1315.898438 1531.015625 L 1035 1325.9375 Z M 1267.734375 1252.304688 "/>
+        <path fill="#b3e6ef" d="M126.7734 74.7695 L131.5898 46.8984 L103.5 67.4063 Z"/>
         <path fill="#588bb5" d="M 92.820312 87.738281 L 106.863281 92.855469 L 128.308594 77.566406 L 102.914062 69.160156 L 92.820312 87.738281 "/>
-        <path fill="none" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 928.203125 1122.617188 L 1068.632812 1071.445312 L 1283.085938 1224.335938 L 1029.140625 1308.398438 Z M 928.203125 1122.617188 "/>
         <path fill="#588bb5" d="M 131.261719 57.824219 L 150.371094 56.046875 L 150.371094 53.316406 L 132.828125 46.078125 L 131.261719 57.824219 "/>
-        <path fill="none" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1312.617188 1421.757812 L 1503.710938 1439.53125 L 1503.710938 1466.835938 L 1328.28125 1539.21875 Z M 1312.617188 1421.757812 "/>
-        <path fill="#b3e6ef" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1314.53125 1406.40625 L 1365.234375 1410.273438 L 1285.273438 1244.53125 Z M 1314.53125 1406.40625 "/>
-        <path fill="#588bb5" transform="matrix(0.1,0,0,-0.1,0,200)" d="M 1297.96875 1539.023438 L 851.40625 1539.0625 L 1243.398438 1500.039062 Z M 1297.96875 1539.023438 "/>
+        <path fill="#b3e6ef" d="M131.4531 59.3594 L136.5234 58.9727 L128.5273 75.5469 Z"/>
+        <path fill="#588bb5" d="M129.7969 46.0977 L85.1406 46.0938 L124.3398 49.9961 Z"/>
       </g>
     </svg>
   </span>
@@ -405,12 +405,19 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Manual</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../overview/index.html">Overview</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Overview</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../overview/what-is-iceoryx2.html">What is iceoryx2?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview/why-does-it-matter.html">Why Does It Matter?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview/how-does-it-fit.html">How Does It Fit?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview/what-does-it-enable.html">What Does It Enable?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview/where-is-it-going.html">Where Is It Going?</a></li>
+</ul>
+</li>
 </ul>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../getting-started/index.html">Getting Started</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Getting Started</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../getting-started/index.html">Getting Started</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Getting Started</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../getting-started/quickstart.html">Quickstart</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../getting-started/robot-nervous-system/index.html">A Robot Nervous System</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of A Robot Nervous System</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../getting-started/robot-nervous-system/index.html">A Robot Nervous System</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of A Robot Nervous System</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../getting-started/robot-nervous-system/publish-subscribe.html">Publish–Subscribe</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../getting-started/robot-nervous-system/event.html">Event</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../getting-started/robot-nervous-system/event-driven-communication.html">Event-Driven Communication</a></li>
@@ -424,11 +431,11 @@
 </li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">Fundamentals</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Fundamentals</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">Fundamentals</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Fundamentals</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../layered-architecture.html">Layered Architecture</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../shared-memory.html">Shared Memory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../communication-model.html">Communication Model</a></li>
-<li class="toctree-l2 current has-children current-page"><a class="current reference internal" href="#">Messaging Patterns</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Messaging Patterns</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 current has-children current-page"><a class="current reference internal" href="#">Messaging Patterns</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of Messaging Patterns</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="publish-subscribe.html">Publish-Subscribe</a></li>
 <li class="toctree-l3"><a class="reference internal" href="event.html">Event</a></li>
 <li class="toctree-l3"><a class="reference internal" href="request-response.html">Request-Response</a></li>
@@ -442,13 +449,13 @@
 </li>
 </ul>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of Tutorials</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Tutorials</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorials/execution-control-patterns.html">Execution Control Patterns</a></li>
 </ul>
 </li>
 </ul>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../how-to/index.html">How To</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of How To</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../how-to/index.html">How To</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of How To</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../how-to/build-for-nostd-targets.html">Build for <code class="docutils literal notranslate"><span class="pre">no_std</span></code> targets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../how-to/configure-the-logging-backend.html">Configure the logging backend</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../how-to/customize-the-platform-abstraction.html">Customize the platform abstraction</a></li>

@@ -139,6 +139,15 @@ article > section:has(> .ix-hero) > h1:first-child {
   height: auto;
   margin: 0 auto;
 }
+/* Three source polygons are already in viewBox coordinates while the others
+   carry a 0.1 scale transform. Apply vector-effect to the paths themselves
+   (it is not inherited from the parent group) so every facet has one equally
+   thin outline. */
+.ix-hero__mark path,
+.ix-brand__mark path {
+  vector-effect: non-scaling-stroke;
+  stroke-width: 0.6;
+}
 .ix-hero__eyebrow {
   display: inline-flex;
   align-items: center;
@@ -191,9 +200,15 @@ article > section:has(> .ix-hero) > h1:first-child {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.8rem;
+  gap: 0.55rem;
   margin-top: 2rem;
   animation: ix-rise 0.7s cubic-bezier(.2,.8,.2,1) 0.2s both;
+}
+.ix-hero__cta .ix-btn {
+  gap: 0.4rem;
+  padding: 0.68rem 0.9rem;
+  font-size: 0.88rem;
+  white-space: nowrap;
 }
 .ix-btn {
   box-sizing: border-box;
@@ -224,7 +239,7 @@ article > section:has(> .ix-hero) > h1:first-child {
   box-shadow: 0 12px 34px -8px rgba(45, 212, 232, 0.75);
   color: #04222a;
 }
-.ix-btn--primary:hover svg { transform: translateX(3px); }
+.ix-btn--arrow:hover svg { transform: translateX(3px); }
 .ix-btn--ghost,
 .ix-btn--ghost:visited {
   background: var(--ix-surface);
