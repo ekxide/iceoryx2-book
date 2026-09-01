@@ -19,7 +19,7 @@ clean:
 	@$(SPHINXBUILD) -M clean "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 serve:
-	$(SPHINXAUTO) "$(SOURCEDIR)" "$(BUILDDIR)/html" \
+	$(SPHINXAUTO) -E -a "$(SOURCEDIR)" "$(BUILDDIR)/html" \
 		--watch $(SOURCEDIR) \
 		--open-browser
 

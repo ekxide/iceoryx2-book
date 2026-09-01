@@ -1,0 +1,97 @@
+<svg viewBox="0 0 800 430" role="img" aria-label="POSIX middleware communication copies and serializes a message between two processes through the kernel" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .pc-boundary { fill: none; stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1.5; stroke-dasharray: 9 7; }
+    .pc-region   { fill: var(--ix-bg-2, #080d16); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1.5; }
+    .pc-box      { fill: var(--ix-surface, #141d2d); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1.5; }
+    .pc-kernel   { fill: var(--ix-surface-2, #1b2740); stroke: #f5a623; stroke-width: 1.5; }
+    .pc-title    { font-family: var(--font-stack, sans-serif); font-size: 15px; font-weight: 600; fill: var(--ix-text, #eaf3f7); }
+    .pc-label    { font-family: var(--font-stack, sans-serif); font-size: 11px; font-weight: 600; fill: var(--ix-text, #eaf3f7); }
+    .pc-sub      { font-family: var(--font-stack, sans-serif); font-size: 9px; fill: var(--ix-muted, #bccbd6); }
+    .pc-step     { font-family: var(--font-stack, sans-serif); font-size: 10px; font-weight: 600; }
+    .pc-num      { font-family: var(--font-stack, sans-serif); font-size: 11px; font-weight: 700; text-anchor: middle; dominant-baseline: central; }
+    .pc-send     { fill: none; stroke: var(--ix-ice, #2dd4e8); stroke-width: 2.5; }
+    .pc-copy     { fill: none; stroke: #f5a623; stroke-width: 2.5; }
+    .pc-recv     { fill: none; stroke: var(--ix-mint, #6ff0c7); stroke-width: 2.5; }
+    .pc-send-t   { fill: var(--ix-ice, #2dd4e8); }
+    .pc-copy-t   { fill: #f5a623; }
+    .pc-recv-t   { fill: var(--ix-mint, #6ff0c7); }
+    .pc-send-n   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
+    .pc-copy-n   { fill: var(--ix-surface, #141d2d); stroke: #f5a623; stroke-width: 1.5; }
+    .pc-recv-n   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-mint, #6ff0c7); stroke-width: 1.5; }
+  </style>
+  <defs>
+    <marker id="pc-send-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse" overflow="visible"><path d="M1 1 8 4.5 1 8Z" fill="var(--ix-ice, #2dd4e8)"/></marker>
+    <marker id="pc-copy-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse" overflow="visible"><path d="M1 1 8 4.5 1 8Z" fill="#f5a623"/></marker>
+    <marker id="pc-recv-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse" overflow="visible"><path d="M1 1 8 4.5 1 8Z" fill="var(--ix-mint, #6ff0c7)"/></marker>
+  </defs>
+
+  <!-- Middleware boundary -->
+  <rect class="pc-boundary" x="205" y="18" width="577" height="394" rx="15"/>
+  <rect x="416" y="7" width="156" height="28" rx="14" fill="var(--ix-bg, #060910)"/>
+  <text class="pc-title" x="494" y="27" text-anchor="middle">Middleware</text>
+
+  <!-- Process and kernel regions -->
+  <rect class="pc-region" x="42" y="60" width="520" height="134" rx="12"/>
+  <text class="pc-title" x="302" y="84" text-anchor="middle">Process 1</text>
+  <rect class="pc-region" x="42" y="236" width="520" height="134" rx="12"/>
+  <text class="pc-title" x="302" y="260" text-anchor="middle">Process 2</text>
+  <rect class="pc-region" x="600" y="60" width="150" height="310" rx="12"/>
+  <text class="pc-title" x="675" y="86" text-anchor="middle">Kernel</text>
+
+  <!-- Process 1: write and serialize -->
+  <rect class="pc-box" x="62" y="108" width="126" height="56" rx="9"/>
+  <text class="pc-label" x="125" y="140" text-anchor="middle">SW Component A</text>
+
+  <rect class="pc-box" x="258" y="108" width="106" height="56" rx="9"/>
+  <text class="pc-label" x="311" y="140" text-anchor="middle">Message</text>
+
+  <rect class="pc-box" x="432" y="108" width="108" height="56" rx="9"/>
+  <text class="pc-label" x="486" y="132" text-anchor="middle">Serialized</text>
+  <text class="pc-label" x="486" y="148" text-anchor="middle">message</text>
+
+  <line class="pc-send" x1="188" y1="136" x2="252" y2="136" marker-end="url(#pc-send-arrow)"/>
+  <text class="pc-step pc-send-t" x="220" y="119" text-anchor="middle">write</text>
+  <circle class="pc-send-n" cx="220" cy="157" r="11"/><text class="pc-num pc-send-t" x="220" y="157">1</text>
+
+  <line class="pc-send" x1="364" y1="136" x2="426" y2="136" marker-end="url(#pc-send-arrow)"/>
+  <text class="pc-step pc-send-t" x="395" y="119" text-anchor="middle">serialize</text>
+  <circle class="pc-send-n" cx="395" cy="157" r="11"/><text class="pc-num pc-send-t" x="395" y="157">2</text>
+
+  <!-- Kernel copy in -->
+  <rect class="pc-kernel" x="622" y="180" width="106" height="72" rx="9"/>
+  <text class="pc-label" x="675" y="210" text-anchor="middle">Serialized</text>
+  <text class="pc-label" x="675" y="226" text-anchor="middle">message</text>
+  <path class="pc-copy" d="M540 136 H580 Q590 136 590 146 V206 Q590 216 600 216 H616" marker-end="url(#pc-copy-arrow)"/>
+  <text class="pc-step pc-copy-t" x="568" y="120" text-anchor="middle">copy</text>
+  <circle class="pc-copy-n" cx="568" cy="150" r="11"/><text class="pc-num pc-copy-t" x="568" y="150">3</text>
+
+  <!-- Process 2: copy out, deserialize, and read -->
+  <rect class="pc-box" x="432" y="282" width="108" height="56" rx="9"/>
+  <text class="pc-label" x="486" y="306" text-anchor="middle">Serialized</text>
+  <text class="pc-label" x="486" y="322" text-anchor="middle">message</text>
+
+  <rect class="pc-box" x="258" y="282" width="106" height="56" rx="9"/>
+  <text class="pc-label" x="311" y="314" text-anchor="middle">Message</text>
+
+  <rect class="pc-box" x="62" y="282" width="126" height="56" rx="9"/>
+  <text class="pc-label" x="125" y="314" text-anchor="middle">SW Component B</text>
+
+  <path class="pc-copy" d="M622 236 H600 Q590 236 590 246 V300 Q590 310 580 310 H546" marker-end="url(#pc-copy-arrow)"/>
+  <text class="pc-step pc-copy-t" x="568" y="288" text-anchor="middle">copy</text>
+  <circle class="pc-copy-n" cx="568" cy="326" r="11"/><text class="pc-num pc-copy-t" x="568" y="326">4</text>
+
+  <line class="pc-recv" x1="432" y1="310" x2="370" y2="310" marker-end="url(#pc-recv-arrow)"/>
+  <text class="pc-step pc-recv-t" x="400" y="293" text-anchor="middle">deserialize</text>
+  <circle class="pc-recv-n" cx="400" cy="331" r="11"/><text class="pc-num pc-recv-t" x="400" y="331">5</text>
+
+  <line class="pc-recv" x1="258" y1="310" x2="194" y2="310" marker-end="url(#pc-recv-arrow)"/>
+  <text class="pc-step pc-recv-t" x="226" y="293" text-anchor="middle">read</text>
+  <circle class="pc-recv-n" cx="226" cy="331" r="11"/><text class="pc-num pc-recv-t" x="226" y="331">6</text>
+
+  <!-- Color key -->
+  <g transform="translate(234 388)">
+    <circle cx="4" cy="4" r="4" fill="var(--ix-ice, #2dd4e8)"/><text class="pc-sub" x="14" y="8">write / serialize</text>
+    <circle cx="135" cy="4" r="4" fill="#f5a623"/><text class="pc-sub" x="145" y="8">kernel copy</text>
+    <circle cx="245" cy="4" r="4" fill="var(--ix-mint, #6ff0c7)"/><text class="pc-sub" x="255" y="8">deserialize / read</text>
+  </g>
+</svg>

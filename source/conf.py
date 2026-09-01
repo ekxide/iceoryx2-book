@@ -110,6 +110,7 @@ html_theme_options = {
         "ix-text": "#0c1825",
         "ix-muted": "#36475a",
         "ix-muted-2": "#586a80",
+        "ix-status-funding": "#708197",
         "ix-glow-1": "rgba(10, 160, 185, 0.16)",
         "ix-glow": "0 0 40px rgba(10, 138, 160, 0.25)",
         # per-theme surfaces/effects kept as vars so the custom layer needs no
@@ -173,6 +174,7 @@ html_theme_options = {
         "ix-text": "#eaf3f7",
         "ix-muted": "#bccbd6",
         "ix-muted-2": "#6b7d8c",
+        "ix-status-funding": "#6b7d8c",
         "ix-glow-1": "rgba(45, 212, 232, 0.30)",
         "ix-glow": "0 0 40px rgba(45, 212, 232, 0.35)",
         # surfaces & effects that differ per theme (see light comment)

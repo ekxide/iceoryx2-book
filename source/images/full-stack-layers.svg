@@ -1,0 +1,44 @@
+<svg viewBox="0 0 760 560" role="img" aria-label="Architecture layers from operating system and hardware through iceoryx2, communication protocols, framework aspects, and applications" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .al-layer { fill: var(--ix-surface, #141d2d); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1.5; }
+    .al-alt   { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1.5; }
+    .al-core  { fill: var(--ix-surface, #141d2d); stroke: var(--ix-ice, #2dd4e8); stroke-width: 2; }
+    .al-title { font-family: var(--font-stack, sans-serif); font-size: 17px; font-weight: 600; fill: var(--ix-text, #eaf3f7); }
+    .al-sub   { font-family: var(--font-stack, sans-serif); font-size: 12px; fill: var(--ix-muted, #bccbd6); }
+    .al-core-name { font-family: var(--font-stack, sans-serif); font-size: 31px; font-weight: 700; fill: var(--ix-text, #eaf3f7); }
+    .al-core-sub  { font-family: var(--font-stack, sans-serif); font-size: 13px; font-weight: 600; fill: var(--ix-ice, #2dd4e8); }
+    .al-link  { stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 2; }
+  </style>
+
+  <!-- Applications -->
+  <rect class="al-layer" x="50" y="24" width="660" height="86" rx="12"/>
+  <text class="al-title" x="380" y="59" text-anchor="middle">Applications</text>
+  <text class="al-sub" x="380" y="83" text-anchor="middle">e.g., perception, planning, control, UI</text>
+
+  <line class="al-link" x1="380" y1="110" x2="380" y2="126"/>
+
+  <!-- Framework -->
+  <rect class="al-layer" x="50" y="126" width="660" height="86" rx="12"/>
+  <text class="al-title" x="380" y="161" text-anchor="middle">Framework Aspects</text>
+  <text class="al-sub" x="380" y="185" text-anchor="middle">e.g., health &amp; state management, configuration, diagnostics</text>
+
+  <line class="al-link" x1="380" y1="212" x2="380" y2="228"/>
+
+  <!-- Interfaces and protocols -->
+  <rect class="al-layer" x="50" y="228" width="660" height="86" rx="12"/>
+  <text class="al-title" x="380" y="263" text-anchor="middle">Communication Interfaces and Protocols</text>
+  <text class="al-sub" x="380" y="287" text-anchor="middle">e.g., data models, network protocols</text>
+
+  <line class="al-link" x1="380" y1="314" x2="380" y2="330"/>
+
+  <!-- iceoryx2 data plane -->
+  <rect class="al-core" x="50" y="330" width="660" height="104" rx="14"/>
+  <text class="al-core-name" x="380" y="377" text-anchor="middle">iceoryx<tspan fill="#2dd4e8">2</tspan></text>
+  <text class="al-core-sub" x="380" y="405" text-anchor="middle">deterministic and efficient data movement</text>
+
+  <line class="al-link" x1="380" y1="434" x2="380" y2="450"/>
+
+  <!-- Platform -->
+  <rect class="al-alt" x="50" y="450" width="660" height="86" rx="12"/>
+  <text class="al-title" x="380" y="499" text-anchor="middle">Operating System and Hardware</text>
+</svg>
