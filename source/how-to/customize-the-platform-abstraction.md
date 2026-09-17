@@ -85,13 +85,15 @@ warning: iceoryx2-pal-configuration@x.y.z: Building with custom configuration: /
 ```
 
 ```{important}
-Two gotchas to keep in mind:
+Three gotchas to keep in mind:
 
 1. **Clear `target/` after switching the override on or off.** A prior
    build with the default configuration is cached against a different
    `cfg`, and cargo will silently reuse it — the custom file appears to
    be ignored.
-2. **The override is not available under Bazel builds.** It relies on
+2. **Update the iceoryx2 configuration.** If a iceoryx2 configuration
+   file is in use, it may needs to be updated or regenerated.
+3. **The override is not available under Bazel builds.** It relies on
    `cargo`'s env-var-driven build script.
 ```
 
