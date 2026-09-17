@@ -576,12 +576,14 @@ A successful build emits a warning naming the file in use:</p>
 </div>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>Two gotchas to keep in mind:</p>
+<p>Three gotchas to keep in mind:</p>
 <ol class="arabic simple">
 <li><p><strong>Clear <code class="docutils literal notranslate"><span class="pre">target/</span></code> after switching the override on or off.</strong> A prior
 build with the default configuration is cached against a different
 <code class="docutils literal notranslate"><span class="pre">cfg</span></code>, and cargo will silently reuse it — the custom file appears to
 be ignored.</p></li>
+<li><p><strong>Update the iceoryx2 configuration.</strong> If a iceoryx2 configuration
+file is in use, it may needs to be updated or regenerated.</p></li>
 <li><p><strong>The override is not available under Bazel builds.</strong> It relies on
 <code class="docutils literal notranslate"><span class="pre">cargo</span></code>’s env-var-driven build script.</p></li>
 </ol>
