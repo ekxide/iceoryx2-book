@@ -95,9 +95,9 @@ This approach is recommended once the shape of a system is understood.
 ### Translation
 
 `Passthrough` moves payload bytes across the boundary unmodified and is the
-default. In the case of ROS 2 these bytes must be the CDR-serialization of
-types layout-compatible with the ROS 2 message definition of the destination
-topic. It is left to the application to ensure this contract is upheld.
+default. The payload must be a byte slice holding the CDR serialization of the
+ROS 2 message of the paired topic. It is left to the applications to
+(de)serialize the bytes.
 
 `PlainStruct` (de)serializes payloads at the boundary using the ROS 2
 typesupport libraries. The `iceoryx2` applications work directly with the
@@ -115,27 +115,8 @@ Applications require minimal changes to integrate with the ROS 2 gateway.
 The gateway automatically connects to services mapped by the selected mapping
 and propagates payloads without any involvement of the applications.
 
-There are only two things that applications interfacing with the ROS 2 gateway
-must do. First, the `RosHeader` type must be specified as the user header on
-the `iceoryx2` service:
-
-```rust
-use iceoryx2_integrations_ros2_interop::RosHeader;
-
-let service = node
-    .service_builder(&"CmdVel".try_into()?)
-    .publish_subscribe::<Payload>()
-    // IMPORTANT: Must use this user header if crossing ROS 2 boundary.
-    .user_header::<RosHeader>()
-    .open_or_create()?;
-```
-
-When ingesting messages from ROS 2, the gateway fills this header with the
-origin of the message, which subscribers may use to identify the remote
-writer or detect message loss. Publishing applications can leave it at its
-default.
-
-Second, the payload type name of a propagated service must be the ROS 2 type
+There is only one thing that applications interfacing with the ROS 2 gateway
+must do: the payload type name of a propagated service must be the ROS 2 type
 name of the paired topic, for example `geometry_msgs/msg/Twist`. The gateway
 resolves the typesupport used for translation by this name. When translating
 to plain structs, the payload's size and alignment are additionally verified
@@ -175,6 +156,40 @@ Delegating to the generated `TYPE_NAME` constant is preferred over hardcoding
 the name, as a typo in a hardcoded name does not fail at compile time but
 silently prevents the service from being propagated.
 
+### Message Info
+
+ROS 2 delivers each message with its message info, such as the writer that
+published it, its source timestamp and its sequence number. By default, the
+message info is dropped at the boundary and the services the gateway creates
+for topics have no user header.
+
+Applications that want to read the message info declare the `RosHeader` as the
+user header of the service:
+
+```rust
+use iceoryx2_integrations_ros2_interop::RosHeader;
+
+let service = node
+    .service_builder(&"CmdVel".try_into()?)
+    .publish_subscribe::<Payload>()
+    .user_header::<RosHeader>()
+    .open_or_create()?;
+```
+
+If the header is specified, the gateway must be launched with `--ros-header` so
+that it also creates services mirroring topics with the header.
+
+```console
+iox2 link gateway ros2 --ros-header
+```
+
+When ingesting messages from ROS 2, the gateway fills this header with the
+message info, which subscribers may use to identify the remote writer or
+detect message loss. Publishing applications can leave it at its default as
+ROS 2 populates it automatically.
+
+A service with any other user header is not propagated.
+
 ## Running
 
 The gateway discovers matching services and topics and propagates pending
@@ -188,7 +203,7 @@ iox2 link gateway ros2 --poll 10
 ```
 
 The gateway can also wake reactively. With `--reactive` it wakes
-whenever new data arrives on the ROS 2 side. With `--listener`, which is
+whenever data arrives or endpoints change on the ROS 2 side. With `--listener`, which is
 repeatable, it wakes whenever the named `iceoryx2` event service fires. When
 either is given, polling becomes opt-in and is only enabled when `--poll` is
 set explicitly:
@@ -197,8 +212,9 @@ set explicitly:
 iox2 link gateway ros2 --reactive --listener "SensorData"
 ```
 
-When embedding the gateway, the same behaviour is configured on the gateway
-builder, as shown in [its usage examples](
+When embedding the gateway, it is driven by calling `discover()` and
+`propagate()` on the link, either on a timer or whenever the listener it
+provides wakes, as shown in [its usage examples](
 https://github.com/eclipse-iceoryx/iceoryx2/tree/main/integrations/ros2/link-adapter#usage).
 
 ## Further Reading
