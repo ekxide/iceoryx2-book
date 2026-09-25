@@ -2,7 +2,7 @@
 use iceoryx2::prelude::*;
 use rosidl_runtime_rs::{Message, RmwMessage};
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Default, Clone, Copy)]
 #[repr(transparent)]
 pub struct StringByte(pub u8);
 
@@ -11,6 +11,10 @@ unsafe impl ZeroCopySend for StringByte {
         <<ros_env::std_msgs::msg::String as Message>::RmwMsg as RmwMessage>::TYPE_NAME
     }
 }
+
+// Viewing a payload as bytes relies on StringByte having the layout of a u8.
+const _: () = assert!(size_of::<StringByte>() == 1 && align_of::<StringByte>() == 1);
+
 // snippet:end payload
 
 // snippet:start shouter
@@ -43,20 +47,42 @@ fn main() -> Result<(), Box<dyn core::error::Error>> {
         .create()?;
 
     while node.wait(CYCLE_TIME).is_ok() {
-        while let Some(sample) = subscriber.receive()? {
-            let bytes: Vec<u8> = sample.payload().iter().map(|byte| byte.0).collect();
+        while let Some(chatter_sample) = subscriber.receive()? {
+            // The application deserializes the CDR bytes itself, directly from
+            // shared memory
+            let chatter_payload = chatter_sample.payload();
 
-            // The application must deserialize the CDR bytes itself
-            let mut message: ros_env::std_msgs::msg::String = cdr::deserialize(&bytes)?;
-            message.data = message.data.to_uppercase();
+            // SAFETY: StringByte is #[repr(transparent)] over u8, so the bytes have
+            // the same length, layout and valid values.
+            let chatter_bytes = unsafe {
+                core::slice::from_raw_parts(
+                    chatter_payload.as_ptr().cast::<u8>(),
+                    chatter_payload.len(),
+                )
+            };
 
-            // And then serialize the outgoing data back to CDR
-            let payload = cdr::serialize::<_, _, CdrLe>(&message, Infinite)?;
-            let upper_sample = publisher.loan_slice_uninit(payload.len())?;
-            let upper_sample = upper_sample.write_from_fn(|index| StringByte(payload[index]));
-            upper_sample.send()?;
+            let mut message: ros_env::std_msgs::msg::String = cdr::deserialize(chatter_bytes)?;
+            message.data.make_ascii_uppercase();
 
-            coutln!("shouted \"{}\" ({} bytes)", message.data, payload.len());
+            // And then serializes the outgoing message back to CDR, directly into
+            // a sample loaned for its exact size
+            let size = cdr::calc_serialized_size(&message) as usize;
+            let mut shouter_sample = publisher.loan_slice(size)?;
+            let shouter_payload = shouter_sample.payload_mut();
+
+            // SAFETY: StringByte is #[repr(transparent)] over u8, so the bytes have
+            // the same length, layout and valid values.
+            let shouter_bytes = unsafe {
+                core::slice::from_raw_parts_mut(
+                    shouter_payload.as_mut_ptr().cast::<u8>(),
+                    shouter_payload.len(),
+                )
+            };
+
+            cdr::serialize_into::<_, _, _, CdrLe>(shouter_bytes, &message, Infinite)?;
+            shouter_sample.send()?;
+
+            coutln!("shouted \"{}\" ({} bytes)", message.data, size);
         }
     }
 

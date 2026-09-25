@@ -101,24 +101,36 @@ This approach is recommended once the shape of a system is understood.
 
 ### Translation
 
+The translator converts payloads between the form they have in shared memory
+and the CDR bytes ROS 2 expects, so it must match the payload type the
+`iceoryx2` services use. Two translators are provided.
+
+#### Passthrough
+
 `Passthrough` moves payload bytes across the boundary unmodified and is the
 default. The payload must be a byte slice holding the CDR serialization of the
 ROS 2 message of the paired topic. It is left to the applications to
 (de)serialize the bytes.
+
+```console
+iox2 link gateway ros2 --translator Passthrough
+```
+
+#### PlainStruct
 
 `PlainStruct` (de)serializes payloads at the boundary using the ROS 2
 typesupport libraries. The `iceoryx2` applications work directly with a plain
 struct in shared memory, while the gateway converts to and from the CDR bytes
 that ROS 2 expects.
 
-```console
-iox2 link gateway ros2 --translator PlainStruct
-```
-
 The payload must be the C struct that `rosidl` generates for the message type.
 In Rust, this is the `rmw` variant of the generated message, e.g.
 `geometry_msgs::msg::rmw::Twist`. Only self-contained types that can be stored
 directly in shared memory are supported.
+
+```console
+iox2 link gateway ros2 --translator PlainStruct
+```
 
 ## Application Configuration
 

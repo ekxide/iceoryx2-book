@@ -121,7 +121,11 @@ However, the gateway still needs to know which ROS 2 message the bytes hold,
 which it reads from the type name of the payload. A plain `u8` always reports
 its own type name, so the bytes are wrapped in a new type that keeps the layout
 of a `u8` through `#[repr(transparent)]` and reports the name of the ROS 2
-message instead:
+message instead.
+
+Since the new type has the layout of a `u8`, a payload can be viewed as bytes
+without copying, both to read the CDR bytes it holds and to write them. The
+`unsafe` views rely on this layout, so it is asserted at compile time:
 
 ```{literalinclude} ../../../snippets/gateway-to-ros-2/shouter/src/main.rs
 :language: rust
@@ -143,10 +147,8 @@ required:
 :end-before: snippet:end shouter
 ```
 
-Each received sample is deserialized into the generated `String` type,
-transformed, and serialized back into a loaned slice of matching length.
-Unlike in the plain struct article, the (de)serialization happens in the
-application, while the gateway only moves bytes.
+Each message is deserialized from and serialized into shared memory by the
+application itself, while the gateway only moves bytes.
 
 ## The Gateway
 
