@@ -24,7 +24,7 @@ makes it possible to compose a hybrid system, consisting of both ROS 2 and
 iceoryx2 applications.
 
 .. mermaid::
-   :caption: Gateway bridging ROS 2 and iceoryx2 domains
+   :caption: Gateway connecting ROS 2 and iceoryx2 domains
    :alt: ROS 2 nodes communicate over DDS, iceoryx2 applications over shared memory, and the Gateway forwards traffic between the two
 
    %%{init: {"flowchart": {"subGraphTitleMargin": {"top": 10, "bottom": 8}}} }%%

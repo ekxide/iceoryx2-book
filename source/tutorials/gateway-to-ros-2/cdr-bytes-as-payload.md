@@ -12,13 +12,13 @@ the native types
 generated for such definitions utilize the heap and cannot be placed in
 shared memory.
 
-One way to bridge these types anyway is to keep them in their serialized
+One way to propagate these types anyway is to keep them in their serialized
 form, which in ROS 2 is typically the Common Data Representation (CDR) used
 by DDS. This can be done by utilizing the `Passthrough` translator, which
 moves the serialized bytes across the boundary unmodified, in both
 directions.
 
-With this approach, every message type becomes bridgeable and the gateway
+With this approach, every message type can be propagated and the gateway
 performs no payload processing at all. The trade-off is that applications
 take on the (de)serialization responsibility and the overhead.
 
@@ -172,7 +172,7 @@ unsafe impl ZeroCopySend for StringByte {
 
 Now let's implement the application. The payload type is declared as a slice
 of `StringByte` in both directions and the `RosHeader` is specified as the
-user header since both services are bridged with ROS 2. For dynamic
+user header since both services are propagated to ROS 2. For dynamic
 message types the size of the message is not known at compile time, so the
 publisher is configured with an initial size guess and an
 allocation strategy to grow the shared memory when required:
@@ -250,7 +250,7 @@ application, while the gateway only moves bytes.
 
 ## The Gateway
 
-The final component is the gateway itself, which bridges the two topics to
+The final component is the gateway itself, which connects the two topics to
 their `iceoryx2` counterparts. Refer to [Gateway Basics](
 /tutorials/gateway-to-ros-2/gateway-basics.md) for an overview. Here we will
 only look at the configuration suitable for this pipeline.

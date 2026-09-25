@@ -46,7 +46,7 @@ payloads as they cross the boundary between them.
 
 `PrefixMapping` is the default strategy. It derives pairings between ROS 2
 topics and `iceoryx2` services from a naming convention. All service names
-matching the convention are bridged with best-guess quality of service:
+matching the convention are propagated with best-guess quality of service:
 
 ```text
 ros2://topics/{NAMESPACE}/{TOPIC}  <->  /{NAMESPACE}/{TOPIC}
@@ -54,7 +54,7 @@ ros2://topics/{NAMESPACE}/{TOPIC}  <->  /{NAMESPACE}/{TOPIC}
 ```
 
 The topics can be filtered by explicitly specifying allowed topics. When this
-`--allow` is used, only those specified topics will be bridged:
+`--allow` is used, only those specified topics will be propagated:
 
 ```console
 iox2 link gateway ros2 --allow "/cmd_vel" --allow "/sensors/*"
@@ -65,7 +65,7 @@ skipping those it is unable to load. This approach is only recommended as a
 starting point when first configuring the system.
 
 `StaticMapping` declares pairings explicitly in a TOML file. Only the specified
-pairings are bridged and their types are resolved immediately at startup,
+pairings are propagated and their types are resolved immediately at startup,
 which enables fast failure on misconfiguration. The `iceoryx2` service
 settings and ROS 2 QoS can also be explicitly configured for each entry. See
 the [example configuration](
@@ -135,11 +135,11 @@ origin of the message, which subscribers may use to identify the remote
 writer or detect message loss. Publishing applications can leave it at its
 default.
 
-Second, the payload type name of a bridged service must be the ROS 2 type
+Second, the payload type name of a propagated service must be the ROS 2 type
 name of the paired topic, for example `geometry_msgs/msg/Twist`. The gateway
 resolves the typesupport used for translation by this name. When translating
 to plain structs, the payload's size and alignment are additionally verified
-against the layout of the ROS 2 type, and the service is not bridged when
+against the layout of the ROS 2 type, and the service is not propagated when
 they contradict.
 
 The type name can be specified on the payload type when implementing
@@ -173,7 +173,7 @@ unsafe impl ZeroCopySend for Float64 {
 
 Delegating to the generated `TYPE_NAME` constant is preferred over hardcoding
 the name, as a typo in a hardcoded name does not fail at compile time but
-silently prevents the service from being bridged.
+silently prevents the service from being propagated.
 
 ## Running
 

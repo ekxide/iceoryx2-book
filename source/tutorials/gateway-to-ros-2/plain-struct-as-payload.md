@@ -375,7 +375,7 @@ gateway.
 
 ## The Gateway
 
-The final component is the gateway itself, which bridges the two topics to
+The final component is the gateway itself, which connects the two topics to
 their `iceoryx2` counterparts. Refer to [Gateway Basics](
 /tutorials/gateway-to-ros-2/gateway-basics.md) for an overview of the
 configuration options. Here we will
