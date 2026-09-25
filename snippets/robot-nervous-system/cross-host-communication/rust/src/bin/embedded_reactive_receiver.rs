@@ -1,18 +1,22 @@
 fn main() -> Result<(), Box<dyn core::error::Error>> {
     // snippet:start
     use iceoryx2::prelude::*;
-    use iceoryx2_gateway::Gateway;
-    use iceoryx2_integrations_zenoh_gateway_backend::ZenohBackend;
+    use iceoryx2_integrations_zenoh_link_carrier::ZenohCarrier;
+    use iceoryx2_link::Link;
+    use iceoryx2_link_tunnel::Tunnel;
 
-    // reactive mode hands back a listener that wakes when the backend has
-    // delivered something to ingest from the wire
-    let (mut gateway, listener) = Gateway::<ipc::Service, ZenohBackend<ipc::Service>>::new()
-        .reactive()
-        .create()?;
+    let config = iceoryx2::config::Config::global_config();
+    let node = NodeBuilder::new().config(config).create::<ipc::Service>()?;
+    let carrier = ZenohCarrier::create(zenoh::Config::default())?;
+    let mut link = Link::new(node, Tunnel::new(carrier, config));
+
+    // the listener wakes when the carrier has delivered something to ingest
+    // from the wire
+    let listener = link.listener()?;
 
     while listener.blocking_wait(|_| {}).is_ok() {
-        gateway.discover()?;
-        gateway.propagate()?;
+        link.discover()?;
+        link.propagate()?;
     }
     // snippet:end
 
