@@ -102,15 +102,6 @@ block for a custom architecture without imposing a framework or ecosystem.
 ````{grid} 1 1 2 3
 :gutter: 2
 
-```{grid-item-card} Fundamentals: Gateways and Tunnels
-:link: /fundamentals/links
-:link-type: doc
-:shadow: none
-
-Learn how the local `iceoryx2` data plane can connect to other communication
-technologies and networks.
-```
-
 ```{grid-item-card} Fundamentals: Communication Model
 :link: /fundamentals/communication-model
 :link-type: doc
@@ -125,6 +116,15 @@ Learn more about the communication model behind `iceoryx2`.
 :shadow: none
 
 Learn more about the layers of `iceoryx2`.
+```
+
+```{grid-item-card} Links: Tunnels and Gateways
+:link: /fundamentals/links
+:link-type: doc
+:shadow: none
+
+Learn how the local `iceoryx2` data plane can connect to other communication
+technologies and networks.
 ```
 
 ````

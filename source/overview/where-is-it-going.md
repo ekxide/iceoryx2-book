@@ -68,15 +68,6 @@ giving up its lean architecture, predictable behavior, and flexibility.
 ````{grid} 1 1 2 3
 :gutter: 2
 
-```{grid-item-card} Fundamentals: Gateways and Tunnels
-:link: /fundamentals/links
-:link-type: doc
-:shadow: none
-
-Learn how `iceoryx2` can connect the local data plane to networks and other
-communication technologies.
-```
-
 ```{grid-item-card} Fundamentals: Cross-Language Support
 :link: /fundamentals/cross-language-support
 :link-type: doc
@@ -84,6 +75,15 @@ communication technologies.
 
 Learn how applications written in different languages communicate through
 `iceoryx2`.
+```
+
+```{grid-item-card} Links: Tunnels and Gateways
+:link: /fundamentals/links
+:link-type: doc
+:shadow: none
+
+Learn how `iceoryx2` can connect the local data plane to networks and other
+communication technologies.
 ```
 
 ```{grid-item-card} Get Started with iceoryx2

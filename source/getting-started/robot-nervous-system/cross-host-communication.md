@@ -344,14 +344,6 @@ https://docs.rs/iceoryx2-gateway-backend/latest/iceoryx2_gateway_backend/).
 ````{grid} 1 1 2 3
 :gutter: 2
 
-```{grid-item-card} Gateways and Tunnels
-:link: /fundamentals/links
-:link-type: doc
-:shadow: none
-
-The feature that this tutorial puts to work.
-```
-
 ```{grid-item-card} Event-Driven Communication
 :link: /getting-started/robot-nervous-system/event-driven-communication
 :link-type: doc
@@ -367,5 +359,14 @@ The control-flow pattern the dashboard and gateway employ.
 
 Overview of execution patterns possible with `iceoryx2`.
 ```
+
+```{grid-item-card} Links: Tunnels and Gateways
+:link: /fundamentals/links
+:link-type: doc
+:shadow: none
+
+The feature that this tutorial puts to work.
+```
+
 
 ````
