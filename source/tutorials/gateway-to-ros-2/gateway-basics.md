@@ -25,8 +25,8 @@ have full control over its execution, or run in an isolated process via the
 
 The gateway must be built from source against a ROS 2 install space. This is
 because it must link against the specific `rcl` library being used, as well as
-any generated message libraries. See [Build ROS 2 Integration Crates](
-/how-to/build-ros-2-integration-crates) for details on how to build the
+any generated message libraries. See [Build the ROS 2 Gateway](
+/how-to/build-ros-2-gateway) for details on how to build the
 gateway.
 
 ```{important}
@@ -222,22 +222,21 @@ https://github.com/eclipse-iceoryx/iceoryx2/tree/main/integrations/ros2/link-ada
 ````{grid} 1 1 2 3
 :gutter: 2
 
-```{grid-item-card} Build ROS 2 Integration Crates
-:link: /how-to/build-ros-2-integration-crates
+```{grid-item-card} Build the ROS 2 Gateway
+:link: /how-to/build-ros-2-gateway
 :link-type: doc
 :shadow: none
 
-Build the gateway and the `ament_cargo` packages against your own ROS 2
-workspace.
+Build the gateway against your own ROS 2 workspace.
 ```
 
-```{grid-item-card} Example Nodes
-:link: https://github.com/eclipse-iceoryx/iceoryx2/tree/main/integrations/ros2/workspace/src/demo_nodes
+```{grid-item-card} ROS 2 Gateway Examples
+:link: https://github.com/eclipse-iceoryx/iceoryx2/tree/main/integrations/ros2/examples
 :link-type: url
 :shadow: none
 
-Reference applications for each combination of service-to-topic mapping and
-payload translator.
+Example applications propagated to ROS 2 by the gateway, one set per
+translator.
 ```
 
 ```{grid-item-card} Links: Tunnels and Gateways
