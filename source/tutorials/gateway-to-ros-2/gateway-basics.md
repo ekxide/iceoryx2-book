@@ -144,30 +144,19 @@ they contradict.
 The type name can be specified on the payload type when implementing
 `ZeroCopySend` on payload types:
 
-```rust
-#[derive(ZeroCopySend)]
-#[type_name("std_msgs/msg/Float64")]
-#[repr(C)]
-pub struct Payload {
-    pub data: f64,
-}
+```{literalinclude} ../../../snippets/gateway-to-ros-2/gateway_basics/src/main.rs
+:language: rust
+:start-after: snippet:start payload
+:end-before: snippet:end payload
 ```
 
 For ROS 2 types generated for Rust this is typically set by wrapping them
 in a new type and implementing te trait:
 
-```rust
-use rosidl_runtime_rs::{Message, RmwMessage};
-
-#[derive(Debug, Default, Clone)]
-#[repr(transparent)]
-pub struct Float64(pub std_msgs::msg::rmw::Float64);
-
-unsafe impl ZeroCopySend for Float64 {
-    unsafe fn type_name() -> &'static str {
-        <<std_msgs::msg::Float64 as Message>::RmwMsg as RmwMessage>::TYPE_NAME
-    }
-}
+```{literalinclude} ../../../snippets/gateway-to-ros-2/gateway_basics/src/main.rs
+:language: rust
+:start-after: snippet:start wrapped-payload
+:end-before: snippet:end wrapped-payload
 ```
 
 Delegating to the generated `TYPE_NAME` constant is preferred over hardcoding
@@ -184,14 +173,11 @@ for topics have no user header.
 Applications that want to read the message info declare the `RosHeader` as the
 user header of the service:
 
-```rust
-use iceoryx2_integrations_ros2_interop::RosHeader;
-
-let service = node
-    .service_builder(&"CmdVel".try_into()?)
-    .publish_subscribe::<Payload>()
-    .user_header::<RosHeader>()
-    .open_or_create()?;
+```{literalinclude} ../../../snippets/gateway-to-ros-2/gateway_basics/src/main.rs
+:language: rust
+:start-after: snippet:start ros-header
+:end-before: snippet:end ros-header
+:dedent:
 ```
 
 If the header is specified, the gateway must be launched with `--ros-header` so
