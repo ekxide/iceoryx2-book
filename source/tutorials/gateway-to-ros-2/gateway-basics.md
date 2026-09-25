@@ -16,7 +16,7 @@ shared zero-copy between `iceoryx2` nodes. Likewise, outbound data
 is provided by nodes to the gateway without copies.
 
 The gateway can be either [embedded into your own process](
-https://github.com/eclipse-iceoryx/iceoryx2/tree/main/iceoryx2-gateway/gateway#usage
+https://github.com/eclipse-iceoryx/iceoryx2/tree/main/integrations/ros2/link-adapter#usage
 ), allowing you to
 have full control over its execution, or run in an isolated process via the
 `iox2` CLI.
@@ -69,7 +69,7 @@ pairings are bridged and their types are resolved immediately at startup,
 which enables fast failure on misconfiguration. The `iceoryx2` service
 settings and ROS 2 QoS can also be explicitly configured for each entry. See
 the [example configuration](
-https://github.com/eclipse-iceoryx/iceoryx2/blob/main/integrations/ros2/gateway-cli/static-mapping.example.toml)
+https://github.com/eclipse-iceoryx/iceoryx2/blob/main/integrations/ros2/link-gateway-cli/static-mapping.example.toml)
 for available configuration options.
 
 A minimal entry pairs one service with one topic:
@@ -199,7 +199,7 @@ iox2 gateway ros2 --reactive-backend --listener "SensorData"
 
 When embedding the gateway, the same behaviour is configured on the gateway
 builder, as shown in [its usage examples](
-https://github.com/eclipse-iceoryx/iceoryx2/tree/main/iceoryx2-gateway/gateway#usage).
+https://github.com/eclipse-iceoryx/iceoryx2/tree/main/integrations/ros2/link-adapter#usage).
 
 ## Further Reading
 
