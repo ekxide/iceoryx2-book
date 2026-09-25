@@ -1,4 +1,5 @@
 build/
 /**/.DS_Store
 snippets/target/
+snippets/gateway-to-ros-2/target/
 __pycache__/

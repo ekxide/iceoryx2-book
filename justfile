@@ -2,6 +2,7 @@
 
 iox2_src := env_var_or_default("IOX2_SRC", justfile_directory() / ".." / "iceoryx2")
 install_prefix := iox2_src / "target" / "ff" / "cc" / "install"
+ros2_snippets := justfile_directory() / "snippets" / "gateway-to-ros-2"
 
 default:
     @just --list
@@ -53,6 +54,23 @@ build-c-snippets:
         cmake --build "$dir/build" --config Release
     done
 
+# ROS 2: compiles against the generated message crates (needs a sourced ROS 2 env).
+build-ros2-snippets:
+    #!/usr/bin/env bash
+    set -eo pipefail
+    if [ -z "${ROS_DISTRO:-}" ]; then
+        echo "Error: no sourced ROS 2 environment" >&2
+        echo "  Source your ROS 2 setup first, e.g.: source /opt/ros/jazzy/setup.bash" >&2
+        exit 1
+    fi
+    cd "{{ros2_snippets}}/messages"
+    mkdir -p src
+    vcs import --skip-existing src < "${ROS_DISTRO}.repos"
+    colcon build --packages-up-to std_msgs geometry_msgs rosidl_generator_rs
+    source install/setup.bash
+    cd "{{ros2_snippets}}"
+    cargo build --workspace --all-targets
+
 # Python: every example's python/ scripts are syntactically valid (py_compile).
 build-python-snippets:
     #!/usr/bin/env sh
@@ -82,6 +100,16 @@ format-rust:
 # Rust: verify rustfmt formatting without modifying files (used by CI).
 format-rust-check:
     cd snippets && cargo fmt --all --check
+
+# ROS 2: reformat in place with rustfmt (without cargo, which needs a sourced ROS 2 env).
+format-ros2-snippets:
+    find {{ros2_snippets}} \( -name messages -o -name target \) -prune -o \
+        -type f -name '*.rs' -print0 | xargs -0 rustfmt --edition 2024
+
+# ROS 2: verify rustfmt formatting without modifying files (used by CI).
+format-ros2-snippets-check:
+    find {{ros2_snippets}} \( -name messages -o -name target \) -prune -o \
+        -type f -name '*.rs' -print0 | xargs -0 rustfmt --edition 2024 --check
 
 # C/C++: reformat in place with clang-format (all examples, per the root .clang-format).
 format-c-cxx:
