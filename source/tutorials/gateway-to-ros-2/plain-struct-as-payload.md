@@ -208,7 +208,6 @@ publish = false
 [dependencies]
 geometry_msgs = { version = "*" }
 iceoryx2 = { version = "X.Y.Z" } # select the desired `iceoryx2` version
-iceoryx2-integrations-ros2-interop = { version = "X.Y.Z" } # same version as `iceoryx2`
 rosidl_runtime_rs = { version = "0.6" }
 ```
 
@@ -306,8 +305,7 @@ unsafe impl ZeroCopySend for Twist {
 
 Replacing the placeholder `main`, the application itself is hardly any
 different from a regular publish-subscribe application. The only thing
-ROS-specific is the `RosHeader` type declared as the user header on both
-services:
+ROS-specific is the `Twist` payload type defined above:
 
 ```{code-block} rust
 :caption: src/twist_limiter/src/main.rs
@@ -315,7 +313,6 @@ services:
 use core::time::Duration;
 
 use iceoryx2::prelude::*;
-use iceoryx2_integrations_ros2_interop::RosHeader;
 
 const CYCLE_TIME: Duration = Duration::from_millis(100);
 const MAX_VELOCITY_M_PER_S: f64 = 1.0;
@@ -338,28 +335,27 @@ fn main() -> Result<(), Box<dyn core::error::Error>> {
     let cmd_vel = node
         .service_builder(&"CmdVel".try_into()?)
         .publish_subscribe::<Twist>()
-        // IMPORTANT: Must use this user header if crossing ROS 2 boundary.
-        .user_header::<RosHeader>()
         .open_or_create()?;
     let subscriber = cmd_vel.subscriber_builder().create()?;
 
     let cmd_vel_limited = node
         .service_builder(&"CmdVelLimited".try_into()?)
         .publish_subscribe::<Twist>()
-        // IMPORTANT: Must use this user header if crossing ROS 2 boundary.
-        .user_header::<RosHeader>()
         .open_or_create()?;
     let publisher = cmd_vel_limited.publisher_builder().create()?;
 
     while node.wait(CYCLE_TIME).is_ok() {
         while let Some(sample) = subscriber.receive()? {
-            let limited = limit(sample.payload());
-            publisher.loan_uninit()?.write_payload(limited).send()?;
+            let received = sample.payload();
+            let limited = limit(received);
 
             coutln!(
-                "limited cmd_vel (sequence {})",
-                sample.user_header().sequence_number
+                "limited linear.x from {} to {}",
+                received.0.linear.x,
+                limited.0.linear.x
             );
+
+            publisher.loan_uninit()?.write_payload(limited).send()?;
         }
     }
 
@@ -463,9 +459,9 @@ into ROS 2:
 
 ```console
 $ ros2 run twist_limiter twist_limiter
-limited cmd_vel (sequence 1)
-limited cmd_vel (sequence 2)
-limited cmd_vel (sequence 3)
+limited linear.x from 5 to 1
+limited linear.x from 5 to 1
+limited linear.x from 5 to 1
 ```
 
 ```console

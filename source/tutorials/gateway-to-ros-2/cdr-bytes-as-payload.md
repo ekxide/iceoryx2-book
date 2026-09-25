@@ -142,7 +142,6 @@ publish = false
 [dependencies]
 cdr = { version = "0.2" }
 iceoryx2 = { version = "X.Y.Z" } # select the desired `iceoryx2` version
-iceoryx2-integrations-ros2-interop = { version = "X.Y.Z" } # same version as `iceoryx2`
 rosidl_runtime_rs = { version = "0.6" }
 std_msgs = { version = "*", features = ["serde"] }
 ```
@@ -171,11 +170,10 @@ unsafe impl ZeroCopySend for StringByte {
 ```
 
 Now let's implement the application. The payload type is declared as a slice
-of `StringByte` in both directions and the `RosHeader` is specified as the
-user header since both services are propagated to ROS 2. For dynamic
-message types the size of the message is not known at compile time, so the
-publisher is configured with an initial size guess and an
-allocation strategy to grow the shared memory when required:
+of `StringByte` in both directions. For dynamic message types the size of the
+message is not known at compile time, so the publisher is configured with an
+initial size guess and an allocation strategy to grow the shared memory when
+required:
 
 ```{code-block} rust
 :caption: src/chatter_relay/src/main.rs
@@ -184,7 +182,6 @@ use core::time::Duration;
 
 use cdr::{CdrLe, Infinite};
 use iceoryx2::prelude::*;
-use iceoryx2_integrations_ros2_interop::RosHeader;
 
 const CYCLE_TIME: Duration = Duration::from_millis(100);
 const INITIAL_MAX_PAYLOAD_SIZE: usize = 64;
@@ -197,16 +194,12 @@ fn main() -> Result<(), Box<dyn core::error::Error>> {
     let chatter = node
         .service_builder(&"Chatter".try_into()?)
         .publish_subscribe::<[StringByte]>()
-        // IMPORTANT: Must use this user header if crossing ROS 2 boundary.
-        .user_header::<RosHeader>()
         .open_or_create()?;
     let subscriber = chatter.subscriber_builder().create()?;
 
     let chatter_upper = node
         .service_builder(&"ChatterUpper".try_into()?)
         .publish_subscribe::<[StringByte]>()
-        // IMPORTANT: Must use this user header if crossing ROS 2 boundary.
-        .user_header::<RosHeader>()
         .open_or_create()?;
     let publisher = chatter_upper
         .publisher_builder()
@@ -231,10 +224,9 @@ fn main() -> Result<(), Box<dyn core::error::Error>> {
             upper_sample.send()?;
 
             coutln!(
-                "relayed \"{}\" ({} bytes, sequence {})",
+                "relayed \"{}\" ({} bytes)",
                 message.data,
-                payload.len(),
-                sample.user_header().sequence_number
+                payload.len()
             );
         }
     }
@@ -336,9 +328,9 @@ it. On the way out, the gateway forwards the bytes into ROS 2 unmodified:
 
 ```console
 $ ros2 run chatter_relay chatter_relay
-relayed "HELLO" (14 bytes, sequence 1)
-relayed "HELLO" (14 bytes, sequence 2)
-relayed "HELLO" (14 bytes, sequence 3)
+relayed "HELLO" (14 bytes)
+relayed "HELLO" (14 bytes)
+relayed "HELLO" (14 bytes)
 ```
 
 ```console
