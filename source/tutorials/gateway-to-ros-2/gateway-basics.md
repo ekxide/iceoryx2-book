@@ -224,12 +224,12 @@ Reference applications for each combination of service-to-topic mapping and
 payload translator.
 ```
 
-```{grid-item-card} Understand Gateways and Tunnels
-:link: /fundamentals/gateways-and-tunnels
+```{grid-item-card} Links: Tunnels and Gateways
+:link: /fundamentals/links
 :link-type: doc
 :shadow: none
 
-Get familiar with how `iceoryx2` extends communication beyond a single host.
+Understand how to extend `iceoryx2` beyond its shared memory domain.
 ```
 
 ````

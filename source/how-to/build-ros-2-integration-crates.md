@@ -105,15 +105,15 @@ environment they are developed in.
 :link-type: url
 :shadow: none
 
-Reference examples of `iceoryx2` applications bridged to ROS 2 by the tunnel.
+Reference examples of `iceoryx2` applications connected to ROS 2 by the gateway.
 ```
 
-```{grid-item-card} Understand Gateways and Tunnels
-:link: /fundamentals/gateways-and-tunnels
+```{grid-item-card} Links: Tunnels and Gateways
+:link: /fundamentals/links
 :link-type: doc
 :shadow: none
 
-Get familiar with how `iceoryx2` extends communication across host boundaries.
+Understand how to extend `iceoryx2` beyond its shared memory domain.
 ```
 
 ````
