@@ -66,14 +66,6 @@ Understand how `Event` services fit into the bigger picture of execution control
 with `iceoryx2`.
 ```
 
-```{grid-item-card} Understand Gateways and Tunnels
-:link: /fundamentals/gateways-and-tunnels
-:link-type: doc
-:shadow: none
-
-Understand how to extend `iceoryx2` across hosts.
-```
-
 ```{grid-item-card} Explore Quality-of-Service Properties
 :link: https://docs.rs/iceoryx2/latest/iceoryx2/#quality-of-services
 :link-type: url
@@ -81,5 +73,14 @@ Understand how to extend `iceoryx2` across hosts.
 
 View the currently supported quality-of-service properties.
 ```
+
+```{grid-item-card} Understanding Links: Tunnels and Gateways
+:link: /fundamentals/links
+:link-type: doc
+:shadow: none
+
+Understand how to extend `iceoryx2` beyond its shared memory domain.
+```
+
 
 ````

@@ -21,7 +21,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=498097ac" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=f34dad2a" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/version-picker.css?v=2a4710d1" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=d05edee4" />
     
@@ -444,7 +444,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../fundamentals/execution-control.html">Execution Control</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../fundamentals/cross-language-support.html">Cross-Language Support</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../fundamentals/gateways-and-tunnels.html">Gateways and Tunnels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../fundamentals/links.html">Links</a></li>
 </ul>
 </li>
 </ul>
@@ -510,15 +510,15 @@
 <h1>Cross-host communication<a class="headerlink" href="#cross-host-communication" title="Link to this heading">¶</a></h1>
 <div class="admonition-learning-objectives admonition">
 <p class="admonition-title">Learning Objectives</p>
-<p>This tutorial extends an <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> system across host boundaries using the
-gateway:</p>
+<p>This tutorial extends an <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> system across host boundaries using a
+tunnel:</p>
 <ol class="arabic simple">
-<li><p>Enable cross-host communication with the <code class="docutils literal notranslate"><span class="pre">iox2</span> <span class="pre">gateway</span></code> CLI, without
+<li><p>Enable cross-host communication with the <code class="docutils literal notranslate"><span class="pre">iox2</span> <span class="pre">link</span> <span class="pre">tunnel</span></code> CLI, without
 touching application code</p></li>
-<li><p>Embed the gateway in your own application for full control over its
+<li><p>Embed the link in your own application for full control over its
 execution</p></li>
-<li><p>Drive the gateway in polling and reactive modes</p></li>
-<li><p>Switch the communication mechanism by instantiating a different backend</p></li>
+<li><p>Drive the link in polling and reactive modes</p></li>
+<li><p>Switch the communication mechanism by instantiating a different carrier</p></li>
 </ol>
 </div>
 <p>So far Larry has been a self-contained system: his sensors, his control logic,
@@ -529,15 +529,16 @@ host.</p>
 much <strong>battery</strong> he has left. Some kind of dashboard hosted on another
 device on the same network.</p>
 <p>The required data is already flowing through <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>’s shared memory. A
-<a class="reference internal" href="../../fundamentals/gateways-and-tunnels.html"><span class="doc std std-doc">gateway</span></a> can hook into that flow and
-propagate it to other hosts. To get the data to the dashboard, we will use a
-gateway that forwards the raw shared memory payloads over the network.</p>
+<a class="reference internal" href="../../fundamentals/links.html"><span class="doc std std-doc">link</span></a> can hook into that flow and
+propagate it to other hosts. Since our dashboard will also run <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>, we
+will use a a link with a tunneling backend which propagates the raw shared
+memory samples over the network.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>A gateway can be implemented for any communication mechanism, not just network
-communication. All that is required is an implementation of the <code class="docutils literal notranslate"><span class="pre">Backend</span></code>
-traits available in <a class="reference external" href="https://docs.rs/iceoryx2-gateway-backend/latest/iceoryx2_gateway_backend/"><code class="docutils literal notranslate"><span class="pre">iceoryx2-gateway-backend</span></code></a>.</p>
-<p>For example, the gateway has been used to extend communication between
+<p>A tunnel can run over any communication mechanism, not just network
+communication. All that is required is an implementation of the <code class="docutils literal notranslate"><span class="pre">Carrier</span></code>
+traits available in <a class="reference external" href="https://docs.rs/iceoryx2-link-carrier/latest/iceoryx2_link_carrier/"><code class="docutils literal notranslate"><span class="pre">iceoryx2-link-carrier</span></code></a>.</p>
+<p>For example, links have been used to extend communication between
 co-processors on a single board that have their own memory using cross-chip
 communication APIs.</p>
 </div>
@@ -638,11 +639,10 @@ C</label><div class="sd-tab-content docutils">
 <p>For demonstration purposes, we use the <a class="reference internal" href="event-driven-communication.html"><span class="std std-doc">event-driven communication</span></a> execution pattern, which is the same approach
 used by many popular network communication libraries. However, with <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>,
 you are free to choose the best approach that suits your application. The
-gateway can be configured to work with any approach. See <a class="reference internal" href="../../tutorials/execution-control-patterns.html"><span class="doc std std-doc">execution control
-patterns</span></a> for an overview.</p>
+link can be driven in different ways. See <a class="reference internal" href="../../tutorials/execution-control-patterns.html"><span class="doc std std-doc">execution control patterns</span></a> for an overview.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The gateway currently only supports the publish-subscribe and event messaging
+<p>The link currently only supports the publish-subscribe and event messaging
 patterns. Support for request-response and blackboard is planned.</p>
 </div>
 <p>We set Larry up to send a notification on a corresponding event service along
@@ -1396,133 +1396,140 @@ They are both set up as regular <code class="docutils literal notranslate"><span
 </section>
 <section id="extending-over-the-network">
 <h2>Extending over the network<a class="headerlink" href="#extending-over-the-network" title="Link to this heading">¶</a></h2>
-<p>With the applications set up, we now need to spin up the gateway to extend
-the communication over the network. The gateway can either be run in a separate
+<p>With the applications set up, we now need to spin up a tunnel to extend
+the communication over the network. The tunnel can either be run in a separate
 process or embedded into the application. First, let’s use the <code class="docutils literal notranslate"><span class="pre">iceoryx2-cli</span></code>
-to run the gateway in a separate process.</p>
+to run the tunnel in a separate process.</p>
 <section id="installing-the-cli">
 <h3>Installing the CLI<a class="headerlink" href="#installing-the-cli" title="Link to this heading">¶</a></h3>
-<p>First install the <a class="reference external" href="https://crates.io/crates/iceoryx2-cli"><code class="docutils literal notranslate"><span class="pre">iceoryx2-cli</span></code></a>
+<p>Start by installing the <a class="reference external" href="https://crates.io/crates/iceoryx2-cli"><code class="docutils literal notranslate"><span class="pre">iceoryx2-cli</span></code></a>
 which is the entry point for all CLI commands:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>cargo<span class="w"> </span>install<span class="w"> </span>iceoryx2-cli
 </pre></div>
 </div>
-<p>Next, the CLI for a specific gateway backend must be installed. For this
-article, we use the Zenoh backend:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>cargo<span class="w"> </span>install<span class="w"> </span>iceoryx2-integrations-zenoh-gateway-cli
+<p>Next, the CLI for a tunnel over a specific carrier must be installed. For this
+article, we shall use a tunnel over a Zenoh carrier:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>cargo<span class="w"> </span>install<span class="w"> </span>iceoryx2-integrations-zenoh-link-tunnel-cli
 </pre></div>
 </div>
-<p>The command <code class="docutils literal notranslate"><span class="pre">iox2</span> <span class="pre">gateway</span> <span class="pre">--list</span></code> can be used to verify that the installation
-was successful. This command lists all installed gateway backends discovered
-by the CLI.</p>
-<p>The gateway should be installed on both hosts.</p>
+<p>The command <code class="docutils literal notranslate"><span class="pre">iox2</span> <span class="pre">link</span> <span class="pre">tunnel</span> <span class="pre">--list</span></code> can be used to verify that the
+installation was successful. This command lists all installed tunnels
+discovered by the CLI.</p>
+<p>The tunnel needs to be installed on both hosts.</p>
 </section>
-<section id="running-a-gateway-process">
-<h3>Running a gateway process<a class="headerlink" href="#running-a-gateway-process" title="Link to this heading">¶</a></h3>
-<p>The CLI can now be used to start a gateway process on both hosts:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">iox2 gateway zenoh</span>
+<section id="running-a-tunnel-process">
+<h3>Running a tunnel process<a class="headerlink" href="#running-a-tunnel-process" title="Link to this heading">¶</a></h3>
+<p>The CLI can now be used to start a tunnel process on both hosts:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">iox2 link tunnel zenoh</span>
 </pre></div>
 </div>
-<p>Each gateway discovers <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> services, both on its own host and over
-the communication mechanism used by the chosen backend implementation.
-Larry’s gateway sees <code class="docutils literal notranslate"><span class="pre">larry/battery</span></code> and <code class="docutils literal notranslate"><span class="pre">larry/position</span></code> and forwards all
-samples published to them over the wire. The dashboard gateway receives these
-samples from the wire, and injects them into the <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> shared memory to be
-received by subscribers to matching services on the dashboard host. The two
+<p>Each tunnel discovers <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> services, both on its own host and on the
+peers reached through its carrier. Larry’s tunnel sees <code class="docutils literal notranslate"><span class="pre">larry/battery</span></code> and
+<code class="docutils literal notranslate"><span class="pre">larry/position</span></code>, offers them to its peers and forwards all samples published
+to them over the wire. The dashboard’s tunnel creates matching services on the
+dashboard host, receives the samples from the wire, and injects them into the
+<code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> shared memory to be received by their subscribers. The two
 applications communicate over services, as if they were running on the same
 host.</p>
-<p>By default the gateway polls for new services and pending samples every 100 ms,
+<p>By default the tunnel polls for new services and pending samples every 100 ms,
 however since the event-based communication pattern is used, it is possible
-to configure the gateway to execute reactively.</p>
-<p>The gateway running on Larry only has work to do when new samples are published
+to configure the tunnel to execute reactively.</p>
+<p>The tunnel running on Larry only has work to do when new samples are published
 on the services that need to be propagated:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">iox2 gateway zenoh --listener &quot;larry/battery&quot; --listener &quot;larry/position&quot;</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">iox2 link tunnel zenoh --listener &quot;larry/battery&quot; --listener &quot;larry/position&quot;</span>
 </pre></div>
 </div>
-<p>The gateway running on the dashboard host only has work to do when data arrives
-over the backend:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">iox2 gateway zenoh --reactive-backend</span>
+<p>The tunnel running on the dashboard host only has work to do when data arrives
+through the carrier:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">iox2 link tunnel zenoh --reactive</span>
 </pre></div>
 </div>
 <p>Nothing here is application code. Both applications were written, compiled,
-and deployed with no knowledge that a gateway exists. Communicating across the
+and deployed with no knowledge that a tunnel exists. Communicating across the
 hosts is purely a deployment decision.</p>
 </section>
-<section id="embedding-the-gateway">
-<h3>Embedding the gateway<a class="headerlink" href="#embedding-the-gateway" title="Link to this heading">¶</a></h3>
+<section id="embedding-the-link">
+<h3>Embedding the link<a class="headerlink" href="#embedding-the-link" title="Link to this heading">¶</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The embeddable gateway is currently only available as a Rust library. C++, C,
-and Python applications must use the gateway from a separate process with the
-<code class="docutils literal notranslate"><span class="pre">iox2</span> <span class="pre">gateway</span></code> CLI shown above; the remainder of this section applies to Rust.</p>
+<p>The embeddable link is currently only available as a Rust library. C++, C,
+and Python applications must use the tunnel from a separate process with the
+<code class="docutils literal notranslate"><span class="pre">iox2</span> <span class="pre">link</span> <span class="pre">tunnel</span></code> CLI shown above; the remainder of this section applies to
+Rust.</p>
 </div>
-<p>Running the gateway as its own process is convenient, but it’s not the only
-option. The gateway is a library, and it spawns no threads of its own so you
+<p>Running the tunnel as its own process is convenient, but it’s not the only
+option. The link is a library, and it spawns no threads of its own so you
 have full control over when and where to run it. It can be executed within a
 dedicated time slot of a time-triggered architecture, or on a separate
 thread that you control, pinned to a specific core so as not to interfere
 with application execution.</p>
-<p>First add the generic gateway and your chosen backend as dependencies:</p>
-<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="n">iceoryx2-gateway</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;X.Y.Z&quot;</span><span class="w"> </span><span class="p">}</span>
-<span class="n">iceoryx2-integrations-zenoh-gateway-backend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;X.Y.Z&quot;</span><span class="w"> </span><span class="p">}</span>
+<p>First add the link, the tunnel backend, and your chosen carrier as
+dependencies:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="n">iceoryx2-link</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;X.Y.Z&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">iceoryx2-link-tunnel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;X.Y.Z&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">iceoryx2-integrations-zenoh-link-carrier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;X.Y.Z&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">zenoh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;1.9&quot;</span><span class="w"> </span><span class="p">}</span>
 </pre></div>
 </div>
-<p>The gateway can then be instantiated in your application via the provided
-builder. The chosen backend implementation is passed as a generic on creation,
-here we again use the <code class="docutils literal notranslate"><span class="pre">ZenohBackend</span></code>, but any other implementation can be
-dropped in, even your own. Specifying <code class="docutils literal notranslate"><span class="pre">polled()</span></code> in the build returns a gateway
-that can be manually driven:</p>
+<p>The link can then be instantiated in your application from a node and a
+backend. Here the backend is a tunnel over the <code class="docutils literal notranslate"><span class="pre">ZenohCarrier</span></code>, but any other
+carrier can be dropped in, even your own. Once created, the link can be
+manually driven:</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">core</span><span class="p">::</span><span class="n">time</span><span class="p">::</span><span class="n">Duration</span><span class="p">;</span>
 <span class="k">use</span><span class="w"> </span><span class="n">iceoryx2</span><span class="p">::</span><span class="n">prelude</span><span class="p">::</span><span class="o">*</span><span class="p">;</span>
-<span class="k">use</span><span class="w"> </span><span class="n">iceoryx2_gateway</span><span class="p">::</span><span class="n">Gateway</span><span class="p">;</span>
-<span class="k">use</span><span class="w"> </span><span class="n">iceoryx2_integrations_zenoh_gateway_backend</span><span class="p">::</span><span class="n">ZenohBackend</span><span class="p">;</span>
+<span class="k">use</span><span class="w"> </span><span class="n">iceoryx2_integrations_zenoh_link_carrier</span><span class="p">::</span><span class="n">ZenohCarrier</span><span class="p">;</span>
+<span class="k">use</span><span class="w"> </span><span class="n">iceoryx2_link</span><span class="p">::</span><span class="n">Link</span><span class="p">;</span>
+<span class="k">use</span><span class="w"> </span><span class="n">iceoryx2_link_tunnel</span><span class="p">::</span><span class="n">Tunnel</span><span class="p">;</span>
 
 <span class="k">const</span><span class="w"> </span><span class="n">POLL_INTERVAL</span><span class="p">:</span><span class="w"> </span><span class="nc">Duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Duration</span><span class="p">::</span><span class="n">from_millis</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
 
-<span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">gateway</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Gateway</span><span class="p">::</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="p">,</span><span class="w"> </span><span class="n">ZenohBackend</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="o">&gt;&gt;</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
-<span class="w">    </span><span class="p">.</span><span class="n">polled</span><span class="p">()</span>
-<span class="w">    </span><span class="p">.</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iceoryx2</span><span class="p">::</span><span class="n">config</span><span class="p">::</span><span class="n">Config</span><span class="p">::</span><span class="n">global_config</span><span class="p">();</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">::</span><span class="n">new</span><span class="p">().</span><span class="n">config</span><span class="p">(</span><span class="n">config</span><span class="p">).</span><span class="n">create</span><span class="p">::</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="o">&gt;</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">carrier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ZenohCarrier</span><span class="p">::</span><span class="n">create</span><span class="p">(</span><span class="n">zenoh</span><span class="p">::</span><span class="n">Config</span><span class="p">::</span><span class="n">default</span><span class="p">())</span><span class="o">?</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">link</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Link</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="n">Tunnel</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">carrier</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">));</span>
 
-<span class="k">while</span><span class="w"> </span><span class="n">gateway</span><span class="p">.</span><span class="n">node</span><span class="p">().</span><span class="n">wait</span><span class="p">(</span><span class="n">POLL_INTERVAL</span><span class="p">).</span><span class="n">is_ok</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">gateway</span><span class="p">.</span><span class="n">discover</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
-<span class="w">    </span><span class="n">gateway</span><span class="p">.</span><span class="n">propagate</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="k">while</span><span class="w"> </span><span class="n">link</span><span class="p">.</span><span class="n">node</span><span class="p">().</span><span class="n">wait</span><span class="p">(</span><span class="n">POLL_INTERVAL</span><span class="p">).</span><span class="n">is_ok</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">link</span><span class="p">.</span><span class="n">discover</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="w">    </span><span class="n">link</span><span class="p">.</span><span class="n">propagate</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>Execution is driven via two API calls. The <code class="docutils literal notranslate"><span class="pre">discover()</span></code> call reconciles which
 services exist locally and over the wire. The <code class="docutils literal notranslate"><span class="pre">propagate()</span></code> call moves the
 data in both directions: from the wire into <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> shared memory and vice
-versa. Calling the two on the polling gateway in a timed loop
-replicates the default behavior of the CLI.</p>
+versa. Calling the two on the link in a timed loop replicates the default
+behavior of the CLI.</p>
 <p>Now let’s take a look at how to replicate the reactive configurations provided
-by the gateway. Recapping the details, both gateways must be set up to react
-to different things:</p>
+by the CLI. Recapping the details, both links must be set up to react to
+different things:</p>
 <ol class="arabic simple">
-<li><p>Larry’s gateway reacts to the services notified when a sample is published</p></li>
-<li><p>The dashboard’s gateway reacts to data arriving over the network</p></li>
+<li><p>Larry’s link reacts to the services notified when a sample is published</p></li>
+<li><p>The dashboard’s link reacts to data arriving over the network</p></li>
 </ol>
-<p>Since Larry’s gateway does not react to network communication, it can be
-created in polling mode. Listeners are created for the services notified with
-each publish, and a <a class="reference internal" href="../../fundamentals/execution-control.html#waitset"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">WaitSet</span></code></span></a> is
-set up to react to notifications from both of them in a single thread:</p>
+<p>Since Larry’s link does not react to network communication, it needs nothing
+from the carrier. Listeners are created for the services notified with each
+publish, and a <a class="reference internal" href="../../fundamentals/execution-control.html#waitset"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">WaitSet</span></code></span></a> is set
+up to react to notifications from both of them in a single thread:</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">iceoryx2</span><span class="p">::</span><span class="n">prelude</span><span class="p">::</span><span class="o">*</span><span class="p">;</span>
-<span class="k">use</span><span class="w"> </span><span class="n">iceoryx2_gateway</span><span class="p">::</span><span class="n">Gateway</span><span class="p">;</span>
-<span class="k">use</span><span class="w"> </span><span class="n">iceoryx2_integrations_zenoh_gateway_backend</span><span class="p">::</span><span class="n">ZenohBackend</span><span class="p">;</span>
+<span class="k">use</span><span class="w"> </span><span class="n">iceoryx2_integrations_zenoh_link_carrier</span><span class="p">::</span><span class="n">ZenohCarrier</span><span class="p">;</span>
+<span class="k">use</span><span class="w"> </span><span class="n">iceoryx2_link</span><span class="p">::</span><span class="n">Link</span><span class="p">;</span>
+<span class="k">use</span><span class="w"> </span><span class="n">iceoryx2_link_tunnel</span><span class="p">::</span><span class="n">Tunnel</span><span class="p">;</span>
 
-<span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">gateway</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Gateway</span><span class="p">::</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="p">,</span><span class="w"> </span><span class="n">ZenohBackend</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="o">&gt;&gt;</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
-<span class="w">    </span><span class="p">.</span><span class="n">polled</span><span class="p">()</span>
-<span class="w">    </span><span class="p">.</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iceoryx2</span><span class="p">::</span><span class="n">config</span><span class="p">::</span><span class="n">Config</span><span class="p">::</span><span class="n">global_config</span><span class="p">();</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">::</span><span class="n">new</span><span class="p">().</span><span class="n">config</span><span class="p">(</span><span class="n">config</span><span class="p">).</span><span class="n">create</span><span class="p">::</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="o">&gt;</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">carrier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ZenohCarrier</span><span class="p">::</span><span class="n">create</span><span class="p">(</span><span class="n">zenoh</span><span class="p">::</span><span class="n">Config</span><span class="p">::</span><span class="n">default</span><span class="p">())</span><span class="o">?</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">link</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Link</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="n">Tunnel</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">carrier</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">));</span>
 
 <span class="c1">// wake whenever Larry publishes locally, so freshly produced samples are</span>
 <span class="c1">// pushed out promptly</span>
-<span class="kd">let</span><span class="w"> </span><span class="n">battery_listener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gateway</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">battery_listener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">link</span>
 <span class="w">    </span><span class="p">.</span><span class="n">node</span><span class="p">()</span>
 <span class="w">    </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;larry/battery&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
 <span class="w">    </span><span class="p">.</span><span class="n">event</span><span class="p">()</span>
 <span class="w">    </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span>
 <span class="w">    </span><span class="p">.</span><span class="n">listener_builder</span><span class="p">()</span>
 <span class="w">    </span><span class="p">.</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
-<span class="kd">let</span><span class="w"> </span><span class="n">position_listener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gateway</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">position_listener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">link</span>
 <span class="w">    </span><span class="p">.</span><span class="n">node</span><span class="p">()</span>
 <span class="w">    </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;larry/position&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
 <span class="w">    </span><span class="p">.</span><span class="n">event</span><span class="p">()</span>
@@ -1537,37 +1544,40 @@ set up to react to notifications from both of them in a single thread:</p>
 <span class="n">waitset</span><span class="p">.</span><span class="n">wait_and_process</span><span class="p">(</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">battery_listener</span><span class="p">.</span><span class="n">try_wait</span><span class="p">(</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="w"> </span><span class="p">{});</span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">position_listener</span><span class="p">.</span><span class="n">try_wait</span><span class="p">(</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="w"> </span><span class="p">{});</span>
-<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gateway</span><span class="p">.</span><span class="n">discover</span><span class="p">();</span>
-<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gateway</span><span class="p">.</span><span class="n">propagate</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">link</span><span class="p">.</span><span class="n">discover</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">link</span><span class="p">.</span><span class="n">propagate</span><span class="p">();</span>
 
 <span class="w">    </span><span class="n">CallbackProgression</span><span class="p">::</span><span class="n">Continue</span>
 <span class="p">})</span><span class="o">?</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>The dashboard gateway only cares about data arriving over the network, so it is
-created in reactive mode, which provides a listener along with the created
-gateway. This listener is notified when new data is available from the backend
-specified on creation.
+<p>The dashboard’s link only cares about data arriving over the network, so it
+asks the link for a listener. This listener is notified when the carrier
+has new data or the services offered by the peers change.
 No <a class="reference internal" href="../../fundamentals/execution-control.html#waitset"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">WaitSet</span></code></span></a> is needed here,
 since there is only one listener to wait on:</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">iceoryx2</span><span class="p">::</span><span class="n">prelude</span><span class="p">::</span><span class="o">*</span><span class="p">;</span>
-<span class="k">use</span><span class="w"> </span><span class="n">iceoryx2_gateway</span><span class="p">::</span><span class="n">Gateway</span><span class="p">;</span>
-<span class="k">use</span><span class="w"> </span><span class="n">iceoryx2_integrations_zenoh_gateway_backend</span><span class="p">::</span><span class="n">ZenohBackend</span><span class="p">;</span>
+<span class="k">use</span><span class="w"> </span><span class="n">iceoryx2_integrations_zenoh_link_carrier</span><span class="p">::</span><span class="n">ZenohCarrier</span><span class="p">;</span>
+<span class="k">use</span><span class="w"> </span><span class="n">iceoryx2_link</span><span class="p">::</span><span class="n">Link</span><span class="p">;</span>
+<span class="k">use</span><span class="w"> </span><span class="n">iceoryx2_link_tunnel</span><span class="p">::</span><span class="n">Tunnel</span><span class="p">;</span>
 
-<span class="c1">// reactive mode hands back a listener that wakes when the backend has</span>
-<span class="c1">// delivered something to ingest from the wire</span>
-<span class="kd">let</span><span class="w"> </span><span class="p">(</span><span class="k">mut</span><span class="w"> </span><span class="n">gateway</span><span class="p">,</span><span class="w"> </span><span class="n">listener</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Gateway</span><span class="p">::</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="p">,</span><span class="w"> </span><span class="n">ZenohBackend</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="o">&gt;&gt;</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
-<span class="w">    </span><span class="p">.</span><span class="n">reactive</span><span class="p">()</span>
-<span class="w">    </span><span class="p">.</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iceoryx2</span><span class="p">::</span><span class="n">config</span><span class="p">::</span><span class="n">Config</span><span class="p">::</span><span class="n">global_config</span><span class="p">();</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">::</span><span class="n">new</span><span class="p">().</span><span class="n">config</span><span class="p">(</span><span class="n">config</span><span class="p">).</span><span class="n">create</span><span class="p">::</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="o">&gt;</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">carrier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ZenohCarrier</span><span class="p">::</span><span class="n">create</span><span class="p">(</span><span class="n">zenoh</span><span class="p">::</span><span class="n">Config</span><span class="p">::</span><span class="n">default</span><span class="p">())</span><span class="o">?</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">link</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Link</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="n">Tunnel</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">carrier</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">));</span>
+
+<span class="c1">// the listener wakes when the carrier has delivered something to ingest</span>
+<span class="c1">// from the wire</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">listener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">link</span><span class="p">.</span><span class="n">listener</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 
 <span class="k">while</span><span class="w"> </span><span class="n">listener</span><span class="p">.</span><span class="n">blocking_wait</span><span class="p">(</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="w"> </span><span class="p">{}).</span><span class="n">is_ok</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">gateway</span><span class="p">.</span><span class="n">discover</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
-<span class="w">    </span><span class="n">gateway</span><span class="p">.</span><span class="n">propagate</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="w">    </span><span class="n">link</span><span class="p">.</span><span class="n">discover</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="w">    </span><span class="n">link</span><span class="p">.</span><span class="n">propagate</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>Both approaches run the same <code class="docutils literal notranslate"><span class="pre">discover()</span></code> and <code class="docutils literal notranslate"><span class="pre">propagate()</span></code> calls; they differ
-only in what decides when those calls happen. Once again, the gateway has no
+only in what decides when those calls happen. Once again, the link has no
 background threads, so you are free to choose where and when these operations
 run, allowing you to plan for and minimize unpredictability.</p>
 </section>
@@ -1577,29 +1587,29 @@ run, allowing you to plan for and minimize unpredictability.</p>
 <p>Let’s say that later in development you decide a different mechanism should
 carry the cross-host communication. Perhaps you want to reach the dashboard
 over the internet by integrating with existing MQTT infrastructure, or you
-need to bridge co-processors on a single board that each keep their own memory
-and can only communicate over a cross-chip API.</p>
-<p>All that is required, is to switch out the chosen backend when creating the
-gateway. In our examples above, we have been using Zenoh, so the gateways were
-created with:</p>
-<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="n">Gateway</span><span class="p">::</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="p">,</span><span class="w"> </span><span class="n">ZenohBackend</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="o">&gt;&gt;</span>
+need to connect co-processors on a single board that each keep their own
+memory and can only communicate over a cross-chip API.</p>
+<p>All that is required, is to switch out the carrier when creating the
+tunnel. In our examples above, we have been using Zenoh, so the links were
+of the type:</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="n">Link</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="p">,</span><span class="w"> </span><span class="n">Tunnel</span><span class="o">&lt;</span><span class="n">ZenohCarrier</span><span class="o">&gt;&gt;</span>
 </pre></div>
 </div>
 <p>The first parameter is the local <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> service type; the second is the
-backend. The gateway itself knows nothing about Zenoh. It is written against
-the backend traits, and <code class="docutils literal notranslate"><span class="pre">discover()</span></code> and <code class="docutils literal notranslate"><span class="pre">propagate()</span></code> are the same calls
-regardless of what carries the bytes.</p>
-<p>Switching over to a different mechanism is therefore only a change of the type
-specified on gateway creation:</p>
-<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="n">Gateway</span><span class="p">::</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="p">,</span><span class="w"> </span><span class="n">SomeOtherBackend</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="o">&gt;&gt;</span>
+backend, a tunnel over the Zenoh carrier. The link and the tunnel know nothing
+about Zenoh. They are written against the carrier traits, and <code class="docutils literal notranslate"><span class="pre">discover()</span></code> and
+<code class="docutils literal notranslate"><span class="pre">propagate()</span></code> are the same calls regardless of what carries the bytes.</p>
+<p>Switching over to a different mechanism is therefore only a change of the
+carrier given to the tunnel on creation:</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="n">Link</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="p">,</span><span class="w"> </span><span class="n">Tunnel</span><span class="o">&lt;</span><span class="n">SomeOtherCarrier</span><span class="o">&gt;&gt;</span>
 </pre></div>
 </div>
 <p>The publishers, the subscribers, the embed loops, and the choice of polled or
-reactive mode are all untouched.</p>
-<p>Over time, additional backend implementations
+reactive execution are all untouched.</p>
+<p>Over time, additional carrier implementations
 will be provided upstream alongside <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>, however if there isn’t an
 existing implementation for the mechanism you would like to use, it is possible
-to implement your own using the traits provided in <a class="reference external" href="https://docs.rs/iceoryx2-gateway-backend/latest/iceoryx2_gateway_backend/"><code class="docutils literal notranslate"><span class="pre">iceoryx2-gateway-backend</span></code></a>.</p>
+to implement your own using the traits provided in <a class="reference external" href="https://docs.rs/iceoryx2-link-carrier/latest/iceoryx2_link_carrier/"><code class="docutils literal notranslate"><span class="pre">iceoryx2-link-carrier</span></code></a>.</p>
 </section>
 <section id="further-reading">
 <h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading">¶</a></h2>
@@ -1609,17 +1619,8 @@ to implement your own using the traits provided in <a class="reference external"
 <div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-none sd-card-hover docutils">
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
-Gateways and Tunnels</div>
-<p class="sd-card-text">The feature that this tutorial puts to work.</p>
-</div>
-<a class="sd-stretched-link sd-hide-link-text reference internal" href="../../fundamentals/gateways-and-tunnels.html"><span class="doc">Gateways and Tunnels</span></a></div>
-</div>
-<div class="sd-col sd-d-flex-row docutils">
-<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-none sd-card-hover docutils">
-<div class="sd-card-body docutils">
-<div class="sd-card-title sd-font-weight-bold docutils">
 Event-Driven Communication</div>
-<p class="sd-card-text">The control-flow pattern the dashboard and gateway employ.</p>
+<p class="sd-card-text">The control-flow pattern the dashboard and tunnel employ.</p>
 </div>
 <a class="sd-stretched-link sd-hide-link-text reference internal" href="event-driven-communication.html"><span class="doc">Event-Driven Communication</span></a></div>
 </div>
@@ -1631,6 +1632,15 @@ Execution Control Patterns</div>
 <p class="sd-card-text">Overview of execution patterns possible with <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>.</p>
 </div>
 <a class="sd-stretched-link sd-hide-link-text reference internal" href="../../tutorials/execution-control-patterns.html"><span class="doc">Execution Control Patterns</span></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-none sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Links: Tunnels and Gateways</div>
+<p class="sd-card-text">The feature that this tutorial puts to work.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="../../fundamentals/links.html"><span class="doc">Links</span></a></div>
 </div>
 </div>
 </div>
@@ -1692,8 +1702,8 @@ Execution Control Patterns</div>
 <li><a class="reference internal" href="#application-setup">Application setup</a></li>
 <li><a class="reference internal" href="#extending-over-the-network">Extending over the network</a><ul>
 <li><a class="reference internal" href="#installing-the-cli">Installing the CLI</a></li>
-<li><a class="reference internal" href="#running-a-gateway-process">Running a gateway process</a></li>
-<li><a class="reference internal" href="#embedding-the-gateway">Embedding the gateway</a></li>
+<li><a class="reference internal" href="#running-a-tunnel-process">Running a tunnel process</a></li>
+<li><a class="reference internal" href="#embedding-the-link">Embedding the link</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#switching-the-mechanism">Switching the mechanism</a></li>
