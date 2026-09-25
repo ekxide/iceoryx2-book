@@ -22,12 +22,17 @@ With this approach, every message type can be propagated and the gateway
 performs no payload processing at all. The trade-off is that applications
 take on the (de)serialization responsibility and the overhead.
 
+Independent of the message type, keeping the (de)serialization in the
+application can also be desirable, for example when it must be certified as
+part of the application, or isolated from the processes communicating over the
+network.
+
 ## Topology
 
 To demonstrate the approach, let's build a minimal pipeline that carries a
-message containing a dynamic field through both domains. A relay application in
-`iceoryx2` that subscribes to the `/chatter` topic, uppercases the received
-text, and republishes it on `/chatter_upper`.
+message containing a dynamic field through both domains. A shouter application
+in `iceoryx2` that subscribes to the `/chatter` topic, uppercases the received
+text, and publishes it on `/shouter`.
 
 Both topics use
 [`std_msgs/msg/String`](https://github.com/ros2/common_interfaces/blob/rolling/std_msgs/msg/String.msg),
@@ -54,7 +59,7 @@ flowchart LR
     gw1["Gateway"]:::gateway
 
     subgraph iox2["iceoryx2"]
-        rly["Chatter Relay"]
+        sht["Shouter"]
     end
 
     gw2["Gateway"]:::gateway
@@ -64,14 +69,10 @@ flowchart LR
     end
 
     pub -- "/chatter<br/>DDS" --> gw1
-    gw1 -- "CDR bytes<br/>SHM" --> rly
-    rly -- "CDR bytes<br/>SHM" --> gw2
-    gw2 -- "/chatter_upper<br/>DDS" --> echo
+    gw1 -- "CDR bytes<br/>SHM" --> sht
+    sht -- "CDR bytes<br/>SHM" --> gw2
+    gw2 -- "/shouter<br/>DDS" --> echo
 ```
-
-The message crosses the boundary twice with the gateway storing the CDR
-bytes directly in shared memory. In this case, the `iceoryx2` application
-must take on the responsibility of (de)serialization.
 
 To keep things simple, the `ros2cli` is used to mock both ends, with
 `ros2 topic pub` feeding text and `ros2 topic echo` displaying the
@@ -79,81 +80,51 @@ uppercased result.
 
 ## Setting Up
 
-Let's build on the `colcon` workspace set up in
+Let's build on the setup from
 [Plain Struct as Payload](/tutorials/gateway-to-ros-2/plain-struct-as-payload.md).
-The `String` message is part of `std_msgs`, which was already generated
-there, so no additional message generation is needed. If starting fresh here,
-follow the package setup and message generation steps in the previous article.
+The `String` message is part of `std_msgs`, which was already generated in
+the message workspace there, so no additional message generation is needed.
+If starting fresh here, follow the message generation steps in the previous
+article.
 
-We create a new package for our string relay, set up in the same way as
-described in the previous article:
+We create a new `cargo` project for our shouter, next to the limiter:
 
 ```console
-mkdir -p src/chatter_relay/src
+cd ~/iceoryx2_ros2
+cargo new shouter
+cd shouter
 ```
 
-```{code-block} xml
-:caption: src/chatter_relay/package.xml
-
-<?xml version="1.0"?>
-<package format="3">
-    <name>chatter_relay</name>
-    <version>0.1.0</version>
-    <description>Chatter messages uppercased in iceoryx2</description>
-    <maintainer email="you@example.com">you</maintainer>
-    <license>Apache 2.0</license>
-
-    <depend>std_msgs</depend>
-
-    <export>
-        <build_type>ament_cargo</build_type>
-    </export>
-</package>
-```
-
-```{code-block} rust
-:caption: src/chatter_relay/build.rs
-
-fn main() {
-    let prefix_path = std::env::var("AMENT_PREFIX_PATH")
-        .expect("AMENT_PREFIX_PATH not set - source the ROS 2 workspace before building");
-    for prefix in prefix_path.split(':') {
-        let lib = format!("{prefix}/lib");
-        println!("cargo:rustc-link-search=native={lib}");
-        println!("cargo:rustc-link-arg=-Wl,-rpath,{lib}");
-    }
-}
-```
-
-There are two notable differences in the `Cargo.toml`.
-The `cdr` crate is added as an additional dependency, and the `serde` feature
-is enabled on the message crate to make the generated types (de)serializable:
+There are two notable differences in the `Cargo.toml` compared to the previous
+article. The `cdr` crate is added as an additional dependency, and the `serde`
+feature is enabled on `ros-env` to make the generated types (de)serializable:
 
 ```{code-block} toml
-:caption: src/chatter_relay/Cargo.toml
-
-[workspace]
+:caption: shouter/Cargo.toml
 
 [package]
-name = "chatter_relay"
+name = "shouter"
 edition = "2024"
 publish = false
 
 [dependencies]
 cdr = { version = "0.2" }
 iceoryx2 = { version = "X.Y.Z" } # select the desired `iceoryx2` version
-rosidl_runtime_rs = { version = "0.6" }
-std_msgs = { version = "*", features = ["serde"] }
+ros-env = { version = "0.2", features = ["serde"] }
+rosidl_runtime_rs = { version = "0.7" }
 ```
 
-## The Chatter Relay
+## The Shouter
 
-For this approach, the payload type is opaque CDR-serialized bytes. However,
-the type name also needs to be set so the bytes can be properly associated
-with the type:
+For this approach, the payload is a slice of opaque CDR-serialized bytes.
+However, the gateway still needs to know which ROS 2 message the bytes hold,
+which it reads from the type name of the payload. A plain `u8` always reports
+its own type name, so the bytes are wrapped in a new type that keeps the layout
+of a `u8` through `#[repr(transparent)]` and reports the name of the ROS 2
+message instead:
 
 ```{code-block} rust
-:caption: src/chatter_relay/src/main.rs
+:caption: shouter/src/main.rs
 
 use iceoryx2::prelude::*;
 use rosidl_runtime_rs::{Message, RmwMessage};
@@ -164,7 +135,7 @@ pub struct StringByte(pub u8);
 
 unsafe impl ZeroCopySend for StringByte {
     unsafe fn type_name() -> &'static str {
-        <<std_msgs::msg::String as Message>::RmwMsg as RmwMessage>::TYPE_NAME
+        <<ros_env::std_msgs::msg::String as Message>::RmwMsg as RmwMessage>::TYPE_NAME
     }
 }
 ```
@@ -176,7 +147,7 @@ initial size guess and an allocation strategy to grow the shared memory when
 required:
 
 ```{code-block} rust
-:caption: src/chatter_relay/src/main.rs
+:caption: shouter/src/main.rs
 
 use core::time::Duration;
 
@@ -197,11 +168,11 @@ fn main() -> Result<(), Box<dyn core::error::Error>> {
         .open_or_create()?;
     let subscriber = chatter.subscriber_builder().create()?;
 
-    let chatter_upper = node
-        .service_builder(&"ChatterUpper".try_into()?)
+    let shouter = node
+        .service_builder(&"Shouter".try_into()?)
         .publish_subscribe::<[StringByte]>()
         .open_or_create()?;
-    let publisher = chatter_upper
+    let publisher = shouter
         .publisher_builder()
         .initial_max_slice_len(INITIAL_MAX_PAYLOAD_SIZE)
         .allocation_strategy(AllocationStrategy::PowerOfTwo)
@@ -213,7 +184,7 @@ fn main() -> Result<(), Box<dyn core::error::Error>> {
                 sample.payload().iter().map(|byte| byte.0).collect();
 
             // The application must deserialize the CDR bytes itself
-            let mut message: std_msgs::msg::String = cdr::deserialize(&bytes)?;
+            let mut message: ros_env::std_msgs::msg::String = cdr::deserialize(&bytes)?;
             message.data = message.data.to_uppercase();
 
             // And then serialize the outgoing data back to CDR
@@ -224,7 +195,7 @@ fn main() -> Result<(), Box<dyn core::error::Error>> {
             upper_sample.send()?;
 
             coutln!(
-                "relayed \"{}\" ({} bytes)",
+                "shouted \"{}\" ({} bytes)",
                 message.data,
                 payload.len()
             );
@@ -253,7 +224,7 @@ To associate the topics in ROS 2 with the services in `iceoryx2`, we will
 use static mapping, which can be defined with a configuration file:
 
 ```{code-block} toml
-:caption: mapping.toml
+:caption: shouter/mapping.toml
 
 [[mapping]]
 iceoryx2.service_name = "Chatter"
@@ -262,9 +233,9 @@ ros2.topic = "/chatter"
 ros2.type = "std_msgs/msg/String"
 
 [[mapping]]
-iceoryx2.service_name = "ChatterUpper"
+iceoryx2.service_name = "Shouter"
 iceoryx2.payload_type = "std_msgs/msg/String"
-ros2.topic = "/chatter_upper"
+ros2.topic = "/shouter"
 ros2.type = "std_msgs/msg/String"
 ```
 
@@ -277,7 +248,7 @@ For payloads crossing as serialized bytes, the `Passthrough` translator is
 the correct choice. It is the default, so specifying it explicitly is
 optional.
 
-With the mapping file in the workspace root, the gateway is launched with:
+From the `shouter` directory, the gateway is launched with:
 
 ```console
 iox2 link gateway ros2 --static-mapping mapping.toml --translator Passthrough
@@ -286,55 +257,50 @@ iox2 link gateway ros2 --static-mapping mapping.toml --translator Passthrough
 ## Running
 
 Now with all pieces implemented and configured, we can run the complete
-pipeline. Each application will run in a separate terminal and requires
-the install space to be sourced.
+pipeline. Each application will run in a separate terminal and requires the
+install space of the message workspace to be sourced.
 
-First, build the package so that the relay is installed in the install
-space:
-
-```console
-colcon build --packages-select chatter_relay
-```
-
-Then launch the relay:
+First, launch the shouter:
 
 ```console
-source install/setup.bash
-ros2 run chatter_relay chatter_relay
+source ~/iceoryx2_ros2/messages/install/setup.bash
+cd ~/iceoryx2_ros2/shouter
+cargo run
 ```
 
 Next, launch the gateway with the configuration from the previous section:
 
 ```console
-source install/setup.bash
+source ~/iceoryx2_ros2/messages/install/setup.bash
+cd ~/iceoryx2_ros2/shouter
 iox2 link gateway ros2 --static-mapping mapping.toml --translator Passthrough
 ```
 
 Finally, publish text at 1 Hz and observe the output:
 
 ```console
-source install/setup.bash
+source ~/iceoryx2_ros2/messages/install/setup.bash
 ros2 topic pub -r 1 /chatter std_msgs/msg/String "{data: hello}"
 ```
 
 ```console
-source install/setup.bash
-ros2 topic echo /chatter_upper
+source ~/iceoryx2_ros2/messages/install/setup.bash
+ros2 topic echo /shouter
 ```
 
 Every published message is forwarded by the gateway into shared memory as
-CDR bytes, where the relay application deserializes, transforms and serializes
+CDR bytes, where the shouter deserializes, transforms and serializes
 it. On the way out, the gateway forwards the bytes into ROS 2 unmodified:
 
 ```console
-$ ros2 run chatter_relay chatter_relay
-relayed "HELLO" (14 bytes)
-relayed "HELLO" (14 bytes)
-relayed "HELLO" (14 bytes)
+$ cargo run
+shouted "HELLO" (14 bytes)
+shouted "HELLO" (14 bytes)
+shouted "HELLO" (14 bytes)
 ```
 
 ```console
-$ ros2 topic echo /chatter_upper
+$ ros2 topic echo /shouter
 data: HELLO
 ---
 data: HELLO
@@ -349,9 +315,9 @@ translation entirely. In exchange, payloads are opaque while in transit and
 every application (de)serializes them itself.
 
 The application-side (de)serialization can also be a benefit for safety.
-When the (de)serialization code itself must be certified, each application
-owns and certifies its own, while the gateway never touches payload
-contents and stays out of the certified path.
+When the (de)serialization code itself must be certified, it is certified as
+part of each application, while the gateway never touches payload contents and
+stays out of the certified path.
 
 For self-contained message definitions,
 [Plain Struct as Payload](/tutorials/gateway-to-ros-2/plain-struct-as-payload)
