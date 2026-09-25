@@ -37,7 +37,7 @@ This builds every crate in the integrations workspace, the ROS 2 gateway
 among them. To verify the build was successful, try running the gateway CLI:
 
 ```console
-cargo run --manifest-path integrations/ros2/Cargo.toml --bin iox2-gateway-ros2 -- --help
+cargo run --manifest-path integrations/ros2/Cargo.toml --bin iox2-link-gateway-ros2 -- --help
 ```
 
 ## Building the examples

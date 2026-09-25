@@ -413,7 +413,7 @@ For self-contained plain structs, the `PlainStruct` translator provides the
 With the mapping file in the workspace root, the gateway is launched with:
 
 ```console
-iox2 gateway ros2 --static-mapping mapping.toml --translator PlainStruct
+iox2 link gateway ros2 --static-mapping mapping.toml --translator PlainStruct
 ```
 
 ## Running
@@ -440,7 +440,7 @@ Next, launch the gateway with the configuration from the previous section:
 
 ```console
 source install/setup.bash
-iox2 gateway ros2 --static-mapping mapping.toml --translator PlainStruct
+iox2 link gateway ros2 --static-mapping mapping.toml --translator PlainStruct
 ```
 
 Finally, publish velocity commands at 1 Hz that exceed the configured

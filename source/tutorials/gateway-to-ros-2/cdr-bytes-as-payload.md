@@ -288,7 +288,7 @@ optional.
 With the mapping file in the workspace root, the gateway is launched with:
 
 ```console
-iox2 gateway ros2 --static-mapping mapping.toml --translator Passthrough
+iox2 link gateway ros2 --static-mapping mapping.toml --translator Passthrough
 ```
 
 ## Running
@@ -315,7 +315,7 @@ Next, launch the gateway with the configuration from the previous section:
 
 ```console
 source install/setup.bash
-iox2 gateway ros2 --static-mapping mapping.toml --translator Passthrough
+iox2 link gateway ros2 --static-mapping mapping.toml --translator Passthrough
 ```
 
 Finally, publish text at 1 Hz and observe the output:

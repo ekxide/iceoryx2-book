@@ -57,7 +57,7 @@ The topics can be filtered by explicitly specifying allowed topics. When this
 `--allow` is used, only those specified topics will be bridged:
 
 ```console
-iox2 gateway ros2 --allow "/cmd_vel" --allow "/sensors/*"
+iox2 link gateway ros2 --allow "/cmd_vel" --allow "/sensors/*"
 ```
 
 The gateway will attempt to dynamically load typesupport for discovered topics,
@@ -87,7 +87,7 @@ ros2.type = "std_msgs/msg/String"
 The mapping file is passed on launch:
 
 ```console
-iox2 gateway ros2 --static-mapping mapping.toml
+iox2 link gateway ros2 --static-mapping mapping.toml
 ```
 
 This approach is recommended once the shape of a system is understood.
@@ -106,7 +106,7 @@ CDR bytes that ROS 2 expects. Only self-contained types that can be stored
 directly in shared memory are supported. It is selected on launch:
 
 ```console
-iox2 gateway ros2 --translator PlainStruct
+iox2 link gateway ros2 --translator PlainStruct
 ```
 
 ## Application Configuration
@@ -184,17 +184,17 @@ By default, the gateway polls every 100 milliseconds. A different polling
 rate (in milliseconds) can be set with `--poll`:
 
 ```console
-iox2 gateway ros2 --poll 10
+iox2 link gateway ros2 --poll 10
 ```
 
-The gateway can also wake reactively. With `--reactive-backend` it wakes
+The gateway can also wake reactively. With `--reactive` it wakes
 whenever new data arrives on the ROS 2 side. With `--listener`, which is
 repeatable, it wakes whenever the named `iceoryx2` event service fires. When
 either is given, polling becomes opt-in and is only enabled when `--poll` is
 set explicitly:
 
 ```console
-iox2 gateway ros2 --reactive-backend --listener "SensorData"
+iox2 link gateway ros2 --reactive --listener "SensorData"
 ```
 
 When embedding the gateway, the same behaviour is configured on the gateway
