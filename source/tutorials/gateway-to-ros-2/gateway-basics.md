@@ -13,7 +13,9 @@ The gateway component sits at the boundary of `iceoryx2` and another
 communication mechanism, in this case ROS 2, and propagates payloads
 across it. Inbound data gets written into shared memory, after which it is
 shared zero-copy between `iceoryx2` nodes. Likewise, outbound data
-is provided by nodes to the gateway without copies.
+is provided by nodes to the gateway without copies. Currently, only
+publish-subscribe services are propagated. Support for the other messaging
+patterns is planned.
 
 The gateway can be either [embedded into your own process](
 https://github.com/eclipse-iceoryx/iceoryx2/tree/main/integrations/ros2/link-adapter#usage
@@ -30,7 +32,7 @@ any generated message libraries. See [Build the ROS 2 Gateway](
 gateway.
 
 ```{important}
-A sources ROS 2 workspace is also required to run the gateway as it is
+A sourced ROS 2 workspace is also required to run the gateway as it is
 required to load typesupport libraries.
 ```
 
@@ -53,16 +55,21 @@ ros2://topics/{NAMESPACE}/{TOPIC}  <->  /{NAMESPACE}/{TOPIC}
      (iceoryx2 service name)             (ROS 2 topic name)
 ```
 
-The topics can be filtered by explicitly specifying allowed topics. When this
-`--allow` is used, only those specified topics will be propagated:
+The gateway requires the typesupport of a topic's message type to propagate
+it, which may not be available for every topic in the system. With `--allow`,
+which is repeatable and accepts wildcards, the prefix mapping is restricted to
+the given topics, so that only topics that can be propagated are covered.
+
+The gateway attempts to dynamically load the typesupport of each discovered
+topic, skipping those it is unable to load. With `--preload-type`, which is
+repeatable, the typesupport of a type can instead be loaded at startup:
 
 ```console
-iox2 link gateway ros2 --allow "/cmd_vel" --allow "/sensors/*"
+iox2 link gateway ros2 --allow "/cmd_vel" --allow "/sensors/*" --preload-type "geometry_msgs/msg/Twist"
 ```
 
-The gateway will attempt to dynamically load typesupport for discovered topics,
-skipping those it is unable to load. This approach is only recommended as a
-starting point when first configuring the system.
+This approach is only recommended as a starting point when first configuring
+the system.
 
 `StaticMapping` declares pairings explicitly in a TOML file. Only the specified
 pairings are propagated and their types are resolved immediately at startup,
@@ -100,20 +107,31 @@ ROS 2 message of the paired topic. It is left to the applications to
 (de)serialize the bytes.
 
 `PlainStruct` (de)serializes payloads at the boundary using the ROS 2
-typesupport libraries. The `iceoryx2` applications work directly with the
-plain struct in shared memory, while the gateway converts to and from the
-CDR bytes that ROS 2 expects. Only self-contained types that can be stored
-directly in shared memory are supported. It is selected on launch:
+typesupport libraries. The `iceoryx2` applications work directly with a plain
+struct in shared memory, while the gateway converts to and from the CDR bytes
+that ROS 2 expects.
 
 ```console
 iox2 link gateway ros2 --translator PlainStruct
 ```
+
+The payload must be the C struct that `rosidl` generates for the message type.
+In Rust, this is the `rmw` variant of the generated message, e.g.
+`geometry_msgs::msg::rmw::Twist`. Only self-contained types that can be stored
+directly in shared memory are supported.
 
 ## Application Configuration
 
 Applications require minimal changes to integrate with the ROS 2 gateway.
 The gateway automatically connects to services mapped by the selected mapping
 and propagates payloads without any involvement of the applications.
+
+```{important}
+A propagated service cannot use a user header of its own. It must either have
+no user header or the `RosHeader` described in [Message Info](#message-info).
+Services with any other user header, such as in an existing system, cannot be
+propagated, and the gateway reports an error for each of them.
+```
 
 There is only one thing that applications interfacing with the ROS 2 gateway
 must do: the payload type name of a propagated service must be the ROS 2 type
@@ -188,8 +206,6 @@ message info, which subscribers may use to identify the remote writer or
 detect message loss. Publishing applications can leave it at its default as
 ROS 2 populates it automatically.
 
-A service with any other user header is not propagated.
-
 ## Running
 
 The gateway discovers matching services and topics and propagates pending
@@ -202,8 +218,8 @@ rate (in milliseconds) can be set with `--poll`:
 iox2 link gateway ros2 --poll 10
 ```
 
-The gateway can also wake reactively. With `--reactive` it wakes
-whenever data arrives or endpoints change on the ROS 2 side. With `--listener`, which is
+The gateway can also wake reactively. With `--reactive` it wakes whenever data
+arrives or endpoints change on the ROS 2 side. With `--listener`, which is
 repeatable, it wakes whenever the named `iceoryx2` event service fires. When
 either is given, polling becomes opt-in and is only enabled when `--poll` is
 set explicitly:
