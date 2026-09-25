@@ -13,5 +13,5 @@ models needed to effectively build systems using ``iceoryx2``.
    messaging-patterns/index
    execution-control
    cross-language-support
-   gateways-and-tunnels
+   links
 

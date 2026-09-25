@@ -67,7 +67,7 @@ with `iceoryx2`.
 ```
 
 ```{grid-item-card} Understand Gateways and Tunnels
-:link: /fundamentals/gateways-and-tunnels
+:link: /fundamentals/links
 :link-type: doc
 :shadow: none
 

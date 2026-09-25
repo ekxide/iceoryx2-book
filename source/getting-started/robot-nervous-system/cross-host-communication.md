@@ -22,7 +22,7 @@ much **battery** he has left. Some kind of dashboard hosted on another
 device on the same network.
 
 The required data is already flowing through `iceoryx2`'s shared memory. A
-[gateway](/fundamentals/gateways-and-tunnels) can hook into that flow and
+[gateway](/fundamentals/links) can hook into that flow and
 propagate it to other hosts. To get the data to the dashboard, we will use a
 gateway that forwards the raw shared memory payloads over the network.
 
@@ -345,7 +345,7 @@ https://docs.rs/iceoryx2-gateway-backend/latest/iceoryx2_gateway_backend/).
 :gutter: 2
 
 ```{grid-item-card} Gateways and Tunnels
-:link: /fundamentals/gateways-and-tunnels
+:link: /fundamentals/links
 :link-type: doc
 :shadow: none
 

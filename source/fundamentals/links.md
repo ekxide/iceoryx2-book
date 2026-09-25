@@ -1,12 +1,12 @@
-# Gateways and Tunnels
+# Links
 
 Gateways and Tunnels extend the communication of `iceoryx2` across host
 boundaries by leveraging popular network communication middlewares and
 libraries. They can be run in separate processes, thereby isolating network
 communication from safety-critical code.
 
-```{inline-svg} /images/gateways-and-tunnels.svg
-:name: fig-gateways-and-tunnels
+```{inline-svg} /images/links.svg
+:name: fig-links
 :alt: gateways and tunnels
 
 Host-to-host Communication
@@ -31,28 +31,28 @@ across distributed systems.
 ````{grid} 1 1 2 3
 :gutter: 2
 
-```{grid-item-card} Understand the Communication Model
-:link: /fundamentals/communication-model
-:link-type: doc
-:shadow: none
-
-Get familiar with the components involved with establishing communication.
-```
-
-```{grid-item-card} Understand Shared Memory
-:link: /fundamentals/shared-memory
-:link-type: doc
-:shadow: none
-
-Build an intuition for what shared memory communication entails.
-```
-
-```{grid-item-card} Explore the Gateway Implementation
-:link: https://github.com/eclipse-iceoryx/iceoryx2/tree/main/iceoryx2-gateway
+```{grid-item-card} Explore the Link Implementation
+:link: https://github.com/eclipse-iceoryx/iceoryx2/tree/main/iceoryx2-link
 :link-type: url
 :shadow: none
 
-Analyse the gateway implementation and the available communication mechanisms.
+Browse the link, its backends and their contracts.
+```
+
+```{grid-item-card} Explore the Zenoh Tunnel
+:link: https://github.com/eclipse-iceoryx/iceoryx2/tree/main/integrations/zenoh/link-carrier
+:link-type: url
+:shadow: none
+
+See a carrier tunneling `iceoryx2` over Zenoh.
+```
+
+```{grid-item-card} Explore the ROS 2 Gateway
+:link: https://github.com/eclipse-iceoryx/iceoryx2/tree/main/integrations/ros2/link-adapter
+:link-type: url
+:shadow: none
+
+See an adapter integrating `iceoryx2` with ROS 2.
 ```
 
 ````

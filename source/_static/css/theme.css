@@ -689,21 +689,22 @@ figcaption, .caption-text {
 .ix-diagram svg { width: 100%; height: auto; display: block; }
 .ix-diagram figcaption { margin-top: 0.85rem; color: var(--ix-muted); font-size: 0.9rem; }
 /* wide, dense layered diagram — allow it to use the full content width */
-#fig-grand-vision { max-width: 100%; }
+#fig-grand-vision,
+#fig-links { max-width: 100%; }
 
 /* Dense diagrams: on narrow screens hold a minimum width and scroll
    horizontally rather than shrinking text to an unreadable size. */
 @media (max-width: 720px) {
   #fig-grand-vision .ix-diagram__scroll,
   #fig-execution-control-with-waitset .ix-diagram__scroll,
-  #fig-gateways-and-tunnels .ix-diagram__scroll,
+  #fig-links .ix-diagram__scroll,
   #fig-wiring-a-robot-brain-request-response-sequence .ix-diagram__scroll {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
   #fig-grand-vision svg,
   #fig-execution-control-with-waitset svg { min-width: 680px; }
-  #fig-gateways-and-tunnels svg,
+  #fig-links svg { min-width: 760px; }
   #fig-wiring-a-robot-brain-request-response-sequence svg { min-width: 560px; }
 }
 

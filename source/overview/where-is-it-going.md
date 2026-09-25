@@ -69,7 +69,7 @@ giving up its lean architecture, predictable behavior, and flexibility.
 :gutter: 2
 
 ```{grid-item-card} Fundamentals: Gateways and Tunnels
-:link: /fundamentals/gateways-and-tunnels
+:link: /fundamentals/links
 :link-type: doc
 :shadow: none
 

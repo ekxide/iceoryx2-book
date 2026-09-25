@@ -103,7 +103,7 @@ block for a custom architecture without imposing a framework or ecosystem.
 :gutter: 2
 
 ```{grid-item-card} Fundamentals: Gateways and Tunnels
-:link: /fundamentals/gateways-and-tunnels
+:link: /fundamentals/links
 :link-type: doc
 :shadow: none
 
