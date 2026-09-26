@@ -16,6 +16,7 @@ First clone the `iceoryx2` source:
 
 ```console
 git clone git@github.com:eclipse-iceoryx/iceoryx2.git
+cd iceoryx2
 ```
 
 Then source your ROS 2 workspace before building the ROS 2 gateway:
