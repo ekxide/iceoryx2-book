@@ -30,14 +30,14 @@ fn main() -> Result<(), Box<dyn core::error::Error>> {
     use iceoryx2_integrations_ros2_interop::RosHeader;
 
     let service = node
-        .service_builder(&"CmdVel".try_into()?)
+        .service_builder(&"MyService".try_into()?)
         .publish_subscribe::<Payload>()
         .user_header::<RosHeader>()
         .open_or_create()?;
     // snippet:end ros-header
 
     let wrapped = node
-        .service_builder(&"Float64".try_into()?)
+        .service_builder(&"ServiceWithTypeName".try_into()?)
         .publish_subscribe::<Float64>()
         .open_or_create()?;
 
