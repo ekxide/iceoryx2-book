@@ -17,10 +17,10 @@ Ready-Made Services (`iceoryx2-services`)
   services are created, changed or removed. They run in separate processes or
   are embedded in applications.
 
-Links (`iceoryx2-link`)
-: The link, which extends `iceoryx2` communication beyond its shared memory
-  domain through a backend. The gateway backend connects to other middlewares,
-  and the tunnel backend connects to other `iceoryx2` systems.
+Link (`iceoryx2-link`)
+: Extends `iceoryx2` communication beyond its shared memory domain through a
+  backend. The gateway backend connects to other middlewares, and the tunnel
+  backend connects to other `iceoryx2` systems.
 
 User Toolkit (`iceoryx2-userland`)
 : Tools for developing, testing and debugging `iceoryx2` applications, such as
