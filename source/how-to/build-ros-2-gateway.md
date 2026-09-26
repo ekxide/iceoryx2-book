@@ -28,18 +28,35 @@ source /opt/ros/<distro>/setup.bash   # e.g. jazzy, humble, etc.
 cargo build --manifest-path integrations/ros2/Cargo.toml --bin iox2-link-gateway-ros2
 ```
 
+This builds the ROS 2 gateway CLI along with the crates it consists of.
+
+## Installing the gateway
+
+To launch the gateway with `iox2 link gateway ros2`, install the `iox2` CLI and
+the gateway from the same checkout, in the same sourced shell:
+
+```console
+cargo install --path iceoryx2-cli
+cargo install --path integrations/ros2/link-gateway-cli
+```
+
+```{important}
+The installed gateway only works with the ROS 2 workspace that was sourced
+when building it. Reinstall the gateway after switching to a different
+distribution or workspace.
+```
+
+Then verify that the CLI discovers the gateway:
+
+```console
+iox2 link gateway --list
+```
+
 ```{important}
 At runtime, the gateway loads the typesupport libraries of every message type
 it propagates. The distribution provides them for its own message packages.
 For custom message packages, source the workspace they are built in before
 running the gateway.
-```
-
-This builds the ROS 2 gateway CLI along with the crates it consists of. To
-verify the build was successful, try running the gateway CLI:
-
-```console
-cargo run --manifest-path integrations/ros2/Cargo.toml --bin iox2-link-gateway-ros2 -- --help
 ```
 
 ## Further Reading
