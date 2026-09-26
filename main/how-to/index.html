@@ -7,12 +7,12 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://ekxide.github.io/iceoryx2-book/how-to/index.html" />
 <meta property="og:site_name" content="The iceoryx2 Book" />
-<meta property="og:description" content="These articles provide practical guidance for accomplishing specific tasks and solving common problems with iceoryx2. Build for no_std targets, Configure the logging backend, Customize the platform..." />
+<meta property="og:description" content="These articles provide practical guidance for accomplishing specific tasks and solving common problems with iceoryx2. Build for no_std targets, Build the ROS 2 gateway, Configure the logging backen..." />
 <meta property="og:image" content="https://ekxide.github.io/iceoryx2-book/main/_static/og-card.png" />
 <meta property="og:image:alt" content="The iceoryx2 Book" />
-<meta name="description" content="These articles provide practical guidance for accomplishing specific tasks and solving common problems with iceoryx2. Build for no_std targets, Configure the logging backend, Customize the platform..." />
+<meta name="description" content="These articles provide practical guidance for accomplishing specific tasks and solving common problems with iceoryx2. Build for no_std targets, Build the ROS 2 gateway, Configure the logging backen..." />
 <meta name="twitter:card" content="summary_large_image">
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Build for no_std targets" href="build-for-nostd-targets.html" /><link rel="prev" title="Execution Control Patterns" href="../tutorials/execution-control-patterns.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Build for no_std targets" href="build-for-nostd-targets.html" /><link rel="prev" title="FlatBuffer as Payload" href="../tutorials/gateway-to-ros-2/flatbuffer-as-payload.html" />
         <link rel="canonical" href="https://ekxide.github.io/iceoryx2-book/how-to/index.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.svg"/><!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
@@ -21,7 +21,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=5b725491" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=5935eb8b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/version-picker.css?v=2a4710d1" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=d05edee4" />
     
@@ -455,12 +455,20 @@
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Tutorials</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/execution-control-patterns.html">Execution Control Patterns</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../tutorials/gateway-to-ros-2/index.html">Gateway to ROS 2</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of Gateway to ROS 2</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/gateway-to-ros-2/gateway-basics.html">Gateway Basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/gateway-to-ros-2/plain-struct-as-payload.html">Plain Struct as Payload</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/gateway-to-ros-2/cdr-bytes-as-payload.html">CDR Bytes as Payload</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/gateway-to-ros-2/flatbuffer-as-payload.html">FlatBuffer as Payload</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">How To</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of How To</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">How To</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of How To</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="build-for-nostd-targets.html">Build for <code class="docutils literal notranslate"><span class="pre">no_std</span></code> targets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-ros-2-gateway.html">Build the ROS 2 gateway</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configure-the-logging-backend.html">Configure the logging backend</a></li>
 <li class="toctree-l2"><a class="reference internal" href="customize-the-platform-abstraction.html">Customize the platform abstraction</a></li>
 </ul>
@@ -517,6 +525,7 @@ and solving common problems with <code class="docutils literal notranslate"><spa
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="build-for-nostd-targets.html">Build for <code class="docutils literal notranslate"><span class="pre">no_std</span></code> targets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-ros-2-gateway.html">Build the ROS 2 gateway</a></li>
 <li class="toctree-l1"><a class="reference internal" href="configure-the-logging-backend.html">Configure the logging backend</a></li>
 <li class="toctree-l1"><a class="reference internal" href="customize-the-platform-abstraction.html">Customize the platform abstraction</a></li>
 </ul>
@@ -535,12 +544,12 @@ and solving common problems with <code class="docutils literal notranslate"><spa
       </div>
       <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
     </a>
-  <a class="prev-page" href="../tutorials/execution-control-patterns.html">
+  <a class="prev-page" href="../tutorials/gateway-to-ros-2/flatbuffer-as-payload.html">
       <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
       <div class="page-info">
         <div class="context"><span>Previous</span></div>
         
-        <div class="title">Execution Control Patterns</div>
+        <div class="title">FlatBuffer as Payload</div>
         
       </div>
     </a>

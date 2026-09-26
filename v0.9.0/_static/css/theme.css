@@ -78,6 +78,7 @@ h1 {
 }
 h2 { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); margin-top: 2.6rem; }
 h3 { font-size: 1.3rem; margin-top: 1.8rem; }
+h4 { font-size: 1.1rem; margin-top: 1.4rem; }
 
 /* Headerlink anchors appear on hover */
 a.headerlink {
@@ -669,6 +670,80 @@ figcaption, .caption-text {
 }
 
 .mermaid { display: flex; justify-content: center; }
+.mermaid svg { max-width: 100%; height: auto; }
+
+/* a diagram between paragraphs needs room either side */
+.mermaid,
+figure:has(> .mermaid) { margin-block: 2.75rem; }
+figure:has(> .mermaid) > .mermaid { margin-block: 0 0.85rem; }
+
+/* Participants */
+.mermaid .node rect,
+.mermaid .node polygon {
+  fill: var(--ix-surface) !important;
+  stroke: var(--ix-box-line) !important;
+  stroke-width: 1.5px !important;
+  rx: 6px; ry: 6px;
+}
+.mermaid .nodeLabel,
+.mermaid .nodeLabel p {
+  color: var(--ix-text) !important;
+  font-family: var(--font-stack) !important;
+  font-weight: 600;
+}
+
+/* Non-iceoryx2 participants styled like .gt-app */
+.mermaid .node.external rect {
+  fill: var(--ix-surface-2) !important;
+  stroke: var(--ix-line) !important;
+}
+.mermaid .node.external .nodeLabel p {
+  color: var(--ix-muted) !important;
+  font-family: var(--font-stack--monospace) !important;
+  font-weight: 400;
+}
+
+/* Links styled like .gt-comp */
+.mermaid .node.gateway rect {
+  fill: color-mix(in srgb, var(--ix-blue) 14%, transparent) !important;
+  stroke: var(--ix-blue) !important;
+}
+.mermaid .node.gateway .nodeLabel p { color: var(--ix-blue) !important; }
+
+/* Boundaries */
+.mermaid .cluster rect {
+  fill: none !important;
+  stroke: var(--ix-muted-2) !important;
+  stroke-width: 1px !important;
+  stroke-dasharray: 5 3 !important;
+  rx: 12px; ry: 12px;
+}
+.mermaid .cluster-label .nodeLabel p {
+  color: var(--ix-text) !important;
+  font-weight: 600;
+}
+
+/* Flows */
+.mermaid .flowchart-link,
+.mermaid .edgePath .path {
+  stroke: var(--ix-muted) !important;
+  stroke-width: 1.5px !important;
+}
+.mermaid .marker,
+.mermaid marker path {
+  fill: var(--ix-muted) !important;
+  stroke: var(--ix-muted) !important;
+}
+/* Edge labels sit on the page background */
+.mermaid .edgeLabel,
+.mermaid .edgeLabel rect,
+.mermaid .edgeLabel p,
+.mermaid .labelBkg {
+  background-color: var(--ix-bg) !important;
+  fill: var(--ix-bg) !important;
+  opacity: 1 !important;
+}
+.mermaid .edgeLabel p { color: var(--ix-muted) !important; }
 
 /* Inline SVGs read --ix-* vars and theme with the page */
 .ix-diagram { margin: 1.8rem auto; max-width: 640px; text-align: center; }

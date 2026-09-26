@@ -12,7 +12,7 @@
 <meta property="og:image:alt" content="The iceoryx2 Book" />
 <meta name="description" content="A pattern often seen in middleware solutions is to couple data flow with control flow. Threads are put to sleep when no data is available to process, and wake-up signals are emitted automatically w..." />
 <meta name="twitter:card" content="summary_large_image">
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="How To" href="../how-to/index.html" /><link rel="prev" title="Tutorials" href="index.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Gateway to ROS 2" href="gateway-to-ros-2/index.html" /><link rel="prev" title="Tutorials" href="index.html" />
         <link rel="canonical" href="https://ekxide.github.io/iceoryx2-book/tutorials/execution-control-patterns.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.svg"/><!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
@@ -21,7 +21,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=5b725491" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=5935eb8b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/version-picker.css?v=2a4710d1" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=d05edee4" />
     
@@ -455,12 +455,20 @@
 <ul class="current">
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Tutorials</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Tutorials</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Execution Control Patterns</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="gateway-to-ros-2/index.html">Gateway to ROS 2</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of Gateway to ROS 2</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="gateway-to-ros-2/gateway-basics.html">Gateway Basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gateway-to-ros-2/plain-struct-as-payload.html">Plain Struct as Payload</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gateway-to-ros-2/cdr-bytes-as-payload.html">CDR Bytes as Payload</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gateway-to-ros-2/flatbuffer-as-payload.html">FlatBuffer as Payload</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../how-to/index.html">How To</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of How To</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../how-to/index.html">How To</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of How To</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../how-to/build-for-nostd-targets.html">Build for <code class="docutils literal notranslate"><span class="pre">no_std</span></code> targets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../how-to/build-ros-2-gateway.html">Build the ROS 2 gateway</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../how-to/configure-the-logging-backend.html">Configure the logging backend</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../how-to/customize-the-platform-abstraction.html">Customize the platform abstraction</a></li>
 </ul>
@@ -907,10 +915,10 @@ Code Examples</div>
       <footer>
         
 <div class="related-pages">
-  <a class="next-page" href="../how-to/index.html">
+  <a class="next-page" href="gateway-to-ros-2/index.html">
       <div class="page-info">
         <div class="context"><span>Next</span></div>
-        <div class="title">How To</div>
+        <div class="title">Gateway to ROS 2</div>
       </div>
       <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
     </a>
