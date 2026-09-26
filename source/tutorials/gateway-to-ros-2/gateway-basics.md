@@ -31,8 +31,8 @@ links against the specific `rcl` library being used. See
 build the gateway.
 
 ```{important}
-A sourced ROS 2 workspace is also required to run the gateway as it is
-required to load typesupport libraries.
+Running the gateway also requires a sourced ROS 2 workspace to load
+typesupport libraries from.
 ```
 
 ## Gateway Configuration

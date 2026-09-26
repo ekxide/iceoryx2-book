@@ -240,8 +240,7 @@ Rust types are reachable and the project is set up properly.
 ## The Twist Limiter
 
 With the project skeleton set up, let's implement the limiter. It will
-consist of two source files, a module for the payload type and the application
-itself, which will replace the placeholder in `src/main.rs`:
+consist of a module for the payload type and the application itself:
 
 ```text
 ~/iceoryx2_ros2/twist_limiter/
