@@ -527,7 +527,7 @@ in real ROS 2 workflows. They are recommended only for experimentation in
 development deployments.</p>
 </div>
 <p>Many standard ROS 2 message definitions contain bounded or dynamic fields. As
-discussed in <a class="reference internal" href="plain-struct-as-payload.html"><span class="std std-doc">Plain Struct as Payload</span></a>,
+discussed in <a class="reference internal" href="plain-struct-as-payload.html"><span class="doc std std-doc">Plain Struct as Payload</span></a>,
 the native types
 generated for such definitions utilize the heap and cannot be placed in
 shared memory.</p>
@@ -595,7 +595,7 @@ uppercased result.</p>
 <section id="setting-up">
 <h2>Setting Up<a class="headerlink" href="#setting-up" title="Link to this heading">¶</a></h2>
 <p>Let’s build on the setup from
-<a class="reference internal" href="plain-struct-as-payload.html"><span class="std std-doc">Plain Struct as Payload</span></a>.
+<a class="reference internal" href="plain-struct-as-payload.html"><span class="doc std std-doc">Plain Struct as Payload</span></a>.
 The <code class="docutils literal notranslate"><span class="pre">String</span></code> message is part of <code class="docutils literal notranslate"><span class="pre">std_msgs</span></code>, whose Rust types come from the
 same place as those of <code class="docutils literal notranslate"><span class="pre">geometry_msgs</span></code> there, so no additional message
 generation is needed. On an older installation that does not ship the Rust
@@ -625,14 +625,29 @@ feature is enabled on <code class="docutils literal notranslate"><span class="pr
 <span class="k">[dependencies]</span>
 <span class="n">cdr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;0.2&quot;</span><span class="w"> </span><span class="p">}</span>
 <span class="n">iceoryx2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;X.Y.Z&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="c1"># select the desired `iceoryx2` version</span>
+<span class="c1"># iceoryx2 = { git = &quot;https://github.com/eclipse-iceoryx/iceoryx2&quot;, branch = &quot;main&quot; } # if the gateway is built from `main`</span>
 <span class="n">ros-env</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;0.2&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">features</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;serde&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
 <span class="n">rosidl_runtime_rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;0.7&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="c1"># the version `ros-env` depends on</span>
 </pre></div>
 </div>
 </div>
+<p>As before, the <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> version must match the one the gateway is built
+from.</p>
 </section>
 <section id="the-shouter">
 <h2>The Shouter<a class="headerlink" href="#the-shouter" title="Link to this heading">¶</a></h2>
+<p>Like the limiter, the shouter will consist of a module for the payload type
+and the application itself:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>~/iceoryx2_ros2/shouter/
+├── Cargo.toml
+├── mapping.toml       # gateway configuration, see below
+└── src/
+    ├── main.rs        # the application
+    └── string_byte.rs # the payload type
+</pre></div>
+</div>
+<section id="the-payload">
+<h3>The Payload<a class="headerlink" href="#the-payload" title="Link to this heading">¶</a></h3>
 <p>For this approach, the payload is a slice of opaque CDR-serialized bytes.
 However, the gateway still needs to know which ROS 2 message the bytes hold,
 which it reads from the type name of the payload. A plain <code class="docutils literal notranslate"><span class="pre">u8</span></code> always reports
@@ -641,9 +656,15 @@ of a <code class="docutils literal notranslate"><span class="pre">u8</span></cod
 message instead.</p>
 <p>Since the new type has the layout of a <code class="docutils literal notranslate"><span class="pre">u8</span></code>, a payload can be viewed as bytes
 without copying, both to read the CDR bytes it holds and to write them. The
-<code class="docutils literal notranslate"><span class="pre">unsafe</span></code> views rely on this layout, so assert it at compile time:</p>
+<code class="docutils literal notranslate"><span class="pre">unsafe</span></code> views rely on this layout, so assert it at compile time.</p>
+<p>Create the module for the payload type:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/iceoryx2_ros2/shouter</span>
+<span class="go">touch src/string_byte.rs</span>
+</pre></div>
+</div>
+<p>And add the wrapper to it:</p>
 <div class="literal-block-wrapper docutils container" id="id3">
-<div class="code-block-caption"><span class="caption-text">shouter/src/main.rs</span><a class="headerlink" href="#id3" title="Link to this code">¶</a></div>
+<div class="code-block-caption"><span class="caption-text">shouter/src/string_byte.rs</span><a class="headerlink" href="#id3" title="Link to this code">¶</a></div>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">iceoryx2</span><span class="p">::</span><span class="n">prelude</span><span class="p">::</span><span class="o">*</span><span class="p">;</span>
 <span class="k">use</span><span class="w"> </span><span class="n">rosidl_runtime_rs</span><span class="p">::{</span><span class="n">Message</span><span class="p">,</span><span class="w"> </span><span class="n">RmwMessage</span><span class="p">};</span>
 
@@ -662,16 +683,23 @@ without copying, both to read the CDR bytes it holds and to write them. The
 </pre></div>
 </div>
 </div>
-<p>Now let’s implement the application. The payload type is declared as a slice
-of <code class="docutils literal notranslate"><span class="pre">StringByte</span></code> in both directions. For dynamic message types the size of the
-message is not known at compile time, so the publisher is configured with an
-initial size guess and an allocation strategy to grow the shared memory when
-required:</p>
+</section>
+<section id="the-application">
+<h3>The Application<a class="headerlink" href="#the-application" title="Link to this heading">¶</a></h3>
+<p>Then update the generated <code class="docutils literal notranslate"><span class="pre">src/main.rs</span></code> with the application. The payload
+type is declared as a slice of <code class="docutils literal notranslate"><span class="pre">StringByte</span></code> in both directions. For dynamic
+message types the size of the message is not known at compile time, so the
+publisher is configured with an initial size guess and an allocation strategy
+to grow the shared memory when required:</p>
 <div class="literal-block-wrapper docutils container" id="id4">
 <div class="code-block-caption"><span class="caption-text">shouter/src/main.rs</span><a class="headerlink" href="#id4" title="Link to this code">¶</a></div>
-<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">core</span><span class="p">::</span><span class="n">time</span><span class="p">::</span><span class="n">Duration</span><span class="p">;</span>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">mod</span><span class="w"> </span><span class="nn">string_byte</span><span class="p">;</span>
+
+<span class="k">use</span><span class="w"> </span><span class="n">core</span><span class="p">::</span><span class="n">time</span><span class="p">::</span><span class="n">Duration</span><span class="p">;</span>
 
 <span class="k">use</span><span class="w"> </span><span class="n">cdr</span><span class="p">::{</span><span class="n">CdrLe</span><span class="p">,</span><span class="w"> </span><span class="n">Infinite</span><span class="p">};</span>
+<span class="k">use</span><span class="w"> </span><span class="n">iceoryx2</span><span class="p">::</span><span class="n">prelude</span><span class="p">::</span><span class="o">*</span><span class="p">;</span>
+<span class="k">use</span><span class="w"> </span><span class="n">string_byte</span><span class="p">::</span><span class="n">StringByte</span><span class="p">;</span>
 
 <span class="k">const</span><span class="w"> </span><span class="n">CYCLE_TIME</span><span class="p">:</span><span class="w"> </span><span class="nc">Duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Duration</span><span class="p">::</span><span class="n">from_millis</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
 <span class="k">const</span><span class="w"> </span><span class="n">INITIAL_MAX_PAYLOAD_SIZE</span><span class="p">:</span><span class="w"> </span><span class="kt">usize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">64</span><span class="p">;</span>
@@ -745,10 +773,11 @@ required:</p>
 <p>Each message is deserialized from and serialized into shared memory by the
 application itself, while the gateway only moves bytes.</p>
 </section>
+</section>
 <section id="the-gateway">
 <h2>The Gateway<a class="headerlink" href="#the-gateway" title="Link to this heading">¶</a></h2>
 <p>The final component is the gateway itself, which connects the two topics to
-their <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> counterparts. Refer to <a class="reference internal" href="gateway-basics.html"><span class="std std-doc">Gateway Basics</span></a> for an overview. Here we will
+their <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> counterparts. Refer to <a class="reference internal" href="gateway-basics.html"><span class="doc std std-doc">Gateway Basics</span></a> for an overview. Here we will
 only look at the configuration suitable for this pipeline.</p>
 <section id="mapping">
 <h3>Mapping<a class="headerlink" href="#mapping" title="Link to this heading">¶</a></h3>
@@ -803,15 +832,18 @@ ROS 2 distribution to be sourced.</p>
 <span class="go">iox2 link gateway ros2 --static-mapping mapping.toml --translator Passthrough</span>
 </pre></div>
 </div>
-<p>Finally, publish text at 1 Hz and observe the output:</p>
+<p>Then start observing the output. The type is given explicitly because the
+topic is not yet published. Since shared memory communication guarantees
+delivery, the subscription requests reliable delivery to match:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">source /opt/ros/&lt;distro&gt;/setup.bash</span>
+<span class="gp"># </span><span class="nb">source</span><span class="w"> </span>~/iceoryx2_ros2/messages/install/setup.bash<span class="w">  </span><span class="c1"># on older installations</span>
+<span class="go">ros2 topic echo --qos-reliability reliable /shouter std_msgs/msg/String</span>
+</pre></div>
+</div>
+<p>Finally, publish text at 1 Hz:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">source /opt/ros/&lt;distro&gt;/setup.bash</span>
 <span class="gp"># </span><span class="nb">source</span><span class="w"> </span>~/iceoryx2_ros2/messages/install/setup.bash<span class="w">  </span><span class="c1"># on older installations</span>
 <span class="go">ros2 topic pub -r 1 /chatter std_msgs/msg/String &quot;{data: hello}&quot;</span>
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">source /opt/ros/&lt;distro&gt;/setup.bash</span>
-<span class="gp"># </span><span class="nb">source</span><span class="w"> </span>~/iceoryx2_ros2/messages/install/setup.bash<span class="w">  </span><span class="c1"># on older installations</span>
-<span class="go">ros2 topic echo /shouter</span>
 </pre></div>
 </div>
 <p>Every published message is forwarded by the gateway into shared memory as
@@ -823,7 +855,7 @@ it. On the way out, the gateway forwards the bytes into ROS 2 unmodified:</p>
 <span class="go">shouted &quot;HELLO&quot; (14 bytes)</span>
 </pre></div>
 </div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>/shouter
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>--qos-reliability<span class="w"> </span>reliable<span class="w"> </span>/shouter<span class="w"> </span>std_msgs/msg/String
 <span class="go">data: HELLO</span>
 <span class="go">---</span>
 <span class="go">data: HELLO</span>
@@ -857,7 +889,7 @@ is an alternative.</p>
 <div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-none sd-card-hover docutils">
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
-Build the ROS 2 Gateway</div>
+Build the ROS 2 gateway</div>
 <p class="sd-card-text">Build the gateway against your own ROS 2 workspace.</p>
 </div>
 <a class="sd-stretched-link sd-hide-link-text reference internal" href="../../how-to/build-ros-2-gateway.html"><span class="doc">Build the ROS 2 gateway</span></a></div>
@@ -940,7 +972,11 @@ Links: Tunnels and Gateways</div>
 <li><a class="reference internal" href="#">CDR Bytes as Payload</a><ul>
 <li><a class="reference internal" href="#topology">Topology</a></li>
 <li><a class="reference internal" href="#setting-up">Setting Up</a></li>
-<li><a class="reference internal" href="#the-shouter">The Shouter</a></li>
+<li><a class="reference internal" href="#the-shouter">The Shouter</a><ul>
+<li><a class="reference internal" href="#the-payload">The Payload</a></li>
+<li><a class="reference internal" href="#the-application">The Application</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#the-gateway">The Gateway</a><ul>
 <li><a class="reference internal" href="#mapping">Mapping</a></li>
 <li><a class="reference internal" href="#translator">Translator</a></li>

@@ -534,7 +534,13 @@ the specific ROS 2 workspace you are using.</p>
 <span class="go">cd iceoryx2</span>
 </pre></div>
 </div>
-<p>Then source your ROS 2 workspace before building the ROS 2 gateway:</p>
+<p>The gateway and its applications must be built from the same <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>
+version. Applications depending on the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch need no further step.
+Otherwise, check out the release tag matching their <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> dependency:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git checkout vX.Y.Z</span>
+</pre></div>
+</div>
+<p>Then source your ROS 2 workspace and build the ROS 2 gateway:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">source /opt/ros/&lt;distro&gt;/setup.bash   # e.g. jazzy, humble, etc.</span>
 <span class="gp">                                      # </span>or<span class="w"> </span><span class="nb">source</span><span class="w"> </span>/path/to/install/setup.bash
 
@@ -554,8 +560,8 @@ the gateway from the same checkout, in the same sourced shell:</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>The installed gateway only works with the ROS 2 workspace that was sourced
-when building it. Reinstall the gateway after switching to a different
-distribution or workspace.</p>
+when building it and with applications using the same <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> version.
+Reinstall the gateway after switching either of them.</p>
 </div>
 <p>Then verify that the CLI discovers the gateway:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">iox2 link gateway --list</span>

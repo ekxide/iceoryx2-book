@@ -192,9 +192,14 @@ publish = false
 
 [dependencies]
 iceoryx2 = { version = "X.Y.Z" } # select the desired `iceoryx2` version
+# iceoryx2 = { git = "https://github.com/eclipse-iceoryx/iceoryx2", branch = "main" } # if the gateway is built from `main`
 ros-env = { version = "0.2" }
 rosidl_runtime_rs = { version = "0.7" } # the version `ros-env` depends on
 ```
+
+The `iceoryx2` version must match the one the gateway is built from. If the
+gateway is built from the `main` branch, use the commented-out `git` entry
+instead of a released version.
 
 Now that everything is in place, let's create a basic placeholder binary to
 confirm the build works and that the generated messages are accessible.
@@ -234,31 +239,50 @@ Rust types are reachable and the project is set up properly.
 
 ## The Twist Limiter
 
-With the project skeleton set up, let's implement the limiter.
+With the project skeleton set up, let's implement the limiter. It will
+consist of a module for the payload type and the application itself:
+
+```text
+~/iceoryx2_ros2/twist_limiter/
+├── Cargo.toml
+├── mapping.toml   # gateway configuration, see below
+└── src/
+    ├── main.rs    # the application
+    └── twist.rs   # the payload type
+```
+
+### The Payload
 
 The generated `Twist` type needs some boilerplate for it to be used with
 `iceoryx2`. First we must implement the `ZeroCopySend` trait to indicate that
-the type can be stored in shared memory. The type name it reports must be
-the ROS 2 type name, as described in [Application Configuration](
+the type can be stored in shared memory. The type name it reports must be the
+ROS 2 type name, as described in [Application Configuration](
 /tutorials/gateway-to-ros-2/gateway-basics.md#application-configuration).
-This name is exposed in the generate Rust message crate:
+This name is exposed in the generated Rust message crate.
 
-```{literalinclude} ../../../snippets/gateway-to-ros-2/twist_limiter/src/main.rs
-:language: rust
-:caption: twist_limiter/src/main.rs
-:start-after: snippet:start payload
-:end-before: snippet:end payload
+Create the module for the payload type:
+
+```console
+cd ~/iceoryx2_ros2/twist_limiter
+touch src/twist.rs
 ```
 
-Replacing the placeholder `main`, the application itself is hardly any
+And add the wrapper to it:
+
+```{literalinclude} ../../../snippets/gateway-to-ros-2/twist_limiter/src/twist.rs
+:language: rust
+:caption: twist_limiter/src/twist.rs
+```
+
+### The Application
+
+Then update the placeholder in `src/main.rs` with the application. It is no
 different from a regular publish-subscribe application. The only thing
 ROS-specific is the `Twist` payload type defined above:
 
 ```{literalinclude} ../../../snippets/gateway-to-ros-2/twist_limiter/src/main.rs
 :language: rust
 :caption: twist_limiter/src/main.rs
-:start-after: snippet:start limiter
-:end-before: snippet:end limiter
 ```
 
 The limiting is just a basic clamp on the velocity. This same shape however
@@ -271,7 +295,7 @@ gateway.
 
 The final component is the gateway itself, which connects the two topics to
 their `iceoryx2` counterparts. Refer to [Gateway Basics](
-/tutorials/gateway-to-ros-2/gateway-basics.md) for an overview of the
+/tutorials/gateway-to-ros-2/gateway-basics) for an overview of the
 configuration options. Here we will
 only look at the configuration suitable for this pipeline.
 
@@ -334,19 +358,23 @@ cd ~/iceoryx2_ros2/twist_limiter
 iox2 link gateway ros2 --static-mapping mapping.toml --translator PlainStruct
 ```
 
+Then start observing the limited result. The type is given explicitly
+because the topic is not yet published. Since shared memory communication
+guarantees delivery, the subscription requests reliable delivery to match:
+
+```console
+source /opt/ros/<distro>/setup.bash
+# source ~/iceoryx2_ros2/messages/install/setup.bash  # on older installations
+ros2 topic echo --qos-reliability reliable /cmd_vel_limited geometry_msgs/msg/Twist
+```
+
 Finally, publish velocity commands at 1 Hz that exceed the configured
-maximum, and observe the limited result:
+maximum:
 
 ```console
 source /opt/ros/<distro>/setup.bash
 # source ~/iceoryx2_ros2/messages/install/setup.bash  # on older installations
 ros2 topic pub -r 1 /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 5.0}}"
-```
-
-```console
-source /opt/ros/<distro>/setup.bash
-# source ~/iceoryx2_ros2/messages/install/setup.bash  # on older installations
-ros2 topic echo /cmd_vel_limited
 ```
 
 Every published message is received by the gateway over DDS and deserialized
@@ -362,7 +390,7 @@ limited linear.x from 5 to 1
 ```
 
 ```console
-$ ros2 topic echo /cmd_vel_limited
+$ ros2 topic echo --qos-reliability reliable /cmd_vel_limited geometry_msgs/msg/Twist
 linear:
   x: 1.0
   y: 0.0
@@ -371,6 +399,16 @@ angular:
   x: 0.0
   y: 0.0
   z: 0.0
+---
+linear:
+  x: 1.0
+  y: 0.0
+  z: 0.0
+angular:
+  x: 0.0
+  y: 0.0
+  z: 0.0
+---
 ```
 
 ## Conclusion
@@ -392,7 +430,7 @@ forwards the serialized bytes unmodified.
 ````{grid} 1 1 2 3
 :gutter: 2
 
-```{grid-item-card} Build the ROS 2 Gateway
+```{grid-item-card} Build the ROS 2 gateway
 :link: /how-to/build-ros-2-gateway
 :link-type: doc
 :shadow: none
