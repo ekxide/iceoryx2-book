@@ -460,6 +460,7 @@
 <li class="toctree-l3"><a class="reference internal" href="plain-struct-as-payload.html">Plain Struct as Payload</a></li>
 <li class="toctree-l3 current current-page"><a class="current reference internal" href="#">CDR Bytes as Payload</a></li>
 <li class="toctree-l3"><a class="reference internal" href="flatbuffer-as-payload.html">FlatBuffer as Payload</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event-driven-gateway.html">Event-Driven Gateway</a></li>
 </ul>
 </li>
 </ul>
@@ -837,6 +838,12 @@ ROS 2 distribution to be sourced.</p>
 <span class="go">cd ~/iceoryx2_ros2/shouter</span>
 <span class="go">iox2 link gateway ros2 --static-mapping mapping.toml --translator Passthrough</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For simplicity, the gateway runs in its default polling mode. See the
+<a class="reference internal" href="event-driven-gateway.html"><span class="doc std std-doc">Event-Driven Gateway</span></a>
+tutorial for a pipeline in which neither the gateway nor the applications poll.</p>
 </div>
 <p>Then start observing the output. The type is given explicitly because the
 topic is not yet published. Since shared memory communication guarantees

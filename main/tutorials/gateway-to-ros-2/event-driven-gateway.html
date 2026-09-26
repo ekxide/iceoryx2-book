@@ -3,20 +3,18 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Messaging Patterns" />
+<meta property="og:title" content="Event-Driven Gateway" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://ekxide.github.io/iceoryx2-book/fundamentals/messaging-patterns/index.html" />
+<meta property="og:url" content="https://ekxide.github.io/iceoryx2-book/tutorials/gateway-to-ros-2/event-driven-gateway.html" />
 <meta property="og:site_name" content="The iceoryx2 Book" />
-<meta property="og:description" content="A messaging pattern is the combination of a communication mechanism (such as shared memory or message queues) and a protocol that defines how that mechanism is used in communication between partici..." />
 <meta property="og:image" content="https://ekxide.github.io/iceoryx2-book/main/_static/og-card.png" />
 <meta property="og:image:alt" content="The iceoryx2 Book" />
-<meta name="description" content="A messaging pattern is the combination of a communication mechanism (such as shared memory or message queues) and a protocol that defines how that mechanism is used in communication between partici..." />
 <meta name="twitter:card" content="summary_large_image">
-<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Publish-Subscribe" href="publish-subscribe.html" /><link rel="prev" title="Communication Model" href="../communication-model.html" />
-        <link rel="canonical" href="https://ekxide.github.io/iceoryx2-book/fundamentals/messaging-patterns/index.html" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="How To" href="../../how-to/index.html" /><link rel="prev" title="FlatBuffer as Payload" href="flatbuffer-as-payload.html" />
+        <link rel="canonical" href="https://ekxide.github.io/iceoryx2-book/tutorials/gateway-to-ros-2/event-driven-gateway.html" />
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
-        <title>Messaging Patterns - The iceoryx2 Book</title>
+        <title>Event-Driven Gateway - The iceoryx2 Book</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -434,33 +432,33 @@
 </ul>
 </li>
 </ul>
-<ul class="current">
-<li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">Fundamentals</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Fundamentals</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../layered-architecture.html">Layered Architecture</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../shared-memory.html">Shared Memory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../communication-model.html">Communication Model</a></li>
-<li class="toctree-l2 current has-children current-page"><a class="current reference internal" href="#">Messaging Patterns</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of Messaging Patterns</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="publish-subscribe.html">Publish-Subscribe</a></li>
-<li class="toctree-l3"><a class="reference internal" href="event.html">Event</a></li>
-<li class="toctree-l3"><a class="reference internal" href="request-response.html">Request-Response</a></li>
-<li class="toctree-l3"><a class="reference internal" href="blackboard.html">Blackboard</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../execution-control.html">Execution Control</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cross-language-support.html">Cross-Language Support</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../links.html">Links</a></li>
-</ul>
-</li>
-</ul>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Tutorials</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorials/execution-control-patterns.html">Execution Control Patterns</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../tutorials/gateway-to-ros-2/index.html">Gateway to ROS 2</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of Gateway to ROS 2</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../tutorials/gateway-to-ros-2/gateway-basics.html">Gateway Basics</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../tutorials/gateway-to-ros-2/plain-struct-as-payload.html">Plain Struct as Payload</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../tutorials/gateway-to-ros-2/cdr-bytes-as-payload.html">CDR Bytes as Payload</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../tutorials/gateway-to-ros-2/flatbuffer-as-payload.html">FlatBuffer as Payload</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../tutorials/gateway-to-ros-2/event-driven-gateway.html">Event-Driven Gateway</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../fundamentals/index.html">Fundamentals</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Fundamentals</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../fundamentals/layered-architecture.html">Layered Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../fundamentals/shared-memory.html">Shared Memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../fundamentals/communication-model.html">Communication Model</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../fundamentals/messaging-patterns/index.html">Messaging Patterns</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of Messaging Patterns</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../fundamentals/messaging-patterns/publish-subscribe.html">Publish-Subscribe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fundamentals/messaging-patterns/event.html">Event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fundamentals/messaging-patterns/request-response.html">Request-Response</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fundamentals/messaging-patterns/blackboard.html">Blackboard</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../fundamentals/execution-control.html">Execution Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../fundamentals/cross-language-support.html">Cross-Language Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../fundamentals/links.html">Links</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">Tutorials</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Tutorials</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../execution-control-patterns.html">Execution Control Patterns</a></li>
+<li class="toctree-l2 current has-children"><a class="reference internal" href="index.html">Gateway to ROS 2</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of Gateway to ROS 2</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="gateway-basics.html">Gateway Basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plain-struct-as-payload.html">Plain Struct as Payload</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cdr-bytes-as-payload.html">CDR Bytes as Payload</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flatbuffer-as-payload.html">FlatBuffer as Payload</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">Event-Driven Gateway</a></li>
 </ul>
 </li>
 </ul>
@@ -519,19 +517,11 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="messaging-patterns">
-<h1>Messaging Patterns<a class="headerlink" href="#messaging-patterns" title="Link to this heading">¶</a></h1>
-<p>A messaging pattern is the combination of a communication mechanism (such as
-shared memory or message queues) and a protocol that defines how that
-mechanism is used in communication between participants.</p>
-<p>A number of messaging patterns are implemented:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="publish-subscribe.html">Publish-Subscribe</a></li>
-<li class="toctree-l1"><a class="reference internal" href="event.html">Event</a></li>
-<li class="toctree-l1"><a class="reference internal" href="request-response.html">Request-Response</a></li>
-<li class="toctree-l1"><a class="reference internal" href="blackboard.html">Blackboard</a></li>
-</ul>
+          <section id="event-driven-gateway">
+<h1>Event-Driven Gateway<a class="headerlink" href="#event-driven-gateway" title="Link to this heading">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This article is coming soon.</p>
 </div>
 </section>
 
@@ -540,19 +530,19 @@ mechanism is used in communication between participants.</p>
       <footer>
         
 <div class="related-pages">
-  <a class="next-page" href="publish-subscribe.html">
+  <a class="next-page" href="../../how-to/index.html">
       <div class="page-info">
         <div class="context"><span>Next</span></div>
-        <div class="title">Publish-Subscribe</div>
+        <div class="title">How To</div>
       </div>
       <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
     </a>
-  <a class="prev-page" href="../communication-model.html">
+  <a class="prev-page" href="flatbuffer-as-payload.html">
       <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
       <div class="page-info">
         <div class="context"><span>Previous</span></div>
         
-        <div class="title">Communication Model</div>
+        <div class="title">FlatBuffer as Payload</div>
         
       </div>
     </a>
