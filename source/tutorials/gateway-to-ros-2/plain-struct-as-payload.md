@@ -302,7 +302,16 @@ only look at the configuration suitable for this pipeline.
 ### Mapping
 
 To associate the topics in ROS 2 with the services in `iceoryx2`, we will
-use static mapping, which can be defined with a configuration file:
+use static mapping, which can be defined with a configuration file.
+
+Create the configuration file in the project directory:
+
+```console
+cd ~/iceoryx2_ros2/twist_limiter
+touch mapping.toml
+```
+
+And add the mappings to it:
 
 ```{code-block} toml
 :caption: twist_limiter/mapping.toml
