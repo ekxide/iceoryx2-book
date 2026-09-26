@@ -8,15 +8,20 @@
     .ix-arch-s   { font-family: var(--font-stack, sans-serif); font-size: 11px; fill: var(--ix-text, #eaf3f7); }
   </style>
 
-  <rect class="ix-arch-box" x="40" y="28" width="330" height="60" rx="10"/>
+  <rect class="ix-arch-box" x="40" y="28" width="176" height="60" rx="10"/>
   <rect class="ix-arch-code" x="52" y="39" width="134" height="20" rx="5"/>
   <text class="ix-arch-t" x="58" y="53">iceoryx2-services</text>
-  <text class="ix-arch-s" x="58" y="72">Application services • Discovery • Tunnel</text>
+  <text class="ix-arch-s" x="58" y="72">Ready-made services</text>
 
-  <rect class="ix-arch-box" x="386" y="28" width="214" height="60" rx="10"/>
-  <rect class="ix-arch-code" x="398" y="39" width="134" height="20" rx="5"/>
-  <text class="ix-arch-t" x="404" y="53">iceoryx2-userland</text>
-  <text class="ix-arch-s" x="404" y="72">Toolkit • Record &amp; replay</text>
+  <rect class="ix-arch-box" x="232" y="28" width="176" height="60" rx="10"/>
+  <rect class="ix-arch-code" x="244" y="39" width="106" height="20" rx="5"/>
+  <text class="ix-arch-t" x="250" y="53">iceoryx2-link</text>
+  <text class="ix-arch-s" x="250" y="72">Gateways • Tunnels</text>
+
+  <rect class="ix-arch-box" x="424" y="28" width="176" height="60" rx="10"/>
+  <rect class="ix-arch-code" x="436" y="39" width="134" height="20" rx="5"/>
+  <text class="ix-arch-t" x="442" y="53">iceoryx2-userland</text>
+  <text class="ix-arch-s" x="442" y="72">Toolkit • Record &amp; replay</text>
 
   <rect class="ix-arch-box" x="40" y="102" width="560" height="60" rx="10"/>
   <rect class="ix-arch-code" x="52" y="113" width="70" height="20" rx="5"/>
