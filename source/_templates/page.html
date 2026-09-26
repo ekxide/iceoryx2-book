@@ -1,5 +1,12 @@
 {% extends "!page.html" %}
 
+{# Raster icons next to Furo's SVG favicon, as search engines prefer them. #}
+{% block extrahead %}
+{{ super() }}
+<link rel="icon" type="image/png" sizes="96x96" href="{{ pathto('_static/favicon-96x96.png', 1) }}"/>
+<link rel="apple-touch-icon" href="{{ pathto('_static/apple-touch-icon.png', 1) }}"/>
+{% endblock %}
+
 {# Furo's footer block, minus the maintainer link in the "Made with" credit,
    plus a custom attribution line. Mirrors Furo's markup (minus the unused Read
    the Docs icon fallback) since the block has no finer override points. #}
