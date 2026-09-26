@@ -33,8 +33,10 @@
   <text class="gt-app-t" x="136" y="122" text-anchor="middle">…</text>
   <rect class="gt-mw" x="34" y="154" width="132" height="58" rx="8"/>
   <text class="gt-mw-t" x="100" y="187" text-anchor="middle">Transport</text>
-  <line class="gt-flow" x1="82"  y1="133" x2="82"  y2="151" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="136" y1="133" x2="136" y2="151" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="79" y1="133" x2="79" y2="151" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="85" y1="151" x2="85" y2="133" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="133" y1="133" x2="133" y2="151" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="139" y1="151" x2="139" y2="133" marker-end="url(#gt-arrow)"/>
 
   <!-- iceoryx2 system A -->
   <rect class="gt-host" x="224" y="60" width="298" height="168" rx="12"/>
@@ -51,10 +53,14 @@
   <rect class="gt-comp" x="444" y="165" width="64" height="36" rx="5"/>
   <text class="gt-comp-s" x="476" y="180" text-anchor="middle">Link</text>
   <text class="gt-comp-t" x="476" y="193" text-anchor="middle">Tunnel</text>
-  <line class="gt-flow" x1="355" y1="133" x2="355" y2="151" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="409" y1="133" x2="409" y2="151" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="305" y1="183" x2="317" y2="183" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="441" y1="183" x2="429" y2="183" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="352" y1="133" x2="352" y2="151" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="358" y1="151" x2="358" y2="133" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="406" y1="133" x2="406" y2="151" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="412" y1="151" x2="412" y2="133" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="303" y1="180" x2="319" y2="180" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="319" y1="186" x2="303" y2="186" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="443" y1="180" x2="427" y2="180" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="427" y1="186" x2="443" y2="186" marker-end="url(#gt-arrow)"/>
 
   <!-- iceoryx2 system B -->
   <rect class="gt-host" x="566" y="60" width="216" height="168" rx="12"/>
@@ -68,9 +74,12 @@
   <text class="gt-comp-t" x="612" y="193" text-anchor="middle">Tunnel</text>
   <rect class="gt-smr" x="662" y="154" width="106" height="58" rx="8"/>
   <text class="gt-smr-t" x="715" y="187" text-anchor="middle">Shared Memory</text>
-  <line class="gt-flow" x1="697" y1="133" x2="697" y2="151" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="751" y1="133" x2="751" y2="151" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="647" y1="183" x2="659" y2="183" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="694" y1="133" x2="694" y2="151" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="700" y1="151" x2="700" y2="133" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="748" y1="133" x2="748" y2="151" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="754" y1="151" x2="754" y2="133" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="645" y1="180" x2="661" y2="180" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="661" y1="186" x2="645" y2="186" marker-end="url(#gt-arrow)"/>
 
   <!-- Gateway <-> another middleware, over an adapter -->
   <line class="gt-flow-2" x1="234" y1="180" x2="170" y2="180" marker-end="url(#gt-arrow)"/>
