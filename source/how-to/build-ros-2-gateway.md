@@ -19,7 +19,15 @@ git clone git@github.com:eclipse-iceoryx/iceoryx2.git
 cd iceoryx2
 ```
 
-Then source your ROS 2 workspace before building the ROS 2 gateway:
+The gateway and its applications must be built from the same `iceoryx2`
+version. Applications depending on the `main` branch need no further step.
+Otherwise, check out the release tag matching their `iceoryx2` dependency:
+
+```console
+git checkout vX.Y.Z
+```
+
+Then source your ROS 2 workspace and build the ROS 2 gateway:
 
 ```console
 source /opt/ros/<distro>/setup.bash   # e.g. jazzy, humble, etc.
@@ -42,8 +50,8 @@ cargo install --path integrations/ros2/link-gateway-cli
 
 ```{important}
 The installed gateway only works with the ROS 2 workspace that was sourced
-when building it. Reinstall the gateway after switching to a different
-distribution or workspace.
+when building it and with applications using the same `iceoryx2` version.
+Reinstall the gateway after switching either of them.
 ```
 
 Then verify that the CLI discovers the gateway:
