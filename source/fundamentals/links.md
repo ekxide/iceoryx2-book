@@ -1,10 +1,17 @@
 # Links
 
-A link extends `iceoryx2` communication beyond its shared memory domain, for
-example to other hosts on a network, to virtual machines under a hypervisor, or
-to co-processors with memory of their own. Links can run in separate processes,
-isolating non-deterministic communication, such as networking, from
-safety-critical code.
+A link extends `iceoryx2` communication beyond its shared memory domain. It can
+be used to connect to other middlewares, or to other `iceoryx2` systems outside
+its shared memory domain, such as those on other hosts, on other processors on
+the same board, or in virtual machines without shared memory between them.
+
+A link discovers what is offered at both ends of the connection and makes it
+available at the other end. Applications use services made available by a link
+like any local service, and communicate across it without changes to their
+code.
+
+Links can run in separate processes, isolating non-deterministic
+communication, such as networking, from safety-critical code.
 
 ```{inline-svg} /images/links.svg
 :name: fig-links
@@ -15,13 +22,17 @@ A Gateway and a Tunnel Extending an iceoryx2 System
 
 ## Link Backends
 
-Each link combines a common core, which discovers local services and moves their
-data, with a generic backend, which knows the opposing side and how to reach it.
-Services offered locally are propagated through the backend, and services found
-through it appear as local services, so applications use them like any other.
-Two kinds of backend are provided out-of-the-box, which can be extended to new
-mechanisms and middlewares through carriers and adapters. If these are not
-sufficient, a new backend kind can be implemented.
+Each link combines a common core with a generic backend:
+
+* The core handles the local `iceoryx2` system. It discovers the services
+  offered locally and moves their data in and out of shared memory.
+* The backend handles the opposing side. It discovers what is offered there and
+  moves data across the boundary.
+
+Two kinds of backend are provided out-of-the-box, gateways and tunnels.
+Gateways are extended to new middlewares through adapters, and tunnels to new
+mechanisms through carriers. If neither kind fits, a new backend kind can be
+implemented.
 
 ### Gateways
 
@@ -31,9 +42,9 @@ services correspond to which of the middleware's endpoints, and a translator,
 which converts data between their formats. This lets applications that
 do not use `iceoryx2` participate in the communication.
 
-An adapter integrates one middleware, listing its endpoints and exchanging
-messages with them. Another middleware is supported by implementing an adapter
-for it. An adapter for ROS 2 is provided.
+An adapter integrates a single middleware. It lists the middleware's endpoints
+and exchanges messages with them. An adapter for ROS 2 is provided, and further
+middlewares can be supported by implementing additional adapters.
 
 ### Tunnels
 
@@ -42,9 +53,9 @@ or a hypervisor channel. Samples cross as-is, in the exact form they have in
 shared memory. By avoiding data transformation, tunnels minimize processing
 overhead.
 
-A carrier integrates one mechanism, announcing services to its peers and
-carrying their bytes. Another mechanism is supported by implementing a carrier
-for it. A carrier over Zenoh is provided.
+A carrier integrates a single communication mechanism. It announces services
+to its peers and carries their bytes. A carrier over Zenoh is provided, and
+further mechanisms can be supported by implementing additional carriers.
 
 ## Further Reading
 

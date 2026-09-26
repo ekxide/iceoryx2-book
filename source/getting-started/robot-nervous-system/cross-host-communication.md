@@ -33,9 +33,8 @@ communication. All that is required is an implementation of the `Carrier`
 traits available in [`iceoryx2-link-carrier`](
 https://docs.rs/iceoryx2-link-carrier/latest/iceoryx2_link_carrier/).
 
-For example, links have been used to extend communication between
-co-processors on a single board that have their own memory using cross-chip
-communication APIs.
+For example, links have been used to extend communication between processors
+on the same board that can only communicate over inter-processor mechanisms.
 ```
 
 ## Application setup
@@ -310,8 +309,8 @@ run, allowing you to plan for and minimize unpredictability.
 Let's say that later in development you decide a different mechanism should
 carry the cross-host communication. Perhaps you want to reach the dashboard
 over the internet by integrating with existing MQTT infrastructure, or you
-need to connect co-processors on a single board that each keep their own
-memory and can only communicate over a cross-chip API.
+need to connect processors on the same board that can only communicate over
+inter-processor mechanisms.
 
 All that is required, is to switch out the carrier when creating the
 tunnel. In our examples above, we have been using Zenoh, so the links were
