@@ -249,8 +249,9 @@ cd ~/iceoryx2_ros2/shouter
 iox2 link gateway ros2 --static-mapping mapping.toml --translator Passthrough
 ```
 
-Then start observing the output. As the topic is not yet published, the type
-and reliability are given explicitly to match the mapping:
+Then start observing the output. The type is given explicitly because the
+topic is not yet published. Since shared memory communication guarantees
+delivery, the subscription requests reliable delivery to match:
 
 ```console
 source /opt/ros/<distro>/setup.bash
