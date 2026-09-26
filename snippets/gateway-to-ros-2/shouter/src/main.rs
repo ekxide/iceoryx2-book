@@ -1,26 +1,10 @@
-// snippet:start payload
-use iceoryx2::prelude::*;
-use rosidl_runtime_rs::{Message, RmwMessage};
+mod string_byte;
 
-#[derive(Debug, Default, Clone, Copy)]
-#[repr(transparent)]
-pub struct StringByte(pub u8);
-
-unsafe impl ZeroCopySend for StringByte {
-    unsafe fn type_name() -> &'static str {
-        <<ros_env::std_msgs::msg::String as Message>::RmwMsg as RmwMessage>::TYPE_NAME
-    }
-}
-
-// Viewing a payload as bytes relies on StringByte having the layout of a u8.
-const _: () = assert!(size_of::<StringByte>() == 1 && align_of::<StringByte>() == 1);
-
-// snippet:end payload
-
-// snippet:start shouter
 use core::time::Duration;
 
 use cdr::{CdrLe, Infinite};
+use iceoryx2::prelude::*;
+use string_byte::StringByte;
 
 const CYCLE_TIME: Duration = Duration::from_millis(100);
 const INITIAL_MAX_PAYLOAD_SIZE: usize = 64;
@@ -88,4 +72,3 @@ fn main() -> Result<(), Box<dyn core::error::Error>> {
 
     Ok(())
 }
-// snippet:end shouter

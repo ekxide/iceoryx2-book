@@ -1,20 +1,9 @@
-// snippet:start payload
-use iceoryx2::prelude::*;
-use rosidl_runtime_rs::{Message, RmwMessage};
+mod twist;
 
-#[derive(Debug, Default, Clone)]
-#[repr(transparent)]
-pub struct Twist(pub ros_env::geometry_msgs::msg::rmw::Twist);
-
-unsafe impl ZeroCopySend for Twist {
-    unsafe fn type_name() -> &'static str {
-        <<ros_env::geometry_msgs::msg::Twist as Message>::RmwMsg as RmwMessage>::TYPE_NAME
-    }
-}
-// snippet:end payload
-
-// snippet:start limiter
 use core::time::Duration;
+
+use iceoryx2::prelude::*;
+use twist::Twist;
 
 const CYCLE_TIME: Duration = Duration::from_millis(100);
 const MAX_VELOCITY_M_PER_S: f64 = 1.0;
@@ -63,4 +52,3 @@ fn main() -> Result<(), Box<dyn core::error::Error>> {
 
     Ok(())
 }
-// snippet:end limiter
