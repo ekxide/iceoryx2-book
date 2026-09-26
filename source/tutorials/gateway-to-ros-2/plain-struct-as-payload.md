@@ -367,6 +367,10 @@ cd ~/iceoryx2_ros2/twist_limiter
 iox2 link gateway ros2 --static-mapping mapping.toml --translator PlainStruct
 ```
 
+```{note}
+For simplicity, the gateway runs in its default polling mode.
+```
+
 Then start observing the limited result. The type is given explicitly
 because the topic is not yet published. Since shared memory communication
 guarantees delivery, the subscription requests reliable delivery to match:
