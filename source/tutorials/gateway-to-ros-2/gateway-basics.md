@@ -57,13 +57,17 @@ ros2://topics/{NAMESPACE}/{TOPIC}  <->  /{NAMESPACE}/{TOPIC}
 ```
 
 The gateway requires the typesupport of a topic's message type to propagate
-it, which may not be available for every topic in the system. With `--allow`,
-which is repeatable and accepts wildcards, the prefix mapping is restricted to
-the given topics, so that only topics that can be propagated are covered.
+it, and loads it when it first propagates a topic of that type. Topics whose
+typesupport cannot be loaded are not propagated, and the gateway reports an
+error for each of them.
 
-The gateway attempts to dynamically load the typesupport of each discovered
-topic, skipping those it is unable to load. With `--preload-type`, which is
-repeatable, the typesupport of a type can instead be loaded at startup:
+With `--allow`, which is repeatable and accepts wildcards, the prefix mapping
+is restricted to the given topics, so that the gateway only attempts to load
+the typesupport of their types.
+
+With `--preload-type`, which is repeatable, the typesupport of a type is
+loaded at startup, and the gateway instead fails to start when it cannot be
+loaded:
 
 ```console
 iox2 link gateway ros2 --allow "/cmd_vel" --allow "/sensors/*" --preload-type "geometry_msgs/msg/Twist"
