@@ -538,9 +538,8 @@ memory samples over the network.</p>
 <p>A tunnel can run over any communication mechanism, not just network
 communication. All that is required is an implementation of the <code class="docutils literal notranslate"><span class="pre">Carrier</span></code>
 traits available in <a class="reference external" href="https://docs.rs/iceoryx2-link-carrier/latest/iceoryx2_link_carrier/"><code class="docutils literal notranslate"><span class="pre">iceoryx2-link-carrier</span></code></a>.</p>
-<p>For example, links have been used to extend communication between
-co-processors on a single board that have their own memory using cross-chip
-communication APIs.</p>
+<p>For example, links have been used to extend communication between processors
+on the same board that can only communicate over inter-processor mechanisms.</p>
 </div>
 <section id="application-setup">
 <h2>Application setup<a class="headerlink" href="#application-setup" title="Link to this heading">¶</a></h2>
@@ -1587,8 +1586,8 @@ run, allowing you to plan for and minimize unpredictability.</p>
 <p>Let’s say that later in development you decide a different mechanism should
 carry the cross-host communication. Perhaps you want to reach the dashboard
 over the internet by integrating with existing MQTT infrastructure, or you
-need to connect co-processors on a single board that each keep their own
-memory and can only communicate over a cross-chip API.</p>
+need to connect processors on the same board that can only communicate over
+inter-processor mechanisms.</p>
 <p>All that is required, is to switch out the carrier when creating the
 tunnel. In our examples above, we have been using Zenoh, so the links were
 of the type:</p>
