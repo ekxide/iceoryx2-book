@@ -59,6 +59,9 @@ body {
 
 ::selection { background: var(--ix-selection-bg); color: var(--ix-selection-fg); }
 
+/* Search term highlight boxes Sphinx inserts behind text in inline SVGs */
+svg rect.highlighted { fill: var(--color-highlighted-background); }
+
 /* =================================================================
    Typography
    ================================================================= */
