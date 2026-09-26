@@ -570,34 +570,36 @@ components provided by lower layers.</p>
 </figcaption>
 </figure>
 <dl class="simple myst">
-<dt>Ready-Made Services (<code class="docutils literal notranslate"><span class="pre">iceoryx2-services</span></code>)</dt><dd><p>Services providing common functionality on top of <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>, such as a
-discovery service that announces when services are created, changed or
-removed. They may run in separate execution units or be embedded in
-applications.</p>
+<dt>Ready-Made Services (<code class="docutils literal notranslate"><span class="pre">iceoryx2-services</span></code>)</dt><dd><p>Optional services that applications can build on, such as the discovery
+service, which provides an interface for applications to be notified when
+services are created, changed or removed. They run in separate processes or
+are embedded in applications.</p>
 </dd>
-<dt>Links (<code class="docutils literal notranslate"><span class="pre">iceoryx2-link</span></code>)</dt><dd><p>Components that extend <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> communication beyond its shared memory
-domain, to other middlewares and other <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> systems. See
-<a class="reference internal" href="links.html"><span class="doc std std-doc">Links</span></a>.</p>
+<dt>Links (<code class="docutils literal notranslate"><span class="pre">iceoryx2-link</span></code>)</dt><dd><p>The link, which extends <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> communication beyond its shared memory
+domain through a backend. The gateway backend connects to other middlewares,
+and the tunnel backend connects to other <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> systems.</p>
 </dd>
-<dt>User Toolkit (<code class="docutils literal notranslate"><span class="pre">iceoryx2-userland</span></code>)</dt><dd><p>Tools to develop, test, and debug applications using <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>.</p>
+<dt>User Toolkit (<code class="docutils literal notranslate"><span class="pre">iceoryx2-userland</span></code>)</dt><dd><p>Tools for developing, testing and debugging <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> applications, such as
+record and replay.</p>
 </dd>
-<dt>User API (<code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>)</dt><dd><p>Components that applications use to interact with the <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> system.</p>
+<dt>User API (<code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>)</dt><dd><p>The public interface of <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>. It provides nodes that represent
+participants, services that connect them, ports that exchange data according
+to the messaging pattern of their service, and the waitset that drives
+application execution. Internally, it combines implementations of the
+concepts from the layer below into a working deployment.</p>
 </dd>
-<dt>Concept Abstraction Layer (<code class="docutils literal notranslate"><span class="pre">iceoryx2-cal</span></code>)</dt><dd><p>Implementation of the domain-specific functionality and components of shared
-memory communication. Each concept provides multiple implementations which
-can be combined to make up an <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> deployment.</p>
+<dt>Concept Abstraction Layer (<code class="docutils literal notranslate"><span class="pre">iceoryx2-cal</span></code>)</dt><dd><p>The concepts shared memory communication is built from, such as storage,
+channels and events. Each concept has multiple implementations, which are
+combined to make up an <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> deployment.</p>
 </dd>
-<dt>Building Blocks (<code class="docutils literal notranslate"><span class="pre">iceoryx2-bb</span></code>)</dt><dd><p>Reusable, optimized components that handle common computational logic and
-data management patterns which are independent from the domain of
-<code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> and shared-memory communication.</p>
-<p>Analogous to a standard library distilled for <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> and suitable for
-certification.</p>
+<dt>Building Blocks (<code class="docutils literal notranslate"><span class="pre">iceoryx2-bb</span></code>)</dt><dd><p>Algorithms, containers and utilities that are independent of <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> and
+shared memory communication. They form a standard library for <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>
+that is suitable for certification.</p>
 </dd>
-<dt>Platform Abstraction Layer (<code class="docutils literal notranslate"><span class="pre">iceoryx2-pal</span></code>)</dt><dd><p>Abstracts the functionality that <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> requires from the platform it is
-deployed to. Currently only contains a <code class="docutils literal notranslate"><span class="pre">POSIX</span></code> flavour, which is implemented
-for all supported platforms.</p>
-<p>Additional platforms can be added by implementing the abstraction using the
-functionality of the target platform.</p>
+<dt>Platform Abstraction Layer (<code class="docutils literal notranslate"><span class="pre">iceoryx2-pal</span></code>)</dt><dd><p>The functionality <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> requires from the platform it runs on. It
+currently comes in a POSIX flavor, implemented for all supported platforms.</p>
+<p>Further platforms are supported by implementing the abstraction with their
+native APIs.</p>
 </dd>
 </dl>
 <section id="further-reading">
@@ -626,10 +628,10 @@ Understand the Communication Model</div>
 <div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-none sd-card-hover docutils">
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
-Explore the Code</div>
-<p class="sd-card-text">See how the architecture is realized in the code in the repository.</p>
+Understand Links</div>
+<p class="sd-card-text">Get familiar with how communication is extended beyond shared memory.</p>
 </div>
-<a class="sd-stretched-link sd-hide-link-text reference external" href="https://github.com/eclipse-iceoryx/iceoryx2"><span>https://github.com/eclipse-iceoryx/iceoryx2</span></a></div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="links.html"><span class="doc">Links</span></a></div>
 </div>
 </div>
 </div>
