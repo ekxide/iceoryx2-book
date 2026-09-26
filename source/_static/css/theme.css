@@ -1,11 +1,10 @@
 /* =================================================================
-   The iceoryx2 Book — theme layer over Furo.
-   Palette tokens (--ix-*) and Furo's color-* vars come from conf.py and
-   re-theme across light / dark / auto. Keep theme-conditional values in
-   those vars, never in [data-theme] selectors — Furo's default is "auto".
+   Theme layer over Furo. Palette tokens (--ix-*) and Furo's color-* vars
+   come from conf.py. Keep theme-conditional values in those vars, never in
+   [data-theme] selectors, as Furo defaults to "auto".
    ================================================================= */
 
-/* ---------- fonts: Satoshi (body + headings) · JetBrains Mono (code) ---------- */
+/* Satoshi for text and JetBrains Mono for code */
 @import url("https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap");
 
@@ -23,9 +22,8 @@ body {
    Base + ambient background
    ================================================================= */
 html { scroll-behavior: smooth; }
-/* Base color goes on <body>, not <html>: Furo defines --ix-* on body and vars
-   don't inherit upward, so html would fall through to the OS-tinted canvas
-   (breaking light mode on a dark OS). .ix-bg paints just above this. */
+/* The base color goes on <body>, as Furo defines --ix-* there and vars do not
+   inherit upward to <html>. */
 body {
   background: var(--ix-bg);
   font-feature-settings: "ss01" 1, "cv01" 1;
@@ -33,8 +31,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* fixed atmosphere layer injected by atmosphere.js — a single soft glow
-   pinned to the top of the viewport, fading out before the reading column */
+/* Glow injected by atmosphere.js and pinned to the top of the viewport */
 .ix-bg {
   position: fixed;
   inset: 0;
@@ -54,7 +51,7 @@ body {
   background: radial-gradient(circle, var(--ix-glow-1), transparent 60%);
 }
 
-/* let the atmosphere show through the main shell; surfaces below opt back in */
+/* Let the atmosphere show through the main shell */
 .page, .main, .content, article { background: transparent; }
 
 ::selection { background: var(--ix-selection-bg); color: var(--ix-selection-fg); }
@@ -82,7 +79,7 @@ h1 {
 h2 { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); margin-top: 2.6rem; }
 h3 { font-size: 1.3rem; margin-top: 1.8rem; }
 
-/* headerlink anchors — quiet until hover */
+/* Headerlink anchors appear on hover */
 a.headerlink {
   font-size: 0.7em;
   font-weight: 400;
@@ -96,7 +93,7 @@ h1:hover a.headerlink, h2:hover a.headerlink, h3:hover a.headerlink,
 h4:hover a.headerlink, h5:hover a.headerlink, h6:hover a.headerlink { opacity: 1; }
 a.headerlink:hover { color: var(--ix-ice); -webkit-text-fill-color: var(--ix-ice); }
 
-/* body links: no permanent underline, ice underline grows on hover */
+/* Body links are underlined on hover only */
 article a:not(.sd-btn):not(.headerlink):not(.sidebar-brand):not(.ix-btn):not(.ix-colophon__item) {
   text-decoration: none;
   background-image: linear-gradient(var(--ix-ice), var(--ix-ice));
@@ -113,9 +110,8 @@ article a:not(.sd-btn):not(.headerlink):not(.sidebar-brand):not(.ix-btn):not(.ix
 /* =================================================================
    Homepage hero
    ================================================================= */
-/* hero accent span — solid (gradient hook) */
 .ix-grad { color: inherit; }
-/* reST page title kept for nav/SEO; the hero replaces it visually */
+/* The hero hides the reST page title, but the title stays for navigation */
 article > section:has(> .ix-hero) > h1:first-child {
   position: absolute;
   width: 1px; height: 1px;
@@ -125,7 +121,7 @@ article > section:has(> .ix-hero) > h1:first-child {
 }
 .ix-hero {
   position: relative;
-  /* sit lower so the hero balances with the sidebar nav; clears the header */
+  /* Lowered to clear the header and balance with the sidebar */
   padding: clamp(5.5rem, 15vh, 11rem) 0 clamp(2.5rem, 6vh, 4.5rem);
   text-align: center;
   animation: ix-rise 0.7s cubic-bezier(.2,.8,.2,1) both;
@@ -142,10 +138,8 @@ article > section:has(> .ix-hero) > h1:first-child {
   height: auto;
   margin: 0 auto;
 }
-/* Three source polygons are already in viewBox coordinates while the others
-   carry a 0.1 scale transform. Apply vector-effect to the paths themselves
-   (it is not inherited from the parent group) so every facet has one equally
-   thin outline. */
+/* vector-effect is not inherited, so it is set on the paths to give facets
+   with and without a scale transform the same outline width. */
 .ix-hero__mark path,
 .ix-brand__mark path {
   vector-effect: non-scaling-stroke;
@@ -229,7 +223,7 @@ article > section:has(> .ix-hero) > h1:first-child {
   text-decoration: none;
 }
 .ix-btn svg { transition: transform 0.25s; }
-/* pin :visited / :visited:hover so CTAs never show the UA purple */
+/* Pin :visited so CTAs never show the browser's purple */
 .ix-btn--primary,
 .ix-btn--primary:visited {
   background: linear-gradient(180deg, var(--ix-ice-bright), var(--ix-ice));
@@ -268,7 +262,7 @@ article > section:has(> .ix-hero) > h1:first-child {
 .ix-btn--sm { padding: 0.5rem 1rem; font-size: 0.9rem; }
 
 /* =================================================================
-   Colophon — slim credits bar (maintainer / project affiliation)
+   Colophon
    ================================================================= */
 .ix-colophon {
   display: flex;
@@ -282,8 +276,7 @@ article > section:has(> .ix-hero) > h1:first-child {
   border-top: 1px solid var(--ix-line);
   animation: ix-rise 0.7s cubic-bezier(.2,.8,.2,1) 0.28s both;
 }
-/* gap clears the logo's safe zone; hover affordance stays on the label so the
-   logo itself is never faded */
+/* The gap clears the logo's safe zone. Hover styles only the label. */
 .ix-colophon__item {
   display: inline-flex;
   align-items: center;
@@ -297,7 +290,7 @@ article > section:has(> .ix-hero) > h1:first-child {
   text-transform: uppercase;
   color: var(--ix-muted-2);
   white-space: nowrap;
-  /* ice underline grows under the label only, so it never crosses the logo */
+  /* The underline spans only the label and never the logo */
   background-image: linear-gradient(var(--ix-ice), var(--ix-ice));
   background-size: 0% 1.5px;
   background-repeat: no-repeat;
@@ -315,8 +308,7 @@ article > section:has(> .ix-hero) > h1:first-child {
   .ix-colophon__sep { display: none; }
 }
 
-/* open-source / license line, kept flush under the copyright with the gap
-   falling before the "Made with" credit */
+/* License line directly under the copyright */
 .ix-trademark {
   margin-bottom: 0.6rem;
   font-size: 0.75rem;
@@ -383,7 +375,7 @@ input.sidebar-search:focus {
 }
 .sidebar-search-container::before { opacity: 0.6; }
 
-/* nav links */
+/* Navigation */
 .sidebar-tree .caption {
   font-family: var(--font-stack--monospace);
   font-size: 0.7rem;
@@ -400,7 +392,7 @@ input.sidebar-search:focus {
   font-weight: 600;
   color: var(--ix-ice);
 }
-/* active page accent bar */
+/* Active page accent bar */
 .sidebar-tree .current-page > .reference::before {
   content: "";
   position: absolute;
@@ -413,10 +405,10 @@ input.sidebar-search:focus {
 }
 .sidebar-tree .reference { position: relative; }
 
-/* expand/collapse chevrons */
+/* Expand and collapse chevrons */
 .toctree-checkbox ~ label .icon { color: var(--ix-muted-2); }
 
-/* right-hand "On this page" TOC */
+/* "On this page" TOC */
 .toc-title {
   font-family: var(--font-stack--monospace);
   font-size: 0.7rem;
@@ -435,13 +427,13 @@ input.sidebar-search:focus {
    ================================================================= */
 .theme-toggle { color: var(--ix-muted); transition: color 0.2s; }
 .theme-toggle:hover { color: var(--ix-ice); }
-/* kill transitions for the instant the theme flips (no sidebar color flicker) */
+/* Disable transitions while the theme flips to avoid flicker */
 html.ix-theme-switching,
 html.ix-theme-switching *,
 html.ix-theme-switching *::before,
 html.ix-theme-switching *::after { transition: none !important; }
-/* keep the toggle clickable above the hero, whose full-width block would
-   otherwise overlap this top-right control and swallow the clicks */
+/* The toggle stays above the full-width hero so the hero cannot swallow its
+   clicks */
 .content-icon-container { position: relative; z-index: 5; }
 .mobile-header {
   background: var(--ix-header-bg);
@@ -456,22 +448,20 @@ html.ix-theme-switching *::after { transition: none !important; }
   border-radius: var(--ix-radius-sm);
   border: 1px solid var(--ix-line);
   box-shadow: var(--ix-shadow);
-  /* cool, theme-matched surface — Furo's neutral grey reads warm/beige next
-     to the cool page background. !important beats Furo's Pygments rules. */
+  /* !important beats Furo's Pygments rules */
   background: var(--ix-code-bg) !important;
 }
-/* emphasized lines (:emphasize-lines:) — cool tint instead of Furo's cream */
+/* :emphasize-lines: */
 .highlight .hll { background-color: var(--ix-code-hl) !important; }
 .highlight pre {
   font-family: var(--font-stack--monospace);
   font-size: 0.86rem;
   line-height: 1.7;
   padding: 1.1rem 1.25rem;
-  /* keep code literal: render "!=", "->", "==" as typed, not as ligatures */
+  /* No ligatures, so operators render as typed */
   font-variant-ligatures: none;
   font-feature-settings: "liga" 0, "calt" 0;
 }
-/* inline code */
 code.literal, .rst-content code:not(.xref) {
   font-family: var(--font-stack--monospace);
   font-variant-ligatures: none;
@@ -482,12 +472,12 @@ code.literal, .rst-content code:not(.xref) {
   background: var(--ix-surface-2);
   padding: 0.12em 0.4em;
 }
-/* copy button */
 .highlight button.copybtn { border-radius: 7px; }
 
-/* heading anchor — a sleek link icon (replaces the default "#") */
+/* Heading anchors show a link icon instead of "#" */
 a.headerlink {
-  font-size: 0;                 /* hide the "#" glyph; the icon is drawn via ::after */
+  /* Hides the "#" because the icon is drawn in ::after */
+  font-size: 0;
   margin-left: 0.45rem;
   vertical-align: middle;
   line-height: 0;
@@ -503,10 +493,8 @@ a.headerlink::after {
           mask: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='2.25'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M10%2013a5%205%200%200%200%207.54.54l3-3a5%205%200%200%200-7.07-7.07l-1.72%201.71'/%3E%3Cpath%20d='M14%2011a5%205%200%200%200-7.54-.54l-3%203a5%205%200%200%200%207.07%207.07l1.71-1.71'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
-/* --- brand syntax palette ----------------------------------------------
-   Replaces Furo's Pygments token colors (which lean orange/amber) with the
-   iceoryx palette. Uses --ix-* vars so one rule set themes light + dark;
-   !important is needed to beat Furo's per-theme `body[data-theme]` rules. */
+/* Syntax palette from --ix-* vars, so one rule set themes light and dark.
+   !important beats Furo's per-theme body[data-theme] rules. */
 .highlight .c, .highlight .ch, .highlight .cm, .highlight .c1, .highlight .cs,
 .highlight .cp, .highlight .cpf { color: var(--ix-muted-2) !important; font-style: italic; }
 .highlight .k, .highlight .kc, .highlight .kd, .highlight .kn, .highlight .kp,
@@ -528,10 +516,8 @@ a.headerlink::after {
 /* =================================================================
    Admonitions
    ================================================================= */
-/* Flat left-accent callouts; --ix-callout drives border, icon and title.
-   !important is required: Furo's per-type rules (.admonition.important >
-   .admonition-title) outweigh these, so without it only typeless admonitions
-   restyle while typed ones keep Furo's filled bar. */
+/* --ix-callout drives border, icon and title. !important beats Furo's
+   per-type rules like .admonition.important > .admonition-title. */
 .admonition, div.admonition {
   --ix-callout: var(--ix-ice);
   --ix-callout-bg: rgba(45, 212, 232, 0.06);
@@ -549,7 +535,7 @@ a.headerlink::after {
   letter-spacing: -0.01em;
   color: var(--ix-callout) !important;
 }
-/* Furo renders the icon as a masked ::before — color it with the accent */
+/* Furo draws the icon as a masked ::before */
 .admonition > .admonition-title::before { background-color: var(--ix-callout) !important; }
 
 .admonition.note, .admonition.seealso {
@@ -569,9 +555,9 @@ a.headerlink::after {
 }
 
 /* =================================================================
-   sphinx-design — cards
+   sphinx-design cards
    ================================================================= */
-/* breathing room between a preceding heading and a card grid */
+/* Space between a heading and a card grid */
 .sd-container-fluid { margin-top: 1.75rem; }
 .sd-card {
   border-radius: var(--ix-radius) !important;
@@ -595,18 +581,17 @@ a.headerlink::after {
 }
 .sd-card:hover::after { opacity: 1; }
 .sd-card .sd-card-title { font-size: 1.18rem; }
-/* cards that are whole links */
+/* Cards that are whole links */
 .sd-card a.sd-stretched-link, .sd-card .sd-card-title { color: var(--ix-text); }
 .sd-card:hover .sd-card-title { color: var(--ix-ice); }
-/* octicons inside cards / content */
 .sd-octicon { color: var(--ix-ice); vertical-align: -0.12em; }
-/* GitHub mark in the brand's monochrome tone (black on light, white on dark) */
+/* GitHub mark in the monochrome brand tone */
 .sd-octicon-mark-github { color: var(--ix-text); }
 
 .muted-card { opacity: 0.55; }
 
 /* =================================================================
-   sphinx-design — tabs (tab-set / tab-set-code)
+   sphinx-design tabs
    ================================================================= */
 .sd-tab-set { border-radius: var(--ix-radius); }
 .sd-tab-set > label {
@@ -622,7 +607,7 @@ a.headerlink::after {
   color: var(--ix-ice);
   border-bottom-color: var(--ix-ice);
 }
-/* tab panel: square top (meets the active tab label), rounded bottom */
+/* Square top meets the active tab label */
 .sd-tab-content {
   border: 1px solid var(--ix-line);
   border-top: none;
@@ -630,15 +615,14 @@ a.headerlink::after {
   background: transparent;
   padding: 1rem;
 }
-/* code blocks inside prose tabs: a clean inner surface, no heavy shadow */
+/* Code blocks inside prose tabs */
 .sd-tab-content .highlight {
   border: 1px solid var(--ix-line);
   border-radius: 8px;
   box-shadow: none;
 }
-/* code-only tabs: code fills the panel flush (block is wrapped in
-   div.highlight-<lang>). Drop the padding rather than use negative margins —
-   sphinx-design forces first/last-child margins to 0 !important, leaving a gap. */
+/* Code-only tabs drop the padding, as sphinx-design forces first and last
+   child margins to 0 !important. */
 .sd-tab-content:has(> [class*="highlight-"]:only-child) { padding: 0; }
 .sd-tab-content > [class*="highlight-"]:only-child > .highlight {
   border: none;
@@ -646,7 +630,7 @@ a.headerlink::after {
 }
 
 /* =================================================================
-   sphinx-design — buttons (pill style, like the site CTAs)
+   sphinx-design buttons
    ================================================================= */
 .sd-btn {
   border-radius: 999px !important;
@@ -675,28 +659,25 @@ figcaption, .caption-text {
   color: var(--ix-muted);
   font-size: 0.9rem;
 }
-/* SVG diagrams get a soft panel in dark mode for legibility (vars collapse to
-   none in light); logos are excluded so they don't sit on a white box */
+/* Soft panel behind SVG diagrams in dark mode except for logos */
 .content img[src$=".svg"]:not(.ix-colophon__logo-img) {
   background: var(--ix-svg-panel);
   border-radius: var(--ix-radius-sm);
   padding: var(--ix-svg-pad);
 }
 
-/* mermaid diagrams */
 .mermaid { display: flex; justify-content: center; }
 
-/* inline themed diagrams (SVG reads --ix-* vars, so it themes with the page) */
+/* Inline SVGs read --ix-* vars and theme with the page */
 .ix-diagram { margin: 1.8rem auto; max-width: 640px; text-align: center; }
 .ix-diagram__scroll { width: 100%; }
 .ix-diagram svg { width: 100%; height: auto; display: block; }
 .ix-diagram figcaption { margin-top: 0.85rem; color: var(--ix-muted); font-size: 0.9rem; }
-/* wide, dense layered diagram — allow it to use the full content width */
+/* Wide diagrams use the full content width */
 #fig-grand-vision,
 #fig-links { max-width: 100%; }
 
-/* Dense diagrams: on narrow screens hold a minimum width and scroll
-   horizontally rather than shrinking text to an unreadable size. */
+/* Dense diagrams scroll on narrow screens instead of shrinking their text */
 @media (max-width: 720px) {
   #fig-grand-vision .ix-diagram__scroll,
   #fig-execution-control-with-waitset .ix-diagram__scroll,
@@ -736,12 +717,11 @@ table.docutils td, table.docutils th { border-color: var(--ix-line); }
    Misc polish
    ================================================================= */
 .bg-grid, .related-pages a { transition: color 0.2s; }
-/* prev / next footer nav */
+/* Footer navigation */
 .prev-next-area a.left-next:hover,
 .prev-next-area a.right-next:hover { border-color: rgba(45, 212, 232, 0.4); }
 .prev-next-area .page-info .title { color: var(--ix-text); }
 
-/* blockquotes */
 blockquote {
   border-left: 3px solid var(--ix-ice);
   background: var(--ix-surface);
@@ -749,7 +729,6 @@ blockquote {
   padding: 0.6rem 1.1rem;
 }
 
-/* focus ring */
 :focus-visible { outline: 2px solid var(--ix-ice); outline-offset: 3px; border-radius: 4px; }
 
 /* =================================================================
@@ -761,13 +740,12 @@ blockquote {
 }
 
 /* =================================================================
-   Print — force a light, ink-friendly layout and drop chrome/effects.
-   The diagrams read the --ix-* vars, so overriding them to the light
-   palette makes the inline SVGs print light as well.
+   Print. Overriding the --ix-* vars to the light palette also prints the
+   inline SVGs light.
    ================================================================= */
 @media print {
   body {
-    /* brand tokens → paper */
+    /* Brand tokens */
     --ix-bg: #ffffff !important;
     --ix-bg-2: #eef3f9 !important;
     --ix-surface: #ffffff !important;
@@ -791,7 +769,7 @@ blockquote {
     color: #0c1825 !important;
   }
 
-  /* drop interactive chrome / effects */
+  /* Interactive chrome */
   .sidebar-drawer,
   .toc-drawer,
   .mobile-header,
@@ -803,7 +781,6 @@ blockquote {
   .version-picker,
   a.headerlink { display: none !important; }
 
-  /* content fills the page */
   .page, .main { display: block !important; }
   .content {
     max-width: 100% !important;
@@ -812,20 +789,17 @@ blockquote {
     padding: 0 !important;
   }
 
-  /* flat surfaces on paper */
   *, *::before, *::after { box-shadow: none !important; text-shadow: none !important; }
 
-  /* keep intended backgrounds/borders (else they'd drop to white) */
+  /* Keep backgrounds and borders that would otherwise drop to white */
   .ix-diagram, .ix-diagram svg,
   .highlight, .admonition, .sd-card {
     -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
   }
 
-  /* avoid awkward page breaks */
   figure, pre, table, .admonition, .sd-card, .ix-diagram { break-inside: avoid; }
   h1, h2, h3, h4 { break-after: avoid; }
 
-  /* no entrance animations on paper */
   * { animation: none !important; }
 }
