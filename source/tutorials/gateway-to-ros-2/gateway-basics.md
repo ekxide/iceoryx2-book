@@ -25,11 +25,10 @@ have full control over its execution, or run in an isolated process via the
 
 ## Building
 
-The gateway must be built from source against a ROS 2 install space. This is
-because it must link against the specific `rcl` library being used, as well as
-any generated message libraries. See [Build the ROS 2 Gateway](
-/how-to/build-ros-2-gateway) for details on how to build the
-gateway.
+The gateway must be built from source against a ROS 2 install space, as it
+links against the specific `rcl` library being used. See
+[Build the ROS 2 Gateway](/how-to/build-ros-2-gateway) for details on how to
+build the gateway.
 
 ```{important}
 A sourced ROS 2 workspace is also required to run the gateway as it is
@@ -163,7 +162,7 @@ The type name can be specified on the payload type when implementing
 ```
 
 For ROS 2 types generated for Rust this is typically set by wrapping them
-in a new type and implementing te trait:
+in a new type and implementing the trait:
 
 ```{literalinclude} ../../../snippets/gateway-to-ros-2/gateway_basics/src/main.rs
 :language: rust
