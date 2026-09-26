@@ -15,10 +15,18 @@ Software Layers in the Architecture of `iceoryx2`
 
 Tools to develop, test, and debug applications using `iceoryx2`.
 
-## Application Services (`iceoryx2-services`)
+## Ready-Made Services (`iceoryx2-services`)
 
-Microservices that provide or consume `iceoryx2` services. These may run
-in separate execution units or be embedded in applications.
+Services providing common functionality on top of `iceoryx2`, such as a
+discovery service that announces when services are created, changed or
+removed. They may run in separate execution units or be embedded in
+applications.
+
+## Links (`iceoryx2-link`)
+
+Components that extend `iceoryx2` communication beyond its shared memory
+domain, to other middlewares and other `iceoryx2` systems. See
+[Links](/fundamentals/links).
 
 ## User API (`iceoryx2`)
 

@@ -21,7 +21,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=f34dad2a" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=efb87056" />
     <link rel="stylesheet" type="text/css" href="../_static/css/version-picker.css?v=2a4710d1" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=d05edee4" />
     
@@ -522,15 +522,20 @@ components provided by lower layers.</p>
     .ix-arch-s   { font-family: var(--font-stack, sans-serif); font-size: 11px; fill: var(--ix-text, #eaf3f7); }
   </style>
 
-  <rect class="ix-arch-box" x="40" y="28" width="330" height="60" rx="10"/>
+  <rect class="ix-arch-box" x="40" y="28" width="176" height="60" rx="10"/>
   <rect class="ix-arch-code" x="52" y="39" width="134" height="20" rx="5"/>
   <text class="ix-arch-t" x="58" y="53">iceoryx2-services</text>
-  <text class="ix-arch-s" x="58" y="72">Application services • Discovery • Tunnel</text>
+  <text class="ix-arch-s" x="58" y="72">Ready-made services</text>
 
-  <rect class="ix-arch-box" x="386" y="28" width="214" height="60" rx="10"/>
-  <rect class="ix-arch-code" x="398" y="39" width="134" height="20" rx="5"/>
-  <text class="ix-arch-t" x="404" y="53">iceoryx2-userland</text>
-  <text class="ix-arch-s" x="404" y="72">Toolkit • Record &amp; replay</text>
+  <rect class="ix-arch-box" x="232" y="28" width="176" height="60" rx="10"/>
+  <rect class="ix-arch-code" x="244" y="39" width="106" height="20" rx="5"/>
+  <text class="ix-arch-t" x="250" y="53">iceoryx2-link</text>
+  <text class="ix-arch-s" x="250" y="72">Gateways • Tunnels</text>
+
+  <rect class="ix-arch-box" x="424" y="28" width="176" height="60" rx="10"/>
+  <rect class="ix-arch-code" x="436" y="39" width="134" height="20" rx="5"/>
+  <text class="ix-arch-t" x="442" y="53">iceoryx2-userland</text>
+  <text class="ix-arch-s" x="442" y="72">Toolkit • Record &amp; replay</text>
 
   <rect class="ix-arch-box" x="40" y="102" width="560" height="60" rx="10"/>
   <rect class="ix-arch-code" x="52" y="113" width="70" height="20" rx="5"/>
@@ -564,10 +569,18 @@ components provided by lower layers.</p>
 <h2>User Toolkit (<code class="docutils literal notranslate"><span class="pre">iceoryx2-userland</span></code>)<a class="headerlink" href="#user-toolkit-iceoryx2-userland" title="Link to this heading">¶</a></h2>
 <p>Tools to develop, test, and debug applications using <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>.</p>
 </section>
-<section id="application-services-iceoryx2-services">
-<h2>Application Services (<code class="docutils literal notranslate"><span class="pre">iceoryx2-services</span></code>)<a class="headerlink" href="#application-services-iceoryx2-services" title="Link to this heading">¶</a></h2>
-<p>Microservices that provide or consume <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> services. These may run
-in separate execution units or be embedded in applications.</p>
+<section id="ready-made-services-iceoryx2-services">
+<h2>Ready-Made Services (<code class="docutils literal notranslate"><span class="pre">iceoryx2-services</span></code>)<a class="headerlink" href="#ready-made-services-iceoryx2-services" title="Link to this heading">¶</a></h2>
+<p>Services providing common functionality on top of <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>, such as a
+discovery service that announces when services are created, changed or
+removed. They may run in separate execution units or be embedded in
+applications.</p>
+</section>
+<section id="links-iceoryx2-link">
+<h2>Links (<code class="docutils literal notranslate"><span class="pre">iceoryx2-link</span></code>)<a class="headerlink" href="#links-iceoryx2-link" title="Link to this heading">¶</a></h2>
+<p>Components that extend <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> communication beyond its shared memory
+domain, to other middlewares and other <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> systems. See
+<a class="reference internal" href="links.html"><span class="doc std std-doc">Links</span></a>.</p>
 </section>
 <section id="user-api-iceoryx2">
 <h2>User API (<code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>)<a class="headerlink" href="#user-api-iceoryx2" title="Link to this heading">¶</a></h2>
@@ -685,7 +698,8 @@ Explore the Code</div>
             <ul>
 <li><a class="reference internal" href="#">Layered Architecture</a><ul>
 <li><a class="reference internal" href="#user-toolkit-iceoryx2-userland">User Toolkit (<code class="docutils literal notranslate"><span class="pre">iceoryx2-userland</span></code>)</a></li>
-<li><a class="reference internal" href="#application-services-iceoryx2-services">Application Services (<code class="docutils literal notranslate"><span class="pre">iceoryx2-services</span></code>)</a></li>
+<li><a class="reference internal" href="#ready-made-services-iceoryx2-services">Ready-Made Services (<code class="docutils literal notranslate"><span class="pre">iceoryx2-services</span></code>)</a></li>
+<li><a class="reference internal" href="#links-iceoryx2-link">Links (<code class="docutils literal notranslate"><span class="pre">iceoryx2-link</span></code>)</a></li>
 <li><a class="reference internal" href="#user-api-iceoryx2">User API (<code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>)</a></li>
 <li><a class="reference internal" href="#concept-abstraction-layer-iceoryx2-cal">Concept Abstraction Layer (<code class="docutils literal notranslate"><span class="pre">iceoryx2-cal</span></code>)</a></li>
 <li><a class="reference internal" href="#building-blocks-iceoryx2-bb">Building Blocks (<code class="docutils literal notranslate"><span class="pre">iceoryx2-bb</span></code>)</a></li>
