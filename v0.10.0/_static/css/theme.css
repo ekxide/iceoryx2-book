@@ -107,6 +107,8 @@ article a:not(.sd-btn):not(.headerlink):not(.sidebar-brand):not(.ix-btn):not(.ix
   background-size: 100% 1.5px;
 }
 
+dl.myst > dt { font-weight: 600; }
+
 /* =================================================================
    Homepage hero
    ================================================================= */
