@@ -58,3 +58,4 @@ best is a case-by-case design decision:
    plain-struct-as-payload
    cdr-bytes-as-payload
    flatbuffer-as-payload
+   event-driven-gateway
