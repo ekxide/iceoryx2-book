@@ -7,7 +7,7 @@ development deployments.
 ```
 
 Many standard ROS 2 message definitions contain bounded or dynamic fields. As
-discussed in [Plain Struct as Payload](/tutorials/gateway-to-ros-2/plain-struct-as-payload.md),
+discussed in [Plain Struct as Payload](/tutorials/gateway-to-ros-2/plain-struct-as-payload),
 the native types
 generated for such definitions utilize the heap and cannot be placed in
 shared memory.
@@ -81,7 +81,7 @@ uppercased result.
 ## Setting Up
 
 Let's build on the setup from
-[Plain Struct as Payload](/tutorials/gateway-to-ros-2/plain-struct-as-payload.md).
+[Plain Struct as Payload](/tutorials/gateway-to-ros-2/plain-struct-as-payload).
 The `String` message is part of `std_msgs`, whose Rust types come from the
 same place as those of `geometry_msgs` there, so no additional message
 generation is needed. On an older installation that does not ship the Rust
@@ -186,7 +186,7 @@ application itself, while the gateway only moves bytes.
 
 The final component is the gateway itself, which connects the two topics to
 their `iceoryx2` counterparts. Refer to [Gateway Basics](
-/tutorials/gateway-to-ros-2/gateway-basics.md) for an overview. Here we will
+/tutorials/gateway-to-ros-2/gateway-basics) for an overview. Here we will
 only look at the configuration suitable for this pipeline.
 
 ### Mapping

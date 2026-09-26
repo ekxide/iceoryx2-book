@@ -295,7 +295,7 @@ gateway.
 
 The final component is the gateway itself, which connects the two topics to
 their `iceoryx2` counterparts. Refer to [Gateway Basics](
-/tutorials/gateway-to-ros-2/gateway-basics.md) for an overview of the
+/tutorials/gateway-to-ros-2/gateway-basics) for an overview of the
 configuration options. Here we will
 only look at the configuration suitable for this pipeline.
 
