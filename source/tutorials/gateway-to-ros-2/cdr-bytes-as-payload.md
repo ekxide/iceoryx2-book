@@ -82,12 +82,19 @@ uppercased result.
 
 Let's build on the setup from
 [Plain Struct as Payload](/tutorials/gateway-to-ros-2/plain-struct-as-payload.md).
-The `String` message is part of `std_msgs`, which was already generated in
-the message workspace there, so no additional message generation is needed.
-If starting fresh here, follow the message generation steps in the previous
-article.
+The `String` message is part of `std_msgs`, whose Rust types come from the
+same place as those of `geometry_msgs` there, so no additional message
+generation is needed. On an older installation that does not ship the Rust
+types, follow the message generation steps in the previous article.
 
-We create a new `cargo` project for our shouter, next to the limiter:
+We create a new `cargo` project for our shouter in the same working directory
+as the limiter:
+
+```text
+~/iceoryx2_ros2/
+├── shouter/         # cargo project of the iceoryx2 application
+└── twist_limiter/   # cargo project from the previous article
+```
 
 ```console
 cd ~/iceoryx2_ros2
@@ -111,7 +118,7 @@ publish = false
 cdr = { version = "0.2" }
 iceoryx2 = { version = "X.Y.Z" } # select the desired `iceoryx2` version
 ros-env = { version = "0.2", features = ["serde"] }
-rosidl_runtime_rs = { version = "0.7" }
+rosidl_runtime_rs = { version = "0.7" } # the version `ros-env` depends on
 ```
 
 ## The Shouter
@@ -125,7 +132,7 @@ message instead.
 
 Since the new type has the layout of a `u8`, a payload can be viewed as bytes
 without copying, both to read the CDR bytes it holds and to write them. The
-`unsafe` views rely on this layout, so it is asserted at compile time:
+`unsafe` views rely on this layout, so assert it at compile time:
 
 ```{literalinclude} ../../../snippets/gateway-to-ros-2/shouter/src/main.rs
 :language: rust
@@ -197,12 +204,13 @@ iox2 link gateway ros2 --static-mapping mapping.toml --translator Passthrough
 
 Now with all pieces implemented and configured, we can run the complete
 pipeline. Each application will run in a separate terminal and requires the
-install space of the message workspace to be sourced.
+ROS 2 distribution to be sourced.
 
 First, launch the shouter:
 
 ```console
-source ~/iceoryx2_ros2/messages/install/setup.bash
+source /opt/ros/<distro>/setup.bash
+# source ~/iceoryx2_ros2/messages/install/setup.bash  # on older installations
 cd ~/iceoryx2_ros2/shouter
 cargo run
 ```
@@ -210,7 +218,8 @@ cargo run
 Next, launch the gateway with the configuration from the previous section:
 
 ```console
-source ~/iceoryx2_ros2/messages/install/setup.bash
+source /opt/ros/<distro>/setup.bash
+# source ~/iceoryx2_ros2/messages/install/setup.bash  # on older installations
 cd ~/iceoryx2_ros2/shouter
 iox2 link gateway ros2 --static-mapping mapping.toml --translator Passthrough
 ```
@@ -218,12 +227,14 @@ iox2 link gateway ros2 --static-mapping mapping.toml --translator Passthrough
 Finally, publish text at 1 Hz and observe the output:
 
 ```console
-source ~/iceoryx2_ros2/messages/install/setup.bash
+source /opt/ros/<distro>/setup.bash
+# source ~/iceoryx2_ros2/messages/install/setup.bash  # on older installations
 ros2 topic pub -r 1 /chatter std_msgs/msg/String "{data: hello}"
 ```
 
 ```console
-source ~/iceoryx2_ros2/messages/install/setup.bash
+source /opt/ros/<distro>/setup.bash
+# source ~/iceoryx2_ros2/messages/install/setup.bash  # on older installations
 ros2 topic echo /shouter
 ```
 

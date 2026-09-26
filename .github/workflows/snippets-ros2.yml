@@ -40,8 +40,10 @@ jobs:
       - name: Whitelist workspace for git
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
+      # Installing the message packages the snippets build against upgrades
+      # them past a base image that predates their Rust crates.
       - name: Install build dependencies
-        run: apt-get install -y build-essential ca-certificates curl pkg-config ros-dev-tools
+        run: apt-get install -y build-essential ca-certificates curl pkg-config ros-dev-tools ros-jazzy-builtin-interfaces ros-jazzy-std-msgs ros-jazzy-geometry-msgs
 
       - name: Install just
         uses: extractions/setup-just@v2
@@ -57,10 +59,8 @@ jobs:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
-            snippets/gateway-to-ros-2/messages/build
-            snippets/gateway-to-ros-2/messages/install
             snippets/gateway-to-ros-2/target
-          key: snippets-ros2-jazzy-${{ hashFiles('snippets/gateway-to-ros-2/messages/*.repos', 'snippets/gateway-to-ros-2/**/Cargo.toml') }}
+          key: snippets-ros2-jazzy-${{ hashFiles('snippets/gateway-to-ros-2/**/Cargo.toml') }}
 
       - name: Check Rust formatting (rustfmt)
         run: just format-ros2-snippets-check

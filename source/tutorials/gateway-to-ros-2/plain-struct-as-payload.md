@@ -80,14 +80,32 @@ with `rmw_cyclonedds_cpp`. All commands below assume a sourced ROS 2
 environment, where `<distro>` is your distribution.
 ```
 
+First, let's set up the working directory for our application:
+
+```console
+mkdir -p ~/iceoryx2_ros2/twist_limiter
+```
+
+```text
+~/iceoryx2_ros2/
+└── twist_limiter/   # cargo project of the iceoryx2 application
+```
+
 In our pipeline, the `Twist` message describes the payload that crosses
 the boundary between the two domains. From the one message definition, the
-types for both the C/C++/Python ROS 2 side and the Rust `iceoryx2` side can
-be generated.
+types for both the C/C++/Python ROS 2 side and the Rust `iceoryx2` side are
+generated. On up-to-date installations, the ROS 2 distribution ships the
+generated Rust types alongside the C, C++ and Python ones, so the `iceoryx2`
+application can use them directly.
 
-The Rust types are generated in a `colcon` workspace, while the `iceoryx2`
-application is a regular `cargo` project that uses them. Both live side by
-side in one directory:
+### Message Generation on Older Installations
+
+Older installations of ROS 2 distributions do not ship the Rust types. On
+up-to-date installations, skip ahead to the
+[application project](#application-project).
+
+On older installations, the Rust types must be generated from source in a
+`colcon` workspace, next to the project:
 
 ```text
 ~/iceoryx2_ros2/
@@ -95,21 +113,15 @@ side in one directory:
 └── twist_limiter/   # cargo project of the iceoryx2 application
 ```
 
-### Message Generation
-
-Firstly, we create a `colcon` workspace for our message definitions:
-
 ```console
 mkdir -p ~/iceoryx2_ros2/messages/src
 cd ~/iceoryx2_ros2/messages
 ```
 
-Next we will need to pull in some third-party packages. We will require
-`rosidl_generator_rs` which emits Rust types for our message definitions from
-the `rosidl_rust` repository. We will also require the packages that provide
-the message definitions. The `Twist` message is part of `common_interfaces`,
-which has a dependency to `builtin_interfaces` from the `rcl_interfaces`
-repository.
+The workspace needs the sources of `rosidl_generator_rs`, which emits the Rust
+types, from the `rosidl_rust` repository, and of the packages providing the
+message definitions. The `Twist` message is part of `common_interfaces`, which
+depends on `builtin_interfaces` from the `rcl_interfaces` repository.
 
 As conventional for ROS 2, `vcstool` is used here to pull in the source. Here is
 the `.repos` configuration. Be sure to substitute `<distro>` with the ROS 2
@@ -133,29 +145,23 @@ repositories:
     version: <distro>
 ```
 
-The source can then be pulled with into the workspace:
+Then pull the sources into the workspace:
 
 ```console
 pip install vcstool
 vcs import src < <distro>.repos
 ```
 
-```{note}
-ROS 2 distributions ship C, C++ and Python types for the common message
-definitions, including `Twist`. At the time of writing this article, no
-distribution ships with generated Rust types out-of-the-box.
-```
-
-Finally, building the generator and the message definitions generates the
-message types:
+And build the generator and the message packages to generate the Rust types:
 
 ```console
 colcon build --packages-up-to std_msgs geometry_msgs rosidl_generator_rs
 ```
 
-Alongside the usual C, C++ and Python artifacts, each message package installs
-a Rust crate under `install/<package>/share/<package>/rust`. Sourcing the
-install space makes these crates available to `cargo` projects:
+Each message package installs a Rust crate under
+`install/<package>/share/<package>/rust`. The commands in the following
+sections include sourcing the install space of this workspace as a
+commented-out line. Uncomment it on older installations:
 
 ```console
 source ~/iceoryx2_ros2/messages/install/setup.bash
@@ -164,19 +170,17 @@ source ~/iceoryx2_ros2/messages/install/setup.bash
 ### Application Project
 
 Now let's create a `cargo` project for the `iceoryx2` application in our
-pipeline, next to the message workspace:
+pipeline:
 
 ```console
-cd ~/iceoryx2_ros2
-cargo new twist_limiter
-cd twist_limiter
+cd ~/iceoryx2_ros2/twist_limiter
+cargo init
 ```
 
 The generated message crates are included through the [`ros-env`](
 https://github.com/ros2-rust/ros-env) crate, which provides the message
 crates of the sourced environment under its root, e.g.
-`ros_env::geometry_msgs`. The version of `rosidl_runtime_rs` must match the
-one `ros-env` builds the message crates with:
+`ros_env::geometry_msgs`:
 
 ```{code-block} toml
 :caption: twist_limiter/Cargo.toml
@@ -189,7 +193,7 @@ publish = false
 [dependencies]
 iceoryx2 = { version = "X.Y.Z" } # select the desired `iceoryx2` version
 ros-env = { version = "0.2" }
-rosidl_runtime_rs = { version = "0.7" }
+rosidl_runtime_rs = { version = "0.7" } # the version `ros-env` depends on
 ```
 
 Now that everything is in place, let's create a basic placeholder binary to
@@ -198,10 +202,8 @@ confirm the build works and that the generated messages are accessible.
 The generated crates contain [two variants of each message](
 https://docs.rs/rosidl_runtime_rs/latest/rosidl_runtime_rs/trait.Message.html).
 The idiomatic `geometry_msgs::msg::Twist` uses native Rust types, while its
-counterpart in the `rmw` module matches the layout of the equivalent C struct
-through `#[repr(C)]`. Payloads in shared memory are read as raw bytes
-across processes, which requires this consistent layout, so the `rmw` variant
-must be used:
+counterpart in the `rmw` module is `#[repr(C)]` and matches the C struct the
+gateway (de)serializes, so the `rmw` variant must be used:
 
 ```{literalinclude} ../../../snippets/gateway-to-ros-2/twist_limiter/src/bin/placeholder.rs
 :language: rust
@@ -211,16 +213,16 @@ must be used:
 ```
 
 The generated crates link against the C libraries of their message packages,
-so the install space of the message workspace must be sourced before building
-the project:
+so the ROS 2 distribution must be sourced before building the project:
 
 ```console
-source ~/iceoryx2_ros2/messages/install/setup.bash
+source /opt/ros/<distro>/setup.bash
+# source ~/iceoryx2_ros2/messages/install/setup.bash  # on older installations
 cargo build
 ```
 
-The libraries are also loaded when the binary starts, so it is run from the
-same shell:
+Then run it from the same shell, as the libraries are also loaded when the
+binary starts:
 
 ```console
 $ cargo run
@@ -312,12 +314,13 @@ iox2 link gateway ros2 --static-mapping mapping.toml --translator PlainStruct
 
 Now with all pieces implemented and configured, we can run the complete
 pipeline. Each application will run in a separate terminal and requires the
-install space of the message workspace to be sourced.
+ROS 2 distribution to be sourced.
 
 First, launch the limiter:
 
 ```console
-source ~/iceoryx2_ros2/messages/install/setup.bash
+source /opt/ros/<distro>/setup.bash
+# source ~/iceoryx2_ros2/messages/install/setup.bash  # on older installations
 cd ~/iceoryx2_ros2/twist_limiter
 cargo run
 ```
@@ -325,7 +328,8 @@ cargo run
 Next, launch the gateway with the configuration from the previous section:
 
 ```console
-source ~/iceoryx2_ros2/messages/install/setup.bash
+source /opt/ros/<distro>/setup.bash
+# source ~/iceoryx2_ros2/messages/install/setup.bash  # on older installations
 cd ~/iceoryx2_ros2/twist_limiter
 iox2 link gateway ros2 --static-mapping mapping.toml --translator PlainStruct
 ```
@@ -334,12 +338,14 @@ Finally, publish velocity commands at 1 Hz that exceed the configured
 maximum, and observe the limited result:
 
 ```console
-source ~/iceoryx2_ros2/messages/install/setup.bash
+source /opt/ros/<distro>/setup.bash
+# source ~/iceoryx2_ros2/messages/install/setup.bash  # on older installations
 ros2 topic pub -r 1 /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 5.0}}"
 ```
 
 ```console
-source ~/iceoryx2_ros2/messages/install/setup.bash
+source /opt/ros/<distro>/setup.bash
+# source ~/iceoryx2_ros2/messages/install/setup.bash  # on older installations
 ros2 topic echo /cmd_vel_limited
 ```
 

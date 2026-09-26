@@ -54,7 +54,7 @@ build-c-snippets:
         cmake --build "$dir/build" --config Release
     done
 
-# ROS 2: compiles against the generated message crates (needs a sourced ROS 2 env).
+# ROS 2: compiles against the distribution's message crates (needs a sourced ROS 2 env).
 build-ros2-snippets:
     #!/usr/bin/env bash
     set -eo pipefail
@@ -63,11 +63,6 @@ build-ros2-snippets:
         echo "  Source your ROS 2 setup first, e.g.: source /opt/ros/jazzy/setup.bash" >&2
         exit 1
     fi
-    cd "{{ros2_snippets}}/messages"
-    mkdir -p src
-    vcs import --skip-existing src < "${ROS_DISTRO}.repos"
-    colcon build --packages-up-to std_msgs geometry_msgs rosidl_generator_rs
-    source install/setup.bash
     cd "{{ros2_snippets}}"
     cargo build --workspace --all-targets
 
@@ -103,12 +98,12 @@ format-rust-check:
 
 # ROS 2: reformat in place with rustfmt (without cargo, which needs a sourced ROS 2 env).
 format-ros2-snippets:
-    find {{ros2_snippets}} \( -name messages -o -name target \) -prune -o \
+    find {{ros2_snippets}} -name target -prune -o \
         -type f -name '*.rs' -print0 | xargs -0 rustfmt --edition 2024
 
 # ROS 2: verify rustfmt formatting without modifying files (used by CI).
 format-ros2-snippets-check:
-    find {{ros2_snippets}} \( -name messages -o -name target \) -prune -o \
+    find {{ros2_snippets}} -name target -prune -o \
         -type f -name '*.rs' -print0 | xargs -0 rustfmt --edition 2024 --check
 
 # C/C++: reformat in place with clang-format (all examples, per the root .clang-format).
