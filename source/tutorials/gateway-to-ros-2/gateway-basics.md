@@ -38,12 +38,14 @@ required to load typesupport libraries.
 ## Gateway Configuration
 
 There are two main capabilities that should be understood in order to be able
-to choose the right configuration for your system. The mapping, which
-associates `iceoryx2` services with the endpoints of the counterpart
-communication mechanism, and the translation, which optionally processes
-payloads as they cross the boundary between them.
+to choose the right configuration for your system.
 
 ### Mapping
+
+The mapping pairs `iceoryx2` services with ROS 2 topics. Only paired services
+and topics are propagated.
+
+#### PrefixMapping
 
 `PrefixMapping` is the default strategy. It derives pairings between ROS 2
 topics and `iceoryx2` services from a naming convention. All service names
@@ -69,6 +71,8 @@ iox2 link gateway ros2 --allow "/cmd_vel" --allow "/sensors/*" --preload-type "g
 
 This approach is only recommended as a starting point when first configuring
 the system.
+
+#### StaticMapping
 
 `StaticMapping` declares pairings explicitly in a TOML file. Only the specified
 pairings are propagated and their types are resolved immediately at startup,
@@ -100,9 +104,9 @@ This approach is recommended once the shape of a system is understood.
 
 ### Translation
 
-The translator converts payloads between the form they have in shared memory
-and the CDR bytes ROS 2 expects, so it must match the payload type the
-`iceoryx2` services use. Two translators are provided.
+ROS 2 carries messages as CDR bytes, while `iceoryx2` applications may hold
+payloads in shared memory in a different form. The translator converts between
+the two as payloads cross the boundary.
 
 #### Passthrough
 
@@ -124,8 +128,8 @@ that ROS 2 expects.
 
 The payload must be the C struct that `rosidl` generates for the message type.
 In Rust, this is the `rmw` variant of the generated message, e.g.
-`geometry_msgs::msg::rmw::Twist`. Only self-contained types that can be stored
-directly in shared memory are supported.
+`geometry_msgs::msg::rmw::Twist`. Only self-contained message definitions,
+free of bounded and dynamic fields, are supported.
 
 ```console
 iox2 link gateway ros2 --translator PlainStruct
