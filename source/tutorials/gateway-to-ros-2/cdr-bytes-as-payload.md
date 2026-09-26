@@ -310,7 +310,7 @@ is an alternative.
 ````{grid} 1 1 2 3
 :gutter: 2
 
-```{grid-item-card} Build the ROS 2 Gateway
+```{grid-item-card} Build the ROS 2 gateway
 :link: /how-to/build-ros-2-gateway
 :link-type: doc
 :shadow: none

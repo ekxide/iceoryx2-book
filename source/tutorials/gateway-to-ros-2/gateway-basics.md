@@ -27,7 +27,7 @@ have full control over its execution, or run in an isolated process via the
 
 The gateway must be built from source against a ROS 2 install space, as it
 links against the specific `rcl` library being used. See
-[Build the ROS 2 Gateway](/how-to/build-ros-2-gateway) for details on how to
+[Build the ROS 2 gateway](/how-to/build-ros-2-gateway) for details on how to
 build the gateway.
 
 ```{important}
@@ -243,7 +243,7 @@ https://github.com/eclipse-iceoryx/iceoryx2/tree/main/integrations/ros2/link-ada
 ````{grid} 1 1 2 3
 :gutter: 2
 
-```{grid-item-card} Build the ROS 2 Gateway
+```{grid-item-card} Build the ROS 2 gateway
 :link: /how-to/build-ros-2-gateway
 :link-type: doc
 :shadow: none
