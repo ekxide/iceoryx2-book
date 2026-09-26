@@ -851,7 +851,13 @@ only look at the configuration suitable for this pipeline.</p>
 <section id="mapping">
 <h3>Mapping<a class="headerlink" href="#mapping" title="Link to this heading">¶</a></h3>
 <p>To associate the topics in ROS 2 with the services in <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>, we will
-use static mapping, which can be defined with a configuration file:</p>
+use static mapping, which can be defined with a configuration file.</p>
+<p>Create the configuration file in the project directory:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/iceoryx2_ros2/twist_limiter</span>
+<span class="go">touch mapping.toml</span>
+</pre></div>
+</div>
+<p>And add the mappings to it:</p>
 <div class="literal-block-wrapper docutils container" id="id7">
 <div class="code-block-caption"><span class="caption-text">twist_limiter/mapping.toml</span><a class="headerlink" href="#id7" title="Link to this code">¶</a></div>
 <div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[[mapping]]</span>
