@@ -24,7 +24,7 @@ device on the same network.
 The required data is already flowing through `iceoryx2`'s shared memory. A
 [link](/fundamentals/links) can hook into that flow and
 propagate it to other hosts. Since our dashboard will also run `iceoryx2`, we
-will use a a link with a tunneling backend which propagates the raw shared
+will use a link with a tunneling backend which propagates the raw shared
 memory samples over the network.
 
 ```{tip}

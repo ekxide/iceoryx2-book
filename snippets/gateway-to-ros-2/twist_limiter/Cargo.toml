@@ -1,0 +1,11 @@
+# The articles show placeholder versions for the iceoryx2 dependencies; the
+# compile checks build against the latest iceoryx2 sources.
+[package]
+name = "twist_limiter"
+edition = "2024"
+publish = false
+
+[dependencies]
+iceoryx2 = { git = "https://github.com/eclipse-iceoryx/iceoryx2", branch = "main" }
+ros-env = { version = "0.2" }
+rosidl_runtime_rs = { version = "0.7" }
