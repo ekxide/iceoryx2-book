@@ -1,0 +1,86 @@
+<svg viewBox="12 52 778 228" role="img" aria-label="A gateway's mapping and translator between the link's core and its adapter to another middleware" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .gw-host    { fill: none; stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1; stroke-dasharray: 5 3; }
+    .gw-host-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 13px; fill: var(--ix-text, #eaf3f7); }
+    .gw-link    { fill: none; stroke: var(--ix-blue, #5b8def); stroke-width: 1.5; }
+    .gw-link-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 13px; fill: var(--ix-blue, #5b8def); }
+    .gw-smr     { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
+    .gw-smr-t   { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-text, #eaf3f7); }
+    .gw-part    { fill: var(--ix-surface, #141d2d); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1.5; }
+    .gw-part-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-text, #eaf3f7); }
+    .gw-comp    { fill: rgba(91,141,239,0.14); stroke: var(--ix-blue, #5b8def); stroke-width: 1.25; }
+    .gw-comp-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-blue, #5b8def); }
+    .gw-group   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-blue, #5b8def); stroke-width: 1; stroke-opacity: 0.5; }
+    .gw-group-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-blue, #5b8def); }
+    .gw-app     { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .gw-app-t   { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-muted, #bccbd6); }
+    .gw-edge-t  { font-family: var(--font-stack, sans-serif); font-style: italic; font-size: 12.5px; fill: var(--ix-text, #eaf3f7); opacity: 0.85; }
+    .gw-flow    { stroke: var(--ix-muted, #bccbd6); stroke-width: 1.5; fill: none; }
+    .gw-flow-2  { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
+  </style>
+  <defs>
+    <marker id="gw-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto-start-reverse" markerUnits="userSpaceOnUse" overflow="visible">
+      <path d="M1,1 L8,4.5 L1,8 Z" fill="var(--ix-muted, #bccbd6)"/>
+    </marker>
+  </defs>
+
+  <!-- The outer boxes span y 60..272 like the other link figures. The link sits inside the iceoryx2 system;
+       the services lane runs on y 158, the data lane on y 200 -->
+
+  <!-- iceoryx2 system, containing participants, shared memory and the link -->
+  <rect class="gw-host" x="20" y="60" width="550" height="212" rx="12"/>
+  <text class="gw-host-t" x="34" y="81">iceoryx2 System</text>
+  <rect class="gw-part" x="32" y="149" width="66" height="26" rx="5"/>
+  <text class="gw-part-t" x="65" y="166" text-anchor="middle">Participant</text>
+  <rect class="gw-part" x="32" y="181" width="66" height="26" rx="5"/>
+  <text class="gw-part-t" x="65" y="198" text-anchor="middle">…</text>
+  <rect class="gw-smr" x="124" y="124" width="68" height="108" rx="8"/>
+  <text class="gw-smr-t" x="158" y="175" text-anchor="middle">Shared</text>
+  <text class="gw-smr-t" x="158" y="189" text-anchor="middle">Memory</text>
+  <line class="gw-flow" x1="101" y1="162" x2="121" y2="162" marker-start="url(#gw-arrow)" marker-end="url(#gw-arrow)"/>
+  <line class="gw-flow" x1="101" y1="194" x2="121" y2="194" marker-start="url(#gw-arrow)" marker-end="url(#gw-arrow)"/>
+
+  <!-- Link -->
+  <rect class="gw-link" x="206" y="96" width="348" height="156" rx="12"/>
+  <text class="gw-link-t" x="220" y="115">Link</text>
+  <rect class="gw-group" x="222" y="124" width="60" height="108" rx="8"/>
+  <text class="gw-group-t" x="252" y="182" text-anchor="middle">Core</text>
+
+  <!-- Gateway -->
+  <rect class="gw-group" x="368" y="118" width="170" height="120" rx="8"/>
+  <text class="gw-group-t" x="453" y="135" text-anchor="middle">Gateway Backend</text>
+  <rect class="gw-comp" x="378" y="146" width="68" height="24" rx="5"/>
+  <text class="gw-comp-t" x="412" y="162" text-anchor="middle">Mapping</text>
+  <rect class="gw-comp" x="378" y="188" width="68" height="24" rx="5"/>
+  <text class="gw-comp-t" x="412" y="204" text-anchor="middle">Translator</text>
+  <rect class="gw-comp" x="472" y="146" width="56" height="66" rx="5"/>
+  <text class="gw-comp-t" x="500" y="183" text-anchor="middle">Adapter</text>
+
+  <!-- Other middleware -->
+  <rect class="gw-host" x="646" y="60" width="136" height="212" rx="12"/>
+  <text class="gw-host-t" x="660" y="81">Other Middleware</text>
+  <rect class="gw-app" x="666" y="131" width="96" height="26" rx="5"/>
+  <text class="gw-app-t" x="714" y="148" text-anchor="middle">Endpoint</text>
+  <rect class="gw-app" x="666" y="165" width="96" height="26" rx="5"/>
+  <text class="gw-app-t" x="714" y="182" text-anchor="middle">Endpoint</text>
+  <rect class="gw-app" x="666" y="199" width="96" height="26" rx="5"/>
+  <text class="gw-app-t" x="714" y="216" text-anchor="middle">…</text>
+
+  <!-- Shared memory <-> core -->
+  <line class="gw-flow-2" x1="195" y1="178" x2="219" y2="178" marker-start="url(#gw-arrow)" marker-end="url(#gw-arrow)"/>
+
+  <!-- Services lane: core <-> mapping <-> adapter -->
+  <line class="gw-flow-2" x1="285" y1="158" x2="375" y2="158" marker-start="url(#gw-arrow)" marker-end="url(#gw-arrow)"/>
+  <text class="gw-edge-t" x="325" y="150" text-anchor="middle">relay services</text>
+  <line class="gw-flow-2" x1="449" y1="158" x2="469" y2="158" marker-start="url(#gw-arrow)" marker-end="url(#gw-arrow)"/>
+
+  <!-- Data lane: core <-> translator <-> adapter -->
+  <line class="gw-flow-2" x1="285" y1="200" x2="375" y2="200" marker-start="url(#gw-arrow)" marker-end="url(#gw-arrow)"/>
+  <text class="gw-edge-t" x="325" y="192" text-anchor="middle">relay data</text>
+  <line class="gw-flow-2" x1="449" y1="200" x2="469" y2="200" marker-start="url(#gw-arrow)" marker-end="url(#gw-arrow)"/>
+
+  <!-- Adapter <-> other middleware -->
+  <line class="gw-flow-2" x1="531" y1="179" x2="643" y2="179" marker-start="url(#gw-arrow)" marker-end="url(#gw-arrow)"/>
+  <text class="gw-edge-t" x="608" y="152" text-anchor="middle">native</text>
+  <text class="gw-edge-t" x="608" y="168" text-anchor="middle">messages</text>
+</svg>

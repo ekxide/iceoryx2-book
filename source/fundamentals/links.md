@@ -49,6 +49,13 @@ services correspond to which of the middleware's endpoints, and a translator,
 which converts data between their formats. This lets applications that
 do not use `iceoryx2` participate in the communication.
 
+```{inline-svg} /images/link-backend-gateway.svg
+:name: fig-gateway
+:alt: a gateway's mapping and translator between the link's core and its adapter to another middleware
+
+The Components of a Gateway
+```
+
 An adapter integrates a single middleware. It lists the middleware's endpoints
 and exchanges messages with them. An adapter for ROS 2 is provided, and further
 middlewares can be supported by implementing additional adapters.
