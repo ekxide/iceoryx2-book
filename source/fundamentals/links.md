@@ -67,6 +67,13 @@ or a hypervisor channel. Samples cross as-is, in the exact form they have in
 shared memory. By avoiding data transformation, tunnels minimize processing
 overhead.
 
+```{inline-svg} /images/link-backend-tunnel.svg
+:name: fig-tunnel
+:alt: a sample crossing a tunnel unchanged between two iceoryx2 systems
+
+A Sample Crossing a Tunnel
+```
+
 A carrier integrates a single communication mechanism. It announces services
 to its peers and carries their bytes. A carrier over Zenoh is provided, and
 further mechanisms can be supported by implementing additional carriers.

@@ -1,0 +1,81 @@
+<svg viewBox="12 52 778 152" role="img" aria-label="A sample crossing a tunnel unchanged between two iceoryx2 systems" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .tn-host    { fill: none; stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1; stroke-dasharray: 5 3; }
+    .tn-host-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 13px; fill: var(--ix-text, #eaf3f7); }
+    .tn-smr     { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
+    .tn-smr-t   { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-text, #eaf3f7); }
+    .tn-comp    { fill: rgba(91,141,239,0.14); stroke: var(--ix-blue, #5b8def); stroke-width: 1.25; }
+    .tn-comp-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-blue, #5b8def); }
+    .tn-comp-s  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 8px; fill: var(--ix-blue, #5b8def); opacity: 0.8; }
+    .tn-pipe-e  { stroke: var(--ix-blue, #5b8def); stroke-width: 1.25; fill: none; }
+    .tn-rim     { fill: var(--ix-surface, #141d2d); stroke: var(--ix-blue, #5b8def); stroke-width: 1.25; }
+    .tn-cell    { fill: var(--ix-surface, #141d2d); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1; }
+    .tn-cell-x  { fill: none; stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1; stroke-dasharray: 3 2; }
+    .tn-bytes-s { font-family: var(--font-mono, ui-monospace, monospace); font-size: 9px; fill: var(--ix-text, #eaf3f7); }
+    .tn-bytes   { font-family: var(--font-mono, ui-monospace, monospace); font-size: 10.5px; fill: var(--ix-text, #eaf3f7); }
+    .tn-flow    { stroke: var(--ix-muted, #bccbd6); stroke-width: 1.5; fill: none; }
+  </style>
+  <defs>
+    <linearGradient id="tn-pipe-shade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" style="stop-color: var(--ix-blue, #5b8def); stop-opacity: 0.28"/>
+      <stop offset="0.45" style="stop-color: var(--ix-blue, #5b8def); stop-opacity: 0.05"/>
+      <stop offset="1" style="stop-color: var(--ix-blue, #5b8def); stop-opacity: 0.24"/>
+    </linearGradient>
+    <marker id="tn-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto-start-reverse" markerUnits="userSpaceOnUse" overflow="visible">
+      <path d="M1,1 L8,4.5 L1,8 Z" fill="var(--ix-muted, #bccbd6)"/>
+    </marker>
+  </defs>
+
+  <!-- The sample's bytes sit on one row, y 128..148, in both systems and in the pipe -->
+
+  <!-- Pipe between the two tunnels, drawn first so the systems sit on top of its ends -->
+  <rect x="280" y="128" width="242" height="20" fill="url(#tn-pipe-shade)"/>
+  <line class="tn-pipe-e" x1="280" y1="128" x2="522" y2="128"/>
+  <line class="tn-pipe-e" x1="280" y1="148" x2="522" y2="148"/>
+  <ellipse class="tn-rim" cx="286" cy="138" rx="3" ry="10"/>
+  <ellipse class="tn-rim" cx="516" cy="138" rx="3" ry="10"/>
+  <rect class="tn-cell-x" x="362" y="131" width="18" height="14" rx="2"/>
+  <text class="tn-bytes-s" x="371" y="141" text-anchor="middle">3f</text>
+  <rect class="tn-cell-x" x="382" y="131" width="18" height="14" rx="2"/>
+  <text class="tn-bytes-s" x="391" y="141" text-anchor="middle">a1</text>
+  <rect class="tn-cell-x" x="402" y="131" width="18" height="14" rx="2"/>
+  <text class="tn-bytes-s" x="411" y="141" text-anchor="middle">07</text>
+  <rect class="tn-cell-x" x="422" y="131" width="18" height="14" rx="2"/>
+  <text class="tn-bytes-s" x="431" y="141" text-anchor="middle">c2</text>
+
+  <!-- iceoryx2 system A -->
+  <rect class="tn-host" x="20" y="60" width="280" height="136" rx="12"/>
+  <text class="tn-host-t" x="34" y="81">iceoryx2 System A</text>
+  <text class="tn-smr-t" x="36" y="113">Shared Memory</text>
+  <rect class="tn-smr" x="36" y="120" width="136" height="36" rx="6"/>
+  <rect class="tn-cell" x="51" y="128" width="24" height="20" rx="3"/>
+  <text class="tn-bytes" x="63" y="142" text-anchor="middle">3f</text>
+  <rect class="tn-cell" x="77" y="128" width="24" height="20" rx="3"/>
+  <text class="tn-bytes" x="89" y="142" text-anchor="middle">a1</text>
+  <rect class="tn-cell" x="103" y="128" width="24" height="20" rx="3"/>
+  <text class="tn-bytes" x="115" y="142" text-anchor="middle">07</text>
+  <rect class="tn-cell" x="129" y="128" width="24" height="20" rx="3"/>
+  <text class="tn-bytes" x="141" y="142" text-anchor="middle">c2</text>
+  <rect class="tn-comp" x="196" y="116" width="84" height="44" rx="6"/>
+  <text class="tn-comp-s" x="238" y="134" text-anchor="middle">Link</text>
+  <text class="tn-comp-t" x="238" y="147" text-anchor="middle">Tunnel</text>
+  <line class="tn-flow" x1="175" y1="138" x2="193" y2="138" marker-start="url(#tn-arrow)" marker-end="url(#tn-arrow)"/>
+
+  <!-- iceoryx2 system B -->
+  <rect class="tn-host" x="502" y="60" width="280" height="136" rx="12"/>
+  <text class="tn-host-t" x="516" y="81">iceoryx2 System B</text>
+  <rect class="tn-comp" x="522" y="116" width="84" height="44" rx="6"/>
+  <text class="tn-comp-s" x="564" y="134" text-anchor="middle">Link</text>
+  <text class="tn-comp-t" x="564" y="147" text-anchor="middle">Tunnel</text>
+  <text class="tn-smr-t" x="630" y="113">Shared Memory</text>
+  <rect class="tn-smr" x="630" y="120" width="136" height="36" rx="6"/>
+  <rect class="tn-cell" x="645" y="128" width="24" height="20" rx="3"/>
+  <text class="tn-bytes" x="657" y="142" text-anchor="middle">3f</text>
+  <rect class="tn-cell" x="671" y="128" width="24" height="20" rx="3"/>
+  <text class="tn-bytes" x="683" y="142" text-anchor="middle">a1</text>
+  <rect class="tn-cell" x="697" y="128" width="24" height="20" rx="3"/>
+  <text class="tn-bytes" x="709" y="142" text-anchor="middle">07</text>
+  <rect class="tn-cell" x="723" y="128" width="24" height="20" rx="3"/>
+  <text class="tn-bytes" x="735" y="142" text-anchor="middle">c2</text>
+  <line class="tn-flow" x1="609" y1="138" x2="627" y2="138" marker-start="url(#tn-arrow)" marker-end="url(#tn-arrow)"/>
+</svg>
