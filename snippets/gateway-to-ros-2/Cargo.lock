@@ -846,6 +846,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "twist_limiter_event_driven"
+version = "0.0.0"
+dependencies = [
+ "iceoryx2",
+ "ros-env",
+ "rosidl_runtime_rs",
+]
+
+[[package]]
 name = "unicode-ident"
 version = "1.0.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"

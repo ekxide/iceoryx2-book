@@ -7,4 +7,5 @@ members = [
     "gateway_basics",
     "shouter",
     "twist_limiter",
+    "twist_limiter_event_driven",
 ]
