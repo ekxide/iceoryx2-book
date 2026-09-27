@@ -716,6 +716,12 @@ implemented.</p>
 <p><span class="caption-text">The Core and Backend of a Link</span><a class="headerlink" href="#fig-link-backends" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Links aim to keep data copies to a minimum. Where the API of the mechanism
+allows it, data moves from shared memory straight into its send buffer, and
+from its receive buffer straight into shared memory.</p>
+</div>
 <section id="gateways">
 <h3>Gateways<a class="headerlink" href="#gateways" title="Link to this heading">¶</a></h3>
 <p>Gateways connect <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> to another middleware through an adapter. Besides

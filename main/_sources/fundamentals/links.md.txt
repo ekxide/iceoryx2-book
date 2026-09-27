@@ -41,6 +41,12 @@ implemented.
 The Core and Backend of a Link
 ```
 
+```{note}
+Links aim to keep data copies to a minimum. Where the API of the mechanism
+allows it, data moves from shared memory straight into its send buffer, and
+from its receive buffer straight into shared memory.
+```
+
 ### Gateways
 
 Gateways connect `iceoryx2` to another middleware through an adapter. Besides
