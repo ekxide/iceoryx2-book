@@ -7,8 +7,10 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://ekxide.github.io/iceoryx2-book/tutorials/gateway-to-ros-2/event-driven-gateway.html" />
 <meta property="og:site_name" content="The iceoryx2 Book" />
+<meta property="og:description" content="The previous articles run the gateway in its default polling mode. Every 100 milliseconds the gateway wakes, discovers what changed and moves the pending samples. The applications behind it must po..." />
 <meta property="og:image" content="https://ekxide.github.io/iceoryx2-book/main/_static/og-card.png" />
 <meta property="og:image:alt" content="The iceoryx2 Book" />
+<meta name="description" content="The previous articles run the gateway in its default polling mode. Every 100 milliseconds the gateway wakes, discovers what changed and moves the pending samples. The applications behind it must po..." />
 <meta name="twitter:card" content="summary_large_image">
 <link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="How To" href="../../how-to/index.html" /><link rel="prev" title="FlatBuffer as Payload" href="flatbuffer-as-payload.html" />
         <link rel="canonical" href="https://ekxide.github.io/iceoryx2-book/tutorials/gateway-to-ros-2/event-driven-gateway.html" />
@@ -368,7 +370,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -511,7 +513,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -519,10 +521,403 @@
         <article role="main" id="furo-main-content">
           <section id="event-driven-gateway">
 <h1>Event-Driven Gateway<a class="headerlink" href="#event-driven-gateway" title="Link to this heading">¶</a></h1>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The ROS 2 integrations are currently prototypes and have not yet been validated
+in real ROS 2 workflows. They are recommended only for experimentation in
+development deployments.</p>
+</div>
+<p>The previous articles run the gateway in its default polling mode. Every 100
+milliseconds the gateway wakes, discovers what changed and moves the pending
+samples. The applications behind it must poll their subscribers periodically
+as well.</p>
+<p>Polling is simple, but it has a cost. A sample is only moved at the polling
+frequency. The gateway and each application can delay a sample by up to one
+polling period. Along a pipeline, these delays add up. Every poll also wakes
+a process when there is nothing to do.</p>
+<p>In this article, we will make every component of a pipeline event-driven
+instead. The gateway will wake when data arrives from ROS 2 or when an
+application publishes. The applications will wake when the gateway delivers
+data to them. Samples then move through the pipeline as soon as they are
+published.</p>
+<section id="topology">
+<h2>Topology<a class="headerlink" href="#topology" title="Link to this heading">¶</a></h2>
+<p>To demonstrate the approach, let’s revisit the pipeline from
+<a class="reference internal" href="plain-struct-as-payload.html"><span class="doc std std-doc">Plain Struct as Payload</span></a>.
+A limiter application in <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> subscribes to the <code class="docutils literal notranslate"><span class="pre">/cmd_vel</span></code> topic, clamps
+the received velocity to a maximum, and republishes it on <code class="docutils literal notranslate"><span class="pre">/cmd_vel_limited</span></code>.</p>
+<p>The data takes the same path as before. What changes is how each component
+learns that there is data to handle:</p>
+<figure class="align-default" id="id1">
+<pre  class="mermaid">
+        %%{init: {&quot;flowchart&quot;: {&quot;subGraphTitleMargin&quot;: {&quot;top&quot;: 10, &quot;bottom&quot;: 8}}} }%%
+flowchart LR
+    subgraph ros2a[&quot;ROS 2&quot;]
+        pub[&quot;ros2 topic pub&quot;]:::external
+    end
+
+    gw1[&quot;Gateway&quot;]:::gateway
+
+    subgraph iox2[&quot;iceoryx2&quot;]
+        lim[&quot;Twist Limiter&quot;]
+    end
+
+    gw2[&quot;Gateway&quot;]:::gateway
+
+    subgraph ros2b[&quot;ROS 2&quot;]
+        echo[&quot;ros2 topic echo&quot;]:::external
+    end
+
+    pub -- &quot;/cmd_vel&lt;br/&gt;DDS&quot; --&gt; gw1
+    gw1 -- &quot;Twist&lt;br/&gt;SHM&quot; --&gt; lim
+    lim -- &quot;Twist&lt;br/&gt;SHM&quot; --&gt; gw2
+    gw2 -- &quot;/cmd_vel_limited&lt;br/&gt;DDS&quot; --&gt; echo
+    </pre><figcaption>
+<p><span class="caption-text">Every component of the pipeline wakes the next one</span><a class="headerlink" href="#id1" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>Along the way, each component wakes on its own event:</p>
+<ol class="arabic simple">
+<li><p>The gateway wakes when a message arrives from ROS 2.</p></li>
+<li><p>The limiter wakes when the gateway delivers a sample to <code class="docutils literal notranslate"><span class="pre">CmdVel</span></code>.</p></li>
+<li><p>The gateway wakes when the limiter notifies <code class="docutils literal notranslate"><span class="pre">CmdVelLimited</span></code>.</p></li>
+</ol>
+</section>
+<section id="setting-up">
+<h2>Setting Up<a class="headerlink" href="#setting-up" title="Link to this heading">¶</a></h2>
+<p>Let’s build on the setup from
+<a class="reference internal" href="plain-struct-as-payload.html"><span class="doc std std-doc">Plain Struct as Payload</span></a>.
+We create a new <code class="docutils literal notranslate"><span class="pre">cargo</span></code> project for the event-driven limiter in the same working
+directory:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>~/iceoryx2_ros2/
+├── shouter/                      # cargo project from a previous article
+├── twist_limiter/                # cargo project from a previous article
+└── twist_limiter_event_driven/   # cargo project of the iceoryx2 application
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/iceoryx2_ros2</span>
+<span class="go">cargo new twist_limiter_event_driven</span>
+<span class="go">cd twist_limiter_event_driven</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Cargo.toml</span></code> is the same as the one of the polling limiter:</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">twist_limiter_event_driven/Cargo.toml</span><a class="headerlink" href="#id2" title="Link to this code">¶</a></div>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[package]</span>
+<span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;twist_limiter_event_driven&quot;</span>
+<span class="n">edition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;2024&quot;</span>
+<span class="n">publish</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+
+<span class="k">[dependencies]</span>
+<span class="n">iceoryx2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;X.Y.Z&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="c1"># select the desired `iceoryx2` version</span>
+<span class="c1"># iceoryx2 = { git = &quot;https://github.com/eclipse-iceoryx/iceoryx2&quot;, branch = &quot;main&quot; } # if the gateway is built from `main`</span>
+<span class="n">ros-env</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;0.2&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">rosidl_runtime_rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;0.7&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="c1"># the version `ros-env` depends on</span>
+</pre></div>
+</div>
+</div>
+<p>As before, the <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> version must match the one the gateway is built
+from.</p>
+</section>
+<section id="the-twist-limiter">
+<h2>The Twist Limiter<a class="headerlink" href="#the-twist-limiter" title="Link to this heading">¶</a></h2>
+<p>The event-driven limiter will consist of the same payload module as the polling
+limiter and a new application:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>~/iceoryx2_ros2/twist_limiter_event_driven/
+├── Cargo.toml
+├── mapping.toml   # gateway configuration, see below
+└── src/
+    ├── main.rs    # the application
+    └── twist.rs   # the payload type
+</pre></div>
+</div>
+<section id="the-payload">
+<h3>The Payload<a class="headerlink" href="#the-payload" title="Link to this heading">¶</a></h3>
+<p>The payload type is the same as the one of the
+<a class="reference internal" href="plain-struct-as-payload.html#the-payload"><span class="std std-ref">polling limiter</span></a>.
+Create the module for the payload type:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/iceoryx2_ros2/twist_limiter_event_driven</span>
+<span class="go">touch src/twist.rs</span>
+</pre></div>
+</div>
+<p>And add the wrapper to it:</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">twist_limiter_event_driven/src/twist.rs</span><a class="headerlink" href="#id3" title="Link to this code">¶</a></div>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">iceoryx2</span><span class="p">::</span><span class="n">prelude</span><span class="p">::</span><span class="o">*</span><span class="p">;</span>
+<span class="k">use</span><span class="w"> </span><span class="n">rosidl_runtime_rs</span><span class="p">::{</span><span class="n">Message</span><span class="p">,</span><span class="w"> </span><span class="n">RmwMessage</span><span class="p">};</span>
+
+<span class="cp">#[derive(Debug, Default, Clone)]</span>
+<span class="cp">#[repr(transparent)]</span>
+<span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">Twist</span><span class="p">(</span><span class="k">pub</span><span class="w"> </span><span class="n">ros_env</span><span class="p">::</span><span class="n">geometry_msgs</span><span class="p">::</span><span class="n">msg</span><span class="p">::</span><span class="n">rmw</span><span class="p">::</span><span class="n">Twist</span><span class="p">);</span>
+
+<span class="k">unsafe</span><span class="w"> </span><span class="k">impl</span><span class="w"> </span><span class="n">ZeroCopySend</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">Twist</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">unsafe</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">type_name</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kp">&amp;</span><span class="o">&#39;</span><span class="nb">static</span><span class="w"> </span><span class="kt">str</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="o">&lt;&lt;</span><span class="n">ros_env</span><span class="p">::</span><span class="n">geometry_msgs</span><span class="p">::</span><span class="n">msg</span><span class="p">::</span><span class="n">Twist</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">Message</span><span class="o">&gt;</span><span class="p">::</span><span class="n">RmwMsg</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">RmwMessage</span><span class="o">&gt;</span><span class="p">::</span><span class="n">TYPE_NAME</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="the-application">
+<h3>The Application<a class="headerlink" href="#the-application" title="Link to this heading">¶</a></h3>
+<p>The application will be similar, except that it additionally waits on the
+event service matching the service name of its <code class="docutils literal notranslate"><span class="pre">CmdVel</span></code> subscriber so that it
+wakes as soon as the gateway delivers a sample. After each publish, it also
+notifies the event service matching the service name of its <code class="docutils literal notranslate"><span class="pre">CmdVelLimited</span></code>
+publisher to wake the gateway:</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">twist_limiter_event_driven/src/main.rs</span><a class="headerlink" href="#id4" title="Link to this code">¶</a></div>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">mod</span><span class="w"> </span><span class="nn">twist</span><span class="p">;</span>
+
+<span class="k">use</span><span class="w"> </span><span class="n">iceoryx2</span><span class="p">::</span><span class="n">prelude</span><span class="p">::</span><span class="o">*</span><span class="p">;</span>
+<span class="k">use</span><span class="w"> </span><span class="n">twist</span><span class="p">::</span><span class="n">Twist</span><span class="p">;</span>
+
+<span class="k">const</span><span class="w"> </span><span class="n">MAX_VELOCITY_M_PER_S</span><span class="p">:</span><span class="w"> </span><span class="kt">f64</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="p">;</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">limit</span><span class="p">(</span><span class="n">twist</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">Twist</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">Twist</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">limited</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">twist</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span>
+<span class="w">    </span><span class="n">limited</span><span class="p">.</span><span class="mf">0.</span><span class="n">linear</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">limited</span>
+<span class="w">        </span><span class="p">.</span><span class="mi">0</span>
+<span class="w">        </span><span class="p">.</span><span class="n">linear</span>
+<span class="w">        </span><span class="p">.</span><span class="n">x</span>
+<span class="w">        </span><span class="p">.</span><span class="n">clamp</span><span class="p">(</span><span class="o">-</span><span class="n">MAX_VELOCITY_M_PER_S</span><span class="p">,</span><span class="w"> </span><span class="n">MAX_VELOCITY_M_PER_S</span><span class="p">);</span>
+<span class="w">    </span><span class="n">limited</span>
+<span class="p">}</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="p">(),</span><span class="w"> </span><span class="nb">Box</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">core</span><span class="p">::</span><span class="n">error</span><span class="p">::</span><span class="n">Error</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">set_log_level_from_env_or</span><span class="p">(</span><span class="n">LogLevel</span><span class="p">::</span><span class="n">Info</span><span class="p">);</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">::</span><span class="n">new</span><span class="p">().</span><span class="n">create</span><span class="p">::</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="o">&gt;</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">subscriber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
+<span class="w">        </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;CmdVel&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="n">publish_subscribe</span><span class="p">::</span><span class="o">&lt;</span><span class="n">Twist</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span>
+<span class="w">        </span><span class="p">.</span><span class="n">subscriber_builder</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">listener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
+<span class="w">        </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;CmdVel&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="n">event</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span>
+<span class="w">        </span><span class="p">.</span><span class="n">listener_builder</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">publisher</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
+<span class="w">        </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;CmdVelLimited&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="n">publish_subscribe</span><span class="p">::</span><span class="o">&lt;</span><span class="n">Twist</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span>
+<span class="w">        </span><span class="p">.</span><span class="n">publisher_builder</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">notifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
+<span class="w">        </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;CmdVelLimited&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="n">event</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span>
+<span class="w">        </span><span class="p">.</span><span class="n">notifier_builder</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">waitset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WaitSetBuilder</span><span class="p">::</span><span class="n">new</span><span class="p">().</span><span class="n">create</span><span class="p">::</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="o">&gt;</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">_guard</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">waitset</span><span class="p">.</span><span class="n">attach_notification</span><span class="p">(</span><span class="o">&amp;</span><span class="n">listener</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">on_event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">|</span><span class="n">_</span><span class="p">:</span><span class="w"> </span><span class="nc">WaitSetAttachmentId</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="o">&gt;|</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// drain every pending notification, otherwise the WaitSet wakes</span>
+<span class="w">        </span><span class="c1">// again immediately and spins</span>
+<span class="w">        </span><span class="n">listener</span><span class="p">.</span><span class="n">try_wait</span><span class="p">(</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="w"> </span><span class="p">{}).</span><span class="n">unwrap</span><span class="p">();</span>
+
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(</span><span class="nb">Some</span><span class="p">(</span><span class="n">sample</span><span class="p">))</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subscriber</span><span class="p">.</span><span class="n">receive</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">received</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample</span><span class="p">.</span><span class="n">payload</span><span class="p">();</span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">limited</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">limit</span><span class="p">(</span><span class="n">received</span><span class="p">);</span>
+
+<span class="w">            </span><span class="n">coutln</span><span class="o">!</span><span class="p">(</span>
+<span class="w">                </span><span class="s">&quot;limited linear.x from {} to {}&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="n">received</span><span class="p">.</span><span class="mf">0.</span><span class="n">linear</span><span class="p">.</span><span class="n">x</span><span class="p">,</span>
+<span class="w">                </span><span class="n">limited</span><span class="p">.</span><span class="mf">0.</span><span class="n">linear</span><span class="p">.</span><span class="n">x</span>
+<span class="w">            </span><span class="p">);</span>
+
+<span class="w">            </span><span class="n">publisher</span>
+<span class="w">                </span><span class="p">.</span><span class="n">loan_uninit</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="n">write_payload</span><span class="p">(</span><span class="n">limited</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="n">send</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="n">unwrap</span><span class="p">();</span>
+<span class="w">            </span><span class="n">notifier</span><span class="p">.</span><span class="n">notify</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">CallbackProgression</span><span class="p">::</span><span class="n">Continue</span>
+<span class="w">    </span><span class="p">};</span>
+
+<span class="w">    </span><span class="n">waitset</span><span class="p">.</span><span class="n">wait_and_process</span><span class="p">(</span><span class="n">on_event</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nb">Ok</span><span class="p">(())</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="the-gateway">
+<h2>The Gateway<a class="headerlink" href="#the-gateway" title="Link to this heading">¶</a></h2>
+<p>The gateway uses the same mapping and translator as for the polling limiter.
+It differs in when it runs. Instead of polling, it wakes on data arriving from
+ROS 2 and on notifications from the limiter. It also wakes the limiter by
+notifying it whenever it delivers a sample to <code class="docutils literal notranslate"><span class="pre">CmdVel</span></code>.</p>
+<section id="mapping">
+<h3>Mapping<a class="headerlink" href="#mapping" title="Link to this heading">¶</a></h3>
+<p>The mapping is the same as the one of the
+<a class="reference internal" href="plain-struct-as-payload.html#mapping"><span class="std std-ref">polling limiter</span></a>.
+Create the configuration file in the project directory:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/iceoryx2_ros2/twist_limiter_event_driven</span>
+<span class="go">touch mapping.toml</span>
+</pre></div>
+</div>
+<p>And add the mappings to it:</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">twist_limiter_event_driven/mapping.toml</span><a class="headerlink" href="#id5" title="Link to this code">¶</a></div>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[[mapping]]</span>
+<span class="n">iceoryx2</span><span class="p">.</span><span class="n">service_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;CmdVel&quot;</span>
+<span class="n">iceoryx2</span><span class="p">.</span><span class="n">payload_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;geometry_msgs/msg/Twist&quot;</span>
+<span class="n">ros2</span><span class="p">.</span><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/cmd_vel&quot;</span>
+<span class="n">ros2</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;geometry_msgs/msg/Twist&quot;</span>
+
+<span class="k">[[mapping]]</span>
+<span class="n">iceoryx2</span><span class="p">.</span><span class="n">service_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;CmdVelLimited&quot;</span>
+<span class="n">iceoryx2</span><span class="p">.</span><span class="n">payload_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;geometry_msgs/msg/Twist&quot;</span>
+<span class="n">ros2</span><span class="p">.</span><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/cmd_vel_limited&quot;</span>
+<span class="n">ros2</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;geometry_msgs/msg/Twist&quot;</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="waking">
+<h3>Waking<a class="headerlink" href="#waking" title="Link to this heading">¶</a></h3>
+<p>Three options make the gateway event-driven:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--reactive</span></code> wakes the gateway when data arrives over DDS or when the ROS 2
+endpoints change.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--notify</span></code> makes the gateway notify the <code class="docutils literal notranslate"><span class="pre">CmdVel</span></code> event service whenever it
+publishes a message from the <code class="docutils literal notranslate"><span class="pre">/cmd_vel</span></code> topic on the <code class="docutils literal notranslate"><span class="pre">CmdVel</span></code>
+publish-subscribe service.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--listener</span> <span class="pre">CmdVelLimited</span></code> wakes the gateway whenever the limiter notifies
+the <code class="docutils literal notranslate"><span class="pre">CmdVelLimited</span></code> event service.</p></li>
+</ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This article is coming soon.</p>
+<p>Polling is disabled when <code class="docutils literal notranslate"><span class="pre">--reactive</span></code> or <code class="docutils literal notranslate"><span class="pre">--listener</span></code> is given. It can be
+re-enabled alongside the other options by setting <code class="docutils literal notranslate"><span class="pre">--poll</span></code> explicitly.</p>
 </div>
+</section>
+</section>
+<section id="running">
+<h2>Running<a class="headerlink" href="#running" title="Link to this heading">¶</a></h2>
+<p>Now with all pieces implemented and configured, we can run the complete
+pipeline. Each application will run in a separate terminal and requires the
+ROS 2 distribution to be sourced.</p>
+<p>First, launch the limiter:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">source /opt/ros/&lt;distro&gt;/setup.bash</span>
+<span class="gp"># </span><span class="nb">source</span><span class="w"> </span>~/iceoryx2_ros2/messages/install/setup.bash<span class="w">  </span><span class="c1"># on older installations</span>
+<span class="go">cd ~/iceoryx2_ros2/twist_limiter_event_driven</span>
+<span class="go">cargo run</span>
+</pre></div>
+</div>
+<p>Next, launch the gateway with the options from the previous section:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">source /opt/ros/&lt;distro&gt;/setup.bash</span>
+<span class="gp"># </span><span class="nb">source</span><span class="w"> </span>~/iceoryx2_ros2/messages/install/setup.bash<span class="w">  </span><span class="c1"># on older installations</span>
+<span class="go">cd ~/iceoryx2_ros2/twist_limiter_event_driven</span>
+<span class="go">iox2 link gateway ros2 --static-mapping mapping.toml --translator PlainStruct \</span>
+<span class="go">    --reactive --notify --listener CmdVelLimited</span>
+</pre></div>
+</div>
+<p>Then start observing the limited result. The type is given explicitly because
+the topic is not yet published. Since shared memory communication guarantees
+delivery, the subscription requests reliable delivery to match:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">source /opt/ros/&lt;distro&gt;/setup.bash</span>
+<span class="gp"># </span><span class="nb">source</span><span class="w"> </span>~/iceoryx2_ros2/messages/install/setup.bash<span class="w">  </span><span class="c1"># on older installations</span>
+<span class="go">ros2 topic echo --qos-reliability reliable /cmd_vel_limited geometry_msgs/msg/Twist</span>
+</pre></div>
+</div>
+<p>Finally, publish velocity commands at 1 Hz that exceed the configured
+maximum:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">source /opt/ros/&lt;distro&gt;/setup.bash</span>
+<span class="gp"># </span><span class="nb">source</span><span class="w"> </span>~/iceoryx2_ros2/messages/install/setup.bash<span class="w">  </span><span class="c1"># on older installations</span>
+<span class="go">ros2 topic pub -r 1 /cmd_vel geometry_msgs/msg/Twist &quot;{linear: {x: 5.0}}&quot;</span>
+</pre></div>
+</div>
+<p>The output is the same as with the polling limiter:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cargo<span class="w"> </span>run
+<span class="go">limited linear.x from 5 to 1</span>
+<span class="go">limited linear.x from 5 to 1</span>
+<span class="go">limited linear.x from 5 to 1</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>--qos-reliability<span class="w"> </span>reliable<span class="w"> </span>/cmd_vel_limited<span class="w"> </span>geometry_msgs/msg/Twist
+<span class="go">linear:</span>
+<span class="go">  x: 1.0</span>
+<span class="go">  y: 0.0</span>
+<span class="go">  z: 0.0</span>
+<span class="go">angular:</span>
+<span class="go">  x: 0.0</span>
+<span class="go">  y: 0.0</span>
+<span class="go">  z: 0.0</span>
+<span class="go">---</span>
+<span class="go">linear:</span>
+<span class="go">  x: 1.0</span>
+<span class="go">  y: 0.0</span>
+<span class="go">  z: 0.0</span>
+<span class="go">angular:</span>
+<span class="go">  x: 0.0</span>
+<span class="go">  y: 0.0</span>
+<span class="go">  z: 0.0</span>
+<span class="go">---</span>
+</pre></div>
+</div>
+<p>This time, every command moves through the pipeline as soon as it is
+published. Between two commands, neither the gateway nor the limiter wakes.</p>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">¶</a></h2>
+<p>An event-driven pipeline has no polling latency and lets idle components sleep.
+In exchange, every application must handle events. Each publisher notifies after
+sending, and the gateway needs one <code class="docutils literal notranslate"><span class="pre">--listener</span></code> per service it forwards to
+ROS 2.</p>
+<p>Polling remains the simpler choice when its latency is acceptable or when the
+applications cannot be changed. If desired, polling can be enabled with
+<code class="docutils literal notranslate"><span class="pre">--poll</span></code> in addition to these options, which may be useful when not every
+application notifies after publishing.</p>
+</section>
+<section id="further-reading">
+<h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading">¶</a></h2>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-row-cols-1 sd-row-cols-xs-1 sd-row-cols-sm-1 sd-row-cols-md-2 sd-row-cols-lg-3 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-none sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Event-Driven Communication</div>
+<p class="sd-card-text">Wake applications with events instead of polling for samples.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="../../getting-started/robot-nervous-system/event-driven-communication.html"><span class="doc">Event-Driven Communication</span></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-none sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Build the ROS 2 gateway</div>
+<p class="sd-card-text">Build the gateway against your own ROS 2 workspace.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="../../how-to/build-ros-2-gateway.html"><span class="doc">Build the ROS 2 gateway</span></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-none sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Links: Tunnels and Gateways</div>
+<p class="sd-card-text">Understand how to extend <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> beyond its shared memory domain.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="../../fundamentals/links.html"><span class="doc">Links</span></a></div>
+</div>
+</div>
+</div>
+</section>
 </section>
 
         </article>
@@ -564,8 +959,41 @@
 
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Event-Driven Gateway</a><ul>
+<li><a class="reference internal" href="#topology">Topology</a></li>
+<li><a class="reference internal" href="#setting-up">Setting Up</a></li>
+<li><a class="reference internal" href="#the-twist-limiter">The Twist Limiter</a><ul>
+<li><a class="reference internal" href="#the-payload">The Payload</a></li>
+<li><a class="reference internal" href="#the-application">The Application</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-gateway">The Gateway</a><ul>
+<li><a class="reference internal" href="#mapping">Mapping</a></li>
+<li><a class="reference internal" href="#waking">Waking</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#running">Running</a></li>
+<li><a class="reference internal" href="#conclusion">Conclusion</a></li>
+<li><a class="reference internal" href="#further-reading">Further Reading</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
@@ -575,6 +1003,14 @@
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
     <script src="../../_static/js/atmosphere.js?v=5add3646"></script>
     <script src="../../_static/js/version-picker.js?v=1ee9b7b8"></script>
     <script src="../../_static/js/external-links.js?v=e6578c9f"></script>

@@ -532,7 +532,7 @@ code.</p>
 <p>Links can run in separate processes, isolating non-deterministic
 communication, such as networking, from safety-critical code.</p>
 <figure class="ix-diagram align-default" id="fig-links">
-<div class="ix-diagram__scroll"><svg viewBox="12 52 778 184" role="img" aria-label="Links extending iceoryx2 across iceoryx2 systems, a gateway to another middleware over an adapter and a tunnel to another iceoryx2 system over a carrier" xmlns="http://www.w3.org/2000/svg">
+<div class="ix-diagram__scroll"><svg viewBox="12 52 778 184" role="img" aria-label="Links extending iceoryx2 across iceoryx2 systems" xmlns="http://www.w3.org/2000/svg">
   <style>
     .gt-host   { fill: none; stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1; stroke-dasharray: 5 3; }
     .gt-host-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 13px; fill: var(--ix-text, #eaf3f7); }
@@ -552,7 +552,7 @@ communication, such as networking, from safety-critical code.</p>
     .gt-flow-2 { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
   </style>
   <defs>
-    <marker id="gt-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="userSpaceOnUse" overflow="visible">
+    <marker id="gt-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto-start-reverse" markerUnits="userSpaceOnUse" overflow="visible">
       <path d="M1,1 L8,4.5 L1,8 Z" fill="var(--ix-muted, #bccbd6)"/>
     </marker>
   </defs>
@@ -567,10 +567,8 @@ communication, such as networking, from safety-critical code.</p>
   <text class="gt-app-t" x="136" y="122" text-anchor="middle">…</text>
   <rect class="gt-mw" x="34" y="154" width="132" height="58" rx="8"/>
   <text class="gt-mw-t" x="100" y="187" text-anchor="middle">Transport</text>
-  <line class="gt-flow" x1="79" y1="133" x2="79" y2="151" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="85" y1="151" x2="85" y2="133" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="133" y1="133" x2="133" y2="151" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="139" y1="151" x2="139" y2="133" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="82" y1="133" x2="82" y2="151" marker-start="url(#gt-arrow)" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="136" y1="133" x2="136" y2="151" marker-start="url(#gt-arrow)" marker-end="url(#gt-arrow)"/>
 
   <!-- iceoryx2 system A -->
   <rect class="gt-host" x="224" y="60" width="298" height="168" rx="12"/>
@@ -587,14 +585,10 @@ communication, such as networking, from safety-critical code.</p>
   <rect class="gt-comp" x="444" y="165" width="64" height="36" rx="5"/>
   <text class="gt-comp-s" x="476" y="180" text-anchor="middle">Link</text>
   <text class="gt-comp-t" x="476" y="193" text-anchor="middle">Tunnel</text>
-  <line class="gt-flow" x1="352" y1="133" x2="352" y2="151" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="358" y1="151" x2="358" y2="133" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="406" y1="133" x2="406" y2="151" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="412" y1="151" x2="412" y2="133" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="303" y1="180" x2="319" y2="180" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="319" y1="186" x2="303" y2="186" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="443" y1="180" x2="427" y2="180" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="427" y1="186" x2="443" y2="186" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="355" y1="133" x2="355" y2="151" marker-start="url(#gt-arrow)" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="409" y1="133" x2="409" y2="151" marker-start="url(#gt-arrow)" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="303" y1="183" x2="319" y2="183" marker-start="url(#gt-arrow)" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="443" y1="183" x2="427" y2="183" marker-start="url(#gt-arrow)" marker-end="url(#gt-arrow)"/>
 
   <!-- iceoryx2 system B -->
   <rect class="gt-host" x="566" y="60" width="216" height="168" rx="12"/>
@@ -608,21 +602,16 @@ communication, such as networking, from safety-critical code.</p>
   <text class="gt-comp-t" x="612" y="193" text-anchor="middle">Tunnel</text>
   <rect class="gt-smr" x="662" y="154" width="106" height="58" rx="8"/>
   <text class="gt-smr-t" x="715" y="187" text-anchor="middle">Shared Memory</text>
-  <line class="gt-flow" x1="694" y1="133" x2="694" y2="151" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="700" y1="151" x2="700" y2="133" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="748" y1="133" x2="748" y2="151" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="754" y1="151" x2="754" y2="133" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="645" y1="180" x2="661" y2="180" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow" x1="661" y1="186" x2="645" y2="186" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="697" y1="133" x2="697" y2="151" marker-start="url(#gt-arrow)" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="751" y1="133" x2="751" y2="151" marker-start="url(#gt-arrow)" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow" x1="645" y1="183" x2="661" y2="183" marker-start="url(#gt-arrow)" marker-end="url(#gt-arrow)"/>
 
   <!-- Gateway <-> another middleware, over an adapter -->
-  <line class="gt-flow-2" x1="234" y1="180" x2="170" y2="180" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow-2" x1="170" y1="186" x2="234" y2="186" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow-2" x1="234" y1="183" x2="170" y2="183" marker-start="url(#gt-arrow)" marker-end="url(#gt-arrow)"/>
   <text class="gt-edge-t" x="202" y="171" text-anchor="middle">adapter</text>
 
   <!-- Tunnel A <-> Tunnel B, over a carrier -->
-  <line class="gt-flow-2" x1="512" y1="180" x2="576" y2="180" marker-end="url(#gt-arrow)"/>
-  <line class="gt-flow-2" x1="576" y1="186" x2="512" y2="186" marker-end="url(#gt-arrow)"/>
+  <line class="gt-flow-2" x1="512" y1="183" x2="576" y2="183" marker-start="url(#gt-arrow)" marker-end="url(#gt-arrow)"/>
   <text class="gt-edge-t" x="544" y="171" text-anchor="middle">carrier</text>
 </svg>
 </div><figcaption>
@@ -642,6 +631,91 @@ moves data across the boundary.</p></li>
 Gateways are extended to new middlewares through adapters, and tunnels to new
 mechanisms through carriers. If neither kind fits, a new backend kind can be
 implemented.</p>
+<figure class="ix-diagram align-default" id="fig-link-backends">
+<div class="ix-diagram__scroll"><svg viewBox="12 52 778 228" role="img" aria-label="A link's core handling shared memory and its backend handling the opposing side" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .lb-host    { fill: none; stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1; stroke-dasharray: 5 3; }
+    .lb-host-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 13px; fill: var(--ix-text, #eaf3f7); }
+    .lb-link    { fill: none; stroke: var(--ix-blue, #5b8def); stroke-width: 1.5; }
+    .lb-link-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 13px; fill: var(--ix-blue, #5b8def); }
+    .lb-part    { fill: var(--ix-surface, #141d2d); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1.5; }
+    .lb-part-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-text, #eaf3f7); }
+    .lb-comp    { fill: rgba(91,141,239,0.14); stroke: var(--ix-blue, #5b8def); stroke-width: 1.25; }
+    .lb-comp-x  { fill: none; stroke: var(--ix-blue, #5b8def); stroke-width: 1.25; stroke-dasharray: 4 3; }
+    .lb-comp-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-blue, #5b8def); }
+    .lb-group   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-blue, #5b8def); stroke-width: 1; stroke-opacity: 0.5; }
+    .lb-group-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-blue, #5b8def); }
+    .lb-smr     { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
+    .lb-smr-t   { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-text, #eaf3f7); }
+    .lb-app     { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .lb-app-t   { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-muted, #bccbd6); }
+    .lb-edge-t  { font-family: var(--font-stack, sans-serif); font-style: italic; font-size: 12.5px; fill: var(--ix-text, #eaf3f7); opacity: 0.85; }
+    .lb-flow    { stroke: var(--ix-muted, #bccbd6); stroke-width: 1.5; fill: none; }
+    .lb-flow-2  { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
+  </style>
+  <defs>
+    <marker id="lb-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto-start-reverse" markerUnits="userSpaceOnUse" overflow="visible">
+      <path d="M1,1 L8,4.5 L1,8 Z" fill="var(--ix-muted, #bccbd6)"/>
+    </marker>
+  </defs>
+
+  <!-- The outer boxes span y 60..272. The link sits inside the iceoryx2 system; components centre on y 178 -->
+
+  <!-- iceoryx2 system, containing the link -->
+  <rect class="lb-host" x="20" y="60" width="550" height="212" rx="12"/>
+  <text class="lb-host-t" x="34" y="81">iceoryx2 System</text>
+  <rect class="lb-part" x="32" y="149" width="66" height="26" rx="5"/>
+  <text class="lb-part-t" x="65" y="166" text-anchor="middle">Participant</text>
+  <rect class="lb-part" x="32" y="181" width="66" height="26" rx="5"/>
+  <text class="lb-part-t" x="65" y="198" text-anchor="middle">…</text>
+  <rect class="lb-smr" x="124" y="124" width="68" height="108" rx="8"/>
+  <text class="lb-smr-t" x="158" y="175" text-anchor="middle">Shared</text>
+  <text class="lb-smr-t" x="158" y="189" text-anchor="middle">Memory</text>
+  <line class="lb-flow" x1="101" y1="162" x2="121" y2="162" marker-start="url(#lb-arrow)" marker-end="url(#lb-arrow)"/>
+  <line class="lb-flow" x1="101" y1="194" x2="121" y2="194" marker-start="url(#lb-arrow)" marker-end="url(#lb-arrow)"/>
+
+  <!-- Link -->
+  <rect class="lb-link" x="282" y="96" width="272" height="156" rx="12"/>
+  <text class="lb-link-t" x="296" y="115">Link</text>
+  <rect class="lb-group" x="302" y="124" width="96" height="108" rx="8"/>
+  <text class="lb-group-t" x="350" y="182" text-anchor="middle">Core</text>
+  <rect class="lb-group" x="438" y="124" width="96" height="108" rx="8"/>
+  <text class="lb-group-t" x="486" y="143" text-anchor="middle">Backend</text>
+  <rect class="lb-comp" x="448" y="151" width="76" height="20" rx="4"/>
+  <text class="lb-comp-t" x="486" y="165" text-anchor="middle">Gateway</text>
+  <rect class="lb-comp" x="448" y="177" width="76" height="20" rx="4"/>
+  <text class="lb-comp-t" x="486" y="191" text-anchor="middle">Tunnel</text>
+  <rect class="lb-comp-x" x="448" y="203" width="76" height="20" rx="4"/>
+  <text class="lb-comp-t" x="486" y="217" text-anchor="middle">…</text>
+
+  <!-- Opposing side -->
+  <rect class="lb-host" x="646" y="60" width="136" height="212" rx="12"/>
+  <text class="lb-host-t" x="660" y="81">Opposing Side</text>
+  <rect class="lb-app" x="666" y="131" width="96" height="26" rx="5"/>
+  <text class="lb-app-t" x="714" y="148" text-anchor="middle">Participant</text>
+  <rect class="lb-app" x="666" y="165" width="96" height="26" rx="5"/>
+  <text class="lb-app-t" x="714" y="182" text-anchor="middle">Participant</text>
+  <rect class="lb-app" x="666" y="199" width="96" height="26" rx="5"/>
+  <text class="lb-app-t" x="714" y="216" text-anchor="middle">…</text>
+
+  <!-- Shared memory <-> core -->
+  <line class="lb-flow-2" x1="195" y1="178" x2="299" y2="178" marker-start="url(#lb-arrow)" marker-end="url(#lb-arrow)"/>
+  <text class="lb-edge-t" x="237" y="151" text-anchor="middle">discover</text>
+  <text class="lb-edge-t" x="237" y="167" text-anchor="middle">move data</text>
+
+  <!-- Core <-> backend -->
+  <line class="lb-flow-2" x1="401" y1="178" x2="435" y2="178" marker-start="url(#lb-arrow)" marker-end="url(#lb-arrow)"/>
+  <text class="lb-edge-t" x="418" y="167" text-anchor="middle">relay</text>
+
+  <!-- Backend <-> opposing side -->
+  <line class="lb-flow-2" x1="537" y1="178" x2="643" y2="178" marker-start="url(#lb-arrow)" marker-end="url(#lb-arrow)"/>
+  <text class="lb-edge-t" x="608" y="151" text-anchor="middle">discover</text>
+  <text class="lb-edge-t" x="608" y="167" text-anchor="middle">move data</text>
+</svg>
+</div><figcaption>
+<p><span class="caption-text">The Core and Backend of a Link</span><a class="headerlink" href="#fig-link-backends" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
 <section id="gateways">
 <h3>Gateways<a class="headerlink" href="#gateways" title="Link to this heading">¶</a></h3>
 <p>Gateways connect <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> to another middleware through an adapter. Besides
@@ -649,6 +723,97 @@ the adapter, a gateway is configured with a mapping, which decides which
 services correspond to which of the middleware’s endpoints, and a translator,
 which converts data between their formats. This lets applications that
 do not use <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> participate in the communication.</p>
+<figure class="ix-diagram align-default" id="fig-gateway">
+<div class="ix-diagram__scroll"><svg viewBox="12 52 778 228" role="img" aria-label="A gateway's mapping and translator between the link's core and its adapter to another middleware" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .gw-host    { fill: none; stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1; stroke-dasharray: 5 3; }
+    .gw-host-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 13px; fill: var(--ix-text, #eaf3f7); }
+    .gw-link    { fill: none; stroke: var(--ix-blue, #5b8def); stroke-width: 1.5; }
+    .gw-link-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 13px; fill: var(--ix-blue, #5b8def); }
+    .gw-smr     { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
+    .gw-smr-t   { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-text, #eaf3f7); }
+    .gw-part    { fill: var(--ix-surface, #141d2d); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1.5; }
+    .gw-part-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-text, #eaf3f7); }
+    .gw-comp    { fill: rgba(91,141,239,0.14); stroke: var(--ix-blue, #5b8def); stroke-width: 1.25; }
+    .gw-comp-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-blue, #5b8def); }
+    .gw-group   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-blue, #5b8def); stroke-width: 1; stroke-opacity: 0.5; }
+    .gw-group-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-blue, #5b8def); }
+    .gw-app     { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .gw-app-t   { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-muted, #bccbd6); }
+    .gw-edge-t  { font-family: var(--font-stack, sans-serif); font-style: italic; font-size: 12.5px; fill: var(--ix-text, #eaf3f7); opacity: 0.85; }
+    .gw-flow    { stroke: var(--ix-muted, #bccbd6); stroke-width: 1.5; fill: none; }
+    .gw-flow-2  { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
+  </style>
+  <defs>
+    <marker id="gw-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto-start-reverse" markerUnits="userSpaceOnUse" overflow="visible">
+      <path d="M1,1 L8,4.5 L1,8 Z" fill="var(--ix-muted, #bccbd6)"/>
+    </marker>
+  </defs>
+
+  <!-- The outer boxes span y 60..272 like the other link figures. The link sits inside the iceoryx2 system;
+       the services lane runs on y 158, the data lane on y 200 -->
+
+  <!-- iceoryx2 system, containing participants, shared memory and the link -->
+  <rect class="gw-host" x="20" y="60" width="550" height="212" rx="12"/>
+  <text class="gw-host-t" x="34" y="81">iceoryx2 System</text>
+  <rect class="gw-part" x="32" y="149" width="66" height="26" rx="5"/>
+  <text class="gw-part-t" x="65" y="166" text-anchor="middle">Participant</text>
+  <rect class="gw-part" x="32" y="181" width="66" height="26" rx="5"/>
+  <text class="gw-part-t" x="65" y="198" text-anchor="middle">…</text>
+  <rect class="gw-smr" x="124" y="124" width="68" height="108" rx="8"/>
+  <text class="gw-smr-t" x="158" y="175" text-anchor="middle">Shared</text>
+  <text class="gw-smr-t" x="158" y="189" text-anchor="middle">Memory</text>
+  <line class="gw-flow" x1="101" y1="162" x2="121" y2="162" marker-start="url(#gw-arrow)" marker-end="url(#gw-arrow)"/>
+  <line class="gw-flow" x1="101" y1="194" x2="121" y2="194" marker-start="url(#gw-arrow)" marker-end="url(#gw-arrow)"/>
+
+  <!-- Link -->
+  <rect class="gw-link" x="206" y="96" width="348" height="156" rx="12"/>
+  <text class="gw-link-t" x="220" y="115">Link</text>
+  <rect class="gw-group" x="222" y="124" width="60" height="108" rx="8"/>
+  <text class="gw-group-t" x="252" y="182" text-anchor="middle">Core</text>
+
+  <!-- Gateway -->
+  <rect class="gw-group" x="368" y="118" width="170" height="120" rx="8"/>
+  <text class="gw-group-t" x="453" y="135" text-anchor="middle">Gateway Backend</text>
+  <rect class="gw-comp" x="378" y="146" width="68" height="24" rx="5"/>
+  <text class="gw-comp-t" x="412" y="162" text-anchor="middle">Mapping</text>
+  <rect class="gw-comp" x="378" y="188" width="68" height="24" rx="5"/>
+  <text class="gw-comp-t" x="412" y="204" text-anchor="middle">Translator</text>
+  <rect class="gw-comp" x="472" y="146" width="56" height="66" rx="5"/>
+  <text class="gw-comp-t" x="500" y="183" text-anchor="middle">Adapter</text>
+
+  <!-- Other middleware -->
+  <rect class="gw-host" x="646" y="60" width="136" height="212" rx="12"/>
+  <text class="gw-host-t" x="660" y="81">Other Middleware</text>
+  <rect class="gw-app" x="666" y="131" width="96" height="26" rx="5"/>
+  <text class="gw-app-t" x="714" y="148" text-anchor="middle">Endpoint</text>
+  <rect class="gw-app" x="666" y="165" width="96" height="26" rx="5"/>
+  <text class="gw-app-t" x="714" y="182" text-anchor="middle">Endpoint</text>
+  <rect class="gw-app" x="666" y="199" width="96" height="26" rx="5"/>
+  <text class="gw-app-t" x="714" y="216" text-anchor="middle">…</text>
+
+  <!-- Shared memory <-> core -->
+  <line class="gw-flow-2" x1="195" y1="178" x2="219" y2="178" marker-start="url(#gw-arrow)" marker-end="url(#gw-arrow)"/>
+
+  <!-- Services lane: core <-> mapping <-> adapter -->
+  <line class="gw-flow-2" x1="285" y1="158" x2="375" y2="158" marker-start="url(#gw-arrow)" marker-end="url(#gw-arrow)"/>
+  <text class="gw-edge-t" x="325" y="150" text-anchor="middle">relay services</text>
+  <line class="gw-flow-2" x1="449" y1="158" x2="469" y2="158" marker-start="url(#gw-arrow)" marker-end="url(#gw-arrow)"/>
+
+  <!-- Data lane: core <-> translator <-> adapter -->
+  <line class="gw-flow-2" x1="285" y1="200" x2="375" y2="200" marker-start="url(#gw-arrow)" marker-end="url(#gw-arrow)"/>
+  <text class="gw-edge-t" x="325" y="192" text-anchor="middle">relay data</text>
+  <line class="gw-flow-2" x1="449" y1="200" x2="469" y2="200" marker-start="url(#gw-arrow)" marker-end="url(#gw-arrow)"/>
+
+  <!-- Adapter <-> other middleware -->
+  <line class="gw-flow-2" x1="531" y1="179" x2="643" y2="179" marker-start="url(#gw-arrow)" marker-end="url(#gw-arrow)"/>
+  <text class="gw-edge-t" x="608" y="152" text-anchor="middle">native</text>
+  <text class="gw-edge-t" x="608" y="168" text-anchor="middle">messages</text>
+</svg>
+</div><figcaption>
+<p><span class="caption-text">The Components of a Gateway</span><a class="headerlink" href="#fig-gateway" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
 <p>An adapter integrates a single middleware. It lists the middleware’s endpoints
 and exchanges messages with them. An adapter for ROS 2 is provided, and further
 middlewares can be supported by implementing additional adapters.</p>
@@ -659,6 +824,92 @@ middlewares can be supported by implementing additional adapters.</p>
 or a hypervisor channel. Samples cross as-is, in the exact form they have in
 shared memory. By avoiding data transformation, tunnels minimize processing
 overhead.</p>
+<figure class="ix-diagram align-default" id="fig-tunnel">
+<div class="ix-diagram__scroll"><svg viewBox="12 52 778 152" role="img" aria-label="A sample crossing a tunnel unchanged between two iceoryx2 systems" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .tn-host    { fill: none; stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1; stroke-dasharray: 5 3; }
+    .tn-host-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 13px; fill: var(--ix-text, #eaf3f7); }
+    .tn-smr     { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
+    .tn-smr-t   { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-text, #eaf3f7); }
+    .tn-comp    { fill: rgba(91,141,239,0.14); stroke: var(--ix-blue, #5b8def); stroke-width: 1.25; }
+    .tn-comp-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-blue, #5b8def); }
+    .tn-comp-s  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 8px; fill: var(--ix-blue, #5b8def); opacity: 0.8; }
+    .tn-pipe-e  { stroke: var(--ix-blue, #5b8def); stroke-width: 1.25; fill: none; }
+    .tn-rim     { fill: var(--ix-surface, #141d2d); stroke: var(--ix-blue, #5b8def); stroke-width: 1.25; }
+    .tn-cell    { fill: var(--ix-surface, #141d2d); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1; }
+    .tn-cell-x  { fill: none; stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1; stroke-dasharray: 3 2; }
+    .tn-bytes-s { font-family: var(--font-mono, ui-monospace, monospace); font-size: 9px; fill: var(--ix-text, #eaf3f7); }
+    .tn-bytes   { font-family: var(--font-mono, ui-monospace, monospace); font-size: 10.5px; fill: var(--ix-text, #eaf3f7); }
+    .tn-flow    { stroke: var(--ix-muted, #bccbd6); stroke-width: 1.5; fill: none; }
+  </style>
+  <defs>
+    <linearGradient id="tn-pipe-shade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" style="stop-color: var(--ix-blue, #5b8def); stop-opacity: 0.28"/>
+      <stop offset="0.45" style="stop-color: var(--ix-blue, #5b8def); stop-opacity: 0.05"/>
+      <stop offset="1" style="stop-color: var(--ix-blue, #5b8def); stop-opacity: 0.24"/>
+    </linearGradient>
+    <marker id="tn-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto-start-reverse" markerUnits="userSpaceOnUse" overflow="visible">
+      <path d="M1,1 L8,4.5 L1,8 Z" fill="var(--ix-muted, #bccbd6)"/>
+    </marker>
+  </defs>
+
+  <!-- The sample's bytes sit on one row, y 128..148, in both systems and in the pipe -->
+
+  <!-- Pipe between the two tunnels, drawn first so the systems sit on top of its ends -->
+  <rect x="280" y="128" width="242" height="20" fill="url(#tn-pipe-shade)"/>
+  <line class="tn-pipe-e" x1="280" y1="128" x2="522" y2="128"/>
+  <line class="tn-pipe-e" x1="280" y1="148" x2="522" y2="148"/>
+  <ellipse class="tn-rim" cx="286" cy="138" rx="3" ry="10"/>
+  <ellipse class="tn-rim" cx="516" cy="138" rx="3" ry="10"/>
+  <rect class="tn-cell-x" x="362" y="131" width="18" height="14" rx="2"/>
+  <text class="tn-bytes-s" x="371" y="141" text-anchor="middle">3f</text>
+  <rect class="tn-cell-x" x="382" y="131" width="18" height="14" rx="2"/>
+  <text class="tn-bytes-s" x="391" y="141" text-anchor="middle">a1</text>
+  <rect class="tn-cell-x" x="402" y="131" width="18" height="14" rx="2"/>
+  <text class="tn-bytes-s" x="411" y="141" text-anchor="middle">07</text>
+  <rect class="tn-cell-x" x="422" y="131" width="18" height="14" rx="2"/>
+  <text class="tn-bytes-s" x="431" y="141" text-anchor="middle">c2</text>
+
+  <!-- iceoryx2 system A -->
+  <rect class="tn-host" x="20" y="60" width="280" height="136" rx="12"/>
+  <text class="tn-host-t" x="34" y="81">iceoryx2 System A</text>
+  <text class="tn-smr-t" x="36" y="113">Shared Memory</text>
+  <rect class="tn-smr" x="36" y="120" width="136" height="36" rx="6"/>
+  <rect class="tn-cell" x="51" y="128" width="24" height="20" rx="3"/>
+  <text class="tn-bytes" x="63" y="142" text-anchor="middle">3f</text>
+  <rect class="tn-cell" x="77" y="128" width="24" height="20" rx="3"/>
+  <text class="tn-bytes" x="89" y="142" text-anchor="middle">a1</text>
+  <rect class="tn-cell" x="103" y="128" width="24" height="20" rx="3"/>
+  <text class="tn-bytes" x="115" y="142" text-anchor="middle">07</text>
+  <rect class="tn-cell" x="129" y="128" width="24" height="20" rx="3"/>
+  <text class="tn-bytes" x="141" y="142" text-anchor="middle">c2</text>
+  <rect class="tn-comp" x="196" y="116" width="84" height="44" rx="6"/>
+  <text class="tn-comp-s" x="238" y="134" text-anchor="middle">Link</text>
+  <text class="tn-comp-t" x="238" y="147" text-anchor="middle">Tunnel</text>
+  <line class="tn-flow" x1="175" y1="138" x2="193" y2="138" marker-start="url(#tn-arrow)" marker-end="url(#tn-arrow)"/>
+
+  <!-- iceoryx2 system B -->
+  <rect class="tn-host" x="502" y="60" width="280" height="136" rx="12"/>
+  <text class="tn-host-t" x="516" y="81">iceoryx2 System B</text>
+  <rect class="tn-comp" x="522" y="116" width="84" height="44" rx="6"/>
+  <text class="tn-comp-s" x="564" y="134" text-anchor="middle">Link</text>
+  <text class="tn-comp-t" x="564" y="147" text-anchor="middle">Tunnel</text>
+  <text class="tn-smr-t" x="630" y="113">Shared Memory</text>
+  <rect class="tn-smr" x="630" y="120" width="136" height="36" rx="6"/>
+  <rect class="tn-cell" x="645" y="128" width="24" height="20" rx="3"/>
+  <text class="tn-bytes" x="657" y="142" text-anchor="middle">3f</text>
+  <rect class="tn-cell" x="671" y="128" width="24" height="20" rx="3"/>
+  <text class="tn-bytes" x="683" y="142" text-anchor="middle">a1</text>
+  <rect class="tn-cell" x="697" y="128" width="24" height="20" rx="3"/>
+  <text class="tn-bytes" x="709" y="142" text-anchor="middle">07</text>
+  <rect class="tn-cell" x="723" y="128" width="24" height="20" rx="3"/>
+  <text class="tn-bytes" x="735" y="142" text-anchor="middle">c2</text>
+  <line class="tn-flow" x1="609" y1="138" x2="627" y2="138" marker-start="url(#tn-arrow)" marker-end="url(#tn-arrow)"/>
+</svg>
+</div><figcaption>
+<p><span class="caption-text">A Sample Crossing a Tunnel</span><a class="headerlink" href="#fig-tunnel" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
 <p>A carrier integrates a single communication mechanism. It announces services
 to its peers and carries their bytes. A carrier over Zenoh is provided, and
 further mechanisms can be supported by implementing additional carriers.</p>

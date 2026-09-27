@@ -34,6 +34,13 @@ Gateways are extended to new middlewares through adapters, and tunnels to new
 mechanisms through carriers. If neither kind fits, a new backend kind can be
 implemented.
 
+```{inline-svg} /images/link-backends.svg
+:name: fig-link-backends
+:alt: a link's core handling shared memory and its backend handling the opposing side
+
+The Core and Backend of a Link
+```
+
 ### Gateways
 
 Gateways connect `iceoryx2` to another middleware through an adapter. Besides
@@ -41,6 +48,13 @@ the adapter, a gateway is configured with a mapping, which decides which
 services correspond to which of the middleware's endpoints, and a translator,
 which converts data between their formats. This lets applications that
 do not use `iceoryx2` participate in the communication.
+
+```{inline-svg} /images/link-backend-gateway.svg
+:name: fig-gateway
+:alt: a gateway's mapping and translator between the link's core and its adapter to another middleware
+
+The Components of a Gateway
+```
 
 An adapter integrates a single middleware. It lists the middleware's endpoints
 and exchanges messages with them. An adapter for ROS 2 is provided, and further
@@ -52,6 +66,13 @@ Tunnels connect `iceoryx2` systems through a carrier, such as a network protocol
 or a hypervisor channel. Samples cross as-is, in the exact form they have in
 shared memory. By avoiding data transformation, tunnels minimize processing
 overhead.
+
+```{inline-svg} /images/link-backend-tunnel.svg
+:name: fig-tunnel
+:alt: a sample crossing a tunnel unchanged between two iceoryx2 systems
+
+A Sample Crossing a Tunnel
+```
 
 A carrier integrates a single communication mechanism. It announces services
 to its peers and carries their bytes. A carrier over Zenoh is provided, and

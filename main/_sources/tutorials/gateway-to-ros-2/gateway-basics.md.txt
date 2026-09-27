@@ -234,9 +234,10 @@ iox2 link gateway ros2 --reactive --listener "SensorData"
 ```
 
 The gateway can also wake the `iceoryx2` applications receiving data from
-ROS 2. With `--notify`, the gateway notifies the event service named after a
-service whenever it delivered samples from ROS 2 to it. Subscribers can then
-wait on that event service instead of polling for new samples:
+ROS 2. The gateway publishes each message received from ROS 2 on the service
+its topic is mapped to. With `--notify`, it also notifies the event service with
+the same name as that service. Subscribers can then wait on that event service
+instead of polling for new samples:
 
 ```console
 iox2 link gateway ros2 --reactive --notify

@@ -734,9 +734,10 @@ set explicitly:</p>
 </pre></div>
 </div>
 <p>The gateway can also wake the <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> applications receiving data from
-ROS 2. With <code class="docutils literal notranslate"><span class="pre">--notify</span></code>, the gateway notifies the event service named after a
-service whenever it delivered samples from ROS 2 to it. Subscribers can then
-wait on that event service instead of polling for new samples:</p>
+ROS 2. The gateway publishes each message received from ROS 2 on the service
+its topic is mapped to. With <code class="docutils literal notranslate"><span class="pre">--notify</span></code>, it also notifies the event service with
+the same name as that service. Subscribers can then wait on that event service
+instead of polling for new samples:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">iox2 link gateway ros2 --reactive --notify</span>
 </pre></div>
 </div>
