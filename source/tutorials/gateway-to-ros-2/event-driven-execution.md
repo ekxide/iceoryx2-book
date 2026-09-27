@@ -1,4 +1,4 @@
-# Event-Driven Gateway
+# Event-Driven Execution
 
 ```{important}
 The ROS 2 integrations are currently prototypes and have not yet been validated

@@ -64,4 +64,4 @@ we will look at how to make execution event-driven:
    plain-struct-as-payload
    cdr-bytes-as-payload
    flatbuffer-as-payload
-   event-driven-gateway
+   event-driven-execution
