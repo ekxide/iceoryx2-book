@@ -1,0 +1,80 @@
+<svg viewBox="12 52 778 228" role="img" aria-label="A link's core handling shared memory and its backend handling the opposing side" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .lb-host    { fill: none; stroke: var(--ix-muted-2, #6b7d8c); stroke-width: 1; stroke-dasharray: 5 3; }
+    .lb-host-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 13px; fill: var(--ix-text, #eaf3f7); }
+    .lb-link    { fill: none; stroke: var(--ix-blue, #5b8def); stroke-width: 1.5; }
+    .lb-link-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 13px; fill: var(--ix-blue, #5b8def); }
+    .lb-part    { fill: var(--ix-surface, #141d2d); stroke: var(--ix-box-line, #6b7d8c); stroke-width: 1.5; }
+    .lb-part-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-text, #eaf3f7); }
+    .lb-comp    { fill: rgba(91,141,239,0.14); stroke: var(--ix-blue, #5b8def); stroke-width: 1.25; }
+    .lb-comp-x  { fill: none; stroke: var(--ix-blue, #5b8def); stroke-width: 1.25; stroke-dasharray: 4 3; }
+    .lb-comp-t  { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-blue, #5b8def); }
+    .lb-group   { fill: var(--ix-surface, #141d2d); stroke: var(--ix-blue, #5b8def); stroke-width: 1; stroke-opacity: 0.5; }
+    .lb-group-t { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-blue, #5b8def); }
+    .lb-smr     { fill: rgba(45,212,232,0.10); stroke: var(--ix-ice, #2dd4e8); stroke-width: 1.5; }
+    .lb-smr-t   { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 11px; fill: var(--ix-text, #eaf3f7); }
+    .lb-app     { fill: var(--ix-surface-2, #1b2740); stroke: var(--ix-line, rgba(150,200,230,0.16)); stroke-width: 1; }
+    .lb-app-t   { font-family: var(--font-stack, sans-serif); font-weight: 600; font-size: 10px; fill: var(--ix-muted, #bccbd6); }
+    .lb-edge-t  { font-family: var(--font-stack, sans-serif); font-style: italic; font-size: 12.5px; fill: var(--ix-text, #eaf3f7); opacity: 0.85; }
+    .lb-flow    { stroke: var(--ix-muted, #bccbd6); stroke-width: 1.5; fill: none; }
+    .lb-flow-2  { stroke: var(--ix-muted, #bccbd6); stroke-width: 2; fill: none; }
+  </style>
+  <defs>
+    <marker id="lb-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto-start-reverse" markerUnits="userSpaceOnUse" overflow="visible">
+      <path d="M1,1 L8,4.5 L1,8 Z" fill="var(--ix-muted, #bccbd6)"/>
+    </marker>
+  </defs>
+
+  <!-- The outer boxes span y 60..272. The link sits inside the iceoryx2 system; components centre on y 178 -->
+
+  <!-- iceoryx2 system, containing the link -->
+  <rect class="lb-host" x="20" y="60" width="550" height="212" rx="12"/>
+  <text class="lb-host-t" x="34" y="81">iceoryx2 System</text>
+  <rect class="lb-part" x="32" y="149" width="66" height="26" rx="5"/>
+  <text class="lb-part-t" x="65" y="166" text-anchor="middle">Participant</text>
+  <rect class="lb-part" x="32" y="181" width="66" height="26" rx="5"/>
+  <text class="lb-part-t" x="65" y="198" text-anchor="middle">…</text>
+  <rect class="lb-smr" x="124" y="124" width="68" height="108" rx="8"/>
+  <text class="lb-smr-t" x="158" y="175" text-anchor="middle">Shared</text>
+  <text class="lb-smr-t" x="158" y="189" text-anchor="middle">Memory</text>
+  <line class="lb-flow" x1="101" y1="162" x2="121" y2="162" marker-start="url(#lb-arrow)" marker-end="url(#lb-arrow)"/>
+  <line class="lb-flow" x1="101" y1="194" x2="121" y2="194" marker-start="url(#lb-arrow)" marker-end="url(#lb-arrow)"/>
+
+  <!-- Link -->
+  <rect class="lb-link" x="282" y="96" width="272" height="156" rx="12"/>
+  <text class="lb-link-t" x="296" y="115">Link</text>
+  <rect class="lb-group" x="302" y="124" width="96" height="108" rx="8"/>
+  <text class="lb-group-t" x="350" y="182" text-anchor="middle">Core</text>
+  <rect class="lb-group" x="438" y="124" width="96" height="108" rx="8"/>
+  <text class="lb-group-t" x="486" y="143" text-anchor="middle">Backend</text>
+  <rect class="lb-comp" x="448" y="151" width="76" height="20" rx="4"/>
+  <text class="lb-comp-t" x="486" y="165" text-anchor="middle">Gateway</text>
+  <rect class="lb-comp" x="448" y="177" width="76" height="20" rx="4"/>
+  <text class="lb-comp-t" x="486" y="191" text-anchor="middle">Tunnel</text>
+  <rect class="lb-comp-x" x="448" y="203" width="76" height="20" rx="4"/>
+  <text class="lb-comp-t" x="486" y="217" text-anchor="middle">…</text>
+
+  <!-- Opposing side -->
+  <rect class="lb-host" x="646" y="60" width="136" height="212" rx="12"/>
+  <text class="lb-host-t" x="660" y="81">Opposing Side</text>
+  <rect class="lb-app" x="666" y="131" width="96" height="26" rx="5"/>
+  <text class="lb-app-t" x="714" y="148" text-anchor="middle">Participant</text>
+  <rect class="lb-app" x="666" y="165" width="96" height="26" rx="5"/>
+  <text class="lb-app-t" x="714" y="182" text-anchor="middle">Participant</text>
+  <rect class="lb-app" x="666" y="199" width="96" height="26" rx="5"/>
+  <text class="lb-app-t" x="714" y="216" text-anchor="middle">…</text>
+
+  <!-- Shared memory <-> core -->
+  <line class="lb-flow-2" x1="195" y1="178" x2="299" y2="178" marker-start="url(#lb-arrow)" marker-end="url(#lb-arrow)"/>
+  <text class="lb-edge-t" x="237" y="151" text-anchor="middle">discover</text>
+  <text class="lb-edge-t" x="237" y="167" text-anchor="middle">move data</text>
+
+  <!-- Core <-> backend -->
+  <line class="lb-flow-2" x1="401" y1="178" x2="435" y2="178" marker-start="url(#lb-arrow)" marker-end="url(#lb-arrow)"/>
+  <text class="lb-edge-t" x="418" y="167" text-anchor="middle">relay</text>
+
+  <!-- Backend <-> opposing side -->
+  <line class="lb-flow-2" x1="537" y1="178" x2="643" y2="178" marker-start="url(#lb-arrow)" marker-end="url(#lb-arrow)"/>
+  <text class="lb-edge-t" x="608" y="151" text-anchor="middle">discover</text>
+  <text class="lb-edge-t" x="608" y="167" text-anchor="middle">move data</text>
+</svg>

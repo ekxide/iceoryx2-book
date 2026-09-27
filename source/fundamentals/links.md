@@ -34,6 +34,13 @@ Gateways are extended to new middlewares through adapters, and tunnels to new
 mechanisms through carriers. If neither kind fits, a new backend kind can be
 implemented.
 
+```{inline-svg} /images/link-backends.svg
+:name: fig-link-backends
+:alt: a link's core handling shared memory and its backend handling the opposing side
+
+The Core and Backend of a Link
+```
+
 ### Gateways
 
 Gateways connect `iceoryx2` to another middleware through an adapter. Besides
