@@ -260,7 +260,7 @@ iox2 link gateway ros2 --static-mapping mapping.toml --translator Passthrough
 
 ```{note}
 For simplicity, the gateway runs in its default polling mode. See the
-[Event-Driven Gateway](/tutorials/gateway-to-ros-2/event-driven-gateway)
+[Event-Driven Execution](/tutorials/gateway-to-ros-2/event-driven-execution)
 tutorial for a pipeline in which neither the gateway nor the applications poll.
 ```
 

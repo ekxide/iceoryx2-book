@@ -3,20 +3,20 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Plain Struct as Payload" />
+<meta property="og:title" content="Event-Driven Execution" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://ekxide.github.io/iceoryx2-book/tutorials/gateway-to-ros-2/plain-struct-as-payload.html" />
+<meta property="og:url" content="https://ekxide.github.io/iceoryx2-book/tutorials/gateway-to-ros-2/event-driven-execution.html" />
 <meta property="og:site_name" content="The iceoryx2 Book" />
-<meta property="og:description" content="In the ROS 2 interface description language (IDL) the types of the message fields dictate the native types generated. If a definition does not contain any bounded or dynamic fields, the generated n..." />
+<meta property="og:description" content="The previous articles run the gateway in its default polling mode. Every 100 milliseconds the gateway wakes, discovers what changed and moves the pending samples. The applications behind it must po..." />
 <meta property="og:image" content="https://ekxide.github.io/iceoryx2-book/main/_static/og-card.png" />
 <meta property="og:image:alt" content="The iceoryx2 Book" />
-<meta name="description" content="In the ROS 2 interface description language (IDL) the types of the message fields dictate the native types generated. If a definition does not contain any bounded or dynamic fields, the generated n..." />
+<meta name="description" content="The previous articles run the gateway in its default polling mode. Every 100 milliseconds the gateway wakes, discovers what changed and moves the pending samples. The applications behind it must po..." />
 <meta name="twitter:card" content="summary_large_image">
-<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="CDR Bytes as Payload" href="cdr-bytes-as-payload.html" /><link rel="prev" title="Gateway Basics" href="gateway-basics.html" />
-        <link rel="canonical" href="https://ekxide.github.io/iceoryx2-book/tutorials/gateway-to-ros-2/plain-struct-as-payload.html" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="How To" href="../../how-to/index.html" /><link rel="prev" title="FlatBuffer as Payload" href="flatbuffer-as-payload.html" />
+        <link rel="canonical" href="https://ekxide.github.io/iceoryx2-book/tutorials/gateway-to-ros-2/event-driven-execution.html" />
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
-        <title>Plain Struct as Payload - The iceoryx2 Book</title>
+        <title>Event-Driven Execution - The iceoryx2 Book</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -457,10 +457,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../execution-control-patterns.html">Execution Control Patterns</a></li>
 <li class="toctree-l2 current has-children"><a class="reference internal" href="index.html">Gateway to ROS 2</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of Gateway to ROS 2</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="gateway-basics.html">Gateway Basics</a></li>
-<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">Plain Struct as Payload</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plain-struct-as-payload.html">Plain Struct as Payload</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cdr-bytes-as-payload.html">CDR Bytes as Payload</a></li>
 <li class="toctree-l3"><a class="reference internal" href="flatbuffer-as-payload.html">FlatBuffer as Payload</a></li>
-<li class="toctree-l3"><a class="reference internal" href="event-driven-execution.html">Event-Driven Execution</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">Event-Driven Execution</a></li>
 </ul>
 </li>
 </ul>
@@ -519,42 +519,35 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="plain-struct-as-payload">
-<h1>Plain Struct as Payload<a class="headerlink" href="#plain-struct-as-payload" title="Link to this heading">¶</a></h1>
+          <section id="event-driven-execution">
+<h1>Event-Driven Execution<a class="headerlink" href="#event-driven-execution" title="Link to this heading">¶</a></h1>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>The ROS 2 integrations are currently prototypes and have not yet been validated
 in real ROS 2 workflows. They are recommended only for experimentation in
 development deployments.</p>
 </div>
-<p>In the <a class="reference external" href="https://docs.ros.org/en/rolling/ROS-Framework/interfaces/About-Interfaces.html">ROS 2 interface description language (IDL)</a>
-the types of the message fields dictate the native types generated.
-If a definition does not contain any bounded or dynamic fields, the generated
-native types are completely self-contained and can thus be placed in shared
-memory.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>float64 scalar            # fixed-width basic type, shared-memory compatible
-float64[3] fixed_array    # fixed-size array, shared-memory compatible
-float64[&lt;=8] bounded      # bounded sequence, heap-backed
-float64[] dynamic         # dynamic sequence, heap-backed
-string text               # dynamic string, heap-backed
-</pre></div>
-</div>
-<p>For ROS 2 topics whose message definitions are free of bounded and dynamic
-fields, a convenient approach is to let the gateway’s <code class="docutils literal notranslate"><span class="pre">PlainStruct</span></code>
-translator (de)serialize messages to CDR as they cross the boundary between
-ROS 2 and <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>, and store the plain struct directly in shared memory
-to be consumed by <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> applications. The (de)serialization is done once
-after which the payload is shared without copies.</p>
+<p>The previous articles run the gateway in its default polling mode. Every 100
+milliseconds the gateway wakes, discovers what changed and moves the pending
+samples. The applications behind it must poll their subscribers periodically
+as well.</p>
+<p>Polling is simple, but it has a cost. A sample is only moved at the polling
+frequency. The gateway and each application can delay a sample by up to one
+polling period. Along a pipeline, these delays add up. Every poll also wakes
+a process when there is nothing to do.</p>
+<p>In this article, we will make every component of a pipeline event-driven
+instead. The gateway will wake when data arrives from ROS 2 or when an
+application publishes. The applications will wake when the gateway delivers
+data to them. Samples then move through the pipeline as soon as they are
+published.</p>
 <section id="topology">
 <h2>Topology<a class="headerlink" href="#topology" title="Link to this heading">¶</a></h2>
-<p>To demonstrate the approach, let’s build a minimal pipeline that carries a
-self-contained message through both domains. A limiter application in
-<code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> that subscribes to the <code class="docutils literal notranslate"><span class="pre">/cmd_vel</span></code> topic, clamps the received
-velocity to a maximum, and republishes it on <code class="docutils literal notranslate"><span class="pre">/cmd_vel_limited</span></code>.</p>
-<p>Both topics use
-<a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/geometry_msgs/msg/Twist.msg"><code class="docutils literal notranslate"><span class="pre">geometry_msgs/msg/Twist</span></code></a>,
-which consists of two <code class="docutils literal notranslate"><span class="pre">Vector3</span></code>s of fixed-width floats and contains no bounded
-or dynamic fields.</p>
+<p>To demonstrate the approach, let’s revisit the pipeline from
+<a class="reference internal" href="plain-struct-as-payload.html"><span class="doc std std-doc">Plain Struct as Payload</span></a>.
+A limiter application in <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> subscribes to the <code class="docutils literal notranslate"><span class="pre">/cmd_vel</span></code> topic, clamps
+the received velocity to a maximum, and republishes it on <code class="docutils literal notranslate"><span class="pre">/cmd_vel_limited</span></code>.</p>
+<p>The data takes the same path as before. What changes is how each component
+learns that there is data to handle:</p>
 <figure class="align-default" id="id1">
 <pre  class="mermaid">
         %%{init: {&quot;flowchart&quot;: {&quot;subGraphTitleMargin&quot;: {&quot;top&quot;: 10, &quot;bottom&quot;: 8}}} }%%
@@ -580,108 +573,38 @@ flowchart LR
     lim -- &quot;Twist&lt;br/&gt;SHM&quot; --&gt; gw2
     gw2 -- &quot;/cmd_vel_limited&lt;br/&gt;DDS&quot; --&gt; echo
     </pre><figcaption>
-<p><span class="caption-text">The Twist message crossing the boundary between ROS 2 and iceoryx2</span><a class="headerlink" href="#id1" title="Link to this image">¶</a></p>
+<p><span class="caption-text">Every component of the pipeline wakes the next one</span><a class="headerlink" href="#id1" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
-<p>To keep things simple, the <code class="docutils literal notranslate"><span class="pre">ros2cli</span></code> is used to mock both ends, with
-<code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">pub</span></code> feeding commands and <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">echo</span></code> displaying the
-limited result.</p>
+<p>Along the way, each component wakes on its own event:</p>
+<ol class="arabic simple">
+<li><p>The gateway wakes when a message arrives from ROS 2.</p></li>
+<li><p>The limiter wakes when the gateway delivers a sample to <code class="docutils literal notranslate"><span class="pre">CmdVel</span></code>.</p></li>
+<li><p>The gateway wakes when the limiter notifies <code class="docutils literal notranslate"><span class="pre">CmdVelLimited</span></code>.</p></li>
+</ol>
 </section>
 <section id="setting-up">
 <h2>Setting Up<a class="headerlink" href="#setting-up" title="Link to this heading">¶</a></h2>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The integrations are verified against Jazzy with <code class="docutils literal notranslate"><span class="pre">rmw_fastrtps_cpp</span></code> and Humble
-with <code class="docutils literal notranslate"><span class="pre">rmw_cyclonedds_cpp</span></code>. All commands below assume a sourced ROS 2
-environment, where <code class="docutils literal notranslate"><span class="pre">&lt;distro&gt;</span></code> is your distribution.</p>
-</div>
-<p>First, let’s set up the working directory for our application:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir -p ~/iceoryx2_ros2/twist_limiter</span>
-</pre></div>
-</div>
+<p>Let’s build on the setup from
+<a class="reference internal" href="plain-struct-as-payload.html"><span class="doc std std-doc">Plain Struct as Payload</span></a>.
+We create a new <code class="docutils literal notranslate"><span class="pre">cargo</span></code> project for the event-driven limiter in the same working
+directory:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>~/iceoryx2_ros2/
-└── twist_limiter/   # cargo project of the iceoryx2 application
+├── shouter/                      # cargo project from a previous article
+├── twist_limiter/                # cargo project from a previous article
+└── twist_limiter_event_driven/   # cargo project of the iceoryx2 application
 </pre></div>
 </div>
-<p>In our pipeline, the <code class="docutils literal notranslate"><span class="pre">Twist</span></code> message describes the payload that crosses
-the boundary between the two domains. From the one message definition, the
-types for both the C/C++/Python ROS 2 side and the Rust <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> side are
-generated. On up-to-date installations, the ROS 2 distribution ships the
-generated Rust types alongside the C, C++ and Python ones, so the <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>
-application can use them directly.</p>
-<section id="message-generation-on-older-installations">
-<h3>Message Generation on Older Installations<a class="headerlink" href="#message-generation-on-older-installations" title="Link to this heading">¶</a></h3>
-<p>Older installations of ROS 2 distributions do not ship the Rust types. On
-up-to-date installations, skip ahead to the
-<a class="reference internal" href="#application-project">application project</a>.</p>
-<p>On older installations, the Rust types must be generated from source in a
-<code class="docutils literal notranslate"><span class="pre">colcon</span></code> workspace, next to the project:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>~/iceoryx2_ros2/
-├── messages/        # colcon workspace generating the Rust message crates
-└── twist_limiter/   # cargo project of the iceoryx2 application
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/iceoryx2_ros2</span>
+<span class="go">cargo new twist_limiter_event_driven</span>
+<span class="go">cd twist_limiter_event_driven</span>
 </pre></div>
 </div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir -p ~/iceoryx2_ros2/messages/src</span>
-<span class="go">cd ~/iceoryx2_ros2/messages</span>
-</pre></div>
-</div>
-<p>The workspace needs the sources of <code class="docutils literal notranslate"><span class="pre">rosidl_generator_rs</span></code>, which emits the Rust
-types, from the <code class="docutils literal notranslate"><span class="pre">rosidl_rust</span></code> repository, and of the packages providing the
-message definitions. The <code class="docutils literal notranslate"><span class="pre">Twist</span></code> message is part of <code class="docutils literal notranslate"><span class="pre">common_interfaces</span></code>, which
-depends on <code class="docutils literal notranslate"><span class="pre">builtin_interfaces</span></code> from the <code class="docutils literal notranslate"><span class="pre">rcl_interfaces</span></code> repository.</p>
-<p>As conventional for ROS 2, <code class="docutils literal notranslate"><span class="pre">vcstool</span></code> is used here to pull in the source. Here is
-the <code class="docutils literal notranslate"><span class="pre">.repos</span></code> configuration. Be sure to substitute <code class="docutils literal notranslate"><span class="pre">&lt;distro&gt;</span></code> with the ROS 2
-distro being used (e.g. <code class="docutils literal notranslate"><span class="pre">jazzy</span></code>):</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Cargo.toml</span></code> is the same as the one of the polling limiter:</p>
 <div class="literal-block-wrapper docutils container" id="id2">
-<div class="code-block-caption"><span class="caption-text">&lt;distro&gt;.repos</span><a class="headerlink" href="#id2" title="Link to this code">¶</a></div>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">repositories</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">rosidl_rust</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">git</span>
-<span class="w">    </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/ros2-rust/rosidl_rust.git</span>
-<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5.0</span>
-<span class="w">  </span><span class="nt">common_interfaces</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">git</span>
-<span class="w">    </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/ros2/common_interfaces.git</span>
-<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;distro&gt;</span>
-<span class="w">  </span><span class="nt">rcl_interfaces</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">git</span>
-<span class="w">    </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/ros2/rcl_interfaces.git</span>
-<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;distro&gt;</span>
-</pre></div>
-</div>
-</div>
-<p>Then pull the sources into the workspace:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install vcstool</span>
-<span class="go">vcs import src &lt; &lt;distro&gt;.repos</span>
-</pre></div>
-</div>
-<p>And build the generator and the message packages to generate the Rust types:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build --packages-up-to std_msgs geometry_msgs rosidl_generator_rs</span>
-</pre></div>
-</div>
-<p>Each message package installs a Rust crate under
-<code class="docutils literal notranslate"><span class="pre">install/&lt;package&gt;/share/&lt;package&gt;/rust</span></code>. The commands in the following
-sections include sourcing the install space of this workspace as a
-commented-out line. Uncomment it on older installations:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">source ~/iceoryx2_ros2/messages/install/setup.bash</span>
-</pre></div>
-</div>
-</section>
-<section id="application-project">
-<h3>Application Project<a class="headerlink" href="#application-project" title="Link to this heading">¶</a></h3>
-<p>Now let’s create a <code class="docutils literal notranslate"><span class="pre">cargo</span></code> project for the <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> application in our
-pipeline:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/iceoryx2_ros2/twist_limiter</span>
-<span class="go">cargo init</span>
-</pre></div>
-</div>
-<p>The generated message crates are included through the <a class="reference external" href="https://github.com/ros2-rust/ros-env"><code class="docutils literal notranslate"><span class="pre">ros-env</span></code></a> crate, which provides the message
-crates of the sourced environment under its root, e.g.
-<code class="docutils literal notranslate"><span class="pre">ros_env::geometry_msgs</span></code>:</p>
-<div class="literal-block-wrapper docutils container" id="id3">
-<div class="code-block-caption"><span class="caption-text">twist_limiter/Cargo.toml</span><a class="headerlink" href="#id3" title="Link to this code">¶</a></div>
+<div class="code-block-caption"><span class="caption-text">twist_limiter_event_driven/Cargo.toml</span><a class="headerlink" href="#id2" title="Link to this code">¶</a></div>
 <div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[package]</span>
-<span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;twist_limiter&quot;</span>
+<span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;twist_limiter_event_driven&quot;</span>
 <span class="n">edition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;2024&quot;</span>
 <span class="n">publish</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
 
@@ -693,47 +616,14 @@ crates of the sourced environment under its root, e.g.
 </pre></div>
 </div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> version must match the one the gateway is built from. If the
-gateway is built from the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch, use the commented-out <code class="docutils literal notranslate"><span class="pre">git</span></code> entry
-instead of a released version.</p>
-<p>Now that everything is in place, let’s create a basic placeholder binary to
-confirm the build works and that the generated messages are accessible.</p>
-<p>The generated crates contain <a class="reference external" href="https://docs.rs/rosidl_runtime_rs/latest/rosidl_runtime_rs/trait.Message.html">two variants of each message</a>.
-The idiomatic <code class="docutils literal notranslate"><span class="pre">geometry_msgs::msg::Twist</span></code> uses native Rust types, while its
-counterpart in the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> module is <code class="docutils literal notranslate"><span class="pre">#[repr(C)]</span></code> and matches the C struct the
-gateway (de)serializes, so the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> variant must be used:</p>
-<div class="literal-block-wrapper docutils container" id="id4">
-<div class="code-block-caption"><span class="caption-text">twist_limiter/src/main.rs</span><a class="headerlink" href="#id4" title="Link to this code">¶</a></div>
-<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">ros_env</span><span class="p">::</span><span class="n">geometry_msgs</span><span class="p">::</span><span class="n">msg</span><span class="p">::</span><span class="n">rmw</span><span class="p">::</span><span class="n">Twist</span><span class="p">;</span>
-
-<span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Twist</span><span class="p">::</span><span class="n">default</span><span class="p">());</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
-<p>The generated crates link against the C libraries of their message packages,
-so the ROS 2 distribution must be sourced before building the project:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">source /opt/ros/&lt;distro&gt;/setup.bash</span>
-<span class="gp"># </span><span class="nb">source</span><span class="w"> </span>~/iceoryx2_ros2/messages/install/setup.bash<span class="w">  </span><span class="c1"># on older installations</span>
-<span class="go">cargo build</span>
-</pre></div>
-</div>
-<p>Then run it from the same shell, as the libraries are also loaded when the
-binary starts:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cargo<span class="w"> </span>run
-<span class="go">Twist { linear: Vector3 { x: 0.0, y: 0.0, z: 0.0 }, angular: Vector3 { x: 0.0, y: 0.0, z: 0.0 } }</span>
-</pre></div>
-</div>
-<p>A successful build and run, with the above output, confirms that the generated
-Rust types are reachable and the project is set up properly.</p>
-</section>
+<p>As before, the <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> version must match the one the gateway is built
+from.</p>
 </section>
 <section id="the-twist-limiter">
 <h2>The Twist Limiter<a class="headerlink" href="#the-twist-limiter" title="Link to this heading">¶</a></h2>
-<p>With the project skeleton set up, let’s implement the limiter. It will
-consist of a module for the payload type and the application itself:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>~/iceoryx2_ros2/twist_limiter/
+<p>The event-driven limiter will consist of the same payload module as the polling
+limiter and a new application:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>~/iceoryx2_ros2/twist_limiter_event_driven/
 ├── Cargo.toml
 ├── mapping.toml   # gateway configuration, see below
 └── src/
@@ -743,19 +633,16 @@ consist of a module for the payload type and the application itself:</p>
 </div>
 <section id="the-payload">
 <h3>The Payload<a class="headerlink" href="#the-payload" title="Link to this heading">¶</a></h3>
-<p>The generated <code class="docutils literal notranslate"><span class="pre">Twist</span></code> type needs some boilerplate for it to be used with
-<code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>. First we must implement the <code class="docutils literal notranslate"><span class="pre">ZeroCopySend</span></code> trait to indicate that
-the type can be stored in shared memory. The type name it reports must be the
-ROS 2 type name, as described in <a class="reference internal" href="gateway-basics.html#application-configuration"><span class="std std-ref">Application Configuration</span></a>.
-This name is exposed in the generated Rust message crate.</p>
-<p>Create the module for the payload type:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/iceoryx2_ros2/twist_limiter</span>
+<p>The payload type is the same as the one of the
+<a class="reference internal" href="plain-struct-as-payload.html#the-payload"><span class="std std-ref">polling limiter</span></a>.
+Create the module for the payload type:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/iceoryx2_ros2/twist_limiter_event_driven</span>
 <span class="go">touch src/twist.rs</span>
 </pre></div>
 </div>
 <p>And add the wrapper to it:</p>
-<div class="literal-block-wrapper docutils container" id="id5">
-<div class="code-block-caption"><span class="caption-text">twist_limiter/src/twist.rs</span><a class="headerlink" href="#id5" title="Link to this code">¶</a></div>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">twist_limiter_event_driven/src/twist.rs</span><a class="headerlink" href="#id3" title="Link to this code">¶</a></div>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">iceoryx2</span><span class="p">::</span><span class="n">prelude</span><span class="p">::</span><span class="o">*</span><span class="p">;</span>
 <span class="k">use</span><span class="w"> </span><span class="n">rosidl_runtime_rs</span><span class="p">::{</span><span class="n">Message</span><span class="p">,</span><span class="w"> </span><span class="n">RmwMessage</span><span class="p">};</span>
 
@@ -774,19 +661,18 @@ This name is exposed in the generated Rust message crate.</p>
 </section>
 <section id="the-application">
 <h3>The Application<a class="headerlink" href="#the-application" title="Link to this heading">¶</a></h3>
-<p>Then update the placeholder in <code class="docutils literal notranslate"><span class="pre">src/main.rs</span></code> with the application. It is no
-different from a regular publish-subscribe application. The only thing
-ROS-specific is the <code class="docutils literal notranslate"><span class="pre">Twist</span></code> payload type defined above:</p>
-<div class="literal-block-wrapper docutils container" id="id6">
-<div class="code-block-caption"><span class="caption-text">twist_limiter/src/main.rs</span><a class="headerlink" href="#id6" title="Link to this code">¶</a></div>
+<p>The application will be similar, except that it additionally waits on the
+event service matching the service name of its <code class="docutils literal notranslate"><span class="pre">CmdVel</span></code> subscriber so that it
+wakes as soon as the gateway delivers a sample. After each publish, it also
+notifies the event service matching the service name of its <code class="docutils literal notranslate"><span class="pre">CmdVelLimited</span></code>
+publisher to wake the gateway:</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">twist_limiter_event_driven/src/main.rs</span><a class="headerlink" href="#id4" title="Link to this code">¶</a></div>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">mod</span><span class="w"> </span><span class="nn">twist</span><span class="p">;</span>
-
-<span class="k">use</span><span class="w"> </span><span class="n">core</span><span class="p">::</span><span class="n">time</span><span class="p">::</span><span class="n">Duration</span><span class="p">;</span>
 
 <span class="k">use</span><span class="w"> </span><span class="n">iceoryx2</span><span class="p">::</span><span class="n">prelude</span><span class="p">::</span><span class="o">*</span><span class="p">;</span>
 <span class="k">use</span><span class="w"> </span><span class="n">twist</span><span class="p">::</span><span class="n">Twist</span><span class="p">;</span>
 
-<span class="k">const</span><span class="w"> </span><span class="n">CYCLE_TIME</span><span class="p">:</span><span class="w"> </span><span class="nc">Duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Duration</span><span class="p">::</span><span class="n">from_millis</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
 <span class="k">const</span><span class="w"> </span><span class="n">MAX_VELOCITY_M_PER_S</span><span class="p">:</span><span class="w"> </span><span class="kt">f64</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="p">;</span>
 
 <span class="k">fn</span><span class="w"> </span><span class="nf">limit</span><span class="p">(</span><span class="n">twist</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">Twist</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">Twist</span><span class="w"> </span><span class="p">{</span>
@@ -804,20 +690,41 @@ ROS-specific is the <code class="docutils literal notranslate"><span class="pre"
 
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NodeBuilder</span><span class="p">::</span><span class="n">new</span><span class="p">().</span><span class="n">create</span><span class="p">::</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="o">&gt;</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 
-<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">cmd_vel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">subscriber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
 <span class="w">        </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;CmdVel&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
 <span class="w">        </span><span class="p">.</span><span class="n">publish_subscribe</span><span class="p">::</span><span class="o">&lt;</span><span class="n">Twist</span><span class="o">&gt;</span><span class="p">()</span>
-<span class="w">        </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
-<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">subscriber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cmd_vel</span><span class="p">.</span><span class="n">subscriber_builder</span><span class="p">().</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="w">        </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span>
+<span class="w">        </span><span class="p">.</span><span class="n">subscriber_builder</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">listener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
+<span class="w">        </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;CmdVel&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="n">event</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span>
+<span class="w">        </span><span class="p">.</span><span class="n">listener_builder</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 
-<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">cmd_vel_limited</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">publisher</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
 <span class="w">        </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;CmdVelLimited&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
 <span class="w">        </span><span class="p">.</span><span class="n">publish_subscribe</span><span class="p">::</span><span class="o">&lt;</span><span class="n">Twist</span><span class="o">&gt;</span><span class="p">()</span>
-<span class="w">        </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
-<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">publisher</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cmd_vel_limited</span><span class="p">.</span><span class="n">publisher_builder</span><span class="p">().</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="w">        </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span>
+<span class="w">        </span><span class="p">.</span><span class="n">publisher_builder</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">notifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span>
+<span class="w">        </span><span class="p">.</span><span class="n">service_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="s">&quot;CmdVelLimited&quot;</span><span class="p">.</span><span class="n">try_into</span><span class="p">()</span><span class="o">?</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="n">event</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="n">open_or_create</span><span class="p">()</span><span class="o">?</span>
+<span class="w">        </span><span class="p">.</span><span class="n">notifier_builder</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="n">create</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
 
-<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">CYCLE_TIME</span><span class="p">).</span><span class="n">is_ok</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subscriber</span><span class="p">.</span><span class="n">receive</span><span class="p">()</span><span class="o">?</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">waitset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WaitSetBuilder</span><span class="p">::</span><span class="n">new</span><span class="p">().</span><span class="n">create</span><span class="p">::</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="o">&gt;</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">_guard</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">waitset</span><span class="p">.</span><span class="n">attach_notification</span><span class="p">(</span><span class="o">&amp;</span><span class="n">listener</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">on_event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">|</span><span class="n">_</span><span class="p">:</span><span class="w"> </span><span class="nc">WaitSetAttachmentId</span><span class="o">&lt;</span><span class="n">ipc</span><span class="p">::</span><span class="n">Service</span><span class="o">&gt;|</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// drain every pending notification, otherwise the WaitSet wakes</span>
+<span class="w">        </span><span class="c1">// again immediately and spins</span>
+<span class="w">        </span><span class="n">listener</span><span class="p">.</span><span class="n">try_wait</span><span class="p">(</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="w"> </span><span class="p">{}).</span><span class="n">unwrap</span><span class="p">();</span>
+
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(</span><span class="nb">Some</span><span class="p">(</span><span class="n">sample</span><span class="p">))</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subscriber</span><span class="p">.</span><span class="n">receive</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">received</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample</span><span class="p">.</span><span class="n">payload</span><span class="p">();</span>
 <span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">limited</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">limit</span><span class="p">(</span><span class="n">received</span><span class="p">);</span>
 
@@ -827,40 +734,45 @@ ROS-specific is the <code class="docutils literal notranslate"><span class="pre"
 <span class="w">                </span><span class="n">limited</span><span class="p">.</span><span class="mf">0.</span><span class="n">linear</span><span class="p">.</span><span class="n">x</span>
 <span class="w">            </span><span class="p">);</span>
 
-<span class="w">            </span><span class="n">publisher</span><span class="p">.</span><span class="n">loan_uninit</span><span class="p">()</span><span class="o">?</span><span class="p">.</span><span class="n">write_payload</span><span class="p">(</span><span class="n">limited</span><span class="p">).</span><span class="n">send</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+<span class="w">            </span><span class="n">publisher</span>
+<span class="w">                </span><span class="p">.</span><span class="n">loan_uninit</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="n">write_payload</span><span class="p">(</span><span class="n">limited</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="n">send</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="n">unwrap</span><span class="p">();</span>
+<span class="w">            </span><span class="n">notifier</span><span class="p">.</span><span class="n">notify</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span>
 <span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">CallbackProgression</span><span class="p">::</span><span class="n">Continue</span>
+<span class="w">    </span><span class="p">};</span>
+
+<span class="w">    </span><span class="n">waitset</span><span class="p">.</span><span class="n">wait_and_process</span><span class="p">(</span><span class="n">on_event</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
 
 <span class="w">    </span><span class="nb">Ok</span><span class="p">(())</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 </div>
-<p>The limiting is just a basic clamp on the velocity. This same shape however
-is representative for any real application which is likely to be more complex.
-Note that the payload is a plain struct on both services. At no point does the
-application (de)serialize anything, as it is completely handled by the
-gateway.</p>
 </section>
 </section>
 <section id="the-gateway">
 <h2>The Gateway<a class="headerlink" href="#the-gateway" title="Link to this heading">¶</a></h2>
-<p>The final component is the gateway itself, which connects the two topics to
-their <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code> counterparts. Refer to <a class="reference internal" href="gateway-basics.html"><span class="doc std std-doc">Gateway Basics</span></a> for an overview of the
-configuration options. Here we will
-only look at the configuration suitable for this pipeline.</p>
+<p>The gateway uses the same mapping and translator as for the polling limiter.
+It differs in when it runs. Instead of polling, it wakes on data arriving from
+ROS 2 and on notifications from the limiter. It also wakes the limiter by
+notifying it whenever it delivers a sample to <code class="docutils literal notranslate"><span class="pre">CmdVel</span></code>.</p>
 <section id="mapping">
 <h3>Mapping<a class="headerlink" href="#mapping" title="Link to this heading">¶</a></h3>
-<p>To associate the topics in ROS 2 with the services in <code class="docutils literal notranslate"><span class="pre">iceoryx2</span></code>, we will
-use static mapping, which can be defined with a configuration file.</p>
-<p>Create the configuration file in the project directory:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/iceoryx2_ros2/twist_limiter</span>
+<p>The mapping is the same as the one of the
+<a class="reference internal" href="plain-struct-as-payload.html#mapping"><span class="std std-ref">polling limiter</span></a>.
+Create the configuration file in the project directory:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/iceoryx2_ros2/twist_limiter_event_driven</span>
 <span class="go">touch mapping.toml</span>
 </pre></div>
 </div>
 <p>And add the mappings to it:</p>
-<div class="literal-block-wrapper docutils container" id="id7">
-<div class="code-block-caption"><span class="caption-text">twist_limiter/mapping.toml</span><a class="headerlink" href="#id7" title="Link to this code">¶</a></div>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">twist_limiter_event_driven/mapping.toml</span><a class="headerlink" href="#id5" title="Link to this code">¶</a></div>
 <div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[[mapping]]</span>
 <span class="n">iceoryx2</span><span class="p">.</span><span class="n">service_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;CmdVel&quot;</span>
 <span class="n">iceoryx2</span><span class="p">.</span><span class="n">payload_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;geometry_msgs/msg/Twist&quot;</span>
@@ -875,16 +787,23 @@ use static mapping, which can be defined with a configuration file.</p>
 </pre></div>
 </div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">payload_type</span></code> matches the type name reported by the <code class="docutils literal notranslate"><span class="pre">Twist</span></code> wrapper
-defined earlier.</p>
 </section>
-<section id="translator">
-<h3>Translator<a class="headerlink" href="#translator" title="Link to this heading">¶</a></h3>
-<p>For self-contained plain structs, the <code class="docutils literal notranslate"><span class="pre">PlainStruct</span></code> translator provides the
-(de)serialization at the boundary that this approach relies on.</p>
-<p>From the <code class="docutils literal notranslate"><span class="pre">twist_limiter</span></code> directory, the gateway is launched with:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">iox2 link gateway ros2 --static-mapping mapping.toml --translator PlainStruct</span>
-</pre></div>
+<section id="waking">
+<h3>Waking<a class="headerlink" href="#waking" title="Link to this heading">¶</a></h3>
+<p>Three options make the gateway event-driven:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--reactive</span></code> wakes the gateway when data arrives over DDS or when the ROS 2
+endpoints change.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--notify</span></code> makes the gateway notify the <code class="docutils literal notranslate"><span class="pre">CmdVel</span></code> event service whenever it
+publishes a message from the <code class="docutils literal notranslate"><span class="pre">/cmd_vel</span></code> topic on the <code class="docutils literal notranslate"><span class="pre">CmdVel</span></code>
+publish-subscribe service.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--listener</span> <span class="pre">CmdVelLimited</span></code> wakes the gateway whenever the limiter notifies
+the <code class="docutils literal notranslate"><span class="pre">CmdVelLimited</span></code> event service.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Polling is disabled when <code class="docutils literal notranslate"><span class="pre">--reactive</span></code> or <code class="docutils literal notranslate"><span class="pre">--listener</span></code> is given. It can be
+re-enabled alongside the other options by setting <code class="docutils literal notranslate"><span class="pre">--poll</span></code> explicitly.</p>
 </div>
 </section>
 </section>
@@ -896,26 +815,21 @@ ROS 2 distribution to be sourced.</p>
 <p>First, launch the limiter:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">source /opt/ros/&lt;distro&gt;/setup.bash</span>
 <span class="gp"># </span><span class="nb">source</span><span class="w"> </span>~/iceoryx2_ros2/messages/install/setup.bash<span class="w">  </span><span class="c1"># on older installations</span>
-<span class="go">cd ~/iceoryx2_ros2/twist_limiter</span>
+<span class="go">cd ~/iceoryx2_ros2/twist_limiter_event_driven</span>
 <span class="go">cargo run</span>
 </pre></div>
 </div>
-<p>Next, launch the gateway with the configuration from the previous section:</p>
+<p>Next, launch the gateway with the options from the previous section:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">source /opt/ros/&lt;distro&gt;/setup.bash</span>
 <span class="gp"># </span><span class="nb">source</span><span class="w"> </span>~/iceoryx2_ros2/messages/install/setup.bash<span class="w">  </span><span class="c1"># on older installations</span>
-<span class="go">cd ~/iceoryx2_ros2/twist_limiter</span>
-<span class="go">iox2 link gateway ros2 --static-mapping mapping.toml --translator PlainStruct</span>
+<span class="go">cd ~/iceoryx2_ros2/twist_limiter_event_driven</span>
+<span class="go">iox2 link gateway ros2 --static-mapping mapping.toml --translator PlainStruct \</span>
+<span class="go">    --reactive --notify --listener CmdVelLimited</span>
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>For simplicity, the gateway runs in its default polling mode. See the
-<a class="reference internal" href="event-driven-execution.html"><span class="doc std std-doc">Event-Driven Execution</span></a>
-tutorial for a pipeline in which neither the gateway nor the applications poll.</p>
-</div>
-<p>Then start observing the limited result. The type is given explicitly
-because the topic is not yet published. Since shared memory communication
-guarantees delivery, the subscription requests reliable delivery to match:</p>
+<p>Then start observing the limited result. The type is given explicitly because
+the topic is not yet published. Since shared memory communication guarantees
+delivery, the subscription requests reliable delivery to match:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">source /opt/ros/&lt;distro&gt;/setup.bash</span>
 <span class="gp"># </span><span class="nb">source</span><span class="w"> </span>~/iceoryx2_ros2/messages/install/setup.bash<span class="w">  </span><span class="c1"># on older installations</span>
 <span class="go">ros2 topic echo --qos-reliability reliable /cmd_vel_limited geometry_msgs/msg/Twist</span>
@@ -928,10 +842,7 @@ maximum:</p>
 <span class="go">ros2 topic pub -r 1 /cmd_vel geometry_msgs/msg/Twist &quot;{linear: {x: 5.0}}&quot;</span>
 </pre></div>
 </div>
-<p>Every published message is received by the gateway over DDS and deserialized
-directly into shared memory, where the limiter reads and writes plain
-structs. On the way out, the gateway serializes the limited message to CDR
-and publishes it on the ROS 2 topic:</p>
+<p>The output is the same as with the polling limiter:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cargo<span class="w"> </span>run
 <span class="go">limited linear.x from 5 to 1</span>
 <span class="go">limited linear.x from 5 to 1</span>
@@ -959,19 +870,19 @@ and publishes it on the ROS 2 topic:</p>
 <span class="go">---</span>
 </pre></div>
 </div>
+<p>This time, every command moves through the pipeline as soon as it is
+published. Between two commands, neither the gateway nor the limiter wakes.</p>
 </section>
 <section id="conclusion">
 <h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">¶</a></h2>
-<p>The approach described in this article is a good fit whenever the message
-definitions crossing the boundary are self-contained. The payload is
-(de)serialized only at the gateway crossings, and every application behind
-them reads a plain struct straight from shared memory.</p>
-<p>For message definitions with bounded or dynamic fields,
-<a class="reference internal" href="flatbuffer-as-payload.html"><span class="doc std std-doc">FlatBuffer as Payload</span></a>
-provides a shared-memory-compatible representation. If the gateway should stay
-out of payload translation entirely,
-<a class="reference internal" href="cdr-bytes-as-payload.html"><span class="doc std std-doc">CDR Bytes as Payload</span></a>
-forwards the serialized bytes unmodified.</p>
+<p>An event-driven pipeline has no polling latency and lets idle components sleep.
+In exchange, every application must handle events. Each publisher notifies after
+sending, and the gateway needs one <code class="docutils literal notranslate"><span class="pre">--listener</span></code> per service it forwards to
+ROS 2.</p>
+<p>Polling remains the simpler choice when its latency is acceptable or when the
+applications cannot be changed. If desired, polling can be enabled with
+<code class="docutils literal notranslate"><span class="pre">--poll</span></code> in addition to these options, which may be useful when not every
+application notifies after publishing.</p>
 </section>
 <section id="further-reading">
 <h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading">¶</a></h2>
@@ -981,20 +892,19 @@ forwards the serialized bytes unmodified.</p>
 <div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-none sd-card-hover docutils">
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
-Build the ROS 2 gateway</div>
-<p class="sd-card-text">Build the gateway against your own ROS 2 workspace.</p>
+Event-Driven Communication</div>
+<p class="sd-card-text">Wake applications with events instead of polling for samples.</p>
 </div>
-<a class="sd-stretched-link sd-hide-link-text reference internal" href="../../how-to/build-ros-2-gateway.html"><span class="doc">Build the ROS 2 gateway</span></a></div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="../../getting-started/robot-nervous-system/event-driven-communication.html"><span class="doc">Event-Driven Communication</span></a></div>
 </div>
 <div class="sd-col sd-d-flex-row docutils">
 <div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-none sd-card-hover docutils">
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
-ROS 2 Gateway Examples</div>
-<p class="sd-card-text">Example applications propagated to ROS 2 by the gateway, one set per
-translator.</p>
+Build the ROS 2 gateway</div>
+<p class="sd-card-text">Build the gateway against your own ROS 2 workspace.</p>
 </div>
-<a class="sd-stretched-link sd-hide-link-text reference external" href="https://github.com/eclipse-iceoryx/iceoryx2/tree/main/integrations/ros2/examples"><span>https://github.com/eclipse-iceoryx/iceoryx2/tree/main/integrations/ros2/examples</span></a></div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="../../how-to/build-ros-2-gateway.html"><span class="doc">Build the ROS 2 gateway</span></a></div>
 </div>
 <div class="sd-col sd-d-flex-row docutils">
 <div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-none sd-card-hover docutils">
@@ -1015,19 +925,19 @@ Links: Tunnels and Gateways</div>
       <footer>
         
 <div class="related-pages">
-  <a class="next-page" href="cdr-bytes-as-payload.html">
+  <a class="next-page" href="../../how-to/index.html">
       <div class="page-info">
         <div class="context"><span>Next</span></div>
-        <div class="title">CDR Bytes as Payload</div>
+        <div class="title">How To</div>
       </div>
       <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
     </a>
-  <a class="prev-page" href="gateway-basics.html">
+  <a class="prev-page" href="flatbuffer-as-payload.html">
       <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
       <div class="page-info">
         <div class="context"><span>Previous</span></div>
         
-        <div class="title">Gateway Basics</div>
+        <div class="title">FlatBuffer as Payload</div>
         
       </div>
     </a>
@@ -1061,13 +971,9 @@ Links: Tunnels and Gateways</div>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Plain Struct as Payload</a><ul>
+<li><a class="reference internal" href="#">Event-Driven Execution</a><ul>
 <li><a class="reference internal" href="#topology">Topology</a></li>
-<li><a class="reference internal" href="#setting-up">Setting Up</a><ul>
-<li><a class="reference internal" href="#message-generation-on-older-installations">Message Generation on Older Installations</a></li>
-<li><a class="reference internal" href="#application-project">Application Project</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#setting-up">Setting Up</a></li>
 <li><a class="reference internal" href="#the-twist-limiter">The Twist Limiter</a><ul>
 <li><a class="reference internal" href="#the-payload">The Payload</a></li>
 <li><a class="reference internal" href="#the-application">The Application</a></li>
@@ -1075,7 +981,7 @@ Links: Tunnels and Gateways</div>
 </li>
 <li><a class="reference internal" href="#the-gateway">The Gateway</a><ul>
 <li><a class="reference internal" href="#mapping">Mapping</a></li>
-<li><a class="reference internal" href="#translator">Translator</a></li>
+<li><a class="reference internal" href="#waking">Waking</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#running">Running</a></li>
